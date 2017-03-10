@@ -47,50 +47,274 @@
     </item>
     
     <item>
-      <title>Hello R Markdown</title>
-      <link>/portfolio/2015-07-23-r-rmarkdown/</link>
+      <title>Having Fun with Tidy Text!</title>
+      <link>/portfolio/2017-03-09-fun-w-tidy-text/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/portfolio/2015-07-23-r-rmarkdown/</guid>
-      <description>&lt;div id=&#34;r-markdown&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;R Markdown&lt;/h1&gt;
-&lt;p&gt;This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see &lt;a href=&#34;http://rmarkdown.rstudio.com&#34; class=&#34;uri&#34;&gt;http://rmarkdown.rstudio.com&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;You can embed an R code chunk like this:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(cars)
-##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00
-fit &amp;lt;- lm(dist ~ speed, data = cars)
-fit
+      <guid>/portfolio/2017-03-09-fun-w-tidy-text/</guid>
+      <description>&lt;p&gt;Julia Silge and David Robinson have a wonderful new book called “Text Mining with R” which has a &lt;a href=&#34;http://tidytextmining.com/&#34;&gt;companion website&lt;/a&gt; with great explanations and examples. Here are some additional applications of those examples on a corpus of geotagged Instagram posts from the Mission District neighborhood in San Francisco.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Make sure you have the right packages!
+packs = c(&amp;quot;twitteR&amp;quot;,&amp;quot;RCurl&amp;quot;,&amp;quot;RJSONIO&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
+          &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
+          &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;,&amp;quot;scales&amp;quot;,&amp;quot;ggrepel&amp;quot;,&amp;quot;lubridate&amp;quot;,&amp;quot;purrr&amp;quot;,&amp;quot;broom&amp;quot;)
+lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The data need to be processed a bit more in order to analyze them. Let’s try from the start with &lt;a href=&#34;http://tidytextmining.com/&#34;&gt;Silge and Robinson&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Get rid of stuff particular to the data (here encodings of links and such)
+# Most of these are characters I don&amp;#39;t have encodings for (other scripts, etc.)
+tweets$text = gsub(&amp;quot;Just posted a photo&amp;quot;,&amp;quot;&amp;quot;, tweets$text)
+tweets$text = gsub( &amp;quot;&amp;lt;.*?&amp;gt;&amp;quot;, &amp;quot;&amp;quot;, tweets$text)
+
+# Get rid of super frequent spam posters
+tweets &amp;lt;- tweets[! tweets$screenName %in% c(&amp;quot;4AMSOUNDS&amp;quot;,
+      &amp;quot;BruciusTattoo&amp;quot;,&amp;quot;LionsHeartSF&amp;quot;,&amp;quot;hermesalchemist&amp;quot;,&amp;quot;Mrsourmash&amp;quot;),]
+
+
+# Now for Silge and Robinson&amp;#39;s code. What this is doing is getting rid of URLs, re-tweets (RT) and ampersands. This also gets rid of stop words without having to get rid of hashtags and @ signs by using str_detect and filter! 
+reg &amp;lt;- &amp;quot;([^A-Za-z_\\d#@&amp;#39;]|&amp;#39;(?![A-Za-z_\\d#@]))&amp;quot;
+tidy_tweets &amp;lt;- tweets %&amp;gt;% 
+  filter(!str_detect(text, &amp;quot;^RT&amp;quot;)) %&amp;gt;%
+  mutate(text = str_replace_all(text, &amp;quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;amp;|&amp;amp;lt;|&amp;amp;gt;|RT|https&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
+  unnest_tokens(word, text, token = &amp;quot;regex&amp;quot;, pattern = reg) %&amp;gt;%
+  filter(!word %in% stop_words$word,
+         str_detect(word, &amp;quot;[a-z]&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Awesome! Now our posts are cleaned with the hashtags and @ mentions still intact. What we can try now is to plot the frequency of some of these terms according to WHERE they occur. Silge and Robinson have an example with persons, let’s try with coordinates.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;freq &amp;lt;- tidy_tweets %&amp;gt;% 
+  group_by(latitude,longitude) %&amp;gt;% 
+  count(word, sort = TRUE) %&amp;gt;% 
+  left_join(tidy_tweets %&amp;gt;% 
+              group_by(latitude,longitude) %&amp;gt;% 
+              summarise(total = n())) %&amp;gt;%
+  mutate(freq = n/total)
+
+freq&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Source: local data frame [61,008 x 6]
+## Groups: latitude, longitude [1,411]
 ## 
-## Call:
-## lm(formula = dist ~ speed, data = cars)
+##    latitude longitude          word     n total       freq
+##       &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;         &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; &amp;lt;int&amp;gt;      &amp;lt;dbl&amp;gt;
+## 1  37.76000 -122.4200       mission  1844 21372 0.08628112
+## 2  37.76000 -122.4200           san  1592 21372 0.07448999
+## 3  37.76000 -122.4200      district  1576 21372 0.07374134
+## 4  37.76000 -122.4200     francisco  1464 21372 0.06850084
+## 5  37.75833 -122.4275          park   293  2745 0.10673953
+## 6  37.75833 -122.4275       mission   285  2745 0.10382514
+## 7  37.75833 -122.4275       dolores   278  2745 0.10127505
+## 8  37.76000 -122.4200 #sanfrancisco   275 21372 0.01286730
+## 9  37.76300 -122.4209         alley   245  2273 0.10778707
+## 10 37.76300 -122.4209       clarion   242  2273 0.10646722
+## # ... with 60,998 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The n here is the total number of times this term has shown up, and the total is how many terms there are present in a particular coordinate.&lt;/p&gt;
+&lt;p&gt;Cool! Now we have a representation of terms, their frequency and their position. Now I might want to plot this somehow… one way would be to try to plot the most frequent terms (n &amp;gt; 50) (Some help on how to do this was taken from &lt;a href=&#34;http://blog.revolutionanalytics.com/2016/01/avoid-overlapping-labels-in-ggplot2-charts.html&#34;&gt;here&lt;/a&gt; and &lt;a href=&#34;http://stackoverflow.com/questions/14288001/geom-text-not-working-when-ggmap-and-geom-point-used&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;freq2 &amp;lt;- subset(freq, n &amp;gt; 50) 
+
+map &amp;lt;- get_map(location = &amp;#39;Valencia St. and 20th, San Francisco,
+               California&amp;#39;, zoom = 15)
+
+freq2$longitude&amp;lt;-as.numeric(freq2$longitude)
+freq2$latitude&amp;lt;-as.numeric(freq2$latitude)
+lon &amp;lt;- freq2$longitude
+lat &amp;lt;- freq2$latitude
+
+mapPoints &amp;lt;- ggmap(map) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freq2, aes(x = lon, y = lat, label = word),size = 2) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-09-fun-w-tidy-text_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Let’s zoom into that main central area to see what’s going on!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;map2 &amp;lt;- get_map(location = &amp;#39;Lexington St. and 19th, San Francisco,
+               California&amp;#39;, zoom = 16)
+mapPoints2 &amp;lt;- ggmap(map2) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freq2, aes(x = lon, y = lat, label = word),size = 2) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-09-fun-w-tidy-text_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This can be manipulated in many different ways – either by playing with what frequency of terms you want to look at (maybe I want to see terms that occur 100 times, between 20 and 50 times, less than 20 times etc. etc.) OR by playing around with the map. At the moment though, this is pretty illuminating in the sense that it shows us that the most frequency terms are focused around certain ‘hotspots’ in the area, which in itself is just kind of cool to see.&lt;/p&gt;
+&lt;p&gt;Now let’s try out word frequency changes over time: what words were used more or less over the time of data collection? (Help from &lt;a href=&#34;http://tidytextmining.com/twitter.html&#34;&gt;here&lt;/a&gt;) (Also used the &lt;a href=&#34;https://cran.r-project.org/web/packages/lubridate/lubridate.pdf&#34;&gt;lubridate package&lt;/a&gt; to help with time.)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Might have to do this first
+tidy_tweets$created2 &amp;lt;- as.POSIXct(tidy_tweets$created, format=&amp;quot;%m/%d/%Y %H:%M&amp;quot;)
+
+words_by_time &amp;lt;- tidy_tweets %&amp;gt;%
+  mutate(time_floor = floor_date(created2, unit = &amp;quot;1 week&amp;quot;)) %&amp;gt;%
+  count(time_floor, word) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  group_by(time_floor) %&amp;gt;%
+  mutate(time_total = sum(n)) %&amp;gt;%
+  group_by(word) %&amp;gt;%
+  mutate(word_total = sum(n)) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  rename(count = n) %&amp;gt;%
+  filter(word_total &amp;gt; 100)
+
+words_by_time&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,979 × 5
+##    time_floor             word count time_total word_total
+##        &amp;lt;dttm&amp;gt;            &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;      &amp;lt;int&amp;gt;      &amp;lt;int&amp;gt;
+## 1  0016-07-31             #art     7       2729        120
+## 2  0016-07-31      #california     9       2729        149
+## 3  0016-07-31     #dolorespark     6       2729        168
+## 4  0016-07-31         #mission     5       2729        222
+## 5  0016-07-31 #missiondistrict     1       2729        158
+## 6  0016-07-31    #sanfrancisco    38       2729       1034
+## 7  0016-07-31              #sf    23       2729        603
+## 8  0016-07-31       #streetart    12       2729        229
+## 9  0016-07-31             24th    10       2729        109
+## 10 0016-07-31            alamo     3       2729        111
+## # ... with 1,969 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Alright, now we want to figure out those words that have changed the most in their frequency over time so as to isolate ones of interests to plot over time. This involves a few steps though.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nested_data &amp;lt;- words_by_time %&amp;gt;%
+  nest(-word) 
+nested_data&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 71 × 2
+##                word              data
+##               &amp;lt;chr&amp;gt;            &amp;lt;list&amp;gt;
+## 1              #art &amp;lt;tibble [26 × 4]&amp;gt;
+## 2       #california &amp;lt;tibble [28 × 4]&amp;gt;
+## 3      #dolorespark &amp;lt;tibble [27 × 4]&amp;gt;
+## 4          #mission &amp;lt;tibble [28 × 4]&amp;gt;
+## 5  #missiondistrict &amp;lt;tibble [29 × 4]&amp;gt;
+## 6     #sanfrancisco &amp;lt;tibble [29 × 4]&amp;gt;
+## 7               #sf &amp;lt;tibble [29 × 4]&amp;gt;
+## 8        #streetart &amp;lt;tibble [28 × 4]&amp;gt;
+## 9              24th &amp;lt;tibble [28 × 4]&amp;gt;
+## 10            alamo &amp;lt;tibble [27 × 4]&amp;gt;
+## # ... with 61 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Process as described by Silge and Robinson: “This data frame has one row for each person-word combination; the data column is a list column that contains data frames, one for each combination of person and word. Let’s use map() from the purrr library to apply our modeling procedure to each of those little data frames inside our big data frame. This is count data so let’s use glm() with family =”binomial&amp;quot; for modeling. We can think about this modeling procedure answering a question like, “Was a given word mentioned in a given time bin? Yes or no? How does the count of word mentions depend on time?”&amp;quot;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nested_models &amp;lt;- nested_data %&amp;gt;%
+  mutate(models = map(data, ~ glm(cbind(count, time_total) ~ time_floor, ., 
+                                  family = &amp;quot;binomial&amp;quot;)))
+
+nested_models&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 71 × 3
+##                word              data    models
+##               &amp;lt;chr&amp;gt;            &amp;lt;list&amp;gt;    &amp;lt;list&amp;gt;
+## 1              #art &amp;lt;tibble [26 × 4]&amp;gt; &amp;lt;S3: glm&amp;gt;
+## 2       #california &amp;lt;tibble [28 × 4]&amp;gt; &amp;lt;S3: glm&amp;gt;
+## 3      #dolorespark &amp;lt;tibble [27 × 4]&amp;gt; &amp;lt;S3: glm&amp;gt;
+## 4          #mission &amp;lt;tibble [28 × 4]&amp;gt; &amp;lt;S3: glm&amp;gt;
+## 5  #missiondistrict &amp;lt;tibble [29 × 4]&amp;gt; &amp;lt;S3: glm&amp;gt;
+## 6     #sanfrancisco &amp;lt;tibble [29 × 4]&amp;gt; &amp;lt;S3: glm&amp;gt;
+## 7               #sf &amp;lt;tibble [29 × 4]&amp;gt; &amp;lt;S3: glm&amp;gt;
+## 8        #streetart &amp;lt;tibble [28 × 4]&amp;gt; &amp;lt;S3: glm&amp;gt;
+## 9              24th &amp;lt;tibble [28 × 4]&amp;gt; &amp;lt;S3: glm&amp;gt;
+## 10            alamo &amp;lt;tibble [27 × 4]&amp;gt; &amp;lt;S3: glm&amp;gt;
+## # ... with 61 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Silge and Robinson: “Now notice that we have a new column for the modeling results; it is another list column and contains glm objects. The next step is to use map() and tidy() from the broom package to pull out the slopes for each of these models and find the important ones. We are comparing many slopes here and some of them are not statistically significant, so let’s apply an adjustment to the p-values for multiple comparisons.”&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;slopes &amp;lt;- nested_models %&amp;gt;%
+  unnest(map(models, tidy)) %&amp;gt;%
+  filter(term == &amp;quot;time_floor&amp;quot;) %&amp;gt;%
+  mutate(adjusted.p.value = p.adjust(p.value))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;“Now let’s find the most important slopes. Which words have changed in frequency at a moderately significant level in our tweets?”&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;top_slopes &amp;lt;- slopes %&amp;gt;% 
+  filter(adjusted.p.value &amp;lt; 0.1)
+
+top_slopes&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 16 × 7
+##             word       term      estimate    std.error  statistic
+##            &amp;lt;chr&amp;gt;      &amp;lt;chr&amp;gt;         &amp;lt;dbl&amp;gt;        &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;
+## 1   #dolorespark time_floor -1.239208e-07 1.877375e-08  -6.600749
+## 2  #sanfrancisco time_floor -3.211771e-08 6.679608e-09  -4.808322
+## 3            #sf time_floor -3.483812e-08 8.745735e-09  -3.983441
+## 4          alley time_floor -7.976653e-08 1.277341e-08  -6.244732
+## 5        clarion time_floor -9.680816e-08 1.449039e-08  -6.680855
+## 6       district time_floor  6.701575e-08 5.346673e-09  12.534102
+## 7        dolores time_floor -1.132466e-07 7.718189e-09 -14.672698
+## 8      francisco time_floor  4.515439e-08 4.642235e-09   9.726865
+## 9    manufactory time_floor -7.442008e-08 1.672651e-08  -4.449228
+## 10       mission time_floor  3.625027e-08 3.999962e-09   9.062656
+## 11          park time_floor -1.134007e-07 7.699185e-09 -14.728916
+## 12           san time_floor  4.009249e-08 4.369834e-09   9.174832
+## 13            sf time_floor -9.883069e-08 7.359724e-09 -13.428586
+## 14        street time_floor -5.396273e-08 1.121572e-08  -4.811349
+## 15       tartine time_floor -6.296002e-08 1.209275e-08  -5.206427
+## 16      valencia time_floor -8.125194e-08 2.093658e-08  -3.880859
+## # ... with 2 more variables: p.value &amp;lt;dbl&amp;gt;, adjusted.p.value &amp;lt;dbl&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s plot them!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;words_by_time %&amp;gt;%
+  inner_join(top_slopes, by = c(&amp;quot;word&amp;quot;)) %&amp;gt;%
+  ggplot(aes(time_floor, count/time_total, color = word)) +
+  geom_line(size = 1.3) +
+  labs(x = NULL, y = &amp;quot;Word frequency&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-09-fun-w-tidy-text_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;After looking at some of these features of our data set, it’s time to explore TOPIC MODELING, or (paraphrasing from David Blei) finding structure in more-or-less unstructured documents. To do this we need a document-term matrix. At the moment, the tweets are a little problematic in that they are broken up by words… whereas we actually would like the text of the tweet back as that is what we are treating as our ‘document’. The question at the moment is… do we want to keep the hashtags / can we?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Let&amp;#39;s try by taking our tweets that have been tidied already. First we need to count each word though, and create some kind of column that has 
+# This first one is helpful for seeing encodings that need to be removed
+tidy_tweets %&amp;gt;%
+  count(document, word, sort=TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Source: local data frame [102,888 x 3]
+## Groups: document [14,958]
 ## 
-## Coefficients:
-## (Intercept)        speed  
-##     -17.579        3.932&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;including-plots&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Including Plots&lt;/h1&gt;
-&lt;p&gt;You can also embed plots. See Figure &lt;a href=&#34;#fig:pie&#34;&gt;1&lt;/a&gt; for example:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c(&amp;#39;Sky&amp;#39;, &amp;#39;Sunny side of pyramid&amp;#39;, &amp;#39;Shady side of pyramid&amp;#39;),
-  col = c(&amp;#39;#0292D8&amp;#39;, &amp;#39;#F7EA39&amp;#39;, &amp;#39;#C4B632&amp;#39;),
-  init.angle = -50, border = NA
-)&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&#34;figure&#34;&gt;&lt;span id=&#34;fig:pie&#34;&gt;&lt;/span&gt;
-&lt;img src=&#34;/portfolio/2015-07-23-r-rmarkdown_files/figure-html/pie-1.png&#34; alt=&#34;A fancy pie chart.&#34; width=&#34;672&#34; /&gt;
-&lt;p class=&#34;caption&#34;&gt;
-Figure 1: A fancy pie chart.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
+##    document                      word     n
+##       &amp;lt;int&amp;gt;                     &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1      5932        facewithtearsofjoy    17
+## 2      8849                   balloon     8
+## 3     12204 blackquestionmarkornament     8
+## 4      7697                       nov     7
+## 5      7697                       wed     7
+## 6     12204 whitequestionmarkornament     7
+## 7      2110              sliceofpizza     6
+## 8      2452                nailpolish     6
+## 9      2741     facewithnogoodgesture     6
+## 10     4014                 earofrice     6
+## # ... with 102,878 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Counting words so we can make a dtm with our preserved corpus with hashtags and such
+tweet_words &amp;lt;- tidy_tweets %&amp;gt;%  
+  count(document, word) %&amp;gt;%
+  ungroup()
+
+total_words &amp;lt;- tweet_words %&amp;gt;% 
+  group_by(document) %&amp;gt;% 
+  summarize(total = sum(n))
+
+post_words &amp;lt;- left_join(tweet_words, total_words)
+
+post_words&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 102,888 × 4
+##    document           word     n total
+##       &amp;lt;int&amp;gt;          &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; &amp;lt;int&amp;gt;
+## 1         1      #nofilter     1     7
+## 2         1  #sanfrancisco     1     7
+## 3         1      afternoon     1     7
+## 4         1        dolores     1     7
+## 5         1           park     2     7
+## 6         1             sf     1     7
+## 7         2 @publicworkssf     1     5
+## 8         2    #dustyrhino     1     5
+## 9         2          close     1     5
+## 10        2           grin     1     5
+## # ... with 102,878 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;new_dtm &amp;lt;- post_words %&amp;gt;% 
+  cast_dtm(document, word, n)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This seems to have worked :O :O :O Let’s see how topic modeling works here now…&lt;/p&gt;
+&lt;p&gt;Visualization in TIDY form also from &lt;a href=&#34;http://tidytextmining.com/topicmodeling.html&#34;&gt;Silge and Robinson&lt;/a&gt;!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Set parameters for Gibbs sampling (parameters those used in
+#Grun and Hornik 2011)
+burnin &amp;lt;- 4000
+iter &amp;lt;- 2000
+thin &amp;lt;- 500
+seed &amp;lt;-list(2003,5,63,100001,765)
+nstart &amp;lt;- 5
+best &amp;lt;- TRUE
+k &amp;lt;- 12
+test_lda2 &amp;lt;-LDA(new_dtm,k, method=&amp;quot;Gibbs&amp;quot;, 
+             control=list(nstart=nstart, seed = seed, best=best, 
+                          burnin = burnin, iter = iter, thin=thin))
+
+# Make that TIDY!!! 
+test_lda_td2 &amp;lt;- tidy(test_lda2)
+
+lda_top_terms2 &amp;lt;- test_lda_td2 %&amp;gt;%
+  group_by(topic) %&amp;gt;%
+  top_n(10, beta) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  arrange(topic, -beta)
+
+lda_top_terms2 %&amp;gt;%
+  mutate(term = reorder(term, beta)) %&amp;gt;%
+  ggplot(aes(term, beta, fill = factor(topic))) +
+  geom_bar(stat = &amp;quot;identity&amp;quot;, show.legend = FALSE) +
+  facet_wrap(~ topic, scales = &amp;quot;free&amp;quot;) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-09-fun-w-tidy-text_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Still working on connecting assigned topics back to the tweets from whence they came, but as soon as I figure that out I’ll add it! ;)&lt;/p&gt;
 </description>
     </item>
     
