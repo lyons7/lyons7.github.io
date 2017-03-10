@@ -54,7 +54,6 @@
       <guid>/portfolio/2017-03-09-fun-w-tidy-text/</guid>
       <description>&lt;p&gt;Julia Silge and David Robinson have a wonderful new book called “Text Mining with R” which has a &lt;a href=&#34;http://tidytextmining.com/&#34;&gt;companion website&lt;/a&gt; with great explanations and examples. Here are some additional applications of those examples on a corpus of geotagged Instagram posts from the Mission District neighborhood in San Francisco.&lt;/p&gt;
 
-&lt;!--more--&gt;
 
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Make sure you have the right packages!
 packs = c(&amp;quot;twitteR&amp;quot;,&amp;quot;RCurl&amp;quot;,&amp;quot;RJSONIO&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
