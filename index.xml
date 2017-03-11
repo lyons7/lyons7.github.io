@@ -571,6 +571,7 @@ emosub$ID7 &amp;lt;- 1:nrow(emosub)
 savourfoodgreplDF$ID7 &amp;lt;- 1:nrow(savourfoodgreplDF)
 emosub &amp;lt;- merge(emosub,savourfoodgreplDF,by=&amp;quot;ID7&amp;quot;)
 savourfood &amp;lt;- emosub[emosub$savourfoodgrepl == &amp;quot;TRUE&amp;quot;, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Mapping the data&lt;/h2&gt;
 &lt;p&gt;Let’s have a little fun and try to map where some of these emojis occur. I am using the &lt;a href=&#34;https://github.com/dill/emoGG&#34;&gt;emoGG&lt;/a&gt; package.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# devtools::install_github(&amp;quot;dill/emoGG&amp;quot;)
 library(emoGG)
