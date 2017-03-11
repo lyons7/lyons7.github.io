@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Identifying and Visualizing Emojis</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/owl.carousel.css">
+<link rel="stylesheet" href="/css/owl.theme.css">
+
+
+  <link href="/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="/">Kate Lyons</a></h1>
+    
+      <p class="sidebar-p">Graduate student in Linguistics at UIUC</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/about/">About</a></li>
+      
+        <li><a href="/contact/">Get in touch</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  
+  
+  <a href="https://twitter.com/katester117" data-animate-hover="pulse" class="external twitter">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  <a href="mailto:kalyons3@illinois.edu" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  
+  <a href="http://stackoverflow.com/users/7451811/kate" data-animate-hover="pulse">
+    <i class="fa fa-stack-overflow"></i>
+  </a>
+  
+  
+  <a href="https://github.com/lyons7" data-animate-hover="pulse">
+    <i class="fa fa-github"></i>
+  </a>
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Kate Lyons
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="/">Kate Lyons</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Identifying and Visualizing Emojis</h1>
+         <p>Dealing with emojis in mined social media data can be tricky for a number of reasons. First, you have to decode them and then… well I guess that is it. After you decode them there is a number of cool things you can look at though!</p>
+<div id="processing-the-data" class="section level2">
+<h2>Processing the data</h2>
+<p>As mentioned, if you are working with social media data, chances are there will be emojis in that data. You can ‘transform’ these emojis into prose using this code as well as a <a href="https://github.com/lyons7/emojidictionary">CSV file</a> I’ve put together of what all of the emojis look like in R. (The idea for this comes from <a href="http://opiateforthemass.es/articles/emoticons-in-R/">Jessica Peterka-Bonetta’s work</a> – she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.</p>
+</div>
+<div id="processing-the-data-1" class="section level2">
+
+<p>Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.</p>
+<pre class="r"><code>tweets=read.csv(&quot;Col_Sep_INSTACORPUS.csv&quot;, header=T)
+emoticons &lt;- read.csv(&quot;Decoded Emojis Col Sep.csv&quot;, header = T)</code></pre>
+<p>To transform the emojis, you first need to transform your tweet data into ASCII:</p>
+<pre class="r"><code>tweets$text &lt;- iconv(tweets$text, from = &quot;latin1&quot;, to = &quot;ascii&quot;, 
+                    sub = &quot;byte&quot;)</code></pre>
+</div>
+<div id="processing-the-data-2" class="section level2">
+<p>To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the <a href="http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace">DataCombine package</a>. What this does is identifies emojis in the tweeted Instagram posts and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.</p>
+<pre class="r"><code>library(DataCombine)
+tweets &lt;- FindReplace(data = tweets, Var = &quot;text&quot;, 
+                      replaceData = emoticons,
+                      from = &quot;R_Encoding&quot;, to = &quot;Name&quot;, 
+                      exact = FALSE)</code></pre>
+<p>Now I’m going to subset the data to just look at those posts that have emojis in them. I got help in doing this from <a href="http://stackoverflow.com/questions/26319567/use-grepl-to-search-either-of-multiple-substrings-in-a-text-in-r">here</a>. Again I use my emoji dictionary available <a href="https://github.com/lyons7/emojidictionary">here</a>.</p>
+<pre class="r"><code>emoticons &lt;- read.csv(&quot;Decoded Emojis Col Sep.csv&quot;, header = T)
+emogrepl &lt;- grepl(paste(emoticons$Name, collapse = &quot;|&quot;), tweets$text)
+emogreplDF&lt;-as.data.frame(emogrepl)
+tweets$ID7 &lt;- 1:nrow(tweets)
+emogreplDF$ID7 &lt;- 1:nrow(emogreplDF)
+tweets &lt;- merge(tweets,emogreplDF,by=&quot;ID7&quot;)
+emosub &lt;- tweets[tweets$emogrepl == &quot;TRUE&quot;, ]</code></pre>
+<p>Now that you have a subset of emojis you can compare posts with emojis vs. posts without etc. etc.!</p>
+<p>How about subsetting BY emoji? Let’s look just at posts that have certain emojis in them, like the red heart emoji or the face with tears of joy.</p>
+<p>First we do pattern matching and replacement. The first command looks through the text of the emosub data frame and finds all instances in which the string ‘HEAVYBLACKHEART’ is present and then generates a list of T/F values</p>
+<pre class="r"><code>heartgrepl &lt;- grepl(paste(&quot; HEAVYBLACKHEART &quot;), emosub$text)
+# Turn that list of T/F values into a data frame so we can link it back to the original posts
+heartgreplDF&lt;-as.data.frame(heartgrepl)
+# Make a new row so as to smush them together (the T/F designation and your data frame of posts)
+emosub$ID7 &lt;- 1:nrow(emosub)
+heartgreplDF$ID7 &lt;- 1:nrow(heartgreplDF)
+emosub &lt;- merge(emosub,heartgreplDF,by=&quot;ID7&quot;)
+redheart &lt;- emosub[emosub$heartgrepl == &quot;TRUE&quot;, ]</code></pre>
+<p>Let’s do the same with FACEWITHTEARSOFJOY</p>
+<pre class="r"><code>lolfacegrepl &lt;- grepl(paste(&quot; FACEWITHTEARSOFJOY &quot;), emosub$text)
+lolfacegreplDF&lt;-as.data.frame(lolfacegrepl)
+emosub$ID7 &lt;- 1:nrow(emosub)
+lolfacegreplDF$ID7 &lt;- 1:nrow(lolfacegreplDF)
+emosub &lt;- merge(emosub,lolfacegreplDF,by=&quot;ID7&quot;)
+lolface &lt;- emosub[emosub$lolfacegrepl == &quot;TRUE&quot;, ]</code></pre>
+<p>Now FACEWITHHEARTSHAPEDEYES</p>
+<pre class="r"><code>hearteyesgrepl &lt;- grepl(paste(&quot; SMILINGFACEWITHHEARTSHAPEDEYES &quot;), emosub$text)
+hearteyesgreplDF&lt;-as.data.frame(hearteyesgrepl)
+emosub$ID7 &lt;- 1:nrow(emosub)
+hearteyesgreplDF$ID7 &lt;- 1:nrow(hearteyesgreplDF)
+emosub &lt;- merge(emosub,hearteyesgreplDF,by=&quot;ID7&quot;)
+hearteyes &lt;- emosub[emosub$hearteyesgrepl == &quot;TRUE&quot;, ]</code></pre>
+<p>Sparkles!!!!</p>
+<pre class="r"><code>sparklesgrepl &lt;- grepl(paste(&quot; SPARKLES &quot;), emosub$text)
+sparklesgreplDF&lt;-as.data.frame(sparklesgrepl)
+emosub$ID7 &lt;- 1:nrow(emosub)
+sparklesgreplDF$ID7 &lt;- 1:nrow(sparklesgreplDF)
+emosub &lt;- merge(emosub,sparklesgreplDF,by=&quot;ID7&quot;)
+sparkles &lt;- emosub[emosub$sparklesgrepl == &quot;TRUE&quot;, ]</code></pre>
+<p>Face savouring delicious food!!!!!!!!!!!!!!!</p>
+<pre class="r"><code>savourfoodgrepl &lt;- grepl(paste(&quot; FACESAVOURINGDELICIOUSFOOD &quot;), emosub$text)
+savourfoodgreplDF&lt;-as.data.frame(savourfoodgrepl)
+emosub$ID7 &lt;- 1:nrow(emosub)
+savourfoodgreplDF$ID7 &lt;- 1:nrow(savourfoodgreplDF)
+emosub &lt;- merge(emosub,savourfoodgreplDF,by=&quot;ID7&quot;)
+savourfood &lt;- emosub[emosub$savourfoodgrepl == &quot;TRUE&quot;, ]</code></pre>
+<p>Let’s have a little fun and try to map where some of these emojis occur. I am using the <a href="https://github.com/dill/emoGG">emoGG</a> package.</p>
+<pre class="r"><code># devtools::install_github(&quot;dill/emoGG&quot;)
+library(emoGG)
+# Find the emojis we want to use for a graph (might take a few times to get your search query right)
+emoji_search(&quot;heart face&quot;)</code></pre>
+<pre><code>##                             emoji  code    keyword
+## 1                        grinning 1f600       face
+## 5                            grin 1f601       face
+## 9                             joy 1f602       face
+## 15                         smiley 1f603       face
+## 19                          smile 1f604       face
+## 26                    sweat_smile 1f605       face
+## 35                       laughing 1f606       face
+## 37                       innocent 1f607       face
+## 46                           wink 1f609       face
+## 50                          blush 1f60a       face
+## 58                        relaxed  263a       face
+## 66                            yum 1f60b       face
+## 69                       relieved 1f60c       face
+## 74                     heart_eyes 1f60d       face
+## 81                     sunglasses 1f60e       face
+## 86                          smirk 1f60f       face
+## 94                 expressionless 1f611       face
+## 102                         sweat 1f613       face
+## 107                       pensive 1f614       face
+## 112                      confused 1f615       face
+## 117                    confounded 1f616       face
+## 124                       kissing 1f617       face
+## 128                 kissing_heart 1f618       face
+## 134          kissing_smiling_eyes 1f619       face
+## 138           kissing_closed_eyes 1f61a       face
+## 144              stuck_out_tongue 1f61b       face
+## 150  stuck_out_tongue_winking_eye 1f61c       face
+## 156  stuck_out_tongue_closed_eyes 1f61d       face
+## 161                  disappointed 1f61e       face
+## 165                       worried 1f61f       face
+## 169                         angry 1f620       face
+## 176                           cry 1f622       face
+## 181                     persevere 1f623       face
+## 186                       triumph 1f624       face
+## 191         disappointed_relieved 1f625       face
+## 195                      frowning 1f626       face
+## 198                     anguished 1f627       face
+## 201                       fearful 1f628       face
+## 207                         weary 1f629       face
+## 213                        sleepy 1f62a       face
+## 221                     grimacing 1f62c       face
+## 224                           sob 1f62d       face
+## 230                    open_mouth 1f62e       face
+## 234                        hushed 1f62f       face
+## 237                    cold_sweat 1f630       face
+## 239                        scream 1f631       face
+## 243                    astonished 1f632       face
+## 247                       flushed 1f633       face
+## 251                      sleeping 1f634       face
+## 259                      no_mouth 1f636       face
+## 261                          mask 1f637       face
+## 513                           ear 1f442       face
+## 514                           ear 1f442       hear
+## 515                           ear 1f442      sound
+## 516                           ear 1f442     listen
+## 526                          kiss 1f48b       face
+## 1467                        heart  2764       love
+## 1468                        heart  2764       like
+## 1469                        heart  2764 valentines
+## 1502                        cupid 1f498      heart
+## 1667                          art 1f3a8     design
+## 1668                          art 1f3a8      paint
+## 1669                          art 1f3a8       draw
+## 2733                            a 1f170 red-square
+## 2734                            a 1f170   alphabet
+## 2735                            a 1f170     letter
+## 3358                       bowtie             face
+## 3366                    neckbeard             face</code></pre>
+<pre class="r"><code># We find the code &quot;1f60d&quot; for the smiling face with heart shaped eyes. Let&#39;s try to graph this on a map!
+# Using the ggmap package here
+map &lt;- get_map(location = &#39;Capp St. and 20th, San Francisco,
+               California&#39;, zoom = 15)
+
+lat &lt;- hearteyes$latitude
+lon &lt;- hearteyes$longitude
+
+# Without the background
+# mapPointshearteyes &lt;-  ggplot(hearteyes, aes(lon,lat)) + geom_emoji(emoji=&quot;1f60d&quot;)
+mapPointshearteyes &lt;- ggmap(map) + geom_emoji(aes(x = lon, y = lat), 
+                                     data=hearteyes, emoji=&quot;1f60d&quot;)</code></pre>
+<pre class="r"><code>mapPointshearteyes</code></pre>
+<p><img src="/portfolio/2017-03-10-emoji-maps_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Now let’s try multiple emojis at once (help from <a href="http://blog.revolutionanalytics.com/2015/11/emojis-in-ggplot-graphics.html">here</a>).</p>
+<pre class="r"><code># Can we do this with plain old layering?
+# emoji_search(&quot;sparkles&quot;)
+# sparkles = &quot;2728&quot;
+# red heart = &quot;2764&quot; 
+
+mapPointsmulti &lt;- ggmap(map) + geom_emoji(aes(x = lon, y = lat), 
+                                     data=hearteyes, emoji=&quot;1f60d&quot;) +
+                              geom_emoji(aes(x=sparkles$longitude, y=sparkles$latitude),
+                                     data=sparkles, emoji=&quot;2728&quot;) +
+                              geom_emoji(aes(x=redheart$longitude, y=redheart$latitude),
+                                     data=redheart, emoji=&quot;2764&quot;)
+
+mapPointsmulti</code></pre>
+<p><img src="/portfolio/2017-03-10-emoji-maps_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>How about emojis that are associated with food?</p>
+<pre class="r"><code># apparently called the &#39;yum&#39; emoji: 1f60b
+
+mapPointssavourface &lt;- ggmap(map) + geom_emoji(aes(x=savourfood$longitude,y=savourfood$latitude), 
+                                     data=savourfood, emoji=&quot;1f60b&quot;)
+
+mapPointssavourface</code></pre>
+<p><img src="/portfolio/2017-03-10-emoji-maps_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.cookie.js"> </script>
+<script src="/js/ekko-lightbox.js"></script>
+<script src="/js/jquery.scrollTo.min.js"></script>
+<script src="/js/masonry.pkgd.min.js"></script>
+<script src="/js/imagesloaded.pkgd.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/front.js"></script>
+
+</body>
+</html>

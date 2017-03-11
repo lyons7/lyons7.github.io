@@ -47,6 +47,42 @@
     </item>
     
     <item>
+      <title>Name of the work 2</title>
+      <link>/portfolio/work2/</link>
+      <pubDate>Sat, 05 Nov 2016 19:41:01 +0530</pubDate>
+      
+      <guid>/portfolio/work2/</guid>
+      <description>&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane.
+&lt;/p&gt;
+
+&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
+
+&lt;p&gt;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
+&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;header-level-2&#34;&gt;Header Level 2&lt;/h2&gt;
+
+&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
+
+&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
+&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Having Fun with Tidy Text!</title>
       <link>/portfolio/2017-03-09-fun-w-tidy-text/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
@@ -318,42 +354,6 @@ lda_top_terms2 %&amp;gt;%
     </item>
     
     <item>
-      <title>Name of the work 2</title>
-      <link>/portfolio/work2/</link>
-      <pubDate>Sat, 05 Nov 2016 19:41:01 +0530</pubDate>
-      
-      <guid>/portfolio/work2/</guid>
-      <description>&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane.
-&lt;/p&gt;
-
-&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
-
-&lt;p&gt;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&#34;header-level-2&#34;&gt;Header Level 2&lt;/h2&gt;
-
-&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
-
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;</description>
-    </item>
-    
-    <item>
       <title>Name of the work 3</title>
       <link>/portfolio/work3/</link>
       <pubDate>Sat, 05 Nov 2016 19:44:32 +0530</pubDate>
@@ -531,6 +531,195 @@ lda_top_terms2 %&amp;gt;%
 &lt;/ul&gt;
 
 &lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Identifying and Visualizing Emojis</title>
+      <link>/portfolio/2017-03-10-emoji-maps/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-03-10-emoji-maps/</guid>
+      <description>&lt;p&gt;Dealing with emojis in mined social media data can be tricky for a number of reasons. First, you have to decode them and then… well I guess that is it. After you decode them there is a number of cool things you can look at though!&lt;/p&gt;
+&lt;div id=&#34;processing-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Processing the data&lt;/h2&gt;
+&lt;p&gt;As mentioned, if you are working with social media data, chances are there will be emojis in that data. You can ‘transform’ these emojis into prose using this code as well as a &lt;a href=&#34;https://github.com/lyons7/emojidictionary&#34;&gt;CSV file&lt;/a&gt; I’ve put together of what all of the emojis look like in R. (The idea for this comes from &lt;a href=&#34;http://opiateforthemass.es/articles/emoticons-in-R/&#34;&gt;Jessica Peterka-Bonetta’s work&lt;/a&gt; – she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;processing-the-data-1&#34; class=&#34;section level2&#34;&gt;
+
+&lt;p&gt;Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets=read.csv(&amp;quot;Col_Sep_INSTACORPUS.csv&amp;quot;, header=T)
+emoticons &amp;lt;- read.csv(&amp;quot;Decoded Emojis Col Sep.csv&amp;quot;, header = T)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To transform the emojis, you first need to transform your tweet data into ASCII:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets$text &amp;lt;- iconv(tweets$text, from = &amp;quot;latin1&amp;quot;, to = &amp;quot;ascii&amp;quot;, 
+                    sub = &amp;quot;byte&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;processing-the-data-2&#34; class=&#34;section level2&#34;&gt;
+&lt;p&gt;To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the &lt;a href=&#34;http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace&#34;&gt;DataCombine package&lt;/a&gt;. What this does is identifies emojis in the tweeted Instagram posts and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(DataCombine)
+tweets &amp;lt;- FindReplace(data = tweets, Var = &amp;quot;text&amp;quot;, 
+                      replaceData = emoticons,
+                      from = &amp;quot;R_Encoding&amp;quot;, to = &amp;quot;Name&amp;quot;, 
+                      exact = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now I’m going to subset the data to just look at those posts that have emojis in them. I got help in doing this from &lt;a href=&#34;http://stackoverflow.com/questions/26319567/use-grepl-to-search-either-of-multiple-substrings-in-a-text-in-r&#34;&gt;here&lt;/a&gt;. Again I use my emoji dictionary available &lt;a href=&#34;https://github.com/lyons7/emojidictionary&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;emoticons &amp;lt;- read.csv(&amp;quot;Decoded Emojis Col Sep.csv&amp;quot;, header = T)
+emogrepl &amp;lt;- grepl(paste(emoticons$Name, collapse = &amp;quot;|&amp;quot;), tweets$text)
+emogreplDF&amp;lt;-as.data.frame(emogrepl)
+tweets$ID7 &amp;lt;- 1:nrow(tweets)
+emogreplDF$ID7 &amp;lt;- 1:nrow(emogreplDF)
+tweets &amp;lt;- merge(tweets,emogreplDF,by=&amp;quot;ID7&amp;quot;)
+emosub &amp;lt;- tweets[tweets$emogrepl == &amp;quot;TRUE&amp;quot;, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now that you have a subset of emojis you can compare posts with emojis vs. posts without etc. etc.!&lt;/p&gt;
+&lt;p&gt;How about subsetting BY emoji? Let’s look just at posts that have certain emojis in them, like the red heart emoji or the face with tears of joy.&lt;/p&gt;
+&lt;p&gt;First we do pattern matching and replacement. The first command looks through the text of the emosub data frame and finds all instances in which the string ‘HEAVYBLACKHEART’ is present and then generates a list of T/F values&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;heartgrepl &amp;lt;- grepl(paste(&amp;quot; HEAVYBLACKHEART &amp;quot;), emosub$text)
+# Turn that list of T/F values into a data frame so we can link it back to the original posts
+heartgreplDF&amp;lt;-as.data.frame(heartgrepl)
+# Make a new row so as to smush them together (the T/F designation and your data frame of posts)
+emosub$ID7 &amp;lt;- 1:nrow(emosub)
+heartgreplDF$ID7 &amp;lt;- 1:nrow(heartgreplDF)
+emosub &amp;lt;- merge(emosub,heartgreplDF,by=&amp;quot;ID7&amp;quot;)
+redheart &amp;lt;- emosub[emosub$heartgrepl == &amp;quot;TRUE&amp;quot;, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s do the same with FACEWITHTEARSOFJOY&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;lolfacegrepl &amp;lt;- grepl(paste(&amp;quot; FACEWITHTEARSOFJOY &amp;quot;), emosub$text)
+lolfacegreplDF&amp;lt;-as.data.frame(lolfacegrepl)
+emosub$ID7 &amp;lt;- 1:nrow(emosub)
+lolfacegreplDF$ID7 &amp;lt;- 1:nrow(lolfacegreplDF)
+emosub &amp;lt;- merge(emosub,lolfacegreplDF,by=&amp;quot;ID7&amp;quot;)
+lolface &amp;lt;- emosub[emosub$lolfacegrepl == &amp;quot;TRUE&amp;quot;, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now FACEWITHHEARTSHAPEDEYES&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;hearteyesgrepl &amp;lt;- grepl(paste(&amp;quot; SMILINGFACEWITHHEARTSHAPEDEYES &amp;quot;), emosub$text)
+hearteyesgreplDF&amp;lt;-as.data.frame(hearteyesgrepl)
+emosub$ID7 &amp;lt;- 1:nrow(emosub)
+hearteyesgreplDF$ID7 &amp;lt;- 1:nrow(hearteyesgreplDF)
+emosub &amp;lt;- merge(emosub,hearteyesgreplDF,by=&amp;quot;ID7&amp;quot;)
+hearteyes &amp;lt;- emosub[emosub$hearteyesgrepl == &amp;quot;TRUE&amp;quot;, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sparkles!!!!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sparklesgrepl &amp;lt;- grepl(paste(&amp;quot; SPARKLES &amp;quot;), emosub$text)
+sparklesgreplDF&amp;lt;-as.data.frame(sparklesgrepl)
+emosub$ID7 &amp;lt;- 1:nrow(emosub)
+sparklesgreplDF$ID7 &amp;lt;- 1:nrow(sparklesgreplDF)
+emosub &amp;lt;- merge(emosub,sparklesgreplDF,by=&amp;quot;ID7&amp;quot;)
+sparkles &amp;lt;- emosub[emosub$sparklesgrepl == &amp;quot;TRUE&amp;quot;, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Face savouring delicious food!!!!!!!!!!!!!!!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;savourfoodgrepl &amp;lt;- grepl(paste(&amp;quot; FACESAVOURINGDELICIOUSFOOD &amp;quot;), emosub$text)
+savourfoodgreplDF&amp;lt;-as.data.frame(savourfoodgrepl)
+emosub$ID7 &amp;lt;- 1:nrow(emosub)
+savourfoodgreplDF$ID7 &amp;lt;- 1:nrow(savourfoodgreplDF)
+emosub &amp;lt;- merge(emosub,savourfoodgreplDF,by=&amp;quot;ID7&amp;quot;)
+savourfood &amp;lt;- emosub[emosub$savourfoodgrepl == &amp;quot;TRUE&amp;quot;, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s have a little fun and try to map where some of these emojis occur. I am using the &lt;a href=&#34;https://github.com/dill/emoGG&#34;&gt;emoGG&lt;/a&gt; package.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# devtools::install_github(&amp;quot;dill/emoGG&amp;quot;)
+library(emoGG)
+# Find the emojis we want to use for a graph (might take a few times to get your search query right)
+emoji_search(&amp;quot;heart face&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                             emoji  code    keyword
+## 1                        grinning 1f600       face
+## 5                            grin 1f601       face
+## 9                             joy 1f602       face
+## 15                         smiley 1f603       face
+## 19                          smile 1f604       face
+## 26                    sweat_smile 1f605       face
+## 35                       laughing 1f606       face
+## 37                       innocent 1f607       face
+## 46                           wink 1f609       face
+## 50                          blush 1f60a       face
+## 58                        relaxed  263a       face
+## 66                            yum 1f60b       face
+## 69                       relieved 1f60c       face
+## 74                     heart_eyes 1f60d       face
+## 81                     sunglasses 1f60e       face
+## 86                          smirk 1f60f       face
+## 94                 expressionless 1f611       face
+## 102                         sweat 1f613       face
+## 107                       pensive 1f614       face
+## 112                      confused 1f615       face
+## 117                    confounded 1f616       face
+## 124                       kissing 1f617       face
+## 128                 kissing_heart 1f618       face
+## 134          kissing_smiling_eyes 1f619       face
+## 138           kissing_closed_eyes 1f61a       face
+## 144              stuck_out_tongue 1f61b       face
+## 150  stuck_out_tongue_winking_eye 1f61c       face
+## 156  stuck_out_tongue_closed_eyes 1f61d       face
+## 161                  disappointed 1f61e       face
+## 165                       worried 1f61f       face
+## 169                         angry 1f620       face
+## 176                           cry 1f622       face
+## 181                     persevere 1f623       face
+## 186                       triumph 1f624       face
+## 191         disappointed_relieved 1f625       face
+## 195                      frowning 1f626       face
+## 198                     anguished 1f627       face
+## 201                       fearful 1f628       face
+## 207                         weary 1f629       face
+## 213                        sleepy 1f62a       face
+## 221                     grimacing 1f62c       face
+## 224                           sob 1f62d       face
+## 230                    open_mouth 1f62e       face
+## 234                        hushed 1f62f       face
+## 237                    cold_sweat 1f630       face
+## 239                        scream 1f631       face
+## 243                    astonished 1f632       face
+## 247                       flushed 1f633       face
+## 251                      sleeping 1f634       face
+## 259                      no_mouth 1f636       face
+## 261                          mask 1f637       face
+## 513                           ear 1f442       face
+## 514                           ear 1f442       hear
+## 515                           ear 1f442      sound
+## 516                           ear 1f442     listen
+## 526                          kiss 1f48b       face
+## 1467                        heart  2764       love
+## 1468                        heart  2764       like
+## 1469                        heart  2764 valentines
+## 1502                        cupid 1f498      heart
+## 1667                          art 1f3a8     design
+## 1668                          art 1f3a8      paint
+## 1669                          art 1f3a8       draw
+## 2733                            a 1f170 red-square
+## 2734                            a 1f170   alphabet
+## 2735                            a 1f170     letter
+## 3358                       bowtie             face
+## 3366                    neckbeard             face&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We find the code &amp;quot;1f60d&amp;quot; for the smiling face with heart shaped eyes. Let&amp;#39;s try to graph this on a map!
+# Using the ggmap package here
+map &amp;lt;- get_map(location = &amp;#39;Capp St. and 20th, San Francisco,
+               California&amp;#39;, zoom = 15)
+
+lat &amp;lt;- hearteyes$latitude
+lon &amp;lt;- hearteyes$longitude
+
+# Without the background
+# mapPointshearteyes &amp;lt;-  ggplot(hearteyes, aes(lon,lat)) + geom_emoji(emoji=&amp;quot;1f60d&amp;quot;)
+mapPointshearteyes &amp;lt;- ggmap(map) + geom_emoji(aes(x = lon, y = lat), 
+                                     data=hearteyes, emoji=&amp;quot;1f60d&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mapPointshearteyes&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-10-emoji-maps_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now let’s try multiple emojis at once (help from &lt;a href=&#34;http://blog.revolutionanalytics.com/2015/11/emojis-in-ggplot-graphics.html&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Can we do this with plain old layering?
+# emoji_search(&amp;quot;sparkles&amp;quot;)
+# sparkles = &amp;quot;2728&amp;quot;
+# red heart = &amp;quot;2764&amp;quot; 
+
+mapPointsmulti &amp;lt;- ggmap(map) + geom_emoji(aes(x = lon, y = lat), 
+                                     data=hearteyes, emoji=&amp;quot;1f60d&amp;quot;) +
+                              geom_emoji(aes(x=sparkles$longitude, y=sparkles$latitude),
+                                     data=sparkles, emoji=&amp;quot;2728&amp;quot;) +
+                              geom_emoji(aes(x=redheart$longitude, y=redheart$latitude),
+                                     data=redheart, emoji=&amp;quot;2764&amp;quot;)
+
+mapPointsmulti&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-10-emoji-maps_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;How about emojis that are associated with food?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# apparently called the &amp;#39;yum&amp;#39; emoji: 1f60b
+
+mapPointssavourface &amp;lt;- ggmap(map) + geom_emoji(aes(x=savourfood$longitude,y=savourfood$latitude), 
+                                     data=savourfood, emoji=&amp;quot;1f60b&amp;quot;)
+
+mapPointssavourface&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-10-emoji-maps_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>

@@ -1,0 +1,176 @@
+---
+date: 2015-07-23T21:13:14-05:00
+draft: false
+image: "img/portfolio/tidytext.jpg"
+title: "Identifying and Visualizing Emojis"
+description: "Identify emojis in tweets and show where they occur on a map!"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, results='hide', message=FALSE}
+packs = c("twitteR","RCurl","RJSONIO","stringr","ggplot2","devtools","DataCombine","ggmap",
+          "topicmodels","slam","Rmpfr","tm","stringr","wordcloud","plyr",
+          "tidytext","dplyr","tidyr","xlsx")
+lapply(packs, library, character.only=T)
+```
+
+Dealing with emojis in mined social media data can be tricky for a number of reasons. First, you have to decode them and then... well I guess that is it. After you decode them there is a number of cool things you can look at though!
+
+## Processing the data
+As mentioned, if you are working with social media data, chances are there will be emojis in that data. You can 'transform' these emojis into prose using this code as well as a [CSV file](https://github.com/lyons7/emojidictionary) I've put together of what all of the emojis look like in R. (The idea for this comes from [Jessica Peterka-Bonetta's work](http://opiateforthemass.es/articles/emoticons-in-R/) -- she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.
+
+## Processing the data
+Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.
+```{r, echo=TRUE}
+tweets=read.csv("Col_Sep_INSTACORPUS.csv", header=T)
+emoticons <- read.csv("Decoded Emojis Col Sep.csv", header = T)
+```
+To transform the emojis, you first need to transform your tweet data into ASCII:
+
+```{r, echo=TRUE}
+tweets$text <- iconv(tweets$text, from = "latin1", to = "ascii", 
+                    sub = "byte")
+```
+
+## Processing the data
+To 'count' the emojis you do a find and replace using the CSV file of 'Decoded Emojis' as a reference. Here I am using the [DataCombine package](http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace). What this does is identifies emojis in the tweeted Instagram posts and then replaces them with a prose version. I used whatever description pops up when hovering one's cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.
+
+```{r, echo=TRUE}
+library(DataCombine)
+tweets <- FindReplace(data = tweets, Var = "text", 
+                      replaceData = emoticons,
+                      from = "R_Encoding", to = "Name", 
+                      exact = FALSE)
+```
+
+Now I'm going to subset the data to just look at those posts that have emojis in them. I got help in doing this from [here](http://stackoverflow.com/questions/26319567/use-grepl-to-search-either-of-multiple-substrings-in-a-text-in-r). Again I use my emoji dictionary available [here](https://github.com/lyons7/emojidictionary).
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+emoticons <- read.csv("Decoded Emojis Col Sep.csv", header = T)
+emogrepl <- grepl(paste(emoticons$Name, collapse = "|"), tweets$text)
+emogreplDF<-as.data.frame(emogrepl)
+tweets$ID7 <- 1:nrow(tweets)
+emogreplDF$ID7 <- 1:nrow(emogreplDF)
+tweets <- merge(tweets,emogreplDF,by="ID7")
+emosub <- tweets[tweets$emogrepl == "TRUE", ]
+```
+
+Now that you have a subset of emojis you can compare posts with emojis vs. posts without etc. etc.!
+
+How about subsetting BY emoji? Let's look just at posts that have certain emojis in them, like the red heart emoji or the face with tears of joy. 
+
+First we do pattern matching and replacement. The first command looks through the text of the emosub data frame and finds all instances in which the string 'HEAVYBLACKHEART' is present and then generates a list of T/F values
+
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+heartgrepl <- grepl(paste(" HEAVYBLACKHEART "), emosub$text)
+# Turn that list of T/F values into a data frame so we can link it back to the original posts
+heartgreplDF<-as.data.frame(heartgrepl)
+# Make a new row so as to smush them together (the T/F designation and your data frame of posts)
+emosub$ID7 <- 1:nrow(emosub)
+heartgreplDF$ID7 <- 1:nrow(heartgreplDF)
+emosub <- merge(emosub,heartgreplDF,by="ID7")
+redheart <- emosub[emosub$heartgrepl == "TRUE", ]
+```
+
+Let's do the same with FACEWITHTEARSOFJOY 
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+lolfacegrepl <- grepl(paste(" FACEWITHTEARSOFJOY "), emosub$text)
+lolfacegreplDF<-as.data.frame(lolfacegrepl)
+emosub$ID7 <- 1:nrow(emosub)
+lolfacegreplDF$ID7 <- 1:nrow(lolfacegreplDF)
+emosub <- merge(emosub,lolfacegreplDF,by="ID7")
+lolface <- emosub[emosub$lolfacegrepl == "TRUE", ]
+```
+
+Now FACEWITHHEARTSHAPEDEYES
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+hearteyesgrepl <- grepl(paste(" SMILINGFACEWITHHEARTSHAPEDEYES "), emosub$text)
+hearteyesgreplDF<-as.data.frame(hearteyesgrepl)
+emosub$ID7 <- 1:nrow(emosub)
+hearteyesgreplDF$ID7 <- 1:nrow(hearteyesgreplDF)
+emosub <- merge(emosub,hearteyesgreplDF,by="ID7")
+hearteyes <- emosub[emosub$hearteyesgrepl == "TRUE", ]
+```
+
+Sparkles!!!!
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+sparklesgrepl <- grepl(paste(" SPARKLES "), emosub$text)
+sparklesgreplDF<-as.data.frame(sparklesgrepl)
+emosub$ID7 <- 1:nrow(emosub)
+sparklesgreplDF$ID7 <- 1:nrow(sparklesgreplDF)
+emosub <- merge(emosub,sparklesgreplDF,by="ID7")
+sparkles <- emosub[emosub$sparklesgrepl == "TRUE", ]
+```
+
+Face savouring delicious food!!!!!!!!!!!!!!! 
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+savourfoodgrepl <- grepl(paste(" FACESAVOURINGDELICIOUSFOOD "), emosub$text)
+savourfoodgreplDF<-as.data.frame(savourfoodgrepl)
+emosub$ID7 <- 1:nrow(emosub)
+savourfoodgreplDF$ID7 <- 1:nrow(savourfoodgreplDF)
+emosub <- merge(emosub,savourfoodgreplDF,by="ID7")
+savourfood <- emosub[emosub$savourfoodgrepl == "TRUE", ]
+```
+
+Let's have a little fun and try to map where some of these emojis occur. I am using the [emoGG](https://github.com/dill/emoGG) package. 
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+# devtools::install_github("dill/emoGG")
+library(emoGG)
+# Find the emojis we want to use for a graph (might take a few times to get your search query right)
+emoji_search("heart face")
+
+# We find the code "1f60d" for the smiling face with heart shaped eyes. Let's try to graph this on a map!
+# Using the ggmap package here
+map <- get_map(location = 'Capp St. and 20th, San Francisco,
+               California', zoom = 15)
+
+lat <- hearteyes$latitude
+lon <- hearteyes$longitude
+
+# Without the background
+# mapPointshearteyes <-  ggplot(hearteyes, aes(lon,lat)) + geom_emoji(emoji="1f60d")
+mapPointshearteyes <- ggmap(map) + geom_emoji(aes(x = lon, y = lat), 
+                                     data=hearteyes, emoji="1f60d")
+
+```
+```{r, echo=TRUE}
+mapPointshearteyes
+```
+
+Now let's try multiple emojis at once (help from [here](http://blog.revolutionanalytics.com/2015/11/emojis-in-ggplot-graphics.html)).
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+# Can we do this with plain old layering?
+# emoji_search("sparkles")
+# sparkles = "2728"
+# red heart = "2764" 
+
+mapPointsmulti <- ggmap(map) + geom_emoji(aes(x = lon, y = lat), 
+                                     data=hearteyes, emoji="1f60d") +
+                              geom_emoji(aes(x=sparkles$longitude, y=sparkles$latitude),
+                                     data=sparkles, emoji="2728") +
+                              geom_emoji(aes(x=redheart$longitude, y=redheart$latitude),
+                                     data=redheart, emoji="2764")
+
+mapPointsmulti
+```
+
+How about emojis that are associated with food?
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+# apparently called the 'yum' emoji: 1f60b
+
+mapPointssavourface <- ggmap(map) + geom_emoji(aes(x=savourfood$longitude,y=savourfood$latitude), 
+                                     data=savourfood, emoji="1f60b")
+
+mapPointssavourface
+```
