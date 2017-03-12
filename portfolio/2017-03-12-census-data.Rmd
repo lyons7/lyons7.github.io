@@ -5,7 +5,7 @@ date: 2017-03-12T21:13:14-05:00
 draft: false
 image: "img/portfolio/censusphoto.jpg"
 description: "Get U.S. Census Data straight to R"
-weight: 6
+weight: 8
 ---
 
 ```{r setup, include=FALSE}
@@ -506,6 +506,55 @@ whitepop2
 
 
 #### Future directions
-The next step is of course actually mapping population changes, which is very easy with our data frames in hand. 
+The next step is of course actually mapping population changes, which is very easy with our data frames in hand.
 
+```{r}
+demographics2_mission$HLpercentchange <- 100*((demographics2_mission$Hispanic_or_Latino_by_Race_Hispanic_or_Latino - demographics_mission$Hispanic_or_Latino_by_Race_Hispanic_or_Latino)/demographics_mission$Hispanic_or_Latino_by_Race_Hispanic_or_Latino)
+
+demographics2_mission$Wpercentchange <- 100*((demographics2_mission$Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_White_alone - demographics_mission$Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_White_alone)/demographics_mission$Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_White_alone)
+
+popup <- paste0("GEOID: ", demographics2_mission$GEOID, "<br>", "Percent Hispanic Latino Change 2013-2015", round(demographics2_mission$HLpercentchange,2))
+pal <- colorNumeric(
+  palette = "YlGnBu",
+  domain = demographics2_mission$HLpercentchange
+)
+
+HLD<-leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = demographics2_mission, 
+              fillColor = ~pal(HLpercentchange), 
+              color = "#b2aeae", # you need to use hex colors
+              fillOpacity = 0.7, 
+              weight = 1, 
+              smoothFactor = 0.2,
+              popup = popup) %>%
+  addLegend(pal = pal, 
+            values = demographics2_mission$HLpercentchange, 
+            position = "bottomright", 
+            title = "Percent Hispanic Latino<br>Change 2013-2015",
+            labFormat = labelFormat(suffix = "%")) 
+HLD
+
+popup <- paste0("GEOID: ", demographics2_mission$GEOID, "<br>", "Percent White Change 2013-2015", round(demographics2_mission$Wpercentchange,2))
+pal <- colorNumeric(
+  palette = "YlGnBu",
+  domain = demographics2_mission$Wpercentchange
+)
+
+whitepopD<-leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = demographics2_mission, 
+              fillColor = ~pal(Wpercentchange), 
+              color = "#b2aeae", # you need to use hex colors
+              fillOpacity = 0.7, 
+              weight = 1, 
+              smoothFactor = 0.2,
+              popup = popup) %>%
+  addLegend(pal = pal, 
+            values = demographics2_mission$Wpercentchange, 
+            position = "bottomright", 
+            title = "Percent White Change<br>2013-2015",
+            labFormat = labelFormat(suffix = "%")) 
+whitepopD
+```
 

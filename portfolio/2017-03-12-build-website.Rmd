@@ -1,0 +1,70 @@
+---
+title: "Building A Website"
+author: "Kate Lyons"
+date: 2017-03-12T21:13:14-05:00
+draft: false
+showonlyimage: false
+image: ""
+description: "How after 100+ tries I built this site with Hugo, GitHub and blogdown!"
+weight: 4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This website was constructed using GitHub, the [blogdown package](https://github.com/rstudio/blogdown) for R and Hugo. I got started with [Amber Thomas's amazing tutorial](https://proquestionasker.github.io/blog/Making_Site/) and got some further help from [Robert Myles McDonnell](http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/) and more help from [here](http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/). If you are interested in building a site with this configuration, I would start either with Amber's or Robert's tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don't work for you, try out the process that eventually worked for me.
+
+#### Kate's Approach
+Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert's blog and on Amber's tutorial) but this specific series of steps managed to work for me.
+
+First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.
+
+Go back to your computer. (I'm working with a Mac).
+
+Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, **serve_site()** and **STOP** R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I **serve_site()** or **new_site()** in R Studio the ">" doesn't show up in my console afterwards). Update: I just figured out that this is because the site is being continuously "constructed" once you serve it -- i.e. you can make some changes and it'll automatically update in your little Viewer window. Probably doesn't matter too much, but I'd just stop it just in case.
+
+Now, in that directory you created with the project will be ALL the website files. Don't move anything around. I then followed the steps from [this link](http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/) mentioned above and did the following in terminal:
+
+Change directories to the directory where the website files are (let’s call this 'Local Hugo'). Now remove the public folder (I am *pretty* sure that is what this command does)
+
+```
+rm -r public/
+```
+
+And NOW you are going to link up to your online GitHub. 
+
+```
+$ git init
+
+$ git remote add origin git@github.com:USERNAME/HUGO.git
+
+$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
+
+```
+(I get asked for a password here I set up for my .ssh/id_rsa here)
+
+Then:
+```
+$ git commit -m 'initial commit'
+
+$ git push origin master
+```
+(Get asked again for password)
+
+Now I go back to R studio where my project is up and running. I did the customary new_post('Hello world') post to test things out and then made some changes to the config file (put my name etc). Then I **serve_site()** in R, **STOP** it again and return to terminal. I then followed the commands listed on Robert's tutorial.
+
+Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the 'public' folder in that directory. Then:
+
+```
+$ git add -A
+
+$ git commit -m 'lovely new site'
+
+$ git push origin master
+```
+
+(Again I get asked for my password)
+
+
+Then go to your username.github.io site. It *should* be there! Now when you make changes it's the same process: do your thing in R studio, **serve_site()** and then **STOP** and then go to terminal and run the same commands (navigate to "public" local Hugo folder, add -A, commit with a message and then push). 

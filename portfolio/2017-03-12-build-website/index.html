@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Building A Website</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/owl.carousel.css">
+<link rel="stylesheet" href="/css/owl.theme.css">
+
+
+  <link href="/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="/">Kate Lyons</a></h1>
+    
+      <p class="sidebar-p">Graduate student in Linguistics at UIUC</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/about/">About</a></li>
+      
+        <li><a href="/contact/">Get in touch</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  
+  
+  <a href="https://twitter.com/katester117" data-animate-hover="pulse" class="external twitter">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  <a href="mailto:kalyons3@illinois.edu" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  
+  <a href="http://stackoverflow.com/users/7451811/kate" data-animate-hover="pulse">
+    <i class="fa fa-stack-overflow"></i>
+  </a>
+  
+  
+  <a href="https://github.com/lyons7" data-animate-hover="pulse">
+    <i class="fa fa-github"></i>
+  </a>
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Kate Lyons
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="/">Kate Lyons</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Building A Website</h1>
+         <!-- BLOGDOWN-HEAD -->
+<!-- /BLOGDOWN-HEAD -->
+
+<!-- BLOGDOWN-BODY-BEFORE -->
+<!-- /BLOGDOWN-BODY-BEFORE -->
+<p>This website was constructed using GitHub, the <a href="https://github.com/rstudio/blogdown">blogdown package</a> for R and Hugo. I got started with <a href="https://proquestionasker.github.io/blog/Making_Site/">Amber Thomas’s amazing tutorial</a> and got some further help from <a href="http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/">Robert Myles McDonnell</a> and more help from <a href="http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/">here</a>. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.</p>
+<div id="kates-approach" class="section level4">
+<h4>Kate’s Approach</h4>
+<p>Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.</p>
+<p>First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.</p>
+<p>Go back to your computer. (I’m working with a Mac).</p>
+<p>Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, <strong>serve_site()</strong> and <strong>STOP</strong> R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I <strong>serve_site()</strong> or <strong>new_site()</strong> in R Studio the “&gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.</p>
+<p>Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from <a href="http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/">this link</a> mentioned above and did the following in terminal:</p>
+<p>Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am <em>pretty</em> sure that is what this command does)</p>
+<pre><code>rm -r public/</code></pre>
+<p>And NOW you are going to link up to your online GitHub.</p>
+<pre><code>$ git init
+
+$ git remote add origin git@github.com:USERNAME/HUGO.git
+
+$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
+</code></pre>
+<p>(I get asked for a password here I set up for my .ssh/id_rsa here)</p>
+<p>Then:</p>
+<pre><code>$ git commit -m &#39;initial commit&#39;
+
+$ git push origin master</code></pre>
+<p>(Get asked again for password)</p>
+<p>Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I <strong>serve_site()</strong> in R, <strong>STOP</strong> it again and return to terminal. I then followed the commands listed on Robert’s tutorial.</p>
+<p>Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:</p>
+<pre><code>$ git add -A
+
+$ git commit -m &#39;lovely new site&#39;
+
+$ git push origin master</code></pre>
+<p>(Again I get asked for my password)</p>
+<p>Then go to your username.github.io site. It <em>should</em> be there! Now when you make changes it’s the same process: do your thing in R studio, <strong>serve_site()</strong> and then <strong>STOP</strong> and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).</p>
+</div>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.cookie.js"> </script>
+<script src="/js/ekko-lightbox.js"></script>
+<script src="/js/jquery.scrollTo.min.js"></script>
+<script src="/js/masonry.pkgd.min.js"></script>
+<script src="/js/imagesloaded.pkgd.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/front.js"></script>
+
+</body>
+</html>
