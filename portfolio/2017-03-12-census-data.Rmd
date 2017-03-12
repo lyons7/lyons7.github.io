@@ -1,0 +1,511 @@
+---
+title: "Census Data"
+author: "Kate Lyons"
+date: 2017-03-12T21:13:14-05:00
+draft: false
+image: "img/portfolio/censusphoto.jpg"
+description: "Get U.S. Census Data straight to R"
+weight: 6
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Profound gratitude is expressed to [this tutorial](http://zevross.com/blog/2015/10/14/manipulating-and-mapping-us-census-data-in-r-using-the-acs-tigris-and-leaflet-packages-3/#census-data-the-easyer-way) and the creators of the [acs](https://cran.r-project.org/web/packages/acs/acs.pdf) and [tigris](https://cran.r-project.org/web/packages/tigris/tigris.pdf) packages. If you've had the pleasure of stumbling around the U.S. Census website and awkwardly trying to transcribe and tabulate things in Excel you will quickly appreciate how very much better the R based approach is. Plus you can make pretty *and* interactive maps! :O
+
+
+## Getting census data
+
+About 95% of the steps came from the [lovely tutorial](http://zevross.com/blog/2015/10/14/manipulating-and-mapping-us-census-data-in-r-using-the-acs-tigris-and-leaflet-packages-3/#census-data-the-easyer-way) mentioned above, but I'll reproduce them here just to show how the code might be applied to another example. Everything from that original tutorial is in quotes. As mentioned, the main packages at work here are the [acs](https://cran.r-project.org/web/packages/acs/acs.pdf) and [tigris](https://cran.r-project.org/web/packages/tigris/tigris.pdf) packages.
+
+Some points about what these packages do:
+
+--- The tigris package uses [TIGER/Line Shapefiles etc.](https://www.census.gov/geo/maps-data/data/tiger-line.html) which have geographic entity codes which enables them to be linked back to census data.
+
+--- The acs package is how you download the census data. Maybe we want specific data sets (like JUST Decennial data, not ACS data). The package literature says about this: "By default, acs.fetch will download 5-year ACS, but as of version 2.0 users must specify a specific "endyear". Users may also select 1- or 3-year ACS data using the "span=" option, as well as Decennial data using the "dataset" option. (When dataset="sf1" or "sf3", span will be reset to 0 regardless of any explict or default options.) At present, the API provides five-, three- and one-year data for a variety of different endyears, and Decennial data for 2010, 2000, and 1990; see the chart below and/or visit http://www.census.gov/data/developers/data-sets.html to learn more about what is available through the API. (Warning: support for 1990 is a bit unreliable as of the date of this version, due to non-standard variable lookup tables.)".
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, results='hide'}
+library(tigris)
+library(acs)
+library(stringr) # to "pad fips codes"
+```
+
+```{r}
+# Get spatial data
+# "note that you can use county names in the tigris package but 
+# not in the acs.fetch function from the acs package so I'm using
+# fips numbers here." 
+
+# "grab the spatial data (tigris)"
+# Get information on the FIPS codes from here: https://www.census.gov/geo/reference/codes/cou.html
+# It's formatted in a specific way, but the county number one you need is the third one
+# Example: IL,17,031,Cook County,H1
+# Or you can just do an easy look up with tigris package
+lookup_code("California", "San Francisco")
+counties <- 075
+tracts <- tracts(state = 'CA', county = 075, cb=TRUE)
+```
+
+You have to get a census API key [here](http://api.census.gov/data/key_signup.html). 
+
+```{r, echo=FALSE, results='hide', message=FALSE}
+api.key.install(key="49b711d7d3ce32ac5a4570f448435f3e2a7a1055")
+```
+
+```{r}
+# Install your key
+# api.key.install(key="YOUR CENSUS KEY HERE")
+
+# "create a geographic set to grab tabular data (acs)"
+# IF YOU WANT MORE THAN ONE COUNTY, DO county=c(#, #, #, #)
+geo<-geo.make(state="CA",
+              county=075, tract="*")
+
+# "!!!! important note -- the package has not been updated to 2013"
+# "data so I'm using the five year span that ends in 2012"
+
+# if you want to change the data you are getting you change the table.number variable. This table.number comes from the ID field in the American Fact Finder tool from the census bureau. This one here has "Household Income in the Past 12 Months"
+
+income<-acs.fetch(endyear = 2012, span = 5, geography = geo,
+                table.number = "B19001", col.names = "pretty")
+
+# "use of col.names = "pretty" above gives the full column definitions"
+# "if you want Census variable IDs use col.names="auto". Here are the"
+# "variables we want with pretty and auto results."
+#""Household Income: Total:" ("B19001_001")"
+#""Household Income: $200,000 or more" ("B19001_017")"
+
+
+# "the resulting "income" object is not a data.frame it's a list"
+# "to see what's available"
+
+# names(attributes(income))
+##  [1] "endyear"        "span"           "acs.units"      "currency.year" 
+##  [5] "modified"       "geography"      "acs.colnames"   "estimate"      
+##  [9] "standard.error" "class"
+# attr(income, "acs.colnames")
+##  [1] "Household Income: Total:"              
+##  [2] "Household Income: Less than $10,000"   
+##  [3] "Household Income: $10,000 to $14,999"  
+##  [4] "Household Income: $15,000 to $19,999"  
+##  [5] "Household Income: $20,000 to $24,999"  
+##  [6] "Household Income: $25,000 to $29,999"  
+##  [7] "Household Income: $30,000 to $34,999"  
+##  [8] "Household Income: $35,000 to $39,999"  
+##  [9] "Household Income: $40,000 to $44,999"  
+## [10] "Household Income: $45,000 to $49,999"  
+## [11] "Household Income: $50,000 to $59,999"  
+## [12] "Household Income: $60,000 to $74,999"  
+## [13] "Household Income: $75,000 to $99,999"  
+## [14] "Household Income: $100,000 to $124,999"
+## [15] "Household Income: $125,000 to $149,999"
+## [16] "Household Income: $150,000 to $199,999"
+## [17] "Household Income: $200,000 or more"
+
+# "convert to a data.frame for merging"
+income_df <- data.frame(paste0(str_pad(income@geography$state, 2, "left", pad="0"), 
+                             str_pad(income@geography$county, 3, "left", pad="0"), 
+                             str_pad(income@geography$tract, 6, "left", pad="0")), 
+                        income@estimate[,c("Household Income: Total:",
+"Household Income: $200,000 or more")], 
+                        stringsAsFactors = FALSE)
+```
+
+You'll need the [dplyr package](https://cran.r-project.org/web/packages/dplyr/index.html) for this next bit
+
+```{r, results='hide', message=FALSE}
+library(dplyr)
+income_df <- select(income_df, 1:3)
+rownames(income_df)<-1:nrow(income_df)
+names(income_df)<-c("GEOID", "total", "over_200")
+income_df$percent <- 100*(income_df$over_200/income_df$total)
+```
+
+Now as the tutorial says, 'do the merge'.
+
+```{r}
+income_merged<- geo_join(tracts, income_df, "GEOID", "GEOID")
+# there are some tracts with no land that we should exclude
+income_merged <- income_merged[income_merged$ALAND>0,]
+```
+
+## Mapping Census Data
+
+Now we use something called leaflet to make a map... 
+
+```{r}
+library(leaflet)
+popup <- paste0("GEOID: ", income_merged$GEOID, "<br>", "Percent of Households above $200k: ", round(income_merged$percent,2))
+pal <- colorNumeric(
+  palette = "YlGnBu",
+  domain = income_merged$percent
+)
+
+map3<-leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = income_merged, 
+              fillColor = ~pal(percent), 
+              color = "#b2aeae", # you need to use hex colors
+              fillOpacity = 0.7, 
+              weight = 1, 
+              smoothFactor = 0.2,
+              popup = popup) %>%
+  addLegend(pal = pal, 
+            values = income_merged$percent, 
+            position = "bottomright", 
+            title = "Percent of Households<br>above $200k",
+            labFormat = labelFormat(suffix = "%")) 
+map3
+```
+
+See? You can play around with the map! Zoom in, click on specific tracts to see demographic information, etc! 
+
+If you'd like to save your map, follow these steps:
+
+```{r}
+# library(htmlwidgets)
+# saveWidget(map1, file="map1.html", selfcontained=FALSE)
+# saveWidget(map2, file="map2.html", selfcontained=FALSE)
+# saveWidget(map3, file="map3.html", selfcontained=FALSE)
+```
+
+Now let's actually try to get some census data of interest to our own study! I'm just looking at one neighborhood, so I'll be subsetting at the very end by census tract. 
+
+```{r}
+# How about median values for specified owner-occupied housing units?
+homevalue <- acs.fetch(endyear = 2013, geography = geo,
+                table.number = "B25077", col.names = "pretty")
+
+# homevalue <- acs.fetch(endyear=2010, span = 0, geography=geo,
+# keyword="HOUSING", dataset = "sf3",col.names = "pretty")
+
+# homevalue<-acs.fetch(endyear = 2000, dataset = "sf3", geography = geo,
+#                table.number = "H076", col.names = "pretty")
+
+
+# the resulting "income" object is not a data.frame it's a list
+# to see what's available
+
+# names(attributes(homevalue))
+# attr(homevalue, "acs.colnames")
+
+
+# convert to a data.frame for merging
+homevalue_df <- data.frame(paste0(str_pad(homevalue@geography$state, 2, "left", pad="0"), 
+                             str_pad(homevalue@geography$county, 3, "left", pad="0"), 
+                             str_pad(homevalue@geography$tract, 6, "left", pad="0")), 
+                        homevalue@estimate[,c("Median Value (Dollars) for Owner-Occupied Housing Units: Median value (dollars)")], 
+                        stringsAsFactors = FALSE)
+
+homevalue_df <- select(homevalue_df, 1:2)
+rownames(homevalue_df)<-1:nrow(homevalue_df)
+names(homevalue_df)<-c("GEOID", "Median Value for Owner-Occupied Housing Unit")
+# income_df$percent <- 100*(income_df$over_200/income_df$total)
+homevalue_merged<- geo_join(tracts, homevalue_df, "GEOID", "GEOID")
+# get it to just those tracts that we want (help from http://rprogramming.net/subset-data-in-r/)
+homevalue_mission<-subset(homevalue_merged, NAME=="177" | NAME=="201"| NAME=="202"| NAME=="203"| NAME=="206"| NAME=="207"| NAME=="208"| NAME=="209"| NAME=="210"| NAME=="211"| NAME=="214"| NAME=="228.01"| NAME=="228.02"| NAME=="228.03"| NAME=="229.01"| NAME=="229.02"| NAME=="229.03")
+
+# there are some tracts with no land that we should exclude
+homevalue_mission <- homevalue_mission[homevalue_mission$ALAND>0,]
+```
+
+Let's try mapping this subset...
+
+```{r}
+# library(leaflet)
+popup <- paste0("GEOID: ", homevalue_mission$GEOID, "<br>", "Median Value for Owner-Occupied Housing: ", round(homevalue_mission$Median.Value.for.Owner.Occupied.Housing.Unit,2))
+pal <- colorNumeric(
+  palette = "YlGnBu",
+  domain = homevalue_mission$Median.Value.for.Owner.Occupied.Housing.Unit
+)
+
+Mission_Home_Value<-leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = homevalue_mission, 
+              fillColor = ~pal(Median.Value.for.Owner.Occupied.Housing.Unit), 
+              color = "#b2aeae", # you need to use hex colors
+              fillOpacity = 0.7, 
+              weight = 1, 
+              smoothFactor = 0.2,
+              popup = popup) %>%
+  addLegend(pal = pal, 
+            values = homevalue_mission$Median.Value.for.Owner.Occupied.Housing.Unit, 
+            position = "bottomright", 
+            title = "2013 Median Property Value",
+            labFormat = labelFormat(prefix = "$")) 
+Mission_Home_Value
+```
+
+If you want, save your map:
+
+```{r}
+# library(htmlwidgets)
+# saveWidget(Mission_Home_Value, file="Mission_Home_Value.html", selfcontained=FALSE)
+```
+
+
+#### Exploring other demographics
+
+Let's get additional information -- what about ethnicity / race? For consistancy, using the "Hispanic or Latino, and not Hispanic or Latino by Race" in the census year 2013.
+
+FYI: The 'names' and 'attr' commands are useful when you are creating a data frame, subsetting it, etc. as they tell you the things present in the census table you've just downloaded. You don't have to do the commands everytime but the first time it is useful so you can go further with your data frame and maps.
+
+```{r}
+hispanicorlation <- acs.fetch(endyear = 2013, geography = geo,
+                table.number = "B03002", col.names = "pretty")
+
+# names(attributes(hispanicorlation))
+
+# attr(hispanicorlation, "acs.colnames")
+
+# convert to a data.frame for merging
+hispanicorlation_df <- data.frame(paste0(str_pad(hispanicorlation@geography$state, 2, "left", pad="0"), 
+                             str_pad(hispanicorlation@geography$county, 3, "left", pad="0"), 
+                             str_pad(hispanicorlation@geography$tract, 6, "left", pad="0")), 
+                        hispanicorlation@estimate[,c("Hispanic or Latino by Race: Total:",
+"Hispanic or Latino by Race: Not Hispanic or Latino:","Hispanic or Latino by Race: Not Hispanic or Latino: White alone","Hispanic or Latino by Race: Not Hispanic or Latino: Black or African American alone","Hispanic or Latino by Race: Not Hispanic or Latino: Asian alone","Hispanic or Latino by Race: Hispanic or Latino:")], 
+                        stringsAsFactors = FALSE)
+
+hispanicorlation_df <- select(hispanicorlation_df, 1:7)
+rownames(hispanicorlation_df)<-1:nrow(hispanicorlation_df)
+names(hispanicorlation_df)<-c("GEOID", "Hispanic_or_Latino_by_Race_Total",
+"Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino","Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_White_alone","Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_Black_or_African_American_alone","Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_Asian_alone","Hispanic_or_Latino_by_Race_Hispanic_or_Latino")
+# Get percentages for each group
+hispanicorlation_df$percenthispanic <- 100*(hispanicorlation_df$Hispanic_or_Latino_by_Race_Hispanic_or_Latino/hispanicorlation_df$Hispanic_or_Latino_by_Race_Total)
+
+hispanicorlation_df$percent_white <- 100*(hispanicorlation_df$Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_White_alone/hispanicorlation_df$Hispanic_or_Latino_by_Race_Total)
+
+hispanicorlation_df$percent_black_AA <- 100*(hispanicorlation_df$Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_Black_or_African_American_alone/hispanicorlation_df$Hispanic_or_Latino_by_Race_Total)
+
+hispanicorlation_df$percent_asian <- 100*(hispanicorlation_df$Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_Asian_alone/hispanicorlation_df$Hispanic_or_Latino_by_Race_Total)
+
+demographics<- geo_join(tracts, hispanicorlation_df, "GEOID", "GEOID")
+# get it to just those tracts that we want (help from http://rprogramming.net/subset-data-in-r/)
+demographics_mission<-subset(demographics, NAME=="177" | NAME=="201"| NAME=="202"| NAME=="203"| NAME=="206"| NAME=="207"| NAME=="208"| NAME=="209"| NAME=="210"| NAME=="211"| NAME=="214"| NAME=="228.01"| NAME=="228.02"| NAME=="228.03"| NAME=="229.01"| NAME=="229.02"| NAME=="229.03")
+
+# there are some tracts with no land that we should exclude
+demographics_mission <- demographics_mission[demographics_mission$ALAND>0,]
+# Save this
+# write.csv(demographics_mission,file=paste("2013 Mission Demographics.csv"))
+```
+
+
+#### Mapping other types of census data
+
+```{r}
+popup <- paste0("GEOID: ", demographics_mission$GEOID, "<br>", "Percent Hispanic or Latino", round(demographics_mission$percenthispanic,2))
+pal <- colorNumeric(
+  palette = "YlGnBu",
+  domain = demographics_mission$percenthispanic
+)
+
+hispanicorlatinopop<-leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = demographics_mission, 
+              fillColor = ~pal(percenthispanic), 
+              color = "#b2aeae", # you need to use hex colors
+              fillOpacity = 0.7, 
+              weight = 1, 
+              smoothFactor = 0.2,
+              popup = popup) %>%
+  addLegend(pal = pal, 
+            values = demographics_mission$percenthispanic, 
+            position = "bottomright", 
+            title = "Percent Hispanic<br>or Latino",
+            labFormat = labelFormat(suffix = "%")) 
+hispanicorlatinopop
+```
+
+
+#### Age by Language Spoken at Home for the Population 5 Years and Over 
+
+```{r}
+language <- acs.fetch(endyear = 2013, geography = geo,
+                table.number = "B16007", col.names = "pretty")
+
+# names(attributes(language))
+
+# attr(language, "acs.colnames")
+
+# convert to a data.frame for merging
+language_df <- data.frame(paste0(str_pad(language@geography$state, 2, "left", pad="0"), 
+                             str_pad(language@geography$county, 3, "left", pad="0"), 
+                             str_pad(language@geography$tract, 6, "left", pad="0")), 
+                        language@estimate[,c("Age by Language Spoken at Home for the Population 5+ Yrs: Total:","Age by Language Spoken at Home for the Population 5+ Yrs: 5 to 17 years: Speak only English","Age by Language Spoken at Home for the Population 5+ Yrs: 5 to 17 years: Speak Spanish","Age by Language Spoken at Home for the Population 5+ Yrs: 18 to 64 years: Speak only English","Age by Language Spoken at Home for the Population 5+ Yrs: 18 to 64 years: Speak Spanish","Age by Language Spoken at Home for the Population 5+ Yrs: 65 years and over: Speak only English","Age by Language Spoken at Home for the Population 5+ Yrs: 65 years and over: Speak Spanish")], 
+                        stringsAsFactors = FALSE)
+
+language_df <- select(language_df, 1:8)
+rownames(language_df)<-1:nrow(language_df)
+names(language_df)<-c("GEOID", "Age_by_Language_Spoken_at_Home_Total",
+"5_to_17_years_Speak_only_English","5_to_17_years_Speak_Spanish","18_to_64_years_Speak_only_English","18_to_64_years_Speak_Spanish","65_years_and_over_Speak_only_English",'65_years_and_over_Speak_Spanish')
+# Get percentages for each group
+language_df$englishtotal <- language_df$`5_to_17_years_Speak_only_English`+language_df$`18_to_64_years_Speak_only_English`+language_df$`65_years_and_over_Speak_only_English`
+
+language_df$spanishtotal <- language_df$`5_to_17_years_Speak_Spanish`+language_df$`18_to_64_years_Speak_Spanish`+language_df$`65_years_and_over_Speak_Spanish`
+
+language_df$percentenglish <- 100*(language_df$englishtotal/language_df$Age_by_Language_Spoken_at_Home_Total)
+
+language_df$percentspanish <- 100*(language_df$spanishtotal/language_df$Age_by_Language_Spoken_at_Home_Total)
+
+language<- geo_join(tracts, language_df, "GEOID", "GEOID")
+# get it to just those tracts that we want (help from http://rprogramming.net/subset-data-in-r/)
+language_mission<-subset(language, NAME=="177" | NAME=="201"| NAME=="202"| NAME=="203"| NAME=="206"| NAME=="207"| NAME=="208"| NAME=="209"| NAME=="210"| NAME=="211"| NAME=="214"| NAME=="228.01"| NAME=="228.02"| NAME=="228.03"| NAME=="229.01"| NAME=="229.02"| NAME=="229.03")
+
+# there are some tracts with no land that we should exclude
+language_mission <- language_mission[language_mission$ALAND>0,]
+# Save this
+# write.csv(language_mission,file=paste("2013 Mission Languages.csv"))
+```
+
+Let's try to map percentages of Spanish spoken at home
+
+```{r}
+popup <- paste0("GEOID: ", language_mission$GEOID, "<br>", "Percent Spanish Spoken at Home", round(language_mission$percentspanish,2))
+pal <- colorNumeric(
+  palette = "YlGnBu",
+  domain = language_mission$percentspanish
+)
+
+spanishathome<-leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = language_mission, 
+              fillColor = ~pal(percentspanish), 
+              color = "#b2aeae", # you need to use hex colors
+              fillOpacity = 0.7, 
+              weight = 1, 
+              smoothFactor = 0.2,
+              popup = popup) %>%
+  addLegend(pal = pal, 
+            values = language_mission$percentspanish, 
+            position = "bottomright", 
+            title = "Percent Spanish<br>Spoken at Home",
+            labFormat = labelFormat(suffix = "%")) 
+spanishathome
+```
+
+
+#### Comparing demographics over time
+
+Comparison time -- how much have these things changed in two years? I'll just look at percent Hispanic or Latino for now.
+
+```{r}
+hispanicorlation2 <- acs.fetch(endyear = 2015, geography = geo,
+                table.number = "B03002", col.names = "pretty")
+
+# Not really necessary, but if you want to check it out you can
+# names(attributes(hispanicorlation2))
+
+# attr(hispanicorlation2, "acs.colnames")
+
+# convert to a data.frame for merging
+hispanicorlation2_df <- data.frame(paste0(str_pad(hispanicorlation2@geography$state, 2, "left", pad="0"), 
+                             str_pad(hispanicorlation2@geography$county, 3, "left", pad="0"), 
+                             str_pad(hispanicorlation2@geography$tract, 6, "left", pad="0")), 
+                        hispanicorlation2@estimate[,c("Hispanic or Latino by Race: Total:",
+"Hispanic or Latino by Race: Not Hispanic or Latino:","Hispanic or Latino by Race: Not Hispanic or Latino: White alone","Hispanic or Latino by Race: Not Hispanic or Latino: Black or African American alone","Hispanic or Latino by Race: Not Hispanic or Latino: Asian alone","Hispanic or Latino by Race: Hispanic or Latino:")], 
+                        stringsAsFactors = FALSE)
+
+hispanicorlation2_df <- select(hispanicorlation2_df, 1:7)
+rownames(hispanicorlation2_df)<-1:nrow(hispanicorlation2_df)
+names(hispanicorlation2_df)<-c("GEOID", "Hispanic_or_Latino_by_Race_Total",
+"Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino","Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_White_alone","Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_Black_or_African_American_alone","Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_Asian_alone","Hispanic_or_Latino_by_Race_Hispanic_or_Latino")
+# Get percentages for each group
+hispanicorlation2_df$percenthispanic <- 100*(hispanicorlation2_df$Hispanic_or_Latino_by_Race_Hispanic_or_Latino/hispanicorlation2_df$Hispanic_or_Latino_by_Race_Total)
+
+hispanicorlation2_df$percent_white <- 100*(hispanicorlation2_df$Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_White_alone/hispanicorlation2_df$Hispanic_or_Latino_by_Race_Total)
+
+hispanicorlation2_df$percent_black_AA <- 100*(hispanicorlation2_df$Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_Black_or_African_American_alone/hispanicorlation2_df$Hispanic_or_Latino_by_Race_Total)
+
+hispanicorlation2_df$percent_asian <- 100*(hispanicorlation2_df$Hispanic_or_Latino_by_Race_Not_Hispanic_or_Latino_Asian_alone/hispanicorlation2_df$Hispanic_or_Latino_by_Race_Total)
+
+demographics2<- geo_join(tracts, hispanicorlation2_df, "GEOID", "GEOID")
+# get it to just those tracts that we want (help from http://rprogramming.net/subset-data-in-r/)
+demographics2_mission<-subset(demographics2, NAME=="177" | NAME=="201"| NAME=="202"| NAME=="203"| NAME=="206"| NAME=="207"| NAME=="208"| NAME=="209"| NAME=="210"| NAME=="211"| NAME=="214"| NAME=="228.01"| NAME=="228.02"| NAME=="228.03"| NAME=="229.01"| NAME=="229.02"| NAME=="229.03")
+
+# there are some tracts with no land that we should exclude
+demographics2_mission <- demographics2_mission[demographics2_mission$ALAND>0,]
+# Save this
+# write.csv(demographics2_mission,file=paste("2015 Mission Demographics.csv"))
+```
+
+```{r}
+popup <- paste0("GEOID: ", demographics2_mission$GEOID, "<br>", "Percent Hispanic or Latino", round(demographics2_mission$percenthispanic,2))
+pal <- colorNumeric(
+  palette = "YlGnBu",
+  domain = demographics2_mission$percenthispanic
+)
+
+hispanicorlatinopop2<-leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = demographics2_mission, 
+              fillColor = ~pal(percenthispanic), 
+              color = "#b2aeae", # you need to use hex colors
+              fillOpacity = 0.7, 
+              weight = 1, 
+              smoothFactor = 0.2,
+              popup = popup) %>%
+  addLegend(pal = pal, 
+            values = demographics2_mission$percenthispanic, 
+            position = "bottomright", 
+            title = "Percent Hispanic<br>or Latino",
+            labFormat = labelFormat(suffix = "%")) 
+hispanicorlatinopop2
+```
+
+Do appear to be some changes! What about percent White?
+
+```{r}
+# Start with 2013 data
+popup <- paste0("GEOID: ", demographics_mission$GEOID, "<br>", "Percent White", round(demographics_mission$percent_white,2))
+pal <- colorNumeric(
+  palette = "YlGnBu",
+  domain = demographics_mission$percent_white
+)
+
+whitepop<-leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = demographics_mission, 
+              fillColor = ~pal(percent_white), 
+              color = "#b2aeae", # you need to use hex colors
+              fillOpacity = 0.7, 
+              weight = 1, 
+              smoothFactor = 0.2,
+              popup = popup) %>%
+  addLegend(pal = pal, 
+            values = demographics_mission$percent_white, 
+            position = "bottomright", 
+            title = "Percent White",
+            labFormat = labelFormat(suffix = "%")) 
+whitepop
+```
+
+```{r}
+popup <- paste0("GEOID: ", demographics2_mission$GEOID, "<br>", "Percent White", round(demographics2_mission$percent_white,2))
+pal <- colorNumeric(
+  palette = "YlGnBu",
+  domain = demographics2_mission$percent_white
+)
+
+whitepop2<-leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = demographics2_mission, 
+              fillColor = ~pal(percent_white), 
+              color = "#b2aeae", # you need to use hex colors
+              fillOpacity = 0.7, 
+              weight = 1, 
+              smoothFactor = 0.2,
+              popup = popup) %>%
+  addLegend(pal = pal, 
+            values = demographics2_mission$percent_white, 
+            position = "bottomright", 
+            title = "Percent White",
+            labFormat = labelFormat(suffix = "%")) 
+whitepop2
+```
+
+
+#### Future directions
+The next step is of course actually mapping population changes, which is very easy with our data frames in hand. 
+
+
