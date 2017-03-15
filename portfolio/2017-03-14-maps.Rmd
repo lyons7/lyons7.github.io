@@ -1,0 +1,75 @@
+---
+date: 2015-07-23T21:13:14-05:00
+draft: false
+image: "img/portfolio/lakecounty.jpg"
+title: "Maps! Maps! Maps!"
+description: "Getting maps from Google Maps in R and plotting things on them"
+weight: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The [ggmap](https://cran.r-project.org/web/packages/ggmap/ggmap.pdf) package is awesome. It enables you to get a map from Google maps (in various forms too! Just check out the package documentation) and *then* you can plot stuff on top of the maps, which is really useful particularly if you are dealing with spatial data.
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, results='hide'}
+# Load in the package
+library(ggmap)
+
+# Get a map!
+# For fun, I'll do my home town. But ggmap does surprisingly well with limited search terms 
+map <- get_map(location = 'Soda Bay,
+               California', zoom = 11)
+
+# Now the 'base' of this is ggmap(map). This will just 'print' your map. 
+ggmap(map)
+```
+
+Now you can use [ggplot2](https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf) to plot stuff *on top* of the map you've just generated. This is useful for all kinds of spatial data, like geotagged social media posts or census data. Here's an example with social media data. (If you want to see how I got this data with R, check out this post [here](https://lyons7.github.io/portfolio/2017-03-12-census-data/) or this tutorial [here](http://mazamascience.com/WorkingWithData/?p=1494) or [here](http://zevross.com/blog/2015/10/14/manipulating-and-mapping-us-census-data-in-r-using-the-acs-tigris-and-leaflet-packages-3/#census-data-the-easyer-way) or [here](http://dlab.berkeley.edu/blog/season-sharing-data-working-newly-released-census-2010-2014-acs-5-year-data-r)!)
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, results='hide'}
+library(ggplot2)
+library(tigris)
+library(acs)
+library(stringr) # to "pad fips codes"
+library(dplyr)
+lookup_code("California", "Lake")
+counties <- 033
+tracts <- tracts(state = 'CA', county = 033, cb=TRUE)
+api.key.install(key="49b711d7d3ce32ac5a4570f448435f3e2a7a1055")
+geo<-geo.make(state="CA",
+              county=033, tract="*")
+
+homevalue <- acs.fetch(endyear = 2013, geography = geo,
+                table.number = "B25077", col.names = "pretty")
+
+homevalue_df <- data.frame(paste0(str_pad(homevalue@geography$state, 2, "left", pad="0"), 
+                             str_pad(homevalue@geography$county, 3, "left", pad="0"), 
+                             str_pad(homevalue@geography$tract, 6, "left", pad="0")), 
+                        homevalue@estimate[,c("Median Value (Dollars) for Owner-Occupied Housing Units: Median value (dollars)")], 
+                        stringsAsFactors = FALSE)
+
+homevalue_df <- select(homevalue_df, 1:2)
+rownames(homevalue_df)<-1:nrow(homevalue_df)
+names(homevalue_df)<-c("GEOID", "Median_Value")
+
+homevalue_merged<- geo_join(tracts, homevalue_df, "GEOID", "GEOID")
+
+homevalue_test <- fortify(homevalue_merged, region = "GEOID")
+homevalue_test$GEOID <- homevalue_test$id
+
+homevalue_points <- merge(homevalue_test, homevalue_df, by = "GEOID")
+```
+
+```{r}
+ggmap(map) +
+  geom_polygon(data = homevalue_points, aes(x = long, y = lat, group = group, fill = Median_Value),   alpha=0.75) +
+  scale_fill_distiller(palette = "Blues") +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_nothing(legend=TRUE) +
+  coord_map() +
+  labs(title = "2013 Median Value for Owner-Occupied Housing Units", fill = "Value (Dollars)")
+```
+
+In essence, think of the ggmap as a base which you can build on. As long as you have coordinates, you are able to plot things on top of a ggmap, even [series of data](https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/)!

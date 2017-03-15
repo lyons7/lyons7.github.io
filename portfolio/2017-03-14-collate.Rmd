@@ -1,0 +1,78 @@
+---
+title: "Collating Spatial Data "
+author: "Kate Lyons"
+date: 2017-03-12T21:13:14-05:00
+draft: false
+image: ""
+showonlyimage: false
+description: ""
+weight: 9
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The Problem
+
+I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I've recorded and see the most common topic that is present 'around' that sign. This has two issues: 1) the coordinates of public signs and tweets are *not* going to be the exact same and 2) there are way more tweets than public signs in the area I'm looking at, so I can't just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and *then* find the topic that has most frequently occured in those tweets associated with that location. 
+
+## The Solution
+
+Luckily, there is a way to do this with packages like [fuzzyjoin package](https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf) and [dplyr](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf)!
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, results='hide'}
+packs = c("stringr","ggplot2","devtools","DataCombine","ggmap",
+          "topicmodels","slam","Rmpfr","tm","stringr","wordcloud","plyr",
+          "tidytext","dplyr","tidyr","xlsx")
+lapply(packs, library, character.only=T)
+```
+```{r, echo=FALSE}
+setwd("/Users/katelyons/Documents/R Stuff/Dissertation")
+load("tweets 2017-03-14 .Rda")
+ll <- read.csv("9_March_Mission_Data.csv", header=T)
+```
+
+## Matching tweets with physical sign data
+What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have *exact* matches, we will use the awesome [fuzzyjoin package](https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf).
+
+```{r}
+library(fuzzyjoin)
+library(dplyr)
+pairsdf <- ll %>%
+  geo_inner_join(tweets, unit='km',distance_col="distance") %>%
+  filter(distance <= 0.018288)
+# I have to use filter here because 'max_distance' is not geared to be less than 1 km or 1 mi
+# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
+# to filter afterwards...
+```
+
+Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you'd like to look at smaller radii, just put in whatever fraction of a kilometer in the 'distance' parameter that you are interested in.  
+
+Now what I would like to do is figure out the most common topic that is associated with a particular sign. We'll use the idea of 'mode' here with our topics and the **group_by()** function from dplyr as suggested [here](http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r).
+
+As R does not have a built in function for mode, we build one. Code for this available [here](https://www.tutorialspoint.com/r/r_mean_median_mode.htm).
+
+```{r}
+# To get the mode
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+# Tell R your topic categories are a number so it can deal with them
+pairsdf$V1<- as.numeric(pairsdf$V1)
+
+# Now calculate things about the topics per sign
+topicmode <- pairsdf%>%
+group_by(SIGN_ID)%>% 
+summarise(Mode = getmode(V1))
+```
+
+Let's now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)
+
+```{r}
+topicsigns <- inner_join(ll, topicmode, by = "SIGN_ID")
+```
+
+There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets. 

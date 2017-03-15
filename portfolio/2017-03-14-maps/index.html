@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Maps! Maps! Maps!</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/owl.carousel.css">
+<link rel="stylesheet" href="/css/owl.theme.css">
+
+
+  <link href="/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="/">Kate Lyons</a></h1>
+    
+      <p class="sidebar-p">Graduate student in Linguistics at UIUC</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/about/">About</a></li>
+      
+        <li><a href="/contact/">Get in touch</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  
+  
+  <a href="https://twitter.com/katester117" data-animate-hover="pulse" class="external twitter">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  <a href="mailto:kalyons3@illinois.edu" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  
+  <a href="http://stackoverflow.com/users/7451811/kate" data-animate-hover="pulse">
+    <i class="fa fa-stack-overflow"></i>
+  </a>
+  
+  
+  <a href="https://github.com/lyons7" data-animate-hover="pulse">
+    <i class="fa fa-github"></i>
+  </a>
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Kate Lyons
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="/">Kate Lyons</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Maps! Maps! Maps!</h1>
+         <p>The <a href="https://cran.r-project.org/web/packages/ggmap/ggmap.pdf">ggmap</a> package is awesome. It enables you to get a map from Google maps (in various forms too! Just check out the package documentation) and <em>then</em> you can plot stuff on top of the maps, which is really useful particularly if you are dealing with spatial data.</p>
+<pre class="r"><code># Load in the package
+library(ggmap)
+
+# Get a map!
+# For fun, I&#39;ll do my home town. But ggmap does surprisingly well with limited search terms 
+map &lt;- get_map(location = &#39;Soda Bay,
+               California&#39;, zoom = 11)
+
+# Now the &#39;base&#39; of this is ggmap(map). This will just &#39;print&#39; your map. 
+ggmap(map)</code></pre>
+<p><img src="/portfolio/2017-03-14-maps_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Now you can use <a href="https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf">ggplot2</a> to plot stuff <em>on top</em> of the map you’ve just generated. This is useful for all kinds of spatial data, like geotagged social media posts or census data. Here’s an example with social media data. (If you want to see how I got this data with R, check out this post <a href="https://lyons7.github.io/portfolio/2017-03-12-census-data/">here</a> or this tutorial <a href="http://mazamascience.com/WorkingWithData/?p=1494">here</a> or <a href="http://zevross.com/blog/2015/10/14/manipulating-and-mapping-us-census-data-in-r-using-the-acs-tigris-and-leaflet-packages-3/#census-data-the-easyer-way">here</a> or <a href="http://dlab.berkeley.edu/blog/season-sharing-data-working-newly-released-census-2010-2014-acs-5-year-data-r">here</a>!)</p>
+<pre class="r"><code>ggmap(map) +
+  geom_polygon(data = homevalue_points, aes(x = long, y = lat, group = group, fill = Median_Value),   alpha=0.75) +
+  scale_fill_distiller(palette = &quot;Blues&quot;) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_nothing(legend=TRUE) +
+  coord_map() +
+  labs(title = &quot;2013 Median Value for Owner-Occupied Housing Units&quot;, fill = &quot;Value (Dollars)&quot;)</code></pre>
+<p><img src="/portfolio/2017-03-14-maps_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>In essence, think of the ggmap as a base which you can build on. As long as you have coordinates, you are able to plot things on top of a ggmap, even <a href="https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/">series of data</a>!</p>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.cookie.js"> </script>
+<script src="/js/ekko-lightbox.js"></script>
+<script src="/js/jquery.scrollTo.min.js"></script>
+<script src="/js/masonry.pkgd.min.js"></script>
+<script src="/js/imagesloaded.pkgd.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/front.js"></script>
+
+</body>
+</html>

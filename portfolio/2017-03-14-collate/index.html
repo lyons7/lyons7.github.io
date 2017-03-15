@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Collating Spatial Data </title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/owl.carousel.css">
+<link rel="stylesheet" href="/css/owl.theme.css">
+
+
+  <link href="/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="/">Kate Lyons</a></h1>
+    
+      <p class="sidebar-p">Graduate student in Linguistics at UIUC</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/about/">About</a></li>
+      
+        <li><a href="/contact/">Get in touch</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  
+  
+  <a href="https://twitter.com/katester117" data-animate-hover="pulse" class="external twitter">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  <a href="mailto:kalyons3@illinois.edu" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  
+  <a href="http://stackoverflow.com/users/7451811/kate" data-animate-hover="pulse">
+    <i class="fa fa-stack-overflow"></i>
+  </a>
+  
+  
+  <a href="https://github.com/lyons7" data-animate-hover="pulse">
+    <i class="fa fa-github"></i>
+  </a>
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Kate Lyons
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="/">Kate Lyons</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Collating Spatial Data </h1>
+         <!-- BLOGDOWN-HEAD -->
+<!-- /BLOGDOWN-HEAD -->
+
+<!-- BLOGDOWN-BODY-BEFORE -->
+<!-- /BLOGDOWN-BODY-BEFORE -->
+<div id="the-problem" class="section level2">
+<h2>The Problem</h2>
+<p>I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I’ve recorded and see the most common topic that is present ‘around’ that sign. This has two issues: 1) the coordinates of public signs and tweets are <em>not</em> going to be the exact same and 2) there are way more tweets than public signs in the area I’m looking at, so I can’t just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and <em>then</em> find the topic that has most frequently occured in those tweets associated with that location.</p>
+</div>
+<div id="the-solution" class="section level2">
+<h2>The Solution</h2>
+<p>Luckily, there is a way to do this with packages like <a href="https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf">fuzzyjoin package</a> and <a href="https://cran.r-project.org/web/packages/dplyr/dplyr.pdf">dplyr</a>!</p>
+<pre class="r"><code>packs = c(&quot;stringr&quot;,&quot;ggplot2&quot;,&quot;devtools&quot;,&quot;DataCombine&quot;,&quot;ggmap&quot;,
+          &quot;topicmodels&quot;,&quot;slam&quot;,&quot;Rmpfr&quot;,&quot;tm&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;plyr&quot;,
+          &quot;tidytext&quot;,&quot;dplyr&quot;,&quot;tidyr&quot;,&quot;xlsx&quot;)
+lapply(packs, library, character.only=T)</code></pre>
+</div>
+<div id="matching-tweets-with-physical-sign-data" class="section level2">
+<h2>Matching tweets with physical sign data</h2>
+<p>What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have <em>exact</em> matches, we will use the awesome <a href="https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf">fuzzyjoin package</a>.</p>
+<pre class="r"><code>library(fuzzyjoin)
+library(dplyr)
+pairsdf &lt;- ll %&gt;%
+  geo_inner_join(tweets, unit=&#39;km&#39;,distance_col=&quot;distance&quot;) %&gt;%
+  filter(distance &lt;= 0.018288)</code></pre>
+<pre><code>## Joining by: c(&quot;latitude&quot;, &quot;longitude&quot;)</code></pre>
+<pre class="r"><code># I have to use filter here because &#39;max_distance&#39; is not geared to be less than 1 km or 1 mi
+# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
+# to filter afterwards...</code></pre>
+<p>Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you’d like to look at smaller radii, just put in whatever fraction of a kilometer in the ‘distance’ parameter that you are interested in.</p>
+<p>Now what I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the <strong>group_by()</strong> function from dplyr as suggested <a href="http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r">here</a>.</p>
+<p>As R does not have a built in function for mode, we build one. Code for this available <a href="https://www.tutorialspoint.com/r/r_mean_median_mode.htm">here</a>.</p>
+<pre class="r"><code># To get the mode
+getmode &lt;- function(v) {
+   uniqv &lt;- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+# Tell R your topic categories are a number so it can deal with them
+pairsdf$V1&lt;- as.numeric(pairsdf$V1)
+
+# Now calculate things about the topics per sign
+topicmode &lt;- pairsdf%&gt;%
+group_by(SIGN_ID)%&gt;% 
+summarise(Mode = getmode(V1))</code></pre>
+<p>Let’s now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)</p>
+<pre class="r"><code>topicsigns &lt;- inner_join(ll, topicmode, by = &quot;SIGN_ID&quot;)</code></pre>
+<p>There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets.</p>
+</div>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.cookie.js"> </script>
+<script src="/js/ekko-lightbox.js"></script>
+<script src="/js/jquery.scrollTo.min.js"></script>
+<script src="/js/masonry.pkgd.min.js"></script>
+<script src="/js/imagesloaded.pkgd.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/front.js"></script>
+
+</body>
+</html>

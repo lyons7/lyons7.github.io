@@ -47,12 +47,43 @@
     </item>
     
     <item>
-      <title>Name of the work 2</title>
-      <link>/portfolio/work2/</link>
-      <pubDate>Sat, 05 Nov 2016 19:41:01 +0530</pubDate>
+      <title>Maps! Maps! Maps!</title>
+      <link>/portfolio/2017-03-14-maps/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/portfolio/work2/</guid>
-      <description>&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane.
+      <guid>/portfolio/2017-03-14-maps/</guid>
+      <description>&lt;p&gt;The &lt;a href=&#34;https://cran.r-project.org/web/packages/ggmap/ggmap.pdf&#34;&gt;ggmap&lt;/a&gt; package is awesome. It enables you to get a map from Google maps (in various forms too! Just check out the package documentation) and &lt;em&gt;then&lt;/em&gt; you can plot stuff on top of the maps, which is really useful particularly if you are dealing with spatial data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Load in the package
+library(ggmap)
+
+# Get a map!
+# For fun, I&amp;#39;ll do my home town. But ggmap does surprisingly well with limited search terms 
+map &amp;lt;- get_map(location = &amp;#39;Soda Bay,
+               California&amp;#39;, zoom = 11)
+
+# Now the &amp;#39;base&amp;#39; of this is ggmap(map). This will just &amp;#39;print&amp;#39; your map. 
+ggmap(map)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-14-maps_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now you can use &lt;a href=&#34;https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf&#34;&gt;ggplot2&lt;/a&gt; to plot stuff &lt;em&gt;on top&lt;/em&gt; of the map you’ve just generated. This is useful for all kinds of spatial data, like geotagged social media posts or census data. Here’s an example with social media data. (If you want to see how I got this data with R, check out this post &lt;a href=&#34;https://lyons7.github.io/portfolio/2017-03-12-census-data/&#34;&gt;here&lt;/a&gt; or this tutorial &lt;a href=&#34;http://mazamascience.com/WorkingWithData/?p=1494&#34;&gt;here&lt;/a&gt; or &lt;a href=&#34;http://zevross.com/blog/2015/10/14/manipulating-and-mapping-us-census-data-in-r-using-the-acs-tigris-and-leaflet-packages-3/#census-data-the-easyer-way&#34;&gt;here&lt;/a&gt; or &lt;a href=&#34;http://dlab.berkeley.edu/blog/season-sharing-data-working-newly-released-census-2010-2014-acs-5-year-data-r&#34;&gt;here&lt;/a&gt;!)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggmap(map) +
+  geom_polygon(data = homevalue_points, aes(x = long, y = lat, group = group, fill = Median_Value),   alpha=0.75) +
+  scale_fill_distiller(palette = &amp;quot;Blues&amp;quot;) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_nothing(legend=TRUE) +
+  coord_map() +
+  labs(title = &amp;quot;2013 Median Value for Owner-Occupied Housing Units&amp;quot;, fill = &amp;quot;Value (Dollars)&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-14-maps_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;In essence, think of the ggmap as a base which you can build on. As long as you have coordinates, you are able to plot things on top of a ggmap, even &lt;a href=&#34;https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/&#34;&gt;series of data&lt;/a&gt;!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Name of the work 3</title>
+      <link>/portfolio/work3/</link>
+      <pubDate>Sat, 05 Nov 2016 19:44:32 +0530</pubDate>
+      
+      <guid>/portfolio/work3/</guid>
+      <description>&lt;p&gt;Fifth abundantly made Give sixth hath. Cattle creature i be don&amp;rsquo;t them.
 &lt;/p&gt;
 
 &lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
@@ -349,44 +380,8 @@ lda_top_terms2 %&amp;gt;%
   facet_wrap(~ topic, scales = &amp;quot;free&amp;quot;) +
   coord_flip()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-09-fun-w-tidy-text_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Still working on connecting assigned topics back to the tweets from whence they came, but as soon as I figure that out I’ll add it! ;)&lt;/p&gt;
+
 </description>
-    </item>
-    
-    <item>
-      <title>Name of the work 3</title>
-      <link>/portfolio/work3/</link>
-      <pubDate>Sat, 05 Nov 2016 19:44:32 +0530</pubDate>
-      
-      <guid>/portfolio/work3/</guid>
-      <description>&lt;p&gt;Fifth abundantly made Give sixth hath. Cattle creature i be don&amp;rsquo;t them.
-&lt;/p&gt;
-
-&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
-
-&lt;p&gt;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&#34;header-level-2&#34;&gt;Header Level 2&lt;/h2&gt;
-
-&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
-
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -575,53 +570,6 @@ mapPointssavourface &amp;lt;- ggmap(map) + geom_emoji(aes(x=savourfood$longitude
 
 mapPointssavourface&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-10-emoji-maps_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Building A Website</title>
-      <link>/portfolio/2017-03-12-build-website/</link>
-      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/portfolio/2017-03-12-build-website/</guid>
-      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
-&lt;!-- /BLOGDOWN-HEAD --&gt;
-
-&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
-&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
-&lt;p&gt;This website was constructed using GitHub, the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown package&lt;/a&gt; for R and Hugo. I got started with &lt;a href=&#34;https://proquestionasker.github.io/blog/Making_Site/&#34;&gt;Amber Thomas’s amazing tutorial&lt;/a&gt; and got some further help from &lt;a href=&#34;http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/&#34;&gt;Robert Myles McDonnell&lt;/a&gt; and more help from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;here&lt;/a&gt;. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.&lt;/p&gt;
-&lt;div id=&#34;kates-approach&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Kate’s Approach&lt;/h4&gt;
-&lt;p&gt;Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.&lt;/p&gt;
-&lt;p&gt;First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.&lt;/p&gt;
-&lt;p&gt;Go back to your computer. (I’m working with a Mac).&lt;/p&gt;
-&lt;p&gt;Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, &lt;strong&gt;serve_site()&lt;/strong&gt; and &lt;strong&gt;STOP&lt;/strong&gt; R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I &lt;strong&gt;serve_site()&lt;/strong&gt; or &lt;strong&gt;new_site()&lt;/strong&gt; in R Studio the “&amp;gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.&lt;/p&gt;
-&lt;p&gt;Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;this link&lt;/a&gt; mentioned above and did the following in terminal:&lt;/p&gt;
-&lt;p&gt;Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am &lt;em&gt;pretty&lt;/em&gt; sure that is what this command does)&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rm -r public/&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And NOW you are going to link up to your online GitHub.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git init
-
-$ git remote add origin git@github.com:USERNAME/HUGO.git
-
-$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(I get asked for a password here I set up for my .ssh/id_rsa here)&lt;/p&gt;
-&lt;p&gt;Then:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;#39;initial commit&amp;#39;
-
-$ git push origin master&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(Get asked again for password)&lt;/p&gt;
-&lt;p&gt;Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I &lt;strong&gt;serve_site()&lt;/strong&gt; in R, &lt;strong&gt;STOP&lt;/strong&gt; it again and return to terminal. I then followed the commands listed on Robert’s tutorial.&lt;/p&gt;
-&lt;p&gt;Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git add -A
-
-$ git commit -m &amp;#39;lovely new site&amp;#39;
-
-$ git push origin master&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(Again I get asked for my password)&lt;/p&gt;
-&lt;p&gt;Then go to your username.github.io site. It &lt;em&gt;should&lt;/em&gt; be there! Now when you make changes it’s the same process: do your thing in R studio, &lt;strong&gt;serve_site()&lt;/strong&gt; and then &lt;strong&gt;STOP&lt;/strong&gt; and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -1134,183 +1082,108 @@ whitepopD&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
-      <title>Name of the work 5</title>
-      <link>/portfolio/work5/</link>
-      <pubDate>Sat, 05 Nov 2016 19:53:42 +0530</pubDate>
+      <title>Building A Website</title>
+      <link>/portfolio/2017-03-12-build-website/</link>
+      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
       
-      <guid>/portfolio/work5/</guid>
-      <description>&lt;p&gt;Fifth abundantly made Give sixth hath. Cattle creature i be don&amp;rsquo;t them.
-&lt;/p&gt;
+      <guid>/portfolio/2017-03-12-build-website/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
 
-&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;p&gt;This website was constructed using GitHub, the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown package&lt;/a&gt; for R and Hugo. I got started with &lt;a href=&#34;https://proquestionasker.github.io/blog/Making_Site/&#34;&gt;Amber Thomas’s amazing tutorial&lt;/a&gt; and got some further help from &lt;a href=&#34;http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/&#34;&gt;Robert Myles McDonnell&lt;/a&gt; and more help from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;here&lt;/a&gt;. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.&lt;/p&gt;
+&lt;div id=&#34;kates-approach&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Kate’s Approach&lt;/h4&gt;
+&lt;p&gt;Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.&lt;/p&gt;
+&lt;p&gt;First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.&lt;/p&gt;
+&lt;p&gt;Go back to your computer. (I’m working with a Mac).&lt;/p&gt;
+&lt;p&gt;Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, &lt;strong&gt;serve_site()&lt;/strong&gt; and &lt;strong&gt;STOP&lt;/strong&gt; R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I &lt;strong&gt;serve_site()&lt;/strong&gt; or &lt;strong&gt;new_site()&lt;/strong&gt; in R Studio the “&amp;gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.&lt;/p&gt;
+&lt;p&gt;Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;this link&lt;/a&gt; mentioned above and did the following in terminal:&lt;/p&gt;
+&lt;p&gt;Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am &lt;em&gt;pretty&lt;/em&gt; sure that is what this command does)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rm -r public/&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And NOW you are going to link up to your online GitHub.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git init
 
-&lt;p&gt;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&lt;/p&gt;
+$ git remote add origin git@github.com:USERNAME/HUGO.git
 
-&lt;ol&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ol&gt;
+$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(I get asked for a password here I set up for my .ssh/id_rsa here)&lt;/p&gt;
+&lt;p&gt;Then:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;#39;initial commit&amp;#39;
 
-&lt;blockquote&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-&lt;/blockquote&gt;
+$ git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Get asked again for password)&lt;/p&gt;
+&lt;p&gt;Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I &lt;strong&gt;serve_site()&lt;/strong&gt; in R, &lt;strong&gt;STOP&lt;/strong&gt; it again and return to terminal. I then followed the commands listed on Robert’s tutorial.&lt;/p&gt;
+&lt;p&gt;Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git add -A
 
-&lt;h2 id=&#34;header-level-2&#34;&gt;Header Level 2&lt;/h2&gt;
+$ git commit -m &amp;#39;lovely new site&amp;#39;
 
-&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
-
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;</description>
+$ git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Again I get asked for my password)&lt;/p&gt;
+&lt;p&gt;Then go to your username.github.io site. It &lt;em&gt;should&lt;/em&gt; be there! Now when you make changes it’s the same process: do your thing in R studio, &lt;strong&gt;serve_site()&lt;/strong&gt; and then &lt;strong&gt;STOP&lt;/strong&gt; and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
-      <title>Name of the work 6</title>
-      <link>/portfolio/work6/</link>
-      <pubDate>Sat, 05 Nov 2016 19:56:17 +0530</pubDate>
+      <title>Collating Spatial Data </title>
+      <link>/portfolio/2017-03-14-collate/</link>
+      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
       
-      <guid>/portfolio/work6/</guid>
-      <description>&lt;p&gt;Fifth abundantly made Give sixth hath. Cattle creature i be don&amp;rsquo;t them.
-&lt;/p&gt;
+      <guid>/portfolio/2017-03-14-collate/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
 
-&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I’ve recorded and see the most common topic that is present ‘around’ that sign. This has two issues: 1) the coordinates of public signs and tweets are &lt;em&gt;not&lt;/em&gt; going to be the exact same and 2) there are way more tweets than public signs in the area I’m looking at, so I can’t just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and &lt;em&gt;then&lt;/em&gt; find the topic that has most frequently occured in those tweets associated with that location.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-solution&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Solution&lt;/h2&gt;
+&lt;p&gt;Luckily, there is a way to do this with packages like &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt; and &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/dplyr.pdf&#34;&gt;dplyr&lt;/a&gt;!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
+          &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
+          &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;)
+lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;matching-tweets-with-physical-sign-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Matching tweets with physical sign data&lt;/h2&gt;
+&lt;p&gt;What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have &lt;em&gt;exact&lt;/em&gt; matches, we will use the awesome &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(fuzzyjoin)
+library(dplyr)
+pairsdf &amp;lt;- ll %&amp;gt;%
+  geo_inner_join(tweets, unit=&amp;#39;km&amp;#39;,distance_col=&amp;quot;distance&amp;quot;) %&amp;gt;%
+  filter(distance &amp;lt;= 0.018288)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Joining by: c(&amp;quot;latitude&amp;quot;, &amp;quot;longitude&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I have to use filter here because &amp;#39;max_distance&amp;#39; is not geared to be less than 1 km or 1 mi
+# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
+# to filter afterwards...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you’d like to look at smaller radii, just put in whatever fraction of a kilometer in the ‘distance’ parameter that you are interested in.&lt;/p&gt;
+&lt;p&gt;Now what I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the &lt;strong&gt;group_by()&lt;/strong&gt; function from dplyr as suggested &lt;a href=&#34;http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As R does not have a built in function for mode, we build one. Code for this available &lt;a href=&#34;https://www.tutorialspoint.com/r/r_mean_median_mode.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get the mode
+getmode &amp;lt;- function(v) {
+   uniqv &amp;lt;- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
 
-&lt;p&gt;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&lt;/p&gt;
+# Tell R your topic categories are a number so it can deal with them
+pairsdf$V1&amp;lt;- as.numeric(pairsdf$V1)
 
-&lt;ol&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&#34;header-level-2&#34;&gt;Header Level 2&lt;/h2&gt;
-
-&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
-
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Name of the work 7</title>
-      <link>/portfolio/work7/</link>
-      <pubDate>Sat, 05 Nov 2016 19:57:40 +0530</pubDate>
-      
-      <guid>/portfolio/work7/</guid>
-      <description>&lt;p&gt;Fifth abundantly made Give sixth hath. Cattle creature i be don&amp;rsquo;t them.
-&lt;/p&gt;
-
-&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
-
-&lt;p&gt;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&#34;header-level-2&#34;&gt;Header Level 2&lt;/h2&gt;
-
-&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
-
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Name of the work 8</title>
-      <link>/portfolio/work8/</link>
-      <pubDate>Sat, 05 Nov 2016 19:59:22 +0530</pubDate>
-      
-      <guid>/portfolio/work8/</guid>
-      <description>&lt;p&gt;Fifth abundantly made Give sixth hath. Cattle creature i be don&amp;rsquo;t them.
-&lt;/p&gt;
-
-&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
-
-&lt;p&gt;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&#34;header-level-2&#34;&gt;Header Level 2&lt;/h2&gt;
-
-&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
-
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Item with image</title>
-      <link>/portfolio/work9/</link>
-      <pubDate>Sat, 05 Nov 2016 20:02:19 +0530</pubDate>
-      
-      <guid>/portfolio/work9/</guid>
-      <description>&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
-&lt;/p&gt;
-
-&lt;p&gt;Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.&lt;/p&gt;
-
-&lt;p&gt;A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&#34;header-level-2&#34;&gt;Header Level 2&lt;/h2&gt;
-
-&lt;p&gt;Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.&lt;/p&gt;
-
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;</description>
+# Now calculate things about the topics per sign
+topicmode &amp;lt;- pairsdf%&amp;gt;%
+group_by(SIGN_ID)%&amp;gt;% 
+summarise(Mode = getmode(V1))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns &amp;lt;- inner_join(ll, topicmode, by = &amp;quot;SIGN_ID&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets.&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
