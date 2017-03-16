@@ -100,21 +100,23 @@
 library(ggmap)
 
 # Get a map!
-# For fun, I&#39;ll do my home town. But ggmap does surprisingly well with limited search terms 
+# For fun, I&#39;ll do my home town. ggmap does surprisingly well with 
+# limited search terms, so you do not have to worry about being super # specific or explicit. 
 map &lt;- get_map(location = &#39;Soda Bay,
                California&#39;, zoom = 11)
 
-# Now the &#39;base&#39; of this is ggmap(map). This will just &#39;print&#39; your map. 
+# The &#39;base&#39; of this is ggmap(map). This will just &#39;print&#39; your map. 
 ggmap(map)</code></pre>
 <p><img src="/portfolio/2017-03-14-maps_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p>Now you can use <a href="https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf">ggplot2</a> to plot stuff <em>on top</em> of the map you’ve just generated. This is useful for all kinds of spatial data, like geotagged social media posts or census data. Here’s an example with social media data. (If you want to see how I got this data with R, check out this post <a href="https://lyons7.github.io/portfolio/2017-03-12-census-data/">here</a> or this tutorial <a href="http://mazamascience.com/WorkingWithData/?p=1494">here</a> or <a href="http://zevross.com/blog/2015/10/14/manipulating-and-mapping-us-census-data-in-r-using-the-acs-tigris-and-leaflet-packages-3/#census-data-the-easyer-way">here</a> or <a href="http://dlab.berkeley.edu/blog/season-sharing-data-working-newly-released-census-2010-2014-acs-5-year-data-r">here</a>!)</p>
+<p>Now you can use <a href="https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf">ggplot2</a> to plot stuff <em>on top</em> of the map you’ve just generated. This is useful for all kinds of spatial data, like geotagged social media posts or census data. Here’s an example with census data. (If you want to see how I got this data with R, check out this post <a href="https://lyons7.github.io/portfolio/2017-03-12-census-data/">here</a> or this tutorial <a href="http://mazamascience.com/WorkingWithData/?p=1494">here</a> or <a href="http://zevross.com/blog/2015/10/14/manipulating-and-mapping-us-census-data-in-r-using-the-acs-tigris-and-leaflet-packages-3/#census-data-the-easyer-way">here</a> or <a href="http://dlab.berkeley.edu/blog/season-sharing-data-working-newly-released-census-2010-2014-acs-5-year-data-r">here</a>!)</p>
 <pre class="r"><code>ggmap(map) +
   geom_polygon(data = homevalue_points, aes(x = long, y = lat, group = group, fill = Median_Value),   alpha=0.75) +
   scale_fill_distiller(palette = &quot;Blues&quot;) +
   guides(fill = guide_legend(reverse = TRUE)) +
   theme_nothing(legend=TRUE) +
   coord_map() +
-  labs(title = &quot;2013 Median Value for Owner-Occupied Housing Units&quot;, fill = &quot;Value (Dollars)&quot;)</code></pre>
+  labs(title = &quot;2013 Median Value for Owner-Occupied Housing Units&quot;,
+  fill = &quot;Value (Dollars)&quot;)</code></pre>
 <p><img src="/portfolio/2017-03-14-maps_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>In essence, think of the ggmap as a base which you can build on. As long as you have coordinates, you are able to plot things on top of a ggmap, even <a href="https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/">series of data</a>!</p>
 

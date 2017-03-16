@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Adventures in Text Mining</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/owl.carousel.css">
+<link rel="stylesheet" href="/css/owl.theme.css">
+
+
+  <link href="/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="/">Kate Lyons</a></h1>
+    
+      <p class="sidebar-p">Graduate student in Linguistics at UIUC</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/about/">About</a></li>
+      
+        <li><a href="/contact/">Get in touch</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  
+  
+  <a href="https://twitter.com/katester117" data-animate-hover="pulse" class="external twitter">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  <a href="mailto:kalyons3@illinois.edu" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  
+  <a href="http://stackoverflow.com/users/7451811/kate" data-animate-hover="pulse">
+    <i class="fa fa-stack-overflow"></i>
+  </a>
+  
+  
+  <a href="https://github.com/lyons7" data-animate-hover="pulse">
+    <i class="fa fa-github"></i>
+  </a>
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Kate Lyons
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="/">Kate Lyons</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Adventures in Text Mining</h1>
+         <p>There are many wonderful tutorials on how to <a href="https://blogs.sap.com/2014/03/16/setting-up-twitter-api-to-work-with-r/">work with Twitter REST APIs</a> (even a video walk-through <a href="https://www.youtube.com/watch?v=lT4Kosc_ers">here</a>) so I won’t describe that process. Instead, I will show some examples of using the <a href="https://cran.r-project.org/web/packages/twitteR/twitteR.pdf">twitteR</a> and related packages to look at geotagged posts occurring within a specific neighborhood (i.e. how to use the <strong>searchTwitter()</strong> function in twitteR to search by <em>location</em>, not specific search term). I will also be using methods described in Julia Silge and David Robinson’s <a href="http://tidytextmining.com/">new book</a>.</p>
+<pre class="r"><code>packs = c(&quot;twitteR&quot;,&quot;RCurl&quot;,&quot;RJSONIO&quot;,&quot;stringr&quot;,&quot;ggplot2&quot;,&quot;devtools&quot;,&quot;DataCombine&quot;,&quot;ggmap&quot;,
+          &quot;topicmodels&quot;,&quot;slam&quot;,&quot;Rmpfr&quot;,&quot;tm&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;plyr&quot;,
+          &quot;tidytext&quot;,&quot;dplyr&quot;,&quot;tidyr&quot;,&quot;xlsx&quot;)
+lapply(packs, library, character.only=T)</code></pre>
+<pre class="r"><code># key = &quot;YOUR KEY HERE&quot;
+# secret = &quot;YOUR SECRET HERE&quot;
+
+# tok = &quot;YOUR TOK HERE&quot;
+# tok_sec = &quot;YOUR TOK_SEC HERE&quot;
+
+twitter_oauth &lt;- setup_twitter_oauth(key, secret, tok, tok_sec)</code></pre>
+<p>I’m interested in the Mission District neighborhood in San Francisco, California. I obtain a set of coordinates using Google maps and plug that into the ‘geocode’ parameter and then set a radius of 1 kilometer. I know from experience that I only get around 1,000 - 2,000 posts per time I do this, so I set the number of tweets (n) I would like to get from Twitter at ‘7,000’. If you are looking at a more ‘active’ area, or a larger area (more about this later) you can always adjust this number. The API will give you a combination of the most <a href="https://dev.twitter.com/rest/public/search">“recent or popular” tweets</a> that usually extend back about 5 days or so. If you are looking at a smaller area, this means to get any kind of decent tweet corpus you’ll have to spent some time collecting data week after week. Also if you want to look at a larger area than a 3-4 kilometer radius, a lot of times you’ll get a bunch of spam-like posts that don’t have latitude and longitude coordinates associated with them. A work around I thought of (for another project looking at posts in an entire city) is to figure out a series of spots to collect tweets (trying to avoid overlap as much as possible) and stiching those data frames all together and getting rid of any duplicate posts you picked up if your radii overlapped.</p>
+<p>Luckily for the Mission District, however, we are interested in a smaller area and don’t have to worry about multiple sampling points and rbind’ing data frames together, and just run the searchTwitter function once:</p>
+<pre class="r"><code>geo &lt;- searchTwitter(&#39;&#39;,n=7000, geocode=&#39;37.76,-122.42,1km&#39;,
+                     retryOnRateLimit=1)</code></pre>
+<div id="processing-the-data" class="section level4">
+<h4>Processing the data</h4>
+<p>Now you have a list of tweets. Lists are very difficult to deal with in R, so you convert this into a data frame:</p>
+<pre class="r"><code>geoDF&lt;-twListToDF(geo)</code></pre>
+<p>Chances are there will be emojis in your Twitter data. You can ‘transform’ these emojis into prose using this code as well as a <a href="https://github.com/lyons7/emojidictionary">CSV file</a> I’ve put together of what all of the emojis look like in R. (The idea for this comes from <a href="http://opiateforthemass.es/articles/emoticons-in-R/">Jessica Peterka-Bonetta’s work</a> – she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.</p>
+<p>Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.</p>
+<pre class="r"><code>emoticons &lt;- read.csv(&quot;Decoded Emojis Col Sep.csv&quot;, header = T)</code></pre>
+<p>To transform the emojis, you first need to transform the tweet data into ASCII:</p>
+<pre class="r"><code>geoDF$text &lt;- iconv(geoDF$text, from = &quot;latin1&quot;, to = &quot;ascii&quot;, 
+                    sub = &quot;byte&quot;)</code></pre>
+<p>To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the <a href="http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace">DataCombine package</a>. What this does is identifies emojis in the tweets and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.</p>
+<pre class="r"><code>data &lt;- FindReplace(data = geoDF, Var = &quot;text&quot;, 
+                            replaceData = emoticons,
+                       from = &quot;R_Encoding&quot;, to = &quot;Name&quot;, 
+                       exact = FALSE)</code></pre>
+<p>Now might be a good time to save this file, perhaps in CSV format with the date of when the data was collected:</p>
+<pre class="r"><code># write.csv(data,file=paste(&quot;ALL&quot;,Sys.Date(),&quot;.csv&quot;))</code></pre>
+</div>
+<div id="visualizing-the-data" class="section level4">
+<h4>Visualizing the data</h4>
+<p>Now let’s play around with visualizing the data. I want to superimpose different aspects of the tweets I collected on a map. First I have to get a map, which I do using the <a href="https://cran.r-project.org/web/packages/ggmap/ggmap.pdf">ggmap package</a> which interacts with Google Map’s API. When you use this package, be sure to cite it, as it requests you to when you first load the package into your library. (Well, really you should cite every R package you use, right?)</p>
+<p>I request a map of the Mission District, and then check to make sure the map is what I want (in terms of zoom, area covered, etc.)</p>
+<pre class="r"><code>map &lt;- get_map(location = &#39;Capp St. and 20th, San Francisco,
+               California&#39;, zoom = 15)
+# To check out the map
+ggmap(map)</code></pre>
+<p><img src="/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-10-1.png" width="672" /> Looks good to me! Now let’s start to visualize our Twitter data. We can start by seeing where our posts are on a map.</p>
+<pre class="r"><code># Tell R what we want to map
+# Need to specify that lat/lon should be treated like numbers
+data$longitude&lt;-as.numeric(data$longitude)
+data$latitude&lt;-as.numeric(data$latitude)</code></pre>
+<p>For now I just want to look at latitude and longitude, but it is possible to map other aspects as well - it just depends on what you’d like to look at.</p>
+<pre class="r"><code>Mission_tweets &lt;- ggmap(map) + geom_point(aes(x=longitude, y=latitude), 
+                               data=data, alpha=0.5)
+
+Mission_tweets</code></pre>
+<p><img src="/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>We can also look at WHEN the posts were generated. We can make a graph of post frequency over time.Graphs constructed with help from <a href="http://www.cyclismo.org/tutorial/R/time.html">here</a>, <a href="https://gist.github.com/stephenturner/3132596">here</a>, <a href="http://stackoverflow.com/questions/27626915/r-graph-frequency-of-observations-over-time-with-small-value-range">here</a>, <a href="http://michaelbommarito.com/2011/03/12/a-quick-look-at-march11-saudi-tweets/">here</a>, <a href="http://stackoverflow.com/questions/31796744/plot-count-frequency-of-tweets-for-word-by-month">here</a>, <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/as.POSIXlt.html">here</a>, <a href="http://sape.inf.usi.ch/quick-reference/ggplot2/geom">here</a> and <a href="http://stackoverflow.com/questions/3541713/how-to-plot-two-histograms-together-in-r">here</a>.</p>
+<pre class="r"><code># Create a data frame with number of tweets per time
+d &lt;- as.data.frame(table(data$created))
+d &lt;- d[order(d$Freq, decreasing=T), ]
+names(d) &lt;- c(&quot;created&quot;,&quot;freq&quot;)
+# Combine this with existing data frame
+newdata1 &lt;- merge(data,d,by=&quot;created&quot;)
+# Tell R that &#39;created&#39; is not an integer or factor but a time.
+data$created &lt;- as.POSIXct(data$created)</code></pre>
+<p>Now plot number of tweets over period of time across 20 minute intervals:</p>
+<pre class="r"><code>minutes &lt;- 60
+Freq&lt;-data$freq
+plot1&lt;-ggplot(data, aes(created)) + geom_freqpoly(binwidth=60*minutes)
+plot1</code></pre>
+<p><img src="/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-14-1.png" width="672" /> This might be more informative if you want to look at specific time periods. We can look at the frequency of posts over the course of a specific day if we want.</p>
+<pre class="r"><code>data2 &lt;- data[data$created &lt;= &quot;2017-03-11 00:31:00&quot;, ]
+minutes &lt;- 60
+Freq&lt;-data2$freq
+plot2&lt;-ggplot(data2, aes(created)) + geom_freqpoly(binwidth=60*minutes)
+plot2</code></pre>
+<p><img src="/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Let’s look at other ways to visualize Twitter data. I will be using a larger corpus of posts I’ve been building up for about a year (as mentioned above, I only get about 1,000 posts per searchTwitter per week so it took some time to get a good corpus going).</p>
+<p>Some more processessing needs to be completed before looking at things like most frequent terms or what kind of sentiments seem to be expressed in our corpus. All of the following steps to ‘clean’ the data of URLs, odd characters and ‘stop words’ (a.k.a. words like ‘the’ or ‘and’ that aren’t very informative re. what the post is actually discussing) are taken from <a href="http://tidytextmining.com/sentiment.html#the-sentiments-dataset">Silge and Robinson</a>.</p>
+<pre class="r"><code>tweets=read.csv(&quot;Col_Sep_INSTACORPUS.csv&quot;, header=T)
+# Get rid of stuff particular to the data (here encodings of links
+# and such)
+# Most of these are characters I don&#39;t have encodings for (other scripts, etc.)
+tweets$text = gsub(&quot;Just posted a photo&quot;,&quot;&quot;, tweets$text)
+tweets$text = gsub( &quot;&lt;.*?&gt;&quot;, &quot;&quot;, tweets$text)
+
+# Get rid of super frequent spam-y posters
+tweets &lt;- tweets[! tweets$screenName %in% c(&quot;4AMSOUNDS&quot;,
+      &quot;BruciusTattoo&quot;,&quot;LionsHeartSF&quot;,&quot;hermesalchemist&quot;,&quot;Mrsourmash&quot;),]
+
+# Now for Silge and Robinson&#39;s code. What this is doing is getting rid of 
+# URLs, re-tweets (RT) and ampersands. This also gets rid of stop words 
+# without having to get rid of hashtags and @ signs by using 
+# str_detect and filter! 
+reg &lt;- &quot;([^A-Za-z_\\d#@&#39;]|&#39;(?![A-Za-z_\\d#@]))&quot;
+tidy_tweets &lt;- tweets %&gt;% 
+  filter(!str_detect(text, &quot;^RT&quot;)) %&gt;%
+  mutate(text = str_replace_all(text, &quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;|&amp;lt;|&amp;gt;|RT|https&quot;, &quot;&quot;)) %&gt;%
+  unnest_tokens(word, text, token = &quot;regex&quot;, pattern = reg) %&gt;%
+  filter(!word %in% stop_words$word,
+         str_detect(word, &quot;[a-z]&quot;))
+
+# Get rid of stop words by doing an &#39;anti-join&#39; (amazing run-down of what 
+# all the joins do is available here:
+# http://stat545.com/bit001_dplyr-cheatsheet.html#anti_joinsuperheroes-publishers)
+data(stop_words)
+
+tidy_tweets &lt;- tidy_tweets %&gt;%
+  anti_join(stop_words)</code></pre>
+<p>Now we can look at things like most frequent words and sentiments expressed in our corpus.</p>
+<pre class="r"><code># Find most common words in corpus
+tidy_tweets %&gt;%
+  count(word, sort = TRUE) </code></pre>
+<pre><code>## # A tibble: 27,441 × 2
+##             word     n
+##            &lt;chr&gt; &lt;int&gt;
+## 1        mission  3327
+## 2            san  2751
+## 3      francisco  2447
+## 4       district  1871
+## 5  #sanfrancisco  1175
+## 6           park  1060
+## 7        dolores  1045
+## 8             sf  1031
+## 9            #sf   696
+## 10           day   597
+## # ... with 27,431 more rows</code></pre>
+<p>Plot most common words:</p>
+<pre class="r"><code>tidy_tweets %&gt;%
+  count(word, sort = TRUE) %&gt;%
+  filter(n &gt; 150) %&gt;%
+  mutate(word = reorder(word, n)) %&gt;%
+  ggplot(aes(word, n)) +
+  geom_bar(stat = &quot;identity&quot;) +
+  xlab(NULL) +
+  coord_flip()</code></pre>
+<p><img src="/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>What about different sentiments?</p>
+<pre class="r"><code># What are the most common &#39;joy&#39; words?
+nrcjoy &lt;- sentiments %&gt;% 
+  filter(lexicon == &quot;nrc&quot;) %&gt;%
+  filter(sentiment == &quot;joy&quot;)
+
+tidy_tweets %&gt;%
+  semi_join(nrcjoy) %&gt;%
+  count(word, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 355 × 2
+##         word     n
+##        &lt;chr&gt; &lt;int&gt;
+## 1       love   466
+## 2      happy   402
+## 3        art   266
+## 4   birthday   205
+## 5   favorite   194
+## 6  beautiful   179
+## 7        fun   173
+## 8       food   139
+## 9      music   126
+## 10 chocolate   105
+## # ... with 345 more rows</code></pre>
+<pre class="r"><code># What are the most common &#39;disgust&#39; words?
+nrcdisgust &lt;- sentiments %&gt;% 
+  filter(lexicon == &quot;nrc&quot;) %&gt;%
+  filter(sentiment == &quot;disgust&quot;)
+
+tidy_tweets %&gt;%
+  semi_join(nrcdisgust) %&gt;%
+  count(word, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 217 × 2
+##       word     n
+##      &lt;chr&gt; &lt;int&gt;
+## 1  finally   100
+## 2  feeling    55
+## 3     gray    50
+## 4     tree    50
+## 5  hanging    44
+## 6      bad    43
+## 7      boy    40
+## 8     shit    36
+## 9    lemon    29
+## 10   treat    28
+## # ... with 207 more rows</code></pre>
+<pre class="r"><code># We can also look at counts of negative and positive words
+bingsenti &lt;- sentiments %&gt;%
+  filter(lexicon ==&quot;bing&quot;)
+
+bing_word_counts &lt;- tidy_tweets %&gt;%
+  inner_join(bingsenti) %&gt;%
+  count(word, sentiment, sort = TRUE) %&gt;%
+  ungroup()
+
+# And graph them!
+bing_word_counts %&gt;%
+  filter(n &gt; 25) %&gt;%
+  mutate(n = ifelse(sentiment == &quot;negative&quot;, -n, n)) %&gt;%
+  mutate(word = reorder(word, n)) %&gt;%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = &quot;identity&quot;) +
+  labs(y = &quot;Contribution to sentiment&quot;,
+       x = NULL) +
+  coord_flip()</code></pre>
+<p><img src="/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>We can also make pretty word clouds! Code for this taken from <a href="https://rstudio-pubs-static.s3.amazonaws.com/132792_864e3813b0ec47cb95c7e1e2e2ad83e7.html">here</a>.</p>
+<pre class="r"><code># First have to make a document term matrix, which involves a few steps
+tidy_tweets %&gt;%
+  count(document, word, sort=TRUE)
+
+tweet_words &lt;- tidy_tweets %&gt;%  
+  count(document, word) %&gt;%
+  ungroup()
+
+total_words &lt;- tweet_words %&gt;% 
+  group_by(document) %&gt;% 
+  summarize(total = sum(n))
+
+post_words &lt;- left_join(tweet_words, total_words)
+
+dtm &lt;- post_words %&gt;% 
+  cast_dtm(document, word, n)
+
+# Need freq count for word cloud to work
+freq = data.frame(sort(colSums(as.matrix(dtm)), decreasing=TRUE))</code></pre>
+<pre class="r"><code>wordcloud(rownames(freq), freq[,1], max.words=70, 
+          colors=brewer.pal(1, &quot;Dark2&quot;))</code></pre>
+<p><img src="/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>If you are interested in delving even deeper, you can try techniques like topic modeling, a process I describe and demonstrate <a href="https://lyons7.github.io/portfolio/2017-03-09-fun-w-tidy-text/">here</a>!</p>
+</div>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.cookie.js"> </script>
+<script src="/js/ekko-lightbox.js"></script>
+<script src="/js/jquery.scrollTo.min.js"></script>
+<script src="/js/masonry.pkgd.min.js"></script>
+<script src="/js/imagesloaded.pkgd.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/front.js"></script>
+
+</body>
+</html>
