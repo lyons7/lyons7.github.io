@@ -548,6 +548,64 @@ lda_top_terms2 %&amp;gt;%
     </item>
     
     <item>
+      <title>Collating Spatial Data </title>
+      <link>/portfolio/2017-03-14-collate/</link>
+      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-03-14-collate/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
+
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I’ve recorded and see the most common topic that is present ‘around’ that sign. This has two issues: 1) the coordinates of public signs and tweets are &lt;em&gt;not&lt;/em&gt; going to be the exact same and 2) there are way more tweets than public signs in the area I’m looking at, so I can’t just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and &lt;em&gt;then&lt;/em&gt; find the topic that has most frequently occured in those tweets associated with that location.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-solution&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Solution&lt;/h2&gt;
+&lt;p&gt;Luckily, there is a way to do this with packages like &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin&lt;/a&gt; and &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/dplyr.pdf&#34;&gt;dplyr&lt;/a&gt;!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
+          &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
+          &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;)
+lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;matching-tweets-with-physical-sign-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Matching tweets with physical sign data&lt;/h2&gt;
+&lt;p&gt;What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have &lt;em&gt;exact&lt;/em&gt; matches, we will use the awesome &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(fuzzyjoin)
+library(dplyr)
+pairsdf &amp;lt;- ll %&amp;gt;%
+  geo_inner_join(tweets, unit=&amp;#39;km&amp;#39;,distance_col=&amp;quot;distance&amp;quot;) %&amp;gt;%
+  filter(distance &amp;lt;= 0.018288)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Joining by: c(&amp;quot;latitude&amp;quot;, &amp;quot;longitude&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I have to use filter here because &amp;#39;max_distance&amp;#39; is not geared to be less than 1 km or 1 mi
+# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
+# to filter afterwards...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you’d like to look at smaller radii, just put in whatever fraction of a kilometer in the ‘distance’ parameter that you are interested in.&lt;/p&gt;
+&lt;p&gt;Now what I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the &lt;strong&gt;group_by()&lt;/strong&gt; function from dplyr as suggested &lt;a href=&#34;http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As R does not have a built in function for mode, we build one. Code for this available &lt;a href=&#34;https://www.tutorialspoint.com/r/r_mean_median_mode.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get the mode
+getmode &amp;lt;- function(v) {
+   uniqv &amp;lt;- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+# Tell R your topic categories are a number so it can deal with them
+pairsdf$V1&amp;lt;- as.numeric(pairsdf$V1)
+
+# Now calculate things about the topics per sign
+topicmode &amp;lt;- pairsdf%&amp;gt;%
+group_by(SIGN_ID)%&amp;gt;% 
+summarise(Mode = getmode(V1))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns &amp;lt;- inner_join(ll, topicmode, by = &amp;quot;SIGN_ID&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Identifying and Visualizing Emojis</title>
       <link>/portfolio/2017-03-10-emoji-maps/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
@@ -733,6 +791,53 @@ mapPointssavourface &amp;lt;- ggmap(map) + geom_emoji(aes(x=savourfood$longitude
 
 mapPointssavourface&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-10-emoji-maps_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Building A Website</title>
+      <link>/portfolio/2017-03-12-build-website/</link>
+      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-03-12-build-website/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
+
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;p&gt;This website was constructed using GitHub, the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown package&lt;/a&gt; for R and Hugo. I got started with &lt;a href=&#34;https://proquestionasker.github.io/blog/Making_Site/&#34;&gt;Amber Thomas’s amazing tutorial&lt;/a&gt; and got some further help from &lt;a href=&#34;http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/&#34;&gt;Robert Myles McDonnell&lt;/a&gt; and more help from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;here&lt;/a&gt;. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.&lt;/p&gt;
+&lt;div id=&#34;kates-approach&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Kate’s Approach&lt;/h4&gt;
+&lt;p&gt;Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.&lt;/p&gt;
+&lt;p&gt;First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.&lt;/p&gt;
+&lt;p&gt;Go back to your computer. (I’m working with a Mac).&lt;/p&gt;
+&lt;p&gt;Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, &lt;strong&gt;serve_site()&lt;/strong&gt; and &lt;strong&gt;STOP&lt;/strong&gt; R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I &lt;strong&gt;serve_site()&lt;/strong&gt; or &lt;strong&gt;new_site()&lt;/strong&gt; in R Studio the “&amp;gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.&lt;/p&gt;
+&lt;p&gt;Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;this link&lt;/a&gt; mentioned above and did the following in terminal:&lt;/p&gt;
+&lt;p&gt;Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am &lt;em&gt;pretty&lt;/em&gt; sure that is what this command does)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rm -r public/&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And NOW you are going to link up to your online GitHub.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git init
+
+$ git remote add origin git@github.com:USERNAME/HUGO.git
+
+$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(I get asked for a password here I set up for my .ssh/id_rsa here)&lt;/p&gt;
+&lt;p&gt;Then:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;#39;initial commit&amp;#39;
+
+$ git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Get asked again for password)&lt;/p&gt;
+&lt;p&gt;Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I &lt;strong&gt;serve_site()&lt;/strong&gt; in R, &lt;strong&gt;STOP&lt;/strong&gt; it again and return to terminal. I then followed the commands listed on Robert’s tutorial.&lt;/p&gt;
+&lt;p&gt;Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git add -A
+
+$ git commit -m &amp;#39;lovely new site&amp;#39;
+
+$ git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Again I get asked for my password)&lt;/p&gt;
+&lt;p&gt;Then go to your username.github.io site. It &lt;em&gt;should&lt;/em&gt; be there! Now when you make changes it’s the same process: do your thing in R studio, &lt;strong&gt;serve_site()&lt;/strong&gt; and then &lt;strong&gt;STOP&lt;/strong&gt; and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -3767,111 +3872,6 @@ whitepopD&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;htmlwidget-20668383783f7075488b&#34; style=&#34;width:672px;height:480px;&#34; class=&#34;leaflet html-widget&#34;&gt;&lt;/div&gt;
 &lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-20668383783f7075488b&#34;&gt;{&#34;x&#34;:{&#34;options&#34;:{&#34;crs&#34;:{&#34;crsClass&#34;:&#34;L.CRS.EPSG3857&#34;,&#34;code&#34;:null,&#34;proj4def&#34;:null,&#34;projectedBounds&#34;:null,&#34;options&#34;:{}}},&#34;calls&#34;:[{&#34;method&#34;:&#34;addProviderTiles&#34;,&#34;args&#34;:[&#34;CartoDB.Positron&#34;,null,null,{&#34;errorTileUrl&#34;:&#34;&#34;,&#34;noWrap&#34;:false,&#34;zIndex&#34;:null,&#34;unloadInvisibleTiles&#34;:null,&#34;updateWhenIdle&#34;:null,&#34;detectRetina&#34;:false,&#34;reuseTiles&#34;:false}]},{&#34;method&#34;:&#34;addPolygons&#34;,&#34;args&#34;:[[[[{&#34;lng&#34;:[-122.418704,-122.415561,-122.41248,-122.410931,-122.409736,-122.408007,-122.40499,-122.404497,-122.40509,-122.408424,-122.413003,-122.413588,-122.417332,-122.417487,-122.417802,-122.417794,-122.419219,-122.418704],&#34;lat&#34;:[37.775645,37.773101,37.77063,37.769411,37.770349,37.769244,37.769715,37.764664,37.764628,37.764427,37.764091,37.763823,37.763572,37.765183,37.768405,37.770435,37.775316,37.775645]}]],[[{&#34;lng&#34;:[-122.425384,-122.420964,-122.420812,-122.420665,-122.420507,-122.420282,-122.421393,-122.42485,-122.424777,-122.424934,-122.425097,-122.42524,-122.425384],&#34;lat&#34;:[37.755035,37.755295,37.753703,37.752104,37.750506,37.748161,37.748124,37.747825,37.748644,37.750237,37.751845,37.753436,37.755035]}]],[[{&#34;lng&#34;:[-122.417332,-122.413588,-122.413003,-122.408424,-122.408064,-122.407754,-122.412348,-122.41672,-122.416872,-122.417026,-122.417179,-122.417332],&#34;lat&#34;:[37.763572,37.763823,37.764091,37.764427,37.760601,37.757705,37.75743,37.757167,37.758764,37.760367,37.761968,37.763572]}]],[[{&#34;lng&#34;:[-122.426948,-122.426402,-122.424929,-122.423641,-122.42262,-122.422365,-122.422308,-122.422044,-122.421732,-122.426137,-122.426293,-122.426462,-122.426713,-122.426948],&#34;lat&#34;:[37.769175,37.769596,37.770778,37.771828,37.772503,37.769868,37.769278,37.76654,37.7633,37.763036,37.764651,37.766272,37.768982,37.769175]}]],[[{&#34;lng&#34;:[-122.435188,-122.432124,-122.430727,-122.426137,-122.425836,-122.425685,-122.425532,-122.430115,-122.432331,-122.434546,-122.434698,-122.434854,-122.435001,-122.435188],&#34;lat&#34;:[37.762671,37.762668,37.762753,37.763036,37.759835,37.758232,37.756636,37.75636,37.756227,37.756093,37.757687,37.759289,37.760889,37.762671]}]],[[{&#34;lng&#34;:[-122.41672,-122.412348,-122.407754,-122.407602,-122.407449,-122.409253,-122.412047,-122.416413,-122.416567,-122.41672],&#34;lat&#34;:[37.757167,37.75743,37.757705,37.756109,37.754506,37.754398,37.75423,37.753968,37.755568,37.757167]}]],[[{&#34;lng&#34;:[-122.435193,-122.430824,-122.428949,-122.428635,-122.426948,-122.426713,-122.426462,-122.426293,-122.426137,-122.430727,-122.432124,-122.435188,-122.435193],&#34;lat&#34;:[37.762727,37.766014,37.767504,37.767846,37.769175,37.768982,37.766272,37.764651,37.763036,37.762753,37.762668,37.762671,37.762727]}]],[[{&#34;lng&#34;:[-122.426137,-122.421732,-122.421578,-122.421425,-122.421118,-122.420964,-122.425384,-122.425532,-122.425685,-122.425836,-122.426137],&#34;lat&#34;:[37.763036,37.7633,37.761701,37.760101,37.756902,37.755295,37.755035,37.756636,37.758232,37.759835,37.763036]}]],[[{&#34;lng&#34;:[-122.409253,-122.407449,-122.406453,-122.403127,-122.403007,-122.403784,-122.405239,-122.406788,-122.40871,-122.408978,-122.409253],&#34;lat&#34;:[37.754398,37.754506,37.754277,37.754478,37.752446,37.749433,37.749125,37.748805,37.748397,37.751201,37.754398]}]],[[{&#34;lng&#34;:[-122.421732,-122.417332,-122.417179,-122.417026,-122.416872,-122.41672,-122.416567,-122.418748,-122.420964,-122.421118,-122.421425,-122.421578,-122.421732],&#34;lat&#34;:[37.7633,37.763572,37.761968,37.760367,37.758764,37.757167,37.755568,37.755437,37.755295,37.756902,37.760101,37.761701,37.7633]}]],[[{&#34;lng&#34;:[-122.434546,-122.432331,-122.430115,-122.425532,-122.425384,-122.42524,-122.425097,-122.429659,-122.43409,-122.43424,-122.434317,-122.434546],&#34;lat&#34;:[37.756093,37.756227,37.75636,37.756636,37.755035,37.753436,37.751845,37.751571,37.751304,37.752891,37.75369,37.756093]}]],[[{&#34;lng&#34;:[-122.43409,-122.429659,-122.425097,-122.424934,-122.424777,-122.42485,-122.427045,-122.431477,-122.433697,-122.433769,-122.43409],&#34;lat&#34;:[37.751304,37.751571,37.751845,37.750237,37.748644,37.747825,37.747696,37.747434,37.747297,37.748097,37.751304]}]],[[{&#34;lng&#34;:[-122.408424,-122.40509,-122.405105,-122.40648,-122.406389,-122.403689,-122.403396,-122.403127,-122.406453,-122.407449,-122.407602,-122.407754,-122.408064,-122.408424],&#34;lat&#34;:[37.764427,37.764628,37.763852,37.760731,37.759804,37.757015,37.756471,37.754478,37.754277,37.754506,37.756109,37.757705,37.760601,37.764427]}]],[[{&#34;lng&#34;:[-122.412047,-122.409253,-122.408978,-122.40871,-122.410551,-122.411488,-122.411746,-122.4119,-122.412047],&#34;lat&#34;:[37.75423,37.754398,37.751201,37.748397,37.748367,37.748344,37.751034,37.752629,37.75423]}]],[[{&#34;lng&#34;:[-122.42262,-122.421989,-122.419334,-122.419219,-122.417794,-122.417802,-122.417487,-122.417332,-122.421732,-122.422044,-122.422308,-122.422365,-122.42262],&#34;lat&#34;:[37.772503,37.773074,37.77521,37.775316,37.770435,37.768405,37.765183,37.763572,37.7633,37.76654,37.769278,37.769868,37.772503]}]],[[{&#34;lng&#34;:[-122.416413,-122.412047,-122.4119,-122.411746,-122.411488,-122.413673,-122.41587,-122.416108,-122.416413],&#34;lat&#34;:[37.753968,37.75423,37.752629,37.751034,37.748344,37.748297,37.748267,37.750771,37.753968]}]],[[{&#34;lng&#34;:[-122.420964,-122.418748,-122.416567,-122.416413,-122.416108,-122.41587,-122.418206,-122.420282,-122.420507,-122.420665,-122.420812,-122.420964],&#34;lat&#34;:[37.755295,37.755437,37.755568,37.753968,37.750771,37.748267,37.748203,37.748161,37.750506,37.752104,37.753703,37.755295]}]]],null,null,{&#34;lineCap&#34;:null,&#34;lineJoin&#34;:null,&#34;clickable&#34;:true,&#34;pointerEvents&#34;:null,&#34;className&#34;:&#34;&#34;,&#34;stroke&#34;:true,&#34;color&#34;:&#34;#b2aeae&#34;,&#34;weight&#34;:1,&#34;opacity&#34;:0.5,&#34;fill&#34;:true,&#34;fillColor&#34;:[&#34;#3BAEC3&#34;,&#34;#ABDDB7&#34;,&#34;#4FBAC2&#34;,&#34;#2457A5&#34;,&#34;#2367AC&#34;,&#34;#39ABC3&#34;,&#34;#73C7BD&#34;,&#34;#D8F0B3&#34;,&#34;#FFFFD9&#34;,&#34;#2458A5&#34;,&#34;#225EA8&#34;,&#34;#192B7B&#34;,&#34;#60C0C0&#34;,&#34;#263F99&#34;,&#34;#1D91C0&#34;,&#34;#081D58&#34;,&#34;#236DAF&#34;],&#34;fillOpacity&#34;:0.7,&#34;dashArray&#34;:null,&#34;smoothFactor&#34;:0.2,&#34;noClip&#34;:false},[&#34;GEOID: 06075017700&lt;br&gt;Percent White Change 2013-2015-2.55&#34;,&#34;GEOID: 06075021000&lt;br&gt;Percent White Change 2013-2015-10.02&#34;,&#34;GEOID: 06075022801&lt;br&gt;Percent White Change 2013-2015-4.17&#34;,&#34;GEOID: 06075020200&lt;br&gt;Percent White Change 2013-20155.5&#34;,&#34;GEOID: 06075020600&lt;br&gt;Percent White Change 2013-20154.1&#34;,&#34;GEOID: 06075022803&lt;br&gt;Percent White Change 2013-2015-2.24&#34;,&#34;GEOID: 06075020300&lt;br&gt;Percent White Change 2013-2015-6.59&#34;,&#34;GEOID: 06075020700&lt;br&gt;Percent White Change 2013-2015-13.59&#34;,&#34;GEOID: 06075022903&lt;br&gt;Percent White Change 2013-2015-20.02&#34;,&#34;GEOID: 06075020800&lt;br&gt;Percent White Change 2013-20155.45&#34;,&#34;GEOID: 06075021100&lt;br&gt;Percent White Change 2013-20154.89&#34;,&#34;GEOID: 06075021400&lt;br&gt;Percent White Change 2013-201510.66&#34;,&#34;GEOID: 06075022802&lt;br&gt;Percent White Change 2013-2015-5.21&#34;,&#34;GEOID: 06075022902&lt;br&gt;Percent White Change 2013-20157.93&#34;,&#34;GEOID: 06075020100&lt;br&gt;Percent White Change 2013-20150.7&#34;,&#34;GEOID: 06075022901&lt;br&gt;Percent White Change 2013-201513.14&#34;,&#34;GEOID: 06075020900&lt;br&gt;Percent White Change 2013-20153.63&#34;],null,null,null,null]},{&#34;method&#34;:&#34;addLegend&#34;,&#34;args&#34;:[{&#34;colors&#34;:[&#34;#FFFFD9 , #FFFFD9 0.0473533814124354%, #E5F5B2 15.1294053612736%, #ABDDB7 30.2114573411348%, #5DBFC1 45.2935093209961%, #2697C1 60.3755613008573%, #225CA7 75.4576132807185%, #1E2E85 90.5396652605797%, #081D58 &#34;],&#34;labels&#34;:[&#34;-20%&#34;,&#34;-15%&#34;,&#34;-10%&#34;,&#34;-5%&#34;,&#34;0%&#34;,&#34;5%&#34;,&#34;10%&#34;],&#34;na_color&#34;:null,&#34;na_label&#34;:&#34;NA&#34;,&#34;opacity&#34;:0.5,&#34;position&#34;:&#34;bottomright&#34;,&#34;type&#34;:&#34;numeric&#34;,&#34;title&#34;:&#34;Percent White Change&lt;br&gt;2013-2015&#34;,&#34;extra&#34;:{&#34;p_1&#34;:0.000473533814124354,&#34;p_n&#34;:0.905396652605797},&#34;layerId&#34;:null,&#34;className&#34;:&#34;info legend&#34;}]}],&#34;limits&#34;:{&#34;lat&#34;:[37.747297,37.775645],&#34;lng&#34;:[-122.435193,-122.403007]}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Building A Website</title>
-      <link>/portfolio/2017-03-12-build-website/</link>
-      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/portfolio/2017-03-12-build-website/</guid>
-      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
-&lt;!-- /BLOGDOWN-HEAD --&gt;
-
-&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
-&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
-&lt;p&gt;This website was constructed using GitHub, the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown package&lt;/a&gt; for R and Hugo. I got started with &lt;a href=&#34;https://proquestionasker.github.io/blog/Making_Site/&#34;&gt;Amber Thomas’s amazing tutorial&lt;/a&gt; and got some further help from &lt;a href=&#34;http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/&#34;&gt;Robert Myles McDonnell&lt;/a&gt; and more help from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;here&lt;/a&gt;. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.&lt;/p&gt;
-&lt;div id=&#34;kates-approach&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Kate’s Approach&lt;/h4&gt;
-&lt;p&gt;Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.&lt;/p&gt;
-&lt;p&gt;First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.&lt;/p&gt;
-&lt;p&gt;Go back to your computer. (I’m working with a Mac).&lt;/p&gt;
-&lt;p&gt;Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, &lt;strong&gt;serve_site()&lt;/strong&gt; and &lt;strong&gt;STOP&lt;/strong&gt; R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I &lt;strong&gt;serve_site()&lt;/strong&gt; or &lt;strong&gt;new_site()&lt;/strong&gt; in R Studio the “&amp;gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.&lt;/p&gt;
-&lt;p&gt;Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;this link&lt;/a&gt; mentioned above and did the following in terminal:&lt;/p&gt;
-&lt;p&gt;Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am &lt;em&gt;pretty&lt;/em&gt; sure that is what this command does)&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rm -r public/&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And NOW you are going to link up to your online GitHub.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git init
-
-$ git remote add origin git@github.com:USERNAME/HUGO.git
-
-$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(I get asked for a password here I set up for my .ssh/id_rsa here)&lt;/p&gt;
-&lt;p&gt;Then:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;#39;initial commit&amp;#39;
-
-$ git push origin master&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(Get asked again for password)&lt;/p&gt;
-&lt;p&gt;Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I &lt;strong&gt;serve_site()&lt;/strong&gt; in R, &lt;strong&gt;STOP&lt;/strong&gt; it again and return to terminal. I then followed the commands listed on Robert’s tutorial.&lt;/p&gt;
-&lt;p&gt;Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git add -A
-
-$ git commit -m &amp;#39;lovely new site&amp;#39;
-
-$ git push origin master&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(Again I get asked for my password)&lt;/p&gt;
-&lt;p&gt;Then go to your username.github.io site. It &lt;em&gt;should&lt;/em&gt; be there! Now when you make changes it’s the same process: do your thing in R studio, &lt;strong&gt;serve_site()&lt;/strong&gt; and then &lt;strong&gt;STOP&lt;/strong&gt; and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Collating Spatial Data </title>
-      <link>/portfolio/2017-03-14-collate/</link>
-      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/portfolio/2017-03-14-collate/</guid>
-      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
-&lt;!-- /BLOGDOWN-HEAD --&gt;
-
-&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
-&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
-&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The Problem&lt;/h2&gt;
-&lt;p&gt;I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I’ve recorded and see the most common topic that is present ‘around’ that sign. This has two issues: 1) the coordinates of public signs and tweets are &lt;em&gt;not&lt;/em&gt; going to be the exact same and 2) there are way more tweets than public signs in the area I’m looking at, so I can’t just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and &lt;em&gt;then&lt;/em&gt; find the topic that has most frequently occured in those tweets associated with that location.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;the-solution&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The Solution&lt;/h2&gt;
-&lt;p&gt;Luckily, there is a way to do this with packages like &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin&lt;/a&gt; and &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/dplyr.pdf&#34;&gt;dplyr&lt;/a&gt;!&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
-          &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
-          &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;)
-lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;matching-tweets-with-physical-sign-data&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Matching tweets with physical sign data&lt;/h2&gt;
-&lt;p&gt;What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have &lt;em&gt;exact&lt;/em&gt; matches, we will use the awesome &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(fuzzyjoin)
-library(dplyr)
-pairsdf &amp;lt;- ll %&amp;gt;%
-  geo_inner_join(tweets, unit=&amp;#39;km&amp;#39;,distance_col=&amp;quot;distance&amp;quot;) %&amp;gt;%
-  filter(distance &amp;lt;= 0.018288)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Joining by: c(&amp;quot;latitude&amp;quot;, &amp;quot;longitude&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I have to use filter here because &amp;#39;max_distance&amp;#39; is not geared to be less than 1 km or 1 mi
-# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
-# to filter afterwards...&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you’d like to look at smaller radii, just put in whatever fraction of a kilometer in the ‘distance’ parameter that you are interested in.&lt;/p&gt;
-&lt;p&gt;Now what I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the &lt;strong&gt;group_by()&lt;/strong&gt; function from dplyr as suggested &lt;a href=&#34;http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;As R does not have a built in function for mode, we build one. Code for this available &lt;a href=&#34;https://www.tutorialspoint.com/r/r_mean_median_mode.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get the mode
-getmode &amp;lt;- function(v) {
-   uniqv &amp;lt;- unique(v)
-   uniqv[which.max(tabulate(match(v, uniqv)))]
-}
-
-# Tell R your topic categories are a number so it can deal with them
-pairsdf$V1&amp;lt;- as.numeric(pairsdf$V1)
-
-# Now calculate things about the topics per sign
-topicmode &amp;lt;- pairsdf%&amp;gt;%
-group_by(SIGN_ID)%&amp;gt;% 
-summarise(Mode = getmode(V1))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let’s now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns &amp;lt;- inner_join(ll, topicmode, by = &amp;quot;SIGN_ID&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

@@ -7,113 +7,8 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2017 Kate Lyons</copyright>
-    <lastBuildDate>Sun, 12 Mar 2017 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2015 21:13:14 -0500</lastBuildDate>
     <atom:link href="/portfolio/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Building A Website</title>
-      <link>/portfolio/2017-03-12-build-website/</link>
-      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/portfolio/2017-03-12-build-website/</guid>
-      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
-&lt;!-- /BLOGDOWN-HEAD --&gt;
-
-&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
-&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
-&lt;p&gt;This website was constructed using GitHub, the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown package&lt;/a&gt; for R and Hugo. I got started with &lt;a href=&#34;https://proquestionasker.github.io/blog/Making_Site/&#34;&gt;Amber Thomas’s amazing tutorial&lt;/a&gt; and got some further help from &lt;a href=&#34;http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/&#34;&gt;Robert Myles McDonnell&lt;/a&gt; and more help from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;here&lt;/a&gt;. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.&lt;/p&gt;
-&lt;div id=&#34;kates-approach&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Kate’s Approach&lt;/h4&gt;
-&lt;p&gt;Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.&lt;/p&gt;
-&lt;p&gt;First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.&lt;/p&gt;
-&lt;p&gt;Go back to your computer. (I’m working with a Mac).&lt;/p&gt;
-&lt;p&gt;Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, &lt;strong&gt;serve_site()&lt;/strong&gt; and &lt;strong&gt;STOP&lt;/strong&gt; R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I &lt;strong&gt;serve_site()&lt;/strong&gt; or &lt;strong&gt;new_site()&lt;/strong&gt; in R Studio the “&amp;gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.&lt;/p&gt;
-&lt;p&gt;Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;this link&lt;/a&gt; mentioned above and did the following in terminal:&lt;/p&gt;
-&lt;p&gt;Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am &lt;em&gt;pretty&lt;/em&gt; sure that is what this command does)&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rm -r public/&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And NOW you are going to link up to your online GitHub.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git init
-
-$ git remote add origin git@github.com:USERNAME/HUGO.git
-
-$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(I get asked for a password here I set up for my .ssh/id_rsa here)&lt;/p&gt;
-&lt;p&gt;Then:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;#39;initial commit&amp;#39;
-
-$ git push origin master&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(Get asked again for password)&lt;/p&gt;
-&lt;p&gt;Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I &lt;strong&gt;serve_site()&lt;/strong&gt; in R, &lt;strong&gt;STOP&lt;/strong&gt; it again and return to terminal. I then followed the commands listed on Robert’s tutorial.&lt;/p&gt;
-&lt;p&gt;Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git add -A
-
-$ git commit -m &amp;#39;lovely new site&amp;#39;
-
-$ git push origin master&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(Again I get asked for my password)&lt;/p&gt;
-&lt;p&gt;Then go to your username.github.io site. It &lt;em&gt;should&lt;/em&gt; be there! Now when you make changes it’s the same process: do your thing in R studio, &lt;strong&gt;serve_site()&lt;/strong&gt; and then &lt;strong&gt;STOP&lt;/strong&gt; and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Collating Spatial Data </title>
-      <link>/portfolio/2017-03-14-collate/</link>
-      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/portfolio/2017-03-14-collate/</guid>
-      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
-&lt;!-- /BLOGDOWN-HEAD --&gt;
-
-&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
-&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
-&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The Problem&lt;/h2&gt;
-&lt;p&gt;I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I’ve recorded and see the most common topic that is present ‘around’ that sign. This has two issues: 1) the coordinates of public signs and tweets are &lt;em&gt;not&lt;/em&gt; going to be the exact same and 2) there are way more tweets than public signs in the area I’m looking at, so I can’t just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and &lt;em&gt;then&lt;/em&gt; find the topic that has most frequently occured in those tweets associated with that location.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;the-solution&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The Solution&lt;/h2&gt;
-&lt;p&gt;Luckily, there is a way to do this with packages like &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin&lt;/a&gt; and &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/dplyr.pdf&#34;&gt;dplyr&lt;/a&gt;!&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
-          &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
-          &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;)
-lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;matching-tweets-with-physical-sign-data&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Matching tweets with physical sign data&lt;/h2&gt;
-&lt;p&gt;What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have &lt;em&gt;exact&lt;/em&gt; matches, we will use the awesome &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(fuzzyjoin)
-library(dplyr)
-pairsdf &amp;lt;- ll %&amp;gt;%
-  geo_inner_join(tweets, unit=&amp;#39;km&amp;#39;,distance_col=&amp;quot;distance&amp;quot;) %&amp;gt;%
-  filter(distance &amp;lt;= 0.018288)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Joining by: c(&amp;quot;latitude&amp;quot;, &amp;quot;longitude&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I have to use filter here because &amp;#39;max_distance&amp;#39; is not geared to be less than 1 km or 1 mi
-# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
-# to filter afterwards...&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you’d like to look at smaller radii, just put in whatever fraction of a kilometer in the ‘distance’ parameter that you are interested in.&lt;/p&gt;
-&lt;p&gt;Now what I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the &lt;strong&gt;group_by()&lt;/strong&gt; function from dplyr as suggested &lt;a href=&#34;http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;As R does not have a built in function for mode, we build one. Code for this available &lt;a href=&#34;https://www.tutorialspoint.com/r/r_mean_median_mode.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get the mode
-getmode &amp;lt;- function(v) {
-   uniqv &amp;lt;- unique(v)
-   uniqv[which.max(tabulate(match(v, uniqv)))]
-}
-
-# Tell R your topic categories are a number so it can deal with them
-pairsdf$V1&amp;lt;- as.numeric(pairsdf$V1)
-
-# Now calculate things about the topics per sign
-topicmode &amp;lt;- pairsdf%&amp;gt;%
-group_by(SIGN_ID)%&amp;gt;% 
-summarise(Mode = getmode(V1))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let’s now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns &amp;lt;- inner_join(ll, topicmode, by = &amp;quot;SIGN_ID&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets.&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
     
     <item>
       <title>Maps! Maps! Maps!</title>
@@ -653,6 +548,64 @@ lda_top_terms2 %&amp;gt;%
     </item>
     
     <item>
+      <title>Collating Spatial Data </title>
+      <link>/portfolio/2017-03-14-collate/</link>
+      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-03-14-collate/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
+
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I’ve recorded and see the most common topic that is present ‘around’ that sign. This has two issues: 1) the coordinates of public signs and tweets are &lt;em&gt;not&lt;/em&gt; going to be the exact same and 2) there are way more tweets than public signs in the area I’m looking at, so I can’t just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and &lt;em&gt;then&lt;/em&gt; find the topic that has most frequently occured in those tweets associated with that location.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-solution&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Solution&lt;/h2&gt;
+&lt;p&gt;Luckily, there is a way to do this with packages like &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin&lt;/a&gt; and &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/dplyr.pdf&#34;&gt;dplyr&lt;/a&gt;!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
+          &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
+          &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;)
+lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;matching-tweets-with-physical-sign-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Matching tweets with physical sign data&lt;/h2&gt;
+&lt;p&gt;What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have &lt;em&gt;exact&lt;/em&gt; matches, we will use the awesome &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(fuzzyjoin)
+library(dplyr)
+pairsdf &amp;lt;- ll %&amp;gt;%
+  geo_inner_join(tweets, unit=&amp;#39;km&amp;#39;,distance_col=&amp;quot;distance&amp;quot;) %&amp;gt;%
+  filter(distance &amp;lt;= 0.018288)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Joining by: c(&amp;quot;latitude&amp;quot;, &amp;quot;longitude&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I have to use filter here because &amp;#39;max_distance&amp;#39; is not geared to be less than 1 km or 1 mi
+# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
+# to filter afterwards...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you’d like to look at smaller radii, just put in whatever fraction of a kilometer in the ‘distance’ parameter that you are interested in.&lt;/p&gt;
+&lt;p&gt;Now what I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the &lt;strong&gt;group_by()&lt;/strong&gt; function from dplyr as suggested &lt;a href=&#34;http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As R does not have a built in function for mode, we build one. Code for this available &lt;a href=&#34;https://www.tutorialspoint.com/r/r_mean_median_mode.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get the mode
+getmode &amp;lt;- function(v) {
+   uniqv &amp;lt;- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+# Tell R your topic categories are a number so it can deal with them
+pairsdf$V1&amp;lt;- as.numeric(pairsdf$V1)
+
+# Now calculate things about the topics per sign
+topicmode &amp;lt;- pairsdf%&amp;gt;%
+group_by(SIGN_ID)%&amp;gt;% 
+summarise(Mode = getmode(V1))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns &amp;lt;- inner_join(ll, topicmode, by = &amp;quot;SIGN_ID&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Identifying and Visualizing Emojis</title>
       <link>/portfolio/2017-03-10-emoji-maps/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
@@ -838,6 +791,53 @@ mapPointssavourface &amp;lt;- ggmap(map) + geom_emoji(aes(x=savourfood$longitude
 
 mapPointssavourface&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-10-emoji-maps_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Building A Website</title>
+      <link>/portfolio/2017-03-12-build-website/</link>
+      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-03-12-build-website/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
+
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;p&gt;This website was constructed using GitHub, the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown package&lt;/a&gt; for R and Hugo. I got started with &lt;a href=&#34;https://proquestionasker.github.io/blog/Making_Site/&#34;&gt;Amber Thomas’s amazing tutorial&lt;/a&gt; and got some further help from &lt;a href=&#34;http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/&#34;&gt;Robert Myles McDonnell&lt;/a&gt; and more help from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;here&lt;/a&gt;. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.&lt;/p&gt;
+&lt;div id=&#34;kates-approach&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Kate’s Approach&lt;/h4&gt;
+&lt;p&gt;Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.&lt;/p&gt;
+&lt;p&gt;First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.&lt;/p&gt;
+&lt;p&gt;Go back to your computer. (I’m working with a Mac).&lt;/p&gt;
+&lt;p&gt;Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, &lt;strong&gt;serve_site()&lt;/strong&gt; and &lt;strong&gt;STOP&lt;/strong&gt; R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I &lt;strong&gt;serve_site()&lt;/strong&gt; or &lt;strong&gt;new_site()&lt;/strong&gt; in R Studio the “&amp;gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.&lt;/p&gt;
+&lt;p&gt;Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;this link&lt;/a&gt; mentioned above and did the following in terminal:&lt;/p&gt;
+&lt;p&gt;Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am &lt;em&gt;pretty&lt;/em&gt; sure that is what this command does)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rm -r public/&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And NOW you are going to link up to your online GitHub.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git init
+
+$ git remote add origin git@github.com:USERNAME/HUGO.git
+
+$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(I get asked for a password here I set up for my .ssh/id_rsa here)&lt;/p&gt;
+&lt;p&gt;Then:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;#39;initial commit&amp;#39;
+
+$ git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Get asked again for password)&lt;/p&gt;
+&lt;p&gt;Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I &lt;strong&gt;serve_site()&lt;/strong&gt; in R, &lt;strong&gt;STOP&lt;/strong&gt; it again and return to terminal. I then followed the commands listed on Robert’s tutorial.&lt;/p&gt;
+&lt;p&gt;Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git add -A
+
+$ git commit -m &amp;#39;lovely new site&amp;#39;
+
+$ git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Again I get asked for my password)&lt;/p&gt;
+&lt;p&gt;Then go to your username.github.io site. It &lt;em&gt;should&lt;/em&gt; be there! Now when you make changes it’s the same process: do your thing in R studio, &lt;strong&gt;serve_site()&lt;/strong&gt; and then &lt;strong&gt;STOP&lt;/strong&gt; and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
