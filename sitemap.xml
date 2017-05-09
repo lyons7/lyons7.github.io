@@ -22,17 +22,22 @@
   </url>
   
   <url>
+    <loc>/portfolio/2017-05-06-thesis-time/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/portfolio/2017-03-12-census-data/</loc>
+    <lastmod>2017-03-12T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/portfolio/2017-03-12-build-website/</loc>
     <lastmod>2017-03-12T21:13:14-05:00</lastmod>
   </url>
   
   <url>
     <loc>/portfolio/2017-03-14-collate/</loc>
-    <lastmod>2017-03-12T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/portfolio/2017-03-12-census-data/</loc>
     <lastmod>2017-03-12T21:13:14-05:00</lastmod>
   </url>
   
@@ -102,7 +107,7 @@
   
   <url>
     <loc>/portfolio/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+    <lastmod>2017-03-12T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

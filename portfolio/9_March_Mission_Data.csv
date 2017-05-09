@@ -1,0 +1,1033 @@
+SIGN_ID,IMAGE_NO,latitude,longitude,LOCATION,LANGUAGE,COMMUNICATIVE_ROLE,MATERIALITY,CONTEXT_FRAME,YELP,NOTES,CLOSED
+SIGN_1,IMG_0061,37.761336,-122.425838,18th,English,Establishment_Description,Permanent,Cafe,2,,FALSE
+SIGN_2,IMG_0061,37.761336,-122.425838,18th,English,Information,Hand_Written,Menu,2,,FALSE
+SIGN_3,IMG_0062,37.761377,-122.427305,18th,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_4,IMG_0063,37.761336,-122.425838,18th,English,Establishment_Description,Permanent,Cafe,2,,FALSE
+SIGN_5,IMG_0063,37.761336,-122.425838,18th,English,Street_Signs,Permanent,External,2,,FALSE
+SIGN_6,IMG_0063,37.761336,-122.425838,18th,English,Establishment_Description,Permanent,Cafe,2,,FALSE
+SIGN_7,IMG_0064,37.761607,-122.425741,18th,English,Information,Permanent,Specialty_Foods ,1,Bi-Rite,FALSE
+SIGN_8,IMG_0064,37.761607,-122.425741,18th,English,Information,Permanent,Specialty_Foods ,1,,FALSE
+SIGN_9,IMG_0064,37.761607,-122.425741,18th,English,Instructions,Permanent,Specialty_Foods ,1,If you are picking up pre-packaged pints and cakes please go directly to the cashier,FALSE
+SIGN_10,IMG_0064,37.761607,-122.425741,18th,English,Information,Permanent,External,1,Shhh- please be respectful of our neighbords,FALSE
+SIGN_11,IMG_0065,37.761682,-122.425573,18th,English,Establishment_Description,Permanent,Specialty_Foods ,1,,FALSE
+SIGN_12,IMG_0065,37.761682,-122.425573,18th,English,Information,Permanent,External,1,,FALSE
+SIGN_13,IMG_0066,37.761336,-122.425706,18th,English,Establishment_Description,Permanent,Beauty_Hair_Salon,0,,FALSE
+SIGN_14,IMG_0067,37.761336,-122.425706,18th,English,Information,Permanent,Beauty_Hair_Salon,0,,FALSE
+SIGN_15,IMG_0068,37.761607,-122.425741,18th,English,Information,Professionally_Printed,External,0,No Parking Here,FALSE
+SIGN_16,IMG_0069,37.761676,-122.42549,18th,English,Establishment_Name,Professionally_Printed,Institution,0,18 Reasons,FALSE
+SIGN_17,IMG_0069,37.761676,-122.42549,18th,English,Establishment_Description,Professionally_Printed,Institution,0,A Community Food Space to Learn Think Do,FALSE
+SIGN_18,IMG_0075,37.761364,-122.425165,18th,English,Information,Hand_Written,External,0,Was unsure of address in IMG_0075 and IMG0076,FALSE
+SIGN_19,IMG_0076,37.761405,-122.4249,18th,English,Information,Home_Printed,External,0,,FALSE
+SIGN_20,IMG_0077,37.76135,-122.424708,18th,English,Slogan,Professionally_Printed,Shop,2,,FALSE
+SIGN_21,IMG_0077,37.76135,-122.424708,18th,English,Information,Professionally_Printed,Shop,2,,FALSE
+SIGN_22,IMG_0078,37.76135,-122.424708,18th,English,Establishment_Description,Professionally_Printed,External,0,,FALSE
+SIGN_23,IMG_0079,37.76135,-122.424708,18th,English,Establishment_Name,Professionally_Printed,Shop,0,,FALSE
+SIGN_24,IMG_0079,37.76135,-122.424708,18th,English,Information,Professionally_Printed,Shop,2,,FALSE
+SIGN_25,IMG_0080,37.76135,-122.424708,18th,English,Information,Hand_Written,Shop,2,,FALSE
+SIGN_26,IMG_0081,37.76135,-122.424708,18th,English,Slogan,Professionally_Printed,Shop,2,,FALSE
+SIGN_27,IMG_0081,37.76135,-122.424708,18th,English,Information,Permanent,Shop,2,Creating Community Through Food,FALSE
+SIGN_28,IMG_0082,37.76149,-122.424844,18th,English,Information,Professionally_Printed,External,0,Also unsure of where sign is,FALSE
+SIGN_29,IMG_0083,37.761379,-122.424399,18th,English,Establishment_Name,Permanent,External,3,,FALSE
+SIGN_30,IMG_0084,37.761788,-122.424382,18th,English,Establishment_Description,Professionally_Printed,Shop,1,,FALSE
+SIGN_31,IMG_0085,37.762038,-122.41611,18th,English,Establishment_Description,Professionally_Printed,Landromat,1,,FALSE
+SIGN_32,IMG_0087,37.761757,-122.423694,18th,English,Establishment_Description,Professionally_Printed,Shop,1,,FALSE
+SIGN_33,IMG_0087,37.761757,-122.423694,18th,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_34,IMG_0091,37.761832,-122.422921,18th,English,Establishment_Name,Home_Printed,Restaurant,3,,FALSE
+SIGN_35,IMG_0093,37.76142,-122.422619,18th,Equal,Establishment_Description,Hand_Written,Gallery_Museum,0,MURALS Women's Building / Edificio de mujere,FALSE
+SIGN_36,IMG_0095,37.76142,-122.422619,18th,Equal,Information,Hand_Written,Gallery_Museum,0,,FALSE
+SIGN_37,IMG_0097,37.76142,-122.422619,18th,English,Establishment_Name,Hand_Written,Gallery_Museum,0,,FALSE
+SIGN_38,IMG_0098,37.76142,-122.422619,18th,English,Advertisement,Home_Printed,Gallery_Museum,0,,FALSE
+SIGN_39,IMG_0098,37.76142,-122.422619,18th,English,Information,Home_Printed,Gallery_Museum,0,,FALSE
+SIGN_40,IMG_0098,37.76142,-122.422619,18th,Spanish,Information,Home_Printed,Gallery_Museum,0,,FALSE
+SIGN_41,IMG_0099,37.76142,-122.422619,18th,Spanish,Information,Home_Printed,Gallery_Museum,0,,FALSE
+SIGN_42,IMG_0100,37.76142,-122.422619,18th,Equal,Information,Home_Printed,Gallery_Museum,0,,FALSE
+SIGN_43,IMG_0100,37.76142,-122.422619,18th,English,Establishment_Description,Home_Printed,Gallery_Museum,0,,FALSE
+SIGN_44,IMG_0101,37.76142,-122.422619,18th,English,Information,Home_Printed,Gallery_Museum,0,,FALSE
+SIGN_45,IMG_0104,37.76142,-122.422619,18th,Eng_Span,Slogan,Hand_Written,Gallery_Museum,0,,FALSE
+SIGN_46,IMG_0106,37.761546,-122.422887,18th,Eng_Span,Information,Professionally_Printed,External,0,No Parking No estacionar closer to mission street,FALSE
+SIGN_47,IMG_0107,37.761829,-122.421946,18th,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_48,IMG_0107,37.761829,-122.421946,18th,English,Graffiti,Hand_Written,Shop,0,,FALSE
+SIGN_49,IMG_0109,37.761157,-122.421244,18th,English,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_50,IMG_0110,37.761895,-122.421917,18th,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_51,IMG_0110,37.761895,-122.421917,18th,English,Establishment_Description,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_52,IMG_0111,37.761839,-122.421482,18th,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_53,IMG_0111,37.761839,-122.421482,18th,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_54,IMG_0111,37.761839,-122.421482,18th,English,Advertisement,Home_Printed,External,0,,FALSE
+SIGN_55,IMG_0113,37.761642,-122.421748,18th,English,Advertisement,Home_Printed,External,0,"Not sure, but think it's somewhere near the last two pictures?",FALSE
+SIGN_56,IMG_0114,37.761157,-122.421244,18th,English,Information,Professionally_Printed,Supermarket,0,,FALSE
+SIGN_57,IMG_0116,37.761599,-122.421168,18th,Span_Eng,Establishment_Description,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_58,IMG_0118,37.761599,-122.421168,18th,English,Information,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_59,IMG_0119,37.761599,-122.421168,18th,English,Information,Home_Printed,Restaurant,2,Notice of Public Hearing -- all in English,FALSE
+SIGN_60,IMG_0121,37.761536,-122.420915,18th,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_61,IMG_0122,37.761536,-122.420915,18th,English,Information,Hand_Written,Business ,2,,FALSE
+SIGN_62,IMG_0124,37.761766,-122.420695,18th,English,Establishment_Name,Professionally_Printed,Jewelry_Store,0,,FALSE
+SIGN_63,IMG_0125,37.761827,-122.419797,18th,English,Establishment_Name,Professionally_Printed,Auto_Mechanic ,0,,FALSE
+SIGN_64,IMG_0126,37.761827,-122.419797,18th,Spanish,Advertisement,Professionally_Printed,External,0,Awesome bilboard for NBC in Spanish etting closer to Mission Street,FALSE
+SIGN_65,IMG_0127,37.761415,-122.419682,18th,English,Establishment_Name,Professionally_Printed,Cafe,2,,FALSE
+SIGN_66,IMG_0129,37.761989,-122.419702,18th,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_67,IMG_0129,37.761989,-122.419702,18th,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_68,IMG_0129,37.761989,-122.419702,18th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_69,IMG_0129,37.761989,-122.419702,18th,English,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_70,IMG_0130,37.761699,-122.419651,18th,English,Advertisement,Hand_Written,Supermarket,1,,FALSE
+SIGN_71,IMG_0130,37.761699,-122.419651,18th,English,Advertisement,Hand_Written,Supermarket,0,,FALSE
+SIGN_72,IMG_0130,37.761699,-122.419651,18th,English,Advertisement,Hand_Written,Supermarket,0,,FALSE
+SIGN_73,IMG_0133,37.761699,-122.419651,18th,English,Advertisement,Flier,Supermarket,0,,FALSE
+SIGN_74,IMG_0136,37.761699,-122.419651,18th,English,Advertisement,Home_Printed,Supermarket,0,,FALSE
+SIGN_75,IMG_0140,37.761943,-122.419592,18th,English,Establishment_Description,Professionally_Printed,Business ,2,,FALSE
+SIGN_76,IMG_0141,37.761937,-122.419394,18th,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_77,IMG_0147,37.761684,-122.419291,18th,English,Graffiti,Hand_Written,External,0,,FALSE
+SIGN_78,IMG_0150,37.761699,-122.419651,18th,Spanish,Slogan,Hand_Written,Supermarket,0,,FALSE
+SIGN_79,IMG_0150,37.761699,-122.419651,18th,English,Slogan,Hand_Written,Supermarket,0,,FALSE
+SIGN_80,IMG_0153,37.761774,-122.419063,18th,Spanish,Advertisement,Flier,External,0,,FALSE
+SIGN_81,IMG_0154,37.762017,-122.418822,18th,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_82,IMG_0155,37.762104,-122.418479,18th,Span_Eng,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_83,IMG_0156,37.761812,-122.418168,18th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_84,IMG_0157,37.762079,-122.418199,18th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_85,IMG_0158,37.761808,-122.418058,18th,English,Establishment_Description,Professionally_Printed,Business ,1,,FALSE
+SIGN_86,IMG_0159,37.76189,-122.417799,18th,English,Information,Permanent,External,0,,FALSE
+SIGN_87,IMG_0160,37.761818,-122.417395,18th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_88,IMG_0161,37.761818,-122.417395,18th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_89,IMG_0163,37.761982,-122.417233,18th,English,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_90,IMG_0164,37.761818,-122.417395,18th,Equal,Street_Signs,Permanent,External,0,,FALSE
+SIGN_91,IMG_0164,37.761818,-122.417395,18th,Equal,Information,Home_Printed,Institution,0,,FALSE
+SIGN_92,IMG_0166,37.761818,-122.417395,18th,English,Instructions,Home_Printed,External,0,,FALSE
+SIGN_93,IMG_0167,37.762104,-122.418479,18th,Spanish,Establishment_Description,Hand_Written,Supermarket,1,,FALSE
+SIGN_94,IMG_0168,37.762104,-122.418479,18th,Spanish,Establishment_Name,Home_Printed,Supermarket,1,,FALSE
+SIGN_95,IMG_0170,37.762104,-122.418479,18th,English,Advertisement,Flier,Supermarket,0,,FALSE
+SIGN_96,IMG_0170,37.762104,-122.418479,18th,Spanish,Advertisement,Flier,Supermarket,0,,FALSE
+SIGN_97,IMG_0170,37.762104,-122.418479,18th,Spanish,Advertisement,Home_Printed,Supermarket,0,,FALSE
+SIGN_98,IMG_0170,37.762104,-122.418479,18th,Spanish,Advertisement,Flier,Supermarket,0,,FALSE
+SIGN_99,IMG_0170,37.762104,-122.418479,18th,Spanish,Advertisement,Flier,Supermarket,0,,FALSE
+SIGN_100,IMG_0171,37.762104,-122.418479,18th,Spanish,Instructions,Flier,Supermarket,0,,FALSE
+SIGN_101,IMG_0171,37.762104,-122.418479,18th,Spanish,Advertisement,Flier,Supermarket,0,,FALSE
+SIGN_102,IMG_0172,37.761902,-122.418627,18th,English,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_103,IMG_0173,37.761902,-122.418627,18th,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_104,IMG_0174,37.762017,-122.418822,18th,English,Establishment_Name,Professionally_Printed,Cafe,2,,FALSE
+SIGN_105,IMG_0175,37.752159,-122.420161,18th,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_106,IMG_0178,37.752159,-122.420161,24th,Span_Eng,Advertisement,Professionally_Printed,Travel_Agency,0,,FALSE
+SIGN_107,IMG_0178,37.752159,-122.420161,24th,Spanish,Advertisement,Professionally_Printed,Travel_Agency,0,,FALSE
+SIGN_108,IMG_0178,37.752159,-122.420161,24th,Spanish,Advertisement,Professionally_Printed,Travel_Agency,0,,FALSE
+SIGN_109,IMG_0178,37.752159,-122.420161,24th,Spanish,Advertisement,Professionally_Printed,Travel_Agency,0,,FALSE
+SIGN_110,IMG_0178,37.752159,-122.420161,24th,Spanish,Advertisement,Professionally_Printed,Travel_Agency,0,,FALSE
+SIGN_111,IMG_0178,37.752159,-122.420161,24th,English,Establishment_Name,Hand_Written,Beauty_Hair_Salon,0,,FALSE
+SIGN_112,IMG_0179,37.752275,-122.420266,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_113,IMG_0180,37.752245,-122.420371,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_114,IMG_0181,37.752249,-122.420515,24th,English,Establishment_Description,Professionally_Printed,Specialty_Foods ,2,,FALSE
+SIGN_115,IMG_0182,37.751862,-122.420929,24th,English,Establishment_Name,Hand_Written,Grocery,2,,FALSE
+SIGN_116,IMG_0182,37.751862,-122.420929,24th,English,Establishment_Description,Hand_Written,Grocery,2,,FALSE
+SIGN_117,IMG_0182,37.751862,-122.420929,24th,English,Advertisement,Professionally_Printed,Grocery,2,,FALSE
+SIGN_118,IMG_0183,37.752202,-122.420095,24th,Spanish,Leaflet,Flier,Residential,0,,FALSE
+SIGN_119,IMG_0184,37.752173,-122.419457,24th,English,Establishment_Name,Professionally_Printed,Grocery,2,,FALSE
+SIGN_120,IMG_0184,37.752173,-122.419457,24th,Spanish,Establishment_Name,Hand_Written,Bakery,1,,FALSE
+SIGN_121,IMG_0184,37.752173,-122.419457,24th,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_122,IMG_0187,37.752338,-122.419435,24th,English,Establishment_Name,Professionally_Printed,Gallery_Museum,3,,FALSE
+SIGN_123,IMG_0188,37.752186,-122.419238,24th,Spanish,Establishment_Description,Hand_Written,Bakery,1,,FALSE
+SIGN_124,IMG_0188,37.752186,-122.419238,24th,Spanish,Establishment_Description,Hand_Written,Bakery,1,,FALSE
+SIGN_125,IMG_0188,37.752186,-122.419238,24th,Eng_Span,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_126,IMG_0190,37.752186,-122.419238,24th,Eng_Span,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_127,IMG_0191,37.752375,-122.4191,24th,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_128,IMG_0191,37.752375,-122.4191,24th,English,Information,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_129,IMG_0192,37.752395,-122.418983,24th,Equal,Information,Professionally_Printed,Business ,0,,FALSE
+SIGN_130,IMG_0194,37.752395,-122.418983,24th,English,Establishment_Description,Professionally_Printed,Cafe,1,,FALSE
+SIGN_131,IMG_0196,37.752395,-122.418983,24th,English,Establishment_Name,Hand_Written,Cafe,1,,FALSE
+SIGN_132,IMG_0196,37.752395,-122.418983,24th,English,Advertisement,Professionally_Printed,Cafe,1,,FALSE
+SIGN_133,IMG_0197,37.752401,-122.418899,24th,English,Advertisement,Professionally_Printed,Gym_Fitness_Studio,0,,FALSE
+SIGN_134,IMG_0199,37.75195,-122.419116,24th,English,Graffiti,Hand_Written,Commentary,0,,FALSE
+SIGN_135,IMG_0199,37.75195,-122.419116,24th,Spanish,Graffiti,Hand_Written,Commentary,0,,FALSE
+SIGN_136,IMG_0201,37.752468,-122.418834,24th,English,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_137,IMG_0203,37.752079,-122.418083,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_138,IMG_0207,37.752432,-122.418016,24th,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_139,IMG_0205,37.752432,-122.418016,24th,English,Establishment_Name,Professionally_Printed,Cafe,1,,FALSE
+SIGN_140,IMG_0206,37.752432,-122.418016,24th,English,Information,Hand_Written,Cafe,1,,FALSE
+SIGN_141,IMG_0207,37.752432,-122.418016,24th,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_142,IMG_0207,37.752432,-122.418016,24th,Spanish,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_143,IMG_0207,37.752432,-122.418016,24th,Spanish,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_144,IMG_0210,37.752474,-122.41776,24th,Spanish,Establishment_Name,Hand_Written,Clothing,0,Awesome example of familial s',FALSE
+SIGN_145,IMG_0210,37.752474,-122.41776,24th,Spanish,Establishment_Description,Hand_Written,Clothing,0,,FALSE
+SIGN_146,IMG_0212,37.752405,-122.417599,24th,Spanish,Establishment_Name,Hand_Written,Clothing,0,,FALSE
+SIGN_147,IMG_0212,37.752405,-122.417599,24th,Spanish,Establishment_Description,Hand_Written,Clothing,0,,FALSE
+SIGN_148,IMG_0213,37.752405,-122.417599,24th,Span_Eng,Information,Professionally_Printed,Clothing,0,,FALSE
+SIGN_149,IMG_0215,37.75219,-122.41726,24th,English,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,2,,FALSE
+SIGN_150,IMG_0216,37.75219,-122.41726,24th,Eng_Span,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,2,,FALSE
+SIGN_151,IMG_0216,37.75219,-122.41726,24th,English,Establishment_Name,Hand_Written,Jewelry_Store,0,,FALSE
+SIGN_152,IMG_0216,37.75219,-122.41726,24th,English,Establishment_Name,Hand_Written,Shop,0,,FALSE
+SIGN_153,IMG_0216,37.75219,-122.41726,24th,Eng_Span,Information,Professionally_Printed,Grocery_Liquor_Store,2,,FALSE
+SIGN_154,IMG_0219,37.752307,-122.417044,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_155,IMG_0220,37.752206,-122.416545,24th,Spanish,Establishment_Name,Professionally_Printed,Shop,0,,FALSE
+SIGN_156,IMG_0220,37.752206,-122.416545,24th,Spanish,Establishment_Description,Professionally_Printed,Shop,0,,FALSE
+SIGN_157,IMG_0220,37.752206,-122.416545,24th,Spanish,Establishment_Name,Professionally_Printed,Specialty_Foods ,0,,FALSE
+SIGN_158,IMG_0220,37.752206,-122.416545,24th,Span_Eng,Establishment_Name,Professionally_Printed,Shop,0,,FALSE
+SIGN_159,IMG_0222,37.752483,-122.416724,24th,English,Establishment_Name,Hand_Written,Jewelry_Store,1,,FALSE
+SIGN_160,IMG_0222,37.752483,-122.416724,24th,English,Establishment_Description,Hand_Written,Jewelry_Store,1,Was this supposed to be IMG_02222,FALSE
+SIGN_161,IMG_0223,37.752483,-122.416724,24th,Spanish,Establishment_Description,Hand_Written,Jewelry_Store,1,,FALSE
+SIGN_162,IMG_0224,37.752497,-122.416541,24th,English,Establishment_Description,Hand_Written,Bar,2,,FALSE
+SIGN_163,IMG_0228,37.752191,-122.416042,24th,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_164,IMG_0229,37.752383,-122.416259,24th,English,Information,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_165,IMG_0231,37.752386,-122.416218,24th,English,Establishment_Name,Professionally_Printed,Business ,0,Used to be Mystic Something,TRUE
+SIGN_166,IMG_0232,37.752386,-122.416218,24th,Eng_Span,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_167,IMG_0233,37.752389,-122.416177,24th,Spanish,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_168,IMG_0233,37.752389,-122.416177,24th,Spanish,Establishment_Name,Hand_Written,Beauty_Hair_Salon,0,,FALSE
+SIGN_169,IMG_0234,37.752518,-122.415887,24th,Spanish,Establishment_Name,Hand_Written,Shop,1,,FALSE
+SIGN_170,IMG_0234,37.752518,-122.415887,24th,Spanish,Establishment_Name,Hand_Written,Shop,1,,FALSE
+SIGN_171,IMG_0235,37.752403,-122.415943,24th,Spanish,Establishment_Name,Hand_Written,Beauty_Hair_Salon,0,,FALSE
+SIGN_172,IMG_0237,37.752196,-122.415465,24th,English,Establishment_Name,Hand_Written,Shop,0,,FALSE
+SIGN_173,IMG_0238,37.752572,-122.415805,24th,English,Establishment_Name,Professionally_Printed,Shop,0,,FALSE
+SIGN_174,IMG_0239,37.752613,-122.415674,24th,English,Establishment_Name,Professionally_Printed,Restaurant,2,Nicaruagan place now a pizzaria,TRUE
+SIGN_175,IMG_0240,37.748582,-122.418411,24th,Spanish,Establishment_Name,Professionally_Printed,Restaurant,2,,TRUE
+SIGN_176,IMG_0240,37.748582,-122.418411,24th,Spanish,Establishment_Description,Professionally_Printed,Restaurant,2,,TRUE
+SIGN_177,IMG_0241,37.752529,-122.415618,24th,Spanish,Establishment_Name,Professionally_Printed,Clothing,0,,FALSE
+SIGN_178,IMG_0243,37.752422,-122.415168,24th,English,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_179,IMG_0243,37.752422,-122.415168,24th,English,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_180,IMG_0244,37.752275,-122.415368,24th,English,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_181,IMG_0245,37.752591,-122.415345,24th,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_182,IMG_0246,37.721189,-122.437512,24th,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_183,IMG_0246,37.721189,-122.437512,24th,Spanish,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_184,IMG_0246,37.721189,-122.437512,24th,Equal,Advertisement,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_185,IMG_0246,37.721189,-122.437512,24th,English,Advertisement,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_186,IMG_0247,37.752591,-122.415345,24th,English,Establishment_Description,Hand_Written,Restaurant,2,,FALSE
+SIGN_187,IMG_0250,37.752671,-122.414744,24th,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_188,IMG_0250,37.752671,-122.414744,24th,English,Advertisement,Professionally_Printed,Business ,0,,FALSE
+SIGN_189,IMG_0251,37.752641,-122.414815,24th,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_190,IMG_0251,37.752641,-122.414815,24th,English,Instructions,Professionally_Printed,External,0,,FALSE
+SIGN_191,IMG_0252,37.752671,-122.414744,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,TRUE
+SIGN_192,IMG_0253,37.752671,-122.414744,24th,Spanish,Leaflet,Professionally_Printed,Flier,0,,FALSE
+SIGN_193,IMG_0253,37.752671,-122.414744,24th,Spanish,Leaflet,Professionally_Printed,Flier,0,,FALSE
+SIGN_194,IMG_0254,37.752609,-122.414575,24th,Spanish,Establishment_Description,Hand_Written,Bakery,1,La Reyna article in SF chron about this place,FALSE
+SIGN_195,IMG_0255,37.752609,-122.414575,24th,Span_Eng,Establishment_Name,Professionally_Printed,Bakery,1,,FALSE
+SIGN_196,IMG_0256,37.752609,-122.414575,24th,Spanish,Establishment_Description,Hand_Written,Bakery,1,,FALSE
+SIGN_197,IMG_0258,37.752349,-122.414282,24th,English,Establishment_Name,Professionally_Printed,Cafe,1,,FALSE
+SIGN_198,IMG_0258,37.752349,-122.414282,24th,English,Establishment_Description,Professionally_Printed,Cafe,1,,FALSE
+SIGN_199,IMG_0259,37.75277,-122.413945,24th,Span_Eng,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_200,IMG_0259,37.75277,-122.413945,24th,Span_Eng,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_201,IMG_0259,37.75277,-122.413945,24th,English,Advertisement,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_202,IMG_0260,37.752349,-122.414282,24th,English,Advertisement,Professionally_Printed,Cafe,1,,FALSE
+SIGN_203,IMG_0261,37.756814,-122.420868,24th,English,Establishment_Name,Professionally_Printed,Cafe,1,,FALSE
+SIGN_204,IMG_0262,37.752614,-122.414368,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_205,IMG_0262,37.752614,-122.414368,24th,English,Establishment_Description,Professionally_Printed,Cafe,1,,FALSE
+SIGN_206,IMG_0262,37.752614,-122.414368,24th,English,Establishment_Description,Professionally_Printed,Cafe,1,,FALSE
+SIGN_207,IMG_0263,37.752376,-122.413864,24th,English,Establishment_Description,Professionally_Printed,Restaurant,1,,TRUE
+SIGN_208,IMG_0263,37.752376,-122.413864,24th,Eng_Span,Establishment_Name,Professionally_Printed,Restaurant,1,La Parrilla Grill -- Redundant,TRUE
+SIGN_209,IMG_0263,37.752376,-122.413864,24th,Eng_Span,Establishment_Name,Professionally_Printed,Restaurant,1,,TRUE
+SIGN_210,IMG_0263,37.752376,-122.413864,24th,Eng_Span,Information,Professionally_Printed,Restaurant,1,,TRUE
+SIGN_211,IMG_0264,37.75277,-122.413945,24th,English,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_212,IMG_0264,37.75277,-122.413945,24th,English,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_213,IMG_0264,37.75277,-122.413945,24th,English,Advertisement,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_214,IMG_0264,37.75277,-122.413945,24th,English,Advertisement,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_215,IMG_0264,37.75277,-122.413945,24th,English,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_216,IMG_0265,37.75277,-122.413945,24th,English,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_217,IMG_0266,37.752648,-122.413825,24th,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_218,IMG_0267,37.752536,-122.413795,24th,English,Establishment_Name,Professionally_Printed,Cafe,1,,FALSE
+SIGN_219,IMG_0267,37.752536,-122.413795,24th,English,Establishment_Description,Professionally_Printed,Landromat,0,,FALSE
+SIGN_220,IMG_0268,37.752433,-122.413454,24th,Spanish,Establishment_Name,Hand_Written,Restaurant,2,,FALSE
+SIGN_221,IMG_0268,37.752433,-122.413454,24th,Spanish,Establishment_Description,Hand_Written,Restaurant,2,,FALSE
+SIGN_222,IMG_0268,37.752433,-122.413454,24th,Spanish,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_223,IMG_0269,37.752631,-122.413546,24th,English,Establishment_Description,Professionally_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_224,IMG_0269,37.752631,-122.413546,24th,Span_Eng,Establishment_Name,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_225,IMG_0270,37.752631,-122.413546,24th,English,Establishment_Description,Hand_Written,Beauty_Hair_Salon,2,,FALSE
+SIGN_226,IMG_0270,37.752631,-122.413546,24th,English,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_227,IMG_0270,37.752631,-122.413546,24th,English,Information,Professionally_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_228,IMG_0270,37.752631,-122.413546,24th,English,Information,Professionally_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_229,IMG_0271,37.752718,-122.413443,24th,Spanish,Establishment_Description,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_230,IMG_0271,37.752718,-122.413443,24th,Spanish,Establishment_Description,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_231,IMG_0272,37.752424,-122.413347,24th,English,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_232,IMG_0272,37.752424,-122.413347,24th,English,Establishment_Description,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_233,IMG_0272,37.752424,-122.413347,24th,English,Establishment_Name,Professionally_Printed,Institution,0,,FALSE
+SIGN_234,IMG_0273,37.75246,-122.414821,24th,Eng_Span,Establishment_Name,Professionally_Printed,Restaurant,0,La Movida wine bar and community kitchen -- very hipster. Also CLOSED now.,TRUE
+SIGN_235,IMG_0274,37.752443,-122.413125,24th,English,Establishment_Name,Professionally_Printed,Institution,0,,FALSE
+SIGN_236,IMG_0276,37.752684,-122.413284,24th,Spanish,Establishment_Name,Hand_Written,Shop,0,,FALSE
+SIGN_237,IMG_0276,37.752684,-122.413284,24th,Spanish,Establishment_Name,Hand_Written,Shop,0,,FALSE
+SIGN_238,IMG_0277,37.752611,-122.413144,24th,Spanish,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_239,IMG_0277,37.752611,-122.413144,24th,Spanish,Establishment_Description,Professionally_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_240,IMG_0277,37.752611,-122.413144,24th,Span_Eng,Establishment_Description,Professionally_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_241,IMG_0282,37.75246,-122.414821,24th,Eng_Span,Establishment_Name,Hand_Written,Grocery_Liquor_Store,1,,FALSE
+SIGN_242,IMG_0282,37.75246,-122.414821,24th,Eng_Span,Establishment_Description,Hand_Written,Grocery_Liquor_Store,1,,FALSE
+SIGN_243,IMG_0282,37.75246,-122.414821,24th,English,Advertisement,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_244,IMG_0283,37.752422,-122.412827,24th,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_245,IMG_0284,37.752804,-122.412717,24th,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_246,IMG_0284,37.752804,-122.412717,24th,English,Establishment_Description,Hand_Written,Shop,1,,FALSE
+SIGN_247,IMG_0284,37.752804,-122.412717,24th,Eng_Span,Establishment_Description,Hand_Written,Shop,1,,FALSE
+SIGN_248,IMG_0286,37.752544,-122.412619,24th,Span_Eng,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_249,IMG_0286,37.752544,-122.412619,24th,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_250,IMG_0286,37.752544,-122.412619,24th,Span_Eng,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_251,IMG_0286,37.752544,-122.412619,24th,Span_Eng,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_252,IMG_0286,37.752544,-122.412619,24th,Spanish,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_253,IMG_0286,37.752544,-122.412619,24th,English,Information,Hand_Written,Restaurant,1,,FALSE
+SIGN_254,IMG_0286,37.752544,-122.412619,24th,Spanish,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_255,IMG_0286,37.752544,-122.412619,24th,Spanish,Establishment_Description,Hand_Written,Restaurant,1,,FALSE
+SIGN_256,IMG_0286,37.752544,-122.412619,24th,Spanish,Establishment_Description,Hand_Written,Restaurant,1,,FALSE
+SIGN_257,IMG_0286,37.752544,-122.412619,24th,Span_Eng,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_258,IMG_0288,37.752795,-122.412539,24th,English,Establishment_Name,Professionally_Printed,Gym_Fitness_Studio,0,,FALSE
+SIGN_259,IMG_0288,37.752795,-122.412539,24th,English,Information,Hand_Written,Gym_Fitness_Studio,0,,FALSE
+SIGN_260,IMG_0289,37.752642,-122.412061,24th,English,Graffiti,Hand_Written,Commentary,0,,FALSE
+SIGN_261,IMG_0290,37.752813,-122.412246,24th,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_262,IMG_0290,37.752813,-122.412246,24th,English,Information,Professionally_Printed,Shop,1,,FALSE
+SIGN_263,IMG_0291,37.752799,-122.412202,24th,English,Information,Hand_Written,Cafe,1,,FALSE
+SIGN_264,IMG_0291,37.752799,-122.412202,24th,English,Establishment_Description,Hand_Written,Cafe,1,,FALSE
+SIGN_265,IMG_0292,37.752878,-122.411773,24th,Spanish,Establishment_Name,Hand_Written,Restaurant,1,,TRUE
+SIGN_266,IMG_0292,37.752878,-122.411773,24th,Spanish,Establishment_Description,Hand_Written,Restaurant,1,,TRUE
+SIGN_267,IMG_0292,37.752878,-122.411773,24th,Span_Eng,Information,Hand_Written,Restaurant,1,,TRUE
+SIGN_268,IMG_0292,37.752878,-122.411773,24th,Spanish,Establishment_Description,Hand_Written,Restaurant,1,,TRUE
+SIGN_269,IMG_0293,37.752637,-122.411678,24th,Spanish,Establishment_Name,Hand_Written,Grocery_Liquor_Store,1,,FALSE
+SIGN_270,IMG_0293,37.752637,-122.411678,24th,Spanish,Establishment_Description,Hand_Written,Grocery_Liquor_Store,1,,FALSE
+SIGN_271,IMG_0293,37.752637,-122.411678,24th,Spanish,Information,Hand_Written,Grocery_Liquor_Store,1,,FALSE
+SIGN_272,IMG_0293,37.752637,-122.411678,24th,Spanish,Establishment_Description,Hand_Written,Grocery_Liquor_Store,1,,FALSE
+SIGN_273,IMG_0294,37.752637,-122.411678,24th,Eng_Span,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_274,IMG_0294,37.752637,-122.411678,24th,Equal,Information,Hand_Written,Grocery_Liquor_Store,1,,FALSE
+SIGN_275,IMG_0294,37.752637,-122.411678,24th,Spanish,Establishment_Description,Hand_Written,Grocery_Liquor_Store,1,,FALSE
+SIGN_276,IMG_0294,37.752637,-122.411678,24th,Spanish,Information,Hand_Written,Grocery_Liquor_Store,1,,FALSE
+SIGN_277,IMG_0296,37.752878,-122.411773,24th,Spanish,Establishment_Name,Hand_Written,Restaurant,1,,FALSE
+SIGN_278,IMG_0296,37.752878,-122.411773,24th,Spanish,Information,Hand_Written,Restaurant,1,,FALSE
+SIGN_279,IMG_0297,37.752438,-122.411379,24th,Span_Eng,Establishment_Name,Hand_Written,Gallery_Museum,0,,FALSE
+SIGN_280,IMG_0297,37.752438,-122.411379,24th,Span_Eng,Establishment_Description,Hand_Written,Gallery_Museum,0,,FALSE
+SIGN_281,IMG_0297,37.752438,-122.411379,24th,Eng_Span,Establishment_Name,Professionally_Printed,Restaurant,1,,TRUE
+SIGN_282,IMG_0297,37.752438,-122.411379,24th,English,Establishment_Name,Professionally_Printed,Landromat,0,,FALSE
+SIGN_283,IMG_0297,37.752438,-122.411379,24th,English,Establishment_Description,Professionally_Printed,Landromat,0,,FALSE
+SIGN_284,IMG_0297,37.752438,-122.411379,24th,Spanish,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_285,IMG_0297,37.752438,-122.411379,24th,Span_Eng,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_286,IMG_0297,37.752438,-122.411379,24th,Spanish,Establishment_Name,Professionally_Printed,Bakery,1,,TRUE
+SIGN_287,IMG_0297,37.752438,-122.411379,24th,Span_Eng,Information,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_288,IMG_0297,37.752438,-122.411379,24th,Spanish,Establishment_Name,Professionally_Printed,Bakery,1,,TRUE
+SIGN_289,IMG_0300,37.752672,-122.411593,24th,Spanish,Leaflet,Flier,Commentary,0,,FALSE
+SIGN_290,IMG_0300,37.752672,-122.411593,24th,Spanish,Leaflet,Flier,Commentary,0,,FALSE
+SIGN_291,IMG_0300,37.752672,-122.411593,24th,Spanish,Leaflet,Flier,Commentary,0,,FALSE
+SIGN_292,IMG_0300,37.752672,-122.411593,24th,Spanish,Leaflet,Flier,Commentary,0,,FALSE
+SIGN_293,IMG_0301,37.752862,-122.4115,24th,Spanish,Information,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_294,IMG_0301,37.752862,-122.4115,24th,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_295,IMG_0301,37.752862,-122.4115,24th,English,Establishment_Name,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_296,IMG_0301,37.752862,-122.4115,24th,Spanish,Information,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_297,IMG_0301,37.752862,-122.4115,24th,English,Establishment_Description,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_298,IMG_0303,37.752967,-122.411417,24th,Eng_Span,Establishment_Name,Professionally_Printed,Nightclub,0,,FALSE
+SIGN_299,IMG_0304,37.75287,-122.411331,24th,Spanish,Establishment_Name,Hand_Written,Institution,0,,FALSE
+SIGN_300,IMG_0304,37.75287,-122.411331,24th,Spanish,Information,Hand_Written,Institution,0,,FALSE
+SIGN_301,IMG_0304,37.75287,-122.411331,24th,Spanish,Establishment_Description,Hand_Written,Institution,0,,FALSE
+SIGN_302,IMG_0304,37.75287,-122.411331,24th,Spanish,Establishment_Description,Professionally_Printed,Bakery,1,,FALSE
+SIGN_303,IMG_0304,37.75287,-122.411331,24th,Spanish,Information,Professionally_Printed,Bakery,1,,FALSE
+SIGN_304,IMG_0304,37.75287,-122.411331,24th,English,Establishment_Name,Professionally_Printed,Bakery,1,,FALSE
+SIGN_305,IMG_0307,37.752798,-122.41118,24th,English,Information,Professionally_Printed,Grocery_Liquor_Store,0,,FALSE
+SIGN_306,IMG_0309,37.752711,-122.410972,24th,Equal,Information,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_307,IMG_0309,37.752711,-122.410972,24th,English,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,0,,FALSE
+SIGN_308,IMG_0310,37.752711,-122.410972,24th,Equal,Information,Professionally_Printed,Grocery_Liquor_Store,0,,FALSE
+SIGN_309,IMG_0310,37.752711,-122.410972,24th,English,Information,Professionally_Printed,Grocery_Liquor_Store,0,,FALSE
+SIGN_310,IMG_0311,37.75252,-122.410756,24th,Spanish,Establishment_Name,Professionally_Printed,Bakery,1,,FALSE
+SIGN_311,IMG_0311,37.75252,-122.410756,24th,Spanish,Information,Professionally_Printed,Bakery,1,,FALSE
+SIGN_312,IMG_0311,37.75252,-122.410756,24th,English,Establishment_Name,Hand_Written,Beauty_Hair_Salon,1,,FALSE
+SIGN_313,IMG_0311,37.75252,-122.410756,24th,Span_Eng,Establishment_Name,Hand_Written,Jewelry_Store,0,,FALSE
+SIGN_314,IMG_0311,37.75252,-122.410756,24th,Span_Eng,Establishment_Description,Hand_Written,Jewelry_Store,0,,FALSE
+SIGN_315,IMG_0313,37.752939,-122.41069,24th,Span_Eng,Information,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_316,IMG_0314,37.752939,-122.41069,24th,Spanish,Establishment_Name,Hand_Written,Grocery_Liquor_Store,1,,FALSE
+SIGN_317,IMG_0315,37.752557,-122.410456,24th,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_318,IMG_0315,37.752557,-122.410456,24th,English,Establishment_Name,Hand_Written,Shop,0,,FALSE
+SIGN_319,IMG_0315,37.752557,-122.410456,24th,English,Establishment_Name,Hand_Written,Shop,0,,FALSE
+SIGN_320,IMG_0315,37.752557,-122.410456,24th,English,Establishment_Name,Professionally_Printed,Institution,0,,FALSE
+SIGN_321,IMG_0317,37.752914,-122.410519,24th,Span_Eng,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,0,,FALSE
+SIGN_322,IMG_0317,37.752914,-122.410519,24th,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_323,IMG_0318,37.752914,-122.410519,24th,Spanish,Information,Hand_Written,Restaurant,1,,FALSE
+SIGN_324,IMG_0320,37.752873,-122.410333,24th,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_325,IMG_0321,37.752966,-122.409957,24th,Spanish,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_326,IMG_0321,37.752966,-122.409957,24th,Span_Eng,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_327,IMG_0322,37.752576,-122.409942,24th,Span_Eng,Establishment_Name,Hand_Written,Landromat,1,,FALSE
+SIGN_328,IMG_0322,37.752576,-122.409942,24th,Spanish,Establishment_Description,Hand_Written,Landromat,1,,FALSE
+SIGN_329,IMG_0323,37.752966,-122.409957,24th,Equal,Information,Home_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_330,IMG_0323,37.752966,-122.409957,24th,Equal,Information,Home_Printed,Bakery,1,,FALSE
+SIGN_331,IMG_0323,37.752966,-122.409957,24th,Equal,Information,Home_Printed,Bakery,1,,FALSE
+SIGN_332,IMG_0323,37.752966,-122.409957,24th,English,Information,Home_Printed,Bakery,1,,FALSE
+SIGN_333,IMG_0324,37.752966,-122.409957,24th,Spanish,Leaflet,Hand_Written,Bakery,1,,FALSE
+SIGN_334,IMG_0325,37.752945,-122.409886,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_335,IMG_0327,37.752955,-122.409806,24th,English,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_336,IMG_0327,37.752955,-122.409806,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_337,IMG_0328,37.752955,-122.409806,24th,Spanish,Information,Hand_Written,Restaurant,1,,FALSE
+SIGN_338,IMG_0328,37.752955,-122.409806,24th,Eng_Span,Information,Hand_Written,Restaurant,1,,FALSE
+SIGN_339,IMG_0328,37.752955,-122.409806,24th,English,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_340,IMG_0329,37.752955,-122.409806,24th,Spanish,Information,Hand_Written,Restaurant,1,,FALSE
+SIGN_341,IMG_0330,37.75258,-122.409613,24th,English,Establishment_Name,Professionally_Printed,Cafe,1,,FALSE
+SIGN_342,IMG_0330,37.75258,-122.409613,24th,English,Information,Professionally_Printed,Cafe,1,,FALSE
+SIGN_343,IMG_0331,37.752781,-122.409642,24th,English,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_344,IMG_0331,37.752781,-122.409642,24th,Span_Eng,Establishment_Description,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_345,IMG_0333,37.752948,-122.409632,24th,English,Establishment_Name,Professionally_Printed,Bakery,1,,FALSE
+SIGN_346,IMG_0333,37.752948,-122.409632,24th,Eng_Span,Information,Hand_Written,Bakery,1,,FALSE
+SIGN_347,IMG_0334,37.752971,-122.409507,24th,English,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_348,IMG_0334,37.752971,-122.409507,24th,Spanish,Information,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_349,IMG_0334,37.752971,-122.409507,24th,English,Establishment_Description,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_350,IMG_0336,37.753069,-122.408971,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_351,IMG_0337,37.753069,-122.408971,24th,English,Information,Hand_Written,Restaurant,1,,FALSE
+SIGN_352,IMG_0338,37.752631,-122.4087,24th,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_353,IMG_0339,37.752631,-122.4087,24th,English,Leaflet,Flier,Commentary,0,,FALSE
+SIGN_354,IMG_0339,37.752631,-122.4087,24th,English,Leaflet,Flier,Commentary,0,,FALSE
+SIGN_355,IMG_0340,37.753029,-122.408817,24th,English,Establishment_Name,Professionally_Printed,Institution,0,,FALSE
+SIGN_356,IMG_0341,37.753053,-122.408705,24th,English,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,2,,FALSE
+SIGN_357,IMG_0341,37.753053,-122.408705,24th,English,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,2,,FALSE
+SIGN_358,IMG_0342,37.752642,-122.408619,24th,English,Establishment_Name,Professionally_Printed,Restaurant,2,,TRUE
+SIGN_359,IMG_0342,37.752642,-122.408619,24th,English,Establishment_Name,Professionally_Printed,Restaurant,2,,TRUE
+SIGN_360,IMG_0342,37.752642,-122.408619,24th,Spanish,Establishment_Name,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_361,IMG_0342,37.752642,-122.408619,24th,English,Establishment_Description,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_362,IMG_0343,37.753053,-122.408705,24th,English,Establishment_Name,Home_Printed,Grocery_Liquor_Store,2,,FALSE
+SIGN_363,IMG_0344,37.752864,-122.408404,24th,Spanish,Establishment_Name,Professionally_Printed,Bakery,1,,TRUE
+SIGN_364,IMG_0346,37.752654,-122.408311,24th,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_365,IMG_0347,37.752862,-122.408432,24th,Span_Eng,Information,Hand_Written,Beauty_Hair_Salon,1,,FALSE
+SIGN_366,IMG_0348,37.752879,-122.408213,24th,English,Establishment_Name,Professionally_Printed,Bar,1,,FALSE
+SIGN_367,IMG_0349,37.752879,-122.408213,24th,English,Information,Hand_Written,Bar,1,,FALSE
+SIGN_368,IMG_0350,37.752879,-122.408213,24th,English,Establishment_Name,Professionally_Printed,Bar,1,,FALSE
+SIGN_369,IMG_0351,37.753054,-122.408105,24th,Span_Eng,Establishment_Name,Hand_Written,Restaurant,1,,TRUE
+SIGN_370,IMG_0353,37.752763,-122.407989,24th,English,Establishment_Description,Hand_Written,Landromat,1,,FALSE
+SIGN_371,IMG_0353,37.752763,-122.407989,24th,English,Establishment_Description,Hand_Written,Landromat,1,,FALSE
+SIGN_372,IMG_0354,37.752819,-122.412134,24th,English,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,2,,FALSE
+SIGN_373,IMG_0354,37.752819,-122.412134,24th,English,Information,Professionally_Printed,Grocery_Liquor_Store,2,,FALSE
+SIGN_374,IMG_0355,37.752763,-122.407989,24th,English,Establishment_Name,Hand_Written,Movie_Theater,2,,FALSE
+SIGN_375,IMG_0356,37.753111,-122.407816,24th,Span_Eng,Establishment_Name,Professionally_Printed,Restaurant,1,,TRUE
+SIGN_376,IMG_0356,37.753111,-122.407816,24th,Spanish,Establishment_Name,Hand_Written,Restaurant,1,,TRUE
+SIGN_377,IMG_0356,37.753111,-122.407816,24th,English,Information,Hand_Written,Restaurant,1,,TRUE
+SIGN_378,IMG_0356,37.753111,-122.407816,24th,English,Establishment_Description,Hand_Written,Restaurant,1,,TRUE
+SIGN_379,IMG_0356,37.753111,-122.407816,24th,English,Information,Professionally_Printed,Restaurant,1,,TRUE
+SIGN_380,IMG_0358,37.753093,-122.407673,24th,Spanish,Establishment_Name,Professionally_Printed,Institution,0,,TRUE
+SIGN_381,IMG_0359,37.753093,-122.407673,24th,English,Establishment_Name,Professionally_Printed,Cafe,1,Dynamo coffee with bike parking,FALSE
+SIGN_382,IMG_0361,37.753099,-122.407232,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_383,IMG_0362,37.753098,-122.407127,24th,Other (Thai),Establishment_Name,Professionally_Printed,Restaurant,2,,TRUE
+SIGN_384,IMG_0364,37.753105,-122.406863,24th,Spanish,Establishment_Description,Professionally_Printed,Beauty_Hair_Salon,1,,TRUE
+SIGN_385,IMG_0364,37.753105,-122.406863,24th,Spanish,Information,Professionally_Printed,Beauty_Hair_Salon,1,,TRUE
+SIGN_386,IMG_0365,37.753105,-122.406863,24th,English,Establishment_Name,Hand_Written,Beauty_Hair_Salon,1,,TRUE
+SIGN_387,IMG_0365,37.753105,-122.406863,24th,English,Information,Professionally_Printed,Beauty_Hair_Salon,1,,TRUE
+SIGN_388,IMG_0366,37.753108,-122.406657,24th,English,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_389,IMG_0366,37.753108,-122.406657,24th,English,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_390,IMG_0367,37.753109,-122.406582,24th,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_391,IMG_0370,37.752733,-122.407475,24th,English,Information,Home_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_392,IMG_0370,37.752733,-122.407475,24th,English,Information,Home_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_393,IMG_0371,37.752733,-122.407475,24th,English,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,2,,FALSE
+SIGN_394,IMG_0372,37.752576,-122.409942,24th,English,Information,Hand_Written,Landromat,1,,FALSE
+SIGN_395,IMG_0374,37.752478,-122.410566,24th,Eng_Span,Information,Hand_Written,Shop,2,But has changed names,FALSE
+SIGN_396,IMG_0375,37.752484,-122.411893,24th,English,Graffiti,Hand_Written,Commentary,0,,FALSE
+SIGN_397,IMG_0378,37.752276,-122.414494,24th,English,Establishment_Name,Professionally_Printed,Restaurant,2,Local Eatery,TRUE
+SIGN_398,IMG_0378,37.752276,-122.414494,24th,English,Establishment_Description,Professionally_Printed,Restaurant,2,,TRUE
+SIGN_399,IMG_0380,37.752256,-122.416618,24th,Equal,Information,Professionally_Printed,Shop,0,,FALSE
+SIGN_400,IMG_0382,37.752256,-122.416618,24th,Span_Eng,Establishment_Name,Professionally_Printed,Shop,0,,FALSE
+SIGN_401,IMG_0382,37.752256,-122.416618,24th,Spanish,Information,Professionally_Printed,Shop,0,,FALSE
+SIGN_402,IMG_0383,37.752256,-122.416618,24th,Eng_Span,Advertisement,Professionally_Printed,Shop,0,,FALSE
+SIGN_403,IMG_0384,37.752324,-122.416737,24th,English,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_404,IMG_0386,37.749254,-122.417971,Mission,Spanish,Establishment_Name,Professionally_Printed,Supermarket,1,Can't find,FALSE
+SIGN_405,IMG_0386,37.749254,-122.417971,Mission,Spanish,Establishment_Description,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_406,IMG_0386,37.749254,-122.417971,Mission,Spanish,Street_Signs,Permanent,External,0,,FALSE
+SIGN_407,IMG_0387,37.75078,-122.41815,Mission,English,Graffiti,Hand_Written,Restaurant,0,,FALSE
+SIGN_408,IMG_0387,37.75078,-122.41815,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_409,IMG_0387,37.75078,-122.41815,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_410,IMG_0388,37.750811,-122.418152,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_411,IMG_0388,37.750811,-122.418152,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_412,IMG_0389,37.750892,-122.418088,Mission,Spanish,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_413,IMG_0390,37.750999,-122.418316,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_414,IMG_0390,37.750999,-122.418316,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_415,IMG_391,37.75131,-122.418164,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,1,Andrea De Mexico a Tus Pies,FALSE
+SIGN_416,IMG_0391,37.75131,-122.418164,Mission,English,Establishment_Description,Professionally_Printed,Business ,1,,FALSE
+SIGN_417,IMG_0391,37.75131,-122.418164,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_418,IMG_0391,37.75131,-122.418164,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_419,IMG_0391,37.75131,-122.418164,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_420,IMG_0391,37.75131,-122.418164,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_421,IMG_0392,37.751149,-122.418366,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_422,IMG_0392,37.751149,-122.418366,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_423,IMG_0392,37.751149,-122.418366,Mission,English,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_424,IMG_0393,37.751279,-122.418655,Mission,English,Establishment_Description,Professionally_Printed,Business ,2,,FALSE
+SIGN_425,IMG_0394,37.751613,-122.418143,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_426,IMG_0394,37.751613,-122.418143,Mission,English,Establishment_Description,Professionally_Printed,Business ,1,,FALSE
+SIGN_427,IMG_0394,37.751613,-122.418143,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_428,IMG_0394,37.751613,-122.418143,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_429,IMG_0394,37.751613,-122.418143,Mission,Eng_Span,Establishment_Description,Professionally_Printed,Business ,1,,FALSE
+SIGN_430,IMG_0394,37.751613,-122.418143,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_431,IMG_0394,37.751613,-122.418143,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_432,IMG_0394,37.751613,-122.418143,Mission,English,Street_Signs,Permanent,External,1,,FALSE
+SIGN_433,IMG_0394,37.751613,-122.418143,Mission,English,Street_Signs,Permanent,External,1,,FALSE
+SIGN_434,IMG_0395,37.75136,-122.418636,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_435,IMG_0395,37.75136,-122.418636,Mission,Spanish,Establishment_Name,Home_Printed,Supermarket,1,,FALSE
+SIGN_436,IMG_0395,37.75136,-122.418636,Mission,Spanish,Establishment_Description,Professionally_Printed,Business ,1,,FALSE
+SIGN_437,IMG_0395,37.75136,-122.418636,Mission,Spanish,Information,Professionally_Printed,Business ,1,,FALSE
+SIGN_438,IMG_0395,37.75136,-122.418636,Mission,English,Establishment_Name,Professionally_Printed,Cafe,1,,FALSE
+SIGN_439,IMG_0395,37.75136,-122.418636,Mission,Span_Eng,Information,Professionally_Printed,Business ,1,,FALSE
+SIGN_440,IMG_0395,37.75136,-122.418636,Mission,Span_Eng,Information,Professionally_Printed,Business ,1,,FALSE
+SIGN_441,IMG_0395,37.75136,-122.418636,Mission,Spanish,information,Professionally_Printed,Business ,1,,FALSE
+SIGN_442,IMG_0396,37.751416,-122.418606,Mission,Spanish,Establishment_Name,Home_Printed,Business ,2,,FALSE
+SIGN_443,IMG_0396,37.751416,-122.418606,Mission,Spanish,Establishment_Description,Home_Printed,Business ,0,,FALSE
+SIGN_444,IMG_0396,37.751416,-122.418606,Mission,Spanish,Information,Hand_Written,Business ,0,,FALSE
+SIGN_445,IMG_0396,37.751416,-122.418606,Mission,English,Information,Home_Printed,Business ,0,,FALSE
+SIGN_446,IMG_0401,37.751613,-122.418143,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_447,IMG_0402,37.751571,-122.418773,Mission,English,Establishment_Description,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_448,IMG_0402,37.751571,-122.418773,Mission,English,Information,Hand_Written,Restaurant,0,,FALSE
+SIGN_449,IMG_0403,37.751922,-122.418219,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_450,IMG_0403,37.751922,-122.418219,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,Mr. Pollo: Como-A ti-te-gusta; 100% sabor latino,FALSE
+SIGN_451,IMG_0403,37.751922,-122.418219,Mission,Spanish,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_452,IMG_0403,37.751922,-122.418219,Mission,Spanish,Establishment_Description,Professionally_Printed,Restaurant,0,,FALSE
+SIGN_453,IMG_0403,37.751922,-122.418219,Mission,English,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_454,IMG_0403,37.751922,-122.418219,Mission,English,Information,Professionally_Printed,Business ,0,,FALSE
+SIGN_455,IMG_0404,37.751743,-122.418662,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_456,IMG_0404,37.751743,-122.418662,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_457,IMG_0404,37.751743,-122.418662,Mission,Spanish,Establishment_Description,Professionally_Printed,Restaurant,0,,FALSE
+SIGN_458,IMG_0404,37.751743,-122.418662,Mission,Span_Eng,information,Professionally_Printed,Restaurant,0,,FALSE
+SIGN_459,IMG_0405,37.751811,-122.418674,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_460,IMG_0406,37.751968,-122.418203,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_461,IMG_0407,37.752468,-122.418834,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_462,IMG_0407,37.752468,-122.418834,Mission,English,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_463,IMG_0408,37.7527,-122.418193,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_464,IMG_0408,37.7527,-122.418193,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Bar,2,,FALSE
+SIGN_465,IMG_0408,37.7527,-122.418193,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_466,IMG_0410,37.752486,-122.41875,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_467,IMG_0410,37.752486,-122.41875,Mission,English,Establishment_Description,Professionally_Printed,Business ,1,,FALSE
+SIGN_468,IMG_0410,37.752486,-122.41875,Mission,English,Information,Professionally_Printed,Business ,0,,FALSE
+SIGN_469,IMG_0410,37.752486,-122.41875,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_470,IMG_0410,37.752486,-122.41875,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_471,IMG_0410,37.752486,-122.41875,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,0,,FALSE
+SIGN_472,IMG_0411,37.752626,-122.418795,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_473,IMG_0411,37.752626,-122.418795,Mission,Equal,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_474,IMG_0412,37.752599,-122.418642,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_475,IMG_0412,37.752599,-122.418642,Mission,English,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_476,IMG_0412,37.752599,-122.418642,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_477,IMG_0414,37.75261,-122.418923,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_478,IMG_0414,37.75261,-122.418923,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_479,IMG_0414,37.75261,-122.418923,Mission,English,Establishment_Description,Professionally_Printed,Business ,1,,FALSE
+SIGN_480,IMG_0414,37.75261,-122.418923,Mission,Spanish,Information,Professionally_Printed,Business ,1,,FALSE
+SIGN_481,IMG_0414,37.75261,-122.418923,Mission,Spanish,Information,Professionally_Printed,Business ,0,,FALSE
+SIGN_482,IMG_0414,37.75261,-122.418923,Mission,Spanish,Information,Professionally_Printed,External,0,,FALSE
+SIGN_483,IMG_0415,37.752937,-122.418334,Mission,Spanish,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_484,IMG_0415,37.752937,-122.418334,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_485,IMG_0415,37.752937,-122.418334,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_486,IMG_0415,37.752937,-122.418334,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_487,IMG_0415,37.752937,-122.418334,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_488,IMG_0416,37.752838,-122.418859,Mission,English,Establishment_Name,Professionally_Printed,Clothing,1,,FALSE
+SIGN_489,IMG_0416,37.752838,-122.418859,Mission,Spanish,Establishment_Description,Professionally_Printed,Clothing,1,,FALSE
+SIGN_490,IMG_0416,37.752838,-122.418859,Mission,Spanish,Information,Professionally_Printed,Clothing,0,,FALSE
+SIGN_491,IMG_0416,37.752838,-122.418859,Mission,Spanish,Information,Professionally_Printed,Clothing,0,,FALSE
+SIGN_492,IMG_0418,37.752929,-122.418881,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_493,IMG_0419,37.752946,-122.418669,Mission,English,Establishment_Name,Professionally_Printed,Clothing,4,,FALSE
+SIGN_494,IMG_0419,37.752946,-122.418669,Mission,English,Establishment_Description,Professionally_Printed,Clothing,0,,FALSE
+SIGN_495,IMG_0420,37.753176,-122.418379,Mission,English,Establishment_Name,Professionally_Printed,Clothing,1,,FALSE
+SIGN_496,IMG_0420,37.753176,-122.418379,Mission,Other (Chinese),Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_497,IMG_0420,37.753176,-122.418379,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_498,IMG_0420,37.753176,-122.418379,Mission,English,Establishment_Name,Professionally_Printed,Clothing,1,,FALSE
+SIGN_499,IMG_0420,37.753176,-122.418379,Mission,English,Establishment_Description,Professionally_Printed,Clothing,1,,FALSE
+SIGN_500,IMG_0420,37.753176,-122.418379,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_501,IMG_0421,37.753176,-122.418379,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_502,IMG_0421,37.753176,-122.418379,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_503,IMG_0422,37.753124,-122.418892,Mission,Span_Eng,Establishment_Description,Professionally_Printed,Restaurant,0,,FALSE
+SIGN_504,IMG_0422,37.753124,-122.418892,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_505,IMG_0423,37.753195,-122.418893,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_506,IMG_0423,37.753195,-122.418893,Mission,English,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_507,IMG_0424,37.753195,-122.418893,Mission,Equal,information,Home_Printed,Restaurant,0,,FALSE
+SIGN_508,IMG_0425,37.753482,-122.418318,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_509,IMG_0425,37.753482,-122.418318,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Restaurant,0,,FALSE
+SIGN_510,IMG_0426,37.752468,-122.418834,Mission,English,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_511,IMG_0427,37.75261,-122.418923,Mission,English,Establishment_Name,Professionally_Printed,Hardware,2,,FALSE
+SIGN_512,IMG_0428,37.752753,-122.418886,Mission,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_513,IMG_0428,37.752753,-122.418886,Mission,Span_Eng,Information,Professionally_Printed,Business ,0,,FALSE
+SIGN_514,IMG_0428,37.752753,-122.418886,Mission,Span_Eng,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_515,IMG_0429,37.75357,-122.41882,Mission,Other (Tagalog),Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_516,IMG_0430,37.753635,-122.418861,Mission,Spanish,Information,Hand_Written,Commentary,0,,FALSE
+SIGN_517,IMG_0431,37.753635,-122.418861,Mission,English,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_518,IMG_0431,37.753635,-122.418861,Mission,English,Establishment_Description,Professionally_Printed,Supermarket,0,,FALSE
+SIGN_519,IMG_0432,37.754031,-122.418469,Mission,English,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_520,IMG_0432,37.754031,-122.418469,Mission,English,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_521,IMG_0432,37.754031,-122.418469,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_522,IMG_0432,37.754031,-122.418469,Mission,Equal,Establishment_Name,Professionally_Printed,Hotel,1,,FALSE
+SIGN_523,IMG_0432,37.754031,-122.418469,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_524,IMG_0433,37.753703,-122.418878,Mission,English,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_525,IMG_0434,37.754029,-122.418974,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_526,IMG_0434,37.754029,-122.418974,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_527,IMG_0435,37.754117,-122.418265,Mission,Spanish,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_528,IMG_0435,37.754117,-122.418265,Mission,Spanish,Advertisement,Professionally_Printed,Shop,0,,FALSE
+SIGN_529,IMG_0435,37.754117,-122.418265,Mission,English,Information,Professionally_Printed,Shop,1,,FALSE
+SIGN_530,IMG_0435,37.754117,-122.418265,Mission,English,Advertisement,Professionally_Printed,Shop,1,,FALSE
+SIGN_531,IMG_0435,37.754117,-122.418265,Mission,English,Establishment_Name,Professionally_Printed,Hotel,2,,FALSE
+SIGN_532,IMG_0435,37.754117,-122.418265,Mission,English,Establishment_Name,Professionally_Printed,Bar,2,,FALSE
+SIGN_533,IMG_0435,37.754117,-122.418265,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_534,IMG_0436,37.754094,-122.418503,Mission,Spanish,Establishment_Description,Home_Printed,Shop,0,,FALSE
+SIGN_535,IMG_0436,37.754094,-122.418503,Mission,Span_Eng,Establishment_Name,Home_Printed,Shop,1,,FALSE
+SIGN_536,IMG_0436,37.754094,-122.418503,Mission,Span_Eng,Information,Hand_Written,Shop,0,,FALSE
+SIGN_537,IMG_0436,37.754094,-122.418503,Mission,Equal,Information,Hand_Written,Shop,0,,FALSE
+SIGN_538,IMG_0437,37.754392,-122.418503,Mission,English,Establishment_Name,Professionally_Printed,Movie_Theater,1,,FALSE
+SIGN_539,IMG_0437,37.754392,-122.418503,Mission,English,Information,Professionally_Printed,Movie_Theater,1,,FALSE
+SIGN_540,IMG_0437,37.754392,-122.418503,Mission,English,Graffiti,Hand_Written,External,0,,FALSE
+SIGN_541,IMG_0437,37.754392,-122.418503,Mission,Spanish,Establishment_Description,Professionally_Printed,Shop,1,,FALSE
+SIGN_542,IMG_0437,37.754392,-122.418503,Mission,Span_Eng,Establishment_Description,Professionally_Printed,Shop,1,,FALSE
+SIGN_543,IMG_0437,37.754392,-122.418503,Mission,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_544,IMG_0437,37.754392,-122.418503,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_545,IMG_0437,37.754392,-122.418503,Mission,English,Establishment_Name,Professionally_Printed,Shop,0,,FALSE
+SIGN_546,IMG_0437,37.754392,-122.418503,Mission,English,Establishment_Name,Professionally_Printed,Shop,0,,FALSE
+SIGN_547,IMG_0438,37.754201,-122.418501,Mission,English,Establishment_Name,Professionally_Printed,Institution,0,,FALSE
+SIGN_548,IMG_0439,37.754302,-122.419,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_549,IMG_0439,37.754302,-122.419,Mission,English,Advertisement,Professionally_Printed,Shop,0,,FALSE
+SIGN_550,IMG_0440,37.754541,-122.418305,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_551,IMG_0440,37.754541,-122.418305,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_552,IMG_0440,37.754541,-122.418305,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_553,IMG_0443,37.754647,-122.418705,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_554,IMG_0433,37.754647,-122.418705,Mission,English,Establishment_Name,Professionally_Printed,Hardware,2,,FALSE
+SIGN_555,IMG_0444,37.754647,-122.41854,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_556,IMG_0445,37.754723,-122.418713,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_557,IMG_0445,37.754723,-122.418713,Mission,English,Establishment_Description,Professionally_Printed,Business ,2,,FALSE
+SIGN_558,IMG_0445,37.754723,-122.418713,Mission,English,Advertisement,Professionally_Printed,Business ,2,,FALSE
+SIGN_559,IMG_0445,37.754723,-122.418713,Mission,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_560,IMG_0445,37.754723,-122.418713,Mission,English,Establishment_Description,Professionally_Printed,Business ,2,,FALSE
+SIGN_561,IMG_0447,37.754541,-122.418305,Mission,Spanish,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_562,IMG_0447,37.754541,-122.418305,Mission,English,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_563,IMG_0448,37.75501,-122.418534,Mission,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_564,IMG_0449,37.754962,-122.419078,Mission,English,Establishment_Name,Home_Printed,Shop,0,,FALSE
+SIGN_565,IMG_0449,37.754962,-122.419078,Mission,English,Establishment_Description,Home_Printed,Shop,0,,FALSE
+SIGN_566,IMG_0449,37.754962,-122.419078,Mission,Eng_Span,Graffiti,Hand_Written,External,0,,FALSE
+SIGN_567,IMG_0450,37.755044,-122.419099,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_568,IMG_0450,37.755044,-122.419099,Mission,Spanish,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_569,IMG_0451,37.755044,-122.419099,Mission,Equal,Information,Home_Printed,Business ,0,,FALSE
+SIGN_570,IMG_0451,37.755044,-122.419099,Mission,Span_Eng,Establishment_Name,Home_Printed,Business ,0,,FALSE
+SIGN_571,IMG_0451,37.755044,-122.419099,Mission,Spanish,Information,Home_Printed,Business ,0,,FALSE
+SIGN_572,IMG_0452,37.755188,-122.419033,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_573,IMG_0452,37.755188,-122.419033,Mission,English,Establishment_Description,Professionally_Printed,Business ,1,,FALSE
+SIGN_574,IMG_0454,37.755574,-122.419047,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_575,IMG_0455,37.755668,-122.418982,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_576,IMG_0455,37.755668,-122.418982,Mission,English,Establishment_Description,Professionally_Printed,Shop,1,,FALSE
+SIGN_577,IMG_0455,37.755668,-122.418982,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_578,IMG_0456,37.755964,-122.41866,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_579,IMG_0456,37.755964,-122.41866,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_580,IMG_0456,37.755964,-122.41866,Mission,English,Establishment_Name,Professionally_Printed,Bar,2,,FALSE
+SIGN_581,IMG_0456,37.755964,-122.41866,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_582,IMG_0456,37.755964,-122.41866,Mission,English,Information,Professionally_Printed,Shop,1,,FALSE
+SIGN_583,IMG_0456,37.755964,-122.41866,Mission,Span_Eng,Establishment_Description,Professionally_Printed,Shop,1,,FALSE
+SIGN_584,IMG_0457,37.755713,-122.419052,Mission,Spanish,Information,Home_Printed,Restaurant,1,,FALSE
+SIGN_585,IMG_0457,37.755713,-122.419052,Mission,Spanish,Information,Hand_Written,Restaurant,1,,FALSE
+SIGN_586,IMG_0458,37.755713,-122.419052,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_587,IMG_0459,37.755794,-122.418824,Mission,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_588,IMG_0460,37.756115,-122.418506,Mission,English,Establishment_Name,Professionally_Printed,Bar,1,,FALSE
+SIGN_589,IMG_0461,37.755948,-122.418932,Mission,Spanish,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_590,IMG_0462,37.755864,-122.418441,Mission,English,Information,Professionally_Printed,External,0,,FALSE
+SIGN_591,IMG_0462,37.755864,-122.418441,Mission,English,Establishment_Description,Professionally_Printed,Bar,2,,FALSE
+SIGN_592,IMG_0465,37.755948,-122.418932,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_593,IMG_0466,37.756419,-122.418485,Mission,English,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_594,IMG_0466,37.756419,-122.418485,Mission,English,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_595,IMG_0466,37.756419,-122.418485,Mission,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_596,IMG_0466,37.756419,-122.418485,Mission,English,Establishment_Description,Professionally_Printed,Business ,2,,FALSE
+SIGN_597,IMG_0466,37.756419,-122.418485,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_598,IMG_0467,37.756409,-122.419064,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_599,IMG_0468,37.756674,-122.418615,Mission,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_600,IMG_0468,37.756674,-122.418615,Mission,English,Establishment_Description,Professionally_Printed,Shop,2,,FALSE
+SIGN_601,IMG_0468,37.756674,-122.418615,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_602,IMG_0469,37.756415,-122.41918,Mission,English,Establishment_Name,Professionally_Printed,Movie_Theater,1,,FALSE
+SIGN_603,IMG_0469,37.756415,-122.41918,Mission,English,Information,Professionally_Printed,Movie_Theater,1,,FALSE
+SIGN_604,IMG_0470,37.756586,-122.419084,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_605,IMG_0470,37.756586,-122.419084,Mission,English,Information,Permanent,External,0,,FALSE
+SIGN_606,IMG_0471,37.756634,-122.419287,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,3,,FALSE
+SIGN_607,IMG_0472,37.756749,-122.419165,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_608,IMG_0472,37.756749,-122.419165,Mission,Eng_Span,Information,Professionally_Printed,Shop,1,,FALSE
+SIGN_609,IMG_0472,37.756749,-122.419165,Mission,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_610,IMG_0474,37.75714,-122.41917,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_611,IMG_0475,37.75714,-122.41917,Mission,Spanish,Advertisement,Professionally_Printed,Business ,0,,FALSE
+SIGN_612,IMG_0475,37.75714,-122.41917,Mission,Spanish,Information,Professionally_Printed,Business ,0,,FALSE
+SIGN_613,IMG_3130,37.757375,-122.418944,Mission,Spanish,Establishment_Name,Home_Printed,Business ,0,,FALSE
+SIGN_614,IMG_3130,37.757375,-122.418944,Mission,English,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_615,IMG_3130,37.757375,-122.418944,Mission,English,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_616,IMG_3130,37.757375,-122.418944,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_617,IMG_3132,37.757227,-122.419114,Mission,Equal,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_618,IMG_2132,37.757227,-122.419114,Mission,Span_Eng,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_619,IMG_3132,37.757227,-122.419114,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_620,IMG_3133,37.75748,-122.418588,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_621,IMG_3133,37.75748,-122.418588,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_622,IMG_3133,37.75748,-122.418588,Mission,Eng_Span,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_623,IMG_3133,37.75748,-122.418588,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_624,IMG_3133,37.75748,-122.418588,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_625,IMG_3134,37.75753,-122.418959,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_626,IMG_3135,37.757304,-122.419225,Mission,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_627,IMG_3136,37.757396,-122.419143,Mission,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_628,IMG_3138,37.757733,-122.418611,Mission,English,Graffiti,Hand_Written,External,0,,FALSE
+SIGN_629,IMG_3139,37.757592,-122.419225,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_630,IMG_3140,37.757592,-122.419225,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_631,IMG_3142,37.757877,-122.418801,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_632,IMG_3142,37.757877,-122.418801,Mission,English,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_633,IMG_3142,37.757877,-122.418801,Mission,Spanish,Graffiti,Professionally_Printed,External,0,,FALSE
+SIGN_634,IMG_3143,37.758101,-122.418873,Mission,Spanish,Establishment_Name,Professionally_Printed,Residential,0,,FALSE
+SIGN_635,IMG_3143,37.758101,-122.418873,Mission,Spanish,Establishment_Description,Professionally_Printed,Residential,0,,FALSE
+SIGN_636,IMG_3143,37.758101,-122.418873,Mission,English,Establishment_Name,Professionally_Printed,Shop,0,,FALSE
+SIGN_637,IMG_3144,37.757817,-122.419246,Mission,English,Establishment_Name,Professionally_Printed,Shop,0,,FALSE
+SIGN_638,IMG_3144,37.757817,-122.419246,Mission,English,Establishment_Description,Professionally_Printed,Shop,0,,FALSE
+SIGN_639,IMG_3147,37.758101,-122.418873,Mission,English,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_640,IMG_3147,37.758101,-122.418873,Mission,English,Establishment_Description,Home_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_641,IMG_3148,37.757865,-122.419278,Mission,English,Establishment_Name,Home_Printed,Business ,2,,FALSE
+SIGN_642,IMG_3148,37.757865,-122.419278,Mission,English,Establishment_Name,Home_Printed,Business ,2,,FALSE
+SIGN_643,IMG_3150,37.757887,-122.419332,Mission,English,Establishment_Name,Home_Printed,Business ,2,,FALSE
+SIGN_644,IMG_3150,37.757887,-122.419332,Mission,English,Establishment_Description,Hand_Written,Business ,2,,FALSE
+SIGN_645,IMG_3152,37.757887,-122.419332,Mission,English,Information,Home_Printed,Business ,2,,FALSE
+SIGN_646,IMG_3156,37.758057,-122.419297,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_647,IMG_3156,37.758057,-122.419297,Mission,Equal,Information,Home_Printed,Business ,0,,FALSE
+SIGN_648,IMG_3157,37.748582,-122.418411,Mission,Span_Eng,Establishment_Name,Home_Printed,Shop,1,,FALSE
+SIGN_649,IMG_3157,37.748582,-122.418411,Mission,English,Establishment_Name,Home_Printed,Shop,1,,FALSE
+SIGN_650,IMG_3158,37.758267,-122.419355,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_651,IMG_3158,37.758267,-122.419355,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_652,IMG_3159,37.758257,-122.418789,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,, FALSE
+SIGN_653,IMG_3161,37.75835,-122.419083,Mission,English,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_654,IMG_3162,37.758344,-122.419324,Mission,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_655,IMG_3162,37.758344,-122.419324,Mission,Spanish,Advertisement,Professionally_Printed,External,1,,FALSE
+SIGN_656,IMG_3162,37.758344,-122.419324,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_657,IMG_3165,37.758655,-122.419066,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_658,IMG_3165,37.758655,-122.419066,Mission,Spanish,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_659,IMG_3165,37.758655,-122.419066,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_660,IMG_3165,37.758655,-122.419066,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_661,IMG_3165,37.758655,-122.419066,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_662,IMG_3165,37.758655,-122.419066,Mission,English,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_663,IMG_3166,37.758944,-122.418775,Mission,English,Establishment_Name,Professionally_Printed,Bar,2,,FALSE
+SIGN_664,IMG_3166,37.758944,-122.418775,Mission,English,Establishment_Description,Professionally_Printed,Bar,2,,FALSE
+SIGN_665,IMG_3166,37.758944,-122.418775,Mission,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_666,IMG_3167,37.758605,-122.419364,Mission,English,Information,Hand_Written,Business ,1,,FALSE
+SIGN_667,IMG_3167,37.758605,-122.419364,Mission,Eng_Span,Information,Hand_Written,Business ,1,,FALSE
+SIGN_668,IMG_3168,37.758784,-122.419452,Mission,Spanish,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_669,IMG_3168,37.758784,-122.419452,Mission,Spanish,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_670,IMG_3170,37.758784,-122.419452,Mission,Spanish,Information,Professionally_Printed,Business ,0,,FALSE
+SIGN_671,IMG_3172,37.758784,-122.419452,Mission,Spanish,Advertisement,Home_Printed,Business ,0,,FALSE
+SIGN_672,IMG_3175,37.758856,-122.419125,Mission,English,Establishment_Name,Hand_Written,Business ,1,,FALSE
+SIGN_673,IMG_3175,37.758856,-122.419125,Mission,English,Establishment_Description,Hand_Written,Business ,1,,FALSE
+SIGN_674,IMG_3178,37.758887,-122.419421,Mission,English,Establishment_Name,Home_Printed,Jewelry_Store,3,,FALSE
+SIGN_675,IMG_3178,37.758887,-122.419421,Mission,English,Establishment_Description,Home_Printed,Jewelry_Store,3,,FALSE
+SIGN_676,IMG_3180,37.758961,-122.419428,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_677,IMG_3181,37.758961,-122.419428,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_678,IMG_3182,37.759038,-122.419452,Mission,English,Establishment_Description,Home_Printed,Business ,0,,FALSE
+SIGN_679,IMG_3183,37.759038,-122.419452,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_680,IMG_3183,37.759038,-122.419452,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_681,IMG_3185,37.759115,-122.419474,Mission,English,Establishment_Description,Home_Printed,Business ,1,,FALSE
+SIGN_682,IMG_3187,37.759272,-122.41899,Mission,English,Establishment_Name,Home_Printed,Business ,1,,FALSE
+SIGN_683,IMG_3187,37.759272,-122.41899,Mission,English,Establishment_Name,Home_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_684,IMG_3187,37.759272,-122.41899,Mission,English,Establishment_Name,Home_Printed,Hotel,2,,FALSE
+SIGN_685,IMG_3187,37.759272,-122.41899,Mission,English,Establishment_Description,Home_Printed,Business ,1,,FALSE
+SIGN_686,IMG_3187,37.759272,-122.41899,Mission,Eng_Span,Graffiti,Hand_Written,External,0,,FALSE
+SIGN_687,IMG_3187,37.759272,-122.41899,Mission,English,Information,Hand_Written,External,0,,FALSE
+SIGN_688,IMG_3187,37.759272,-122.41899,Mission,Spanish,Establishment_Name,Home_Printed,Movie_Theater,1,,FALSE
+SIGN_689,IMG_3187,37.759272,-122.41899,Mission,Span_Eng,Establishment_Description,Home_Printed,Shop,1,,FALSE
+SIGN_690,IMG_3187,37.759272,-122.41899,Mission,Span_Eng,Establishment_Name,Home_Printed,Shop,1,,FALSE
+SIGN_691,IMG_3188,37.759427,-122.419012,Mission,English,Establishment_Name,Professionally_Printed,Movie_Theater,1,,FALSE
+SIGN_692,IMG_3188,37.759427,-122.419012,Mission,English,Establishment_Description,Professionally_Printed,Movie_Theater,1,,FALSE
+SIGN_693,IMG_3188,37.759427,-122.419012,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_694,IMG_3189,37.759115,-122.419474,Mission,English,Advertisement,Hand_Written,Shop,1,,FALSE
+SIGN_695,IMG_3189,37.759115,-122.419474,Mission,English,Advertisement,Hand_Written,Shop,1,,FALSE
+SIGN_696,IMG_3189,37.759115,-122.419474,Mission,English,Advertisement,Hand_Written,Shop,1,,FALSE
+SIGN_697,IMG_3190,37.759148,-122.419154,Mission,English,Advertisement,Hand_Written,Shop,1,,FALSE
+SIGN_698,IMG_3190,37.759148,-122.419154,Mission,English,Advertisement,Hand_Written,Shop,1,,FALSE
+SIGN_699,IMG_3191,37.759148,-122.419154,Mission,English,Establishment_Name,Professionally_Printed,Shop,2,Zoot suit store,FALSE
+SIGN_700,IMG_3191,37.759148,-122.419154,Mission,English,Information,Professionally_Printed,Shop,2,,FALSE
+SIGN_701,IMG_3192,37.759148,-122.419154,Mission,English,Advertisement,Hand_Written,Shop,2,,FALSE
+SIGN_702,IMG_3192,37.759148,-122.419154,Mission,English,Advertisement,Hand_Written,Shop,2,,FALSE
+SIGN_703,IMG_3193,37.757592,-122.419225,Mission,English,Establishment_Name,Home_Printed,Shop,1,2 IMG_3139 in 2 different spots?,FALSE
+SIGN_704,IMG_3193,37.75936,-122.419472,Mission,English,Advertisement,Hand_Written,Shop,1,,FALSE
+SIGN_705,IMG_3196,37.759428,-122.419479,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_706,IMG_3197,37.759487,-122.419443,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_707,IMG_3198,37.759515,-122.418782,Mission,English,Establishment_Name,Professionally_Printed,Nightclub,2,,FALSE
+SIGN_708,IMG_3198,37.759515,-122.418782,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_709,IMG_3198,37.759515,-122.418782,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_710,IMG_3199,37.759487,-122.419443,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_711,IMG_3200,37.759535,-122.419448,Mission,English,Establishment_Name,Professionally_Printed,Jewelry_Store,2,,FALSE
+SIGN_712,IMG_3200,37.759535,-122.419448,Mission,Eng_Span,Information,Professionally_Printed,Jewelry_Store,2,,FALSE
+SIGN_713,IMG_3200,37.759535,-122.419448,Mission,Equal,Graffiti,Hand_Written,External,0,,FALSE
+SIGN_714,IMG_3200,37.759535,-122.419448,Mission,Equal,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_715,IMG_3200,37.759535,-122.419448,Mission,Eng_Span,Establishment_Description,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_716,IMG_3200,37.759535,-122.419448,Mission,English,Establishment_Name,Home_Printed,Shop,1,,FALSE
+SIGN_717,IMG_3202,37.759813,-122.418859,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_718,IMG_3202,37.759813,-122.418859,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,2,Dr. Teeth and The Electric Mayhem,FALSE
+SIGN_719,IMG_3202,37.759813,-122.418859,Mission,English,Establishment_Description,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_720,IMG_3202,37.759813,-122.418859,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_721,IMG_3204,37.759661,-122.419509,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_722,IMG_3206,37.759661,-122.419509,Mission,Spanish,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_723,IMG_3207,37.759661,-122.419509,Mission,Spanish,Information,Hand_Written,Shop,1,,FALSE
+SIGN_724,IMG_3207,37.759661,-122.419509,Mission,English,Advertisement,Flier,Shop,0,,FALSE
+SIGN_725,IMG_3210,37.759736,-122.419516,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_726,IMG_3210,37.759736,-122.419516,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_727,IMG_3212,37.759885,-122.419577,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_728,IMG_3212,37.759885,-122.419577,Mission,English,Graffiti,Hand_Written,External,0,,FALSE
+SIGN_729,IMG_3213,37.759971,-122.419505,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_730,IMG_3213,37.759971,-122.419505,Mission,English,Establishment_Description,Professionally_Printed,Business ,1,,FALSE
+SIGN_731,IMG_3215,37.760087,-122.418806,Mission,Eng_Span,Establishment_Name,Home_Printed,Supermarket,1,El Mercadtio: Buy Local; Support Locals,FALSE
+SIGN_732,IMG_3216,37.760324,-122.419235,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_733,IMG_3216,37.760324,-122.419235,Mission,English,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_734,IMG_3216,37.760324,-122.419235,Mission,Equal,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_735,IMG_3216,37.760324,-122.419235,Mission,English,Establishment_Description,Professionally_Printed,Shop,1,,FALSE
+SIGN_736,IMG_3217,37.760094,-122.419495,Mission,Spanish,Establishment_Description,Home_Printed,Business ,0,,FALSE
+SIGN_737,IMG_3217,37.760094,-122.419495,Mission,English,Establishment_Name,Home_Printed,Business ,0,,FALSE
+SIGN_738,IMG_3217,37.760094,-122.419495,Mission,Span_Eng,Information,Home_Printed,Business ,0,,FALSE
+SIGN_739,IMG_3218,37.760094,-122.419495,Mission,Equal,Establishment_Description,Home_Printed,Business ,0,,FALSE
+SIGN_740,IMG_3222,37.760253,-122.419266,Mission,English,Establishment_Description,Home_Printed,Supermarket,1,,FALSE
+SIGN_741,IMG_3223,37.760582,-122.418992,Mission,Equal,Establishment_Name,Home_Printed,Supermarket,1,,FALSE
+SIGN_742,IMG_3223,37.760582,-122.418992,Mission,English,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_743,IMG_3223,37.760582,-122.418992,Mission,English,Establishment_Name,Home_Printed,Jewelry_Store,2,,FALSE
+SIGN_744,IMG_3224,37.760253,-122.419266,Mission,Eng_Span,Establishment_Name,Home_Printed,Supermarket,1,,FALSE
+SIGN_745,IMG_3225,37.760452,-122.419533,Mission,English,Establishment_Name,Home_Printed,Supermarket,1,,FALSE
+SIGN_746,IMG_3225,37.760452,-122.419533,Mission,English,Establishment_Name,Home_Printed,Hotel,2,,FALSE
+SIGN_747,IMG_3225,37.760452,-122.419533,Mission,Spanish,Establishment_Name,Home_Printed,Restaurant,1,,FALSE
+SIGN_748,IMG_3226,37.760495,-122.419571,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_749,IMG_3226,37.760495,-122.419571,Mission,Spanish,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_750,IMG_3227,37.760589,-122.419569,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_751,IMG_3227,37.760589,-122.419569,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_752,IMG_3231,37.760588,-122.419685,Mission,English,Information,Hand_Written,Restaurant,2,,FALSE
+SIGN_753,IMG_3232,37.760588,-122.419685,Mission,English,Establishment_Name,Home_Printed,Restaurant,2,,FALSE
+SIGN_754,IMG_3234,37.760648,-122.419569,Mission,Spanish,Information,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_755,IMG_3234,37.760648,-122.419569,Mission,Spanish,Information,Home_Printed,Restaurant,1,,FALSE
+SIGN_756,IMG_3233,37.760648,-122.419569,Mission,Spanish,Establishment_Name,Home_Printed,Restaurant,1,,FALSE
+SIGN_757,IMG_3233,37.760648,-122.419569,Mission,Spanish,Information,Home_Printed,Restaurant,1,,FALSE
+SIGN_758,IMG_3235,37.760681,-122.41957,Mission,Spanish,Establishment_Name,Home_Printed,Shop,1,,FALSE
+SIGN_759,IMG_3236,37.760681,-122.41957,Mission,Spanish,Information,Home_Printed,Shop,1,Tenemos lay away,FALSE
+SIGN_760,IMG_3237,37.760639,-122.419265,Mission,English,Establishment_Name,Home_Printed,Jewelry_Store,1,,FALSE
+SIGN_761,IMG_3237,37.760639,-122.419265,Mission,English,Graffiti,Hand_Written,External,0,,FALSE
+SIGN_762,IMG_3238,37.760582,-122.418992,Mission,English,Establishment_Name,Professionally_Printed,Institution,0,,FALSE
+SIGN_763,IMG_3239,37.760892,-122.418947,Mission,English,Establishment_Name,Professionally_Printed,Nightclub,1,,FALSE
+SIGN_764,IMG_3240,37.760975,-122.41895,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_765,IMG_3240,37.760975,-122.41895,Mission,English,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_766,IMG_3240,37.760975,-122.41895,Mission,English,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_767,IMG_3241,37.760788,-122.41958,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_768,IMG_3241,37.760788,-122.41958,Mission,English,Establishment_Description,Professionally_Printed,Shop,1,,FALSE
+SIGN_769,IMG_3241,37.760788,-122.41958,Mission,Spanish,Information,Professionally_Printed,Shop,1,,FALSE
+SIGN_770,IMG_3243,37.760857,-122.419325,Mission,Spanish,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_771,IMG_3243,37.760857,-122.419325,Mission,Spanish,Information,Home_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_772,IMG_3244,37.760935,-122.419429,Mission,Spanish,Establishment_Name,Home_Printed,Jewelry_Store,1,,FALSE
+SIGN_773,IMG_3246,37.760959,-122.419592,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_774,IMG_3246,37.760959,-122.419592,Mission,English,Establishment_Name,Home_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_775,IMG_3246,37.760959,-122.419592,Mission,Eng_Span,Establishment_Description,Home_Printed,Business ,1,,FALSE
+SIGN_776,IMG_3246,37.760959,-122.419592,Mission,English,Establishment_Description,Home_Printed,Beauty_Hair_Salon,2,,FALSE
+SIGN_777,IMG_3249,37.761053,-122.419632,Mission,Spanish,Establishment_Description,Hand_Written,Beauty_Hair_Salon,2,,FALSE
+SIGN_778,IMG_3252,37.761122,-122.419576,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,El Palacio Latino Restaurant,TRUE
+SIGN_779,IMG_3252,37.761122,-122.419576,Mission,Spanish,Establishment_Description,Professionally_Printed,Restaurant,1,,TRUE
+SIGN_780,IMG_3256,37.761224,-122.418996,Mission,English,Establishment_Name,Professionally_Printed,Hardware,1,,FALSE
+SIGN_781,IMG_3256,37.761224,-122.418996,Mission,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_782,IMG_3257,37.76119,-122.419582,Mission,Other (Chinese),Establishment_Name,Professionally_Printed,Restaurant,1,Oh my god have you tried this place before?!?! It's a really hipster Chinese restaurant owned by a Korean adoptee!,FALSE
+SIGN_783,IMG_3261,37.761937,-122.419394,Mission,Other (Chinese),Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_784,IMG_3261,37.761937,-122.419394,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_785,IMG_3263,37.7621,-122.419152,Mission,Span_Eng,Advertisement,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_786,IMG_3264,37.76205,-122.41965,Mission,Equal,Advertisement,Professionally_Printed,External,0,,FALSE
+SIGN_787,IMG_3266,37.762251,-122.419185,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_788,IMG_3266,37.762251,-122.419185,Mission,Span_Eng,Establishment_Description,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_789,IMG_3266,37.762251,-122.419185,Mission,English,Information,Professionally_Printed,Supermarket,1,,FALSE
+SIGN_790,IMG_3268,37.762312,-122.419691,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_791,IMG_3268,37.762312,-122.419691,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_792,IMG_3270,37.762356,-122.419474,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_793,IMG_3270,37.762356,-122.419474,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_794,IMG_3271,37.762521,-122.419698,Mission,Spanish,Establishment_Description,Home_Printed,Shop,1,,FALSE
+SIGN_795,IMG_3271,37.762521,-122.419698,Mission,Spanish,Information,Home_Printed,Institution,0,,FALSE
+SIGN_796,IMG_3271,37.762521,-122.419698,Mission,Spanish,Establishment_Name,Home_Printed,Institution,0,,FALSE
+SIGN_797,IMG_3272,37.762592,-122.419497,Mission,Spanish,Establishment_Name,Home_Printed,Shop,1,,FALSE
+SIGN_798,IMG_3272,37.762592,-122.419497,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_799,IMG_3272,37.762592,-122.419497,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_800,IMG_3273,37.762829,-122.419309,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_801,IMG_3273,37.762829,-122.419309,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_802,IMG_3273,37.762829,-122.419309,Mission,English,Information,Professionally_Printed,External,0,,FALSE
+SIGN_803,IMG_3275,37.762763,-122.419799,Mission,English,Advertisement,Professionally_Printed,Shop,1,,FALSE
+SIGN_804,IMG_3278,37.762829,-122.419309,Mission,English,Establishment_Name,Home_Printed,Shop,1,,FALSE
+SIGN_805,IMG_3280,37.762857,-122.419522,Mission,English,Advertisement,Professionally_Printed,Shop,1,,FALSE
+SIGN_806,IMG_3280,37.762857,-122.419522,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_807,IMG_3281,37.763181,-122.419155,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_808,IMG_3281,37.763181,-122.419155,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_809,IMG_3281,37.763181,-122.419155,Mission,English,Establishment_Description,Professionally_Printed,Shop,1,,FALSE
+SIGN_810,IMG_3283,37.762895,-122.419691,Mission,Spanish,Establishment_Name,Home_Printed,Restaurant,1,,FALSE
+SIGN_811,IMG_3284,37.762842,-122.41952,Mission,Spanish,Establishment_Name,Hand_Written,Institution,0,,FALSE
+SIGN_812,IMG_3285,37.763037,-122.41954,Mission,Equal,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_813,IMG_3286,37.763181,-122.419155,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_814,IMG_3287,37.763037,-122.41954,Mission,Equal,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_815,IMG_3289,37.763228,-122.419795,Mission,English,Establishment_Name,Home_Printed,Shop,1,,FALSE
+SIGN_816,IMG_3290,37.763181,-122.419155,Mission,English,Advertisement,Professionally_Printed,Shop,1,,FALSE
+SIGN_817,IMG_3291,37.763572,-122.419795,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_818,IMG_3292,37.763688,-122.419329,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_819,IMG_3294,37.76472,-122.421604,Mission,Spanish,Establishment_Name,Home_Printed,Restaurant,1,,FALSE
+SIGN_820,IMG_3296,37.763762,-122.419797,Mission,Span_Eng,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_821,IMG_3296,37.762689,-122.41919,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_822,IMG_3297,37.763733,-122.419784,Mission,English,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_823,IMG_3299,37.763762,-122.419797,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_824,IMG_3299,37.763762,-122.419797,Mission,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_825,IMG_3299,37.763762,-122.419797,Mission,English,Establishment_Name,Professionally_Printed,Hotel,2,,FALSE
+SIGN_826,IMG_3301,37.763791,-122.419788,Mission,English,Establishment_Description,Professionally_Printed,Hotel,2,,FALSE
+SIGN_827,IMG_3301,37.763791,-122.419788,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_828,IMG_3301,37.763791,-122.419788,Mission,English,Establishment_Name,Professionally_Printed,Business ,1,,FALSE
+SIGN_829,IMG_3301,37.763791,-122.419788,Mission,English,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_830,IMG_3301,37.763791,-122.419788,Mission,English,Advertisement,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_831,IMG_3305,37.763814,-122.420075,Mission,English,Establishment_Name,Professionally_Printed,Business ,2,,FALSE
+SIGN_832,IMG_3308,37.763934,-122.419899,Mission,English,Establishment_Name,Home_Printed,Business ,2,,FALSE
+SIGN_833,IMG_3309,37.764065,-122.419855,Mission,English,Establishment_Name,Professionally_Printed,Hotel,1,,FALSE
+SIGN_834,IMG_3309,37.764065,-122.419855,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_835,IMG_3311,37.764129,-122.419885,Mission,Spanish,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_836,IMG_3312,37.764384,-122.419929,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_837,IMG_3312,37.764384,-122.419929,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_838,IMG_3312,37.764384,-122.419929,Mission,English,Establishment_Description,Professionally_Printed,Business ,0,,FALSE
+SIGN_839,IMG_3315,37.764453,-122.419952,Mission,English,Establishment_Name,Home_Printed,Hotel,1,,FALSE
+SIGN_840,IMG_3316,37.764519,-122.419951,Mission,Other (Chinese),Establishment_Name,Home_Printed,Supermarket,2,,FALSE
+SIGN_841,IMG_3317,37.764609,-122.41996,Mission,Spanish,Establishment_Name,Home_Printed,Restaurant,1,,FALSE
+SIGN_842,IMG_3317,37.764609,-122.41996,Mission,Span_Eng,Establishment_Description,Home_Printed,Restaurant,1,,FALSE
+SIGN_843,IMG_3317,37.764609,-122.41996,Mission,Span_Eng,Information,Home_Printed,Restaurant,1,,FALSE
+SIGN_844,IMG_3320,37.764776,-122.422148,Mission,English,Establishment_Name,Professionally_Printed,Supermarket,1,In Valencia St?,FALSE
+SIGN_845,IMG_3322,37.764776,-122.422148,Mission,English,Street_Signs,Permanent,External,0,,FALSE
+SIGN_846,MVI_0385,37.748203,-122.41791,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,3,Closed,TRUE
+SIGN_847,MVI_0385,37.74822,-122.4185,Mission,English,Information,Professionally_Printed,Restaurant,3,Closed,TRUE
+SIGN_848,MVI_0385,37.748229,-122.418092,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Restaurant,1,Closed,TRUE
+SIGN_849,MVI_0385,37.748858,-122.418129,Mission,English,Establishment_Description,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_850,MVI_0385,37.748968,-122.418161,Mission,Equal,Information,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_851,MVI_0385,37.74896,-122.41815,Mission,English,Establishment_Description,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_852,MVI_0385,37.748858,-122.418129,Mission,Spanish,Establishment_Name,Professionally_Printed,Bar,1,,FALSE
+SIGN_853,MVI_0385,37.748967,-122.418153,Mission,English,Establishment_Name,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_854,MVI_0385,37.749255,-122.418056,Mission,English,Establishment_Description,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_855,MVI_0385,37.749391,-122.418067,Mission,Spanish,Establishment_Name,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_856,MVI_0385,37.749544,-122.418045,Mission,Spanish,Establishment_Description,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_857,MVI_0385,37.749179,-122.418367,Mission,Spanish,Information,Professionally_Printed,Grocery_Liquor_Store,1,,FALSE
+SIGN_858,MVI_0385,37.749366,-122.418335,Mission,English,Establishment_Name,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_859,MVI_0385,37.749527,-122.418346,Mission,English,Establishment_Description,Professionally_Printed,Beauty_Hair_Salon,1,,FALSE
+SIGN_860,MVI_0385,37.749688,-122.418045,Mission,Spanish,Establishment_Description,Hand_Written,Notary_Financial_Services,0,,FALSE
+SIGN_861,MVI_0385,37.749697,-122.418399,Mission,Spanish,Establishment_Name,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_862,MVI_0385,37.749968,-122.418067,Mission,English,Establishment_Description,Professionally_Printed,Specialty_Foods ,1,,FALSE
+SIGN_863,MVI_0385,37.749434,-122.418131,Mission,English,Establishment_Name,Professionally_Printed,Specialty_Foods ,1,,FALSE
+SIGN_864,MVI_0385,37.748909,-122.418129,Mission,Eng_Span,Establishment_Name,Professionally_Printed,Landromat,2,,FALSE
+SIGN_865,MVI_0385,37.748952,-122.418118,Mission,English,Street_Signs,Professionally_Printed,Business ,0,,FALSE
+SIGN_866,MVI_0385,37.749222,-122.418013,Mission,Spanish,Establishment_Description,Professionally_Printed,Notary_Financial_Services,0,,FALSE
+SIGN_867,MVI_0385,37.748909,-122.418075,Mission,English,Establishment_Description,Professionally_Printed,Business ,0,Mission Critter pet store,FALSE
+SIGN_868,MVI_0385,37.748909,-122.418076,Mission,English,Establishment_Name,Professionally_Printed,Bar,1,Taylor's Tonics 'The Fizzery',TRUE
+SIGN_869,MVI_0385,37.748909,-122.418077,Mission,English,Establishment_Name,Professionally_Printed,Bar,1,Taylor's Tonics 'The Fizzery',TRUE
+SIGN_870,MVI_0385,37.748909,-122.418078,Mission,English,Establishment_Name,Professionally_Printed,Restaurant,1,Pizza Joint and Grill,TRUE
+SIGN_871,MVI_0385,37.748909,-122.418079,Mission,English,Establishment_Name,Professionally_Printed,Nightclub,2,Savanna Jazz now something called 'Evil Eye',TRUE
+SIGN_872,MVI_0385,37.748731,-122.418322,Mission,English,Establishment_Description,Professionally_Printed,Auto_Mechanic,0,,TRUE
+SIGN_873,MVI_0385,37.74868,-122.418161,Mission,English,Establishment_Description,Professionally_Printed,Auto_Mechanic,0,,TRUE
+SIGN_874,MVI_0385,37.749284,-122.418355,Mission,English,Establishment_Description,Professionally_Printed,Auto_Mechanic,0,,TRUE
+SIGN_875,MVI_0385,37.749059,-122.418172,Mission,Spanish,Establishment_Name,Permanent,Business ,0,,FALSE
+SIGN_876,MVI_0385,37.749059,-122.418172,Mission,Span_Eng,Establishment_Description,Permanent,Business ,0,,FALSE
+SIGN_877,MVI_0385,37.749403,-122.418261,Mission,English,Establishment_Name,Professionally_Printed,Business ,0,,FALSE
+SIGN_878,IMG_3331,37.76451,-122.421624,Valencia,English,Establishment_Name,Professionally_Printed,Cafe,1,,FALSE
+SIGN_879,IMG_3332,37.76459,-122.422147,Valencia,English,Establishment_Name,Permanent,Clothing,3,,FALSE
+SIGN_880,IMG_3333,37.764387,-122.421642,Valencia,English,Establishment_Name,Professionally_Printed,Nightclub,1,,FALSE
+SIGN_881,IMG_3334,37.764415,-122.422136,Valencia,Eng_Span,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_882,IMG_3335,37.764415,-122.422136,Valencia,English,Establishment_Name,Professionally_Printed,Hotel,0,,FALSE
+SIGN_883,IMG_3337,37.764333,-122.422128,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,2,Currently closed,TRUE
+SIGN_884,IMG_3337,37.764333,-122.422128,Valencia,English,Instructions,Permanent,External,0,,FALSE
+SIGN_885,IMG_3339,37.764307,-122.421603,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_886,IMG_3339,37.764307,-122.421603,Valencia,English,Establishment_Description,Professionally_Printed,Restaurant,1,,FALSE
+SIGN_887,IMG_3339,37.764307,-122.421603,Valencia,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_888,IMG_3339,37.764307,-122.421603,Valencia,English,Establishment_Name,Professionally_Printed,Shop,1,,FALSE
+SIGN_889,IMG_3340,37.764273,-122.422107,Valencia,English,Establishment_Name,Permanent,Restaurant,2,We Be Sushi -- Borrowing Semiotics of older type signs. Drinks like mom used to mix,FALSE
+SIGN_890,IMG_3340,37.764273,-122.422107,Valencia,Eng_Span,Establishment_Name,Permanent,Restaurant,2,??? Puerto Alegreó Established or Alternative? Or BOTH?,FALSE
+SIGN_891,IMG_3343,37.764103,-122.421844,Valencia,English,Establishment_Name,Permanent,Bar,2,,FALSE
+SIGN_892,IMG_3348,37.764103,-122.421844,Valencia,Spanish,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_893,IMG_3350,37.764022,-122.422098,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_894,IMG_3352,37.763858,-122.422083,Valencia,English,Establishment_Name,Permanent,Shop,3,,FALSE
+SIGN_895,IMG_3354,37.763693,-122.421565,Valencia,English,Establishment_Name,Permanent,Shop,3,,FALSE
+SIGN_896,IMG_3356,37.763597,-122.422165,Valencia,English,Establishment_Description,Permanent,Restaurant,1,,FALSE
+SIGN_897,IMG_3357,37.763597,-122.422165,Valencia,English,Establishment_Name,Permanent,Bar,2,,FALSE
+SIGN_898,IMG_3357,37.763597,-122.422165,Valencia,English,Establishment_Name,Permanent,Restaurant,2,,FALSE
+SIGN_899,IMG_3357,37.763597,-122.422165,Valencia,English,Establishment_Description,Permanent,Restaurant,2,,FALSE
+SIGN_900,IMG_3359,37.763561,-122.42147,Valencia,English,Instructions,Professionally_Printed,External,2,,FALSE
+SIGN_901,IMG_3362,37.763486,-122.421555,Valencia,English,Establishment_Name,Permanent,Gallery_Museum,2,,FALSE
+SIGN_902,IMG_3363,37.7632,-122.421515,Valencia,English,Trademark,Permanent,Business ,2,,FALSE
+SIGN_903,IMG_3364,37.7632,-122.421515,Valencia,English,Establishment_Name,Permanent,Shop,0,?? Adult store? Established?,FALSE
+SIGN_904,IMG_3365,37.762797,-122.421454,Valencia,English,Establishment_Name,Permanent,Shop,1,,FALSE
+SIGN_905,IMG_3367,37.762849,-122.422005,Valencia,English,Establishment_Name,Permanent,External,0,,FALSE
+SIGN_906,IMG_3371,37.762797,-122.421454,Valencia,English,Establishment_Name,Permanent,Shop,1,,FALSE
+SIGN_907,IMG_3373,37.762535,-122.42145,Valencia,English,Establishment_Name,Permanent,Nightclub,1,,FALSE
+SIGN_908,IMG_3373,37.762535,-122.42145,Valencia,English,Establishment_Description,Permanent,Nightclub,1,,FALSE
+SIGN_909,IMG_3375,37.762294,-122.421497,Valencia,English,Establishment_Name,Permanent,Restaurant,2,,FALSE
+SIGN_910,IMG_3375,37.762294,-122.421497,Valencia,English,Establishment_Name,Permanent,Restaurant,2,,FALSE
+SIGN_911,IMG_3375,37.762294,-122.421497,Valencia,English,Establishment_Description,Permanent,Restaurant,2,,FALSE
+SIGN_912,IMG_3377,37.76235,-122.421515,Valencia,English,Establishment_Name,Permanent,Restaurant,2,,FALSE
+SIGN_913,IMG_3378,37.762294,-122.421497,Valencia,Eng_Span,Establishment_Name,Permanent,Hotel,2,"Hotel Tropica -- 'correct' Spanish is El Hotel TROPICO, not Tropica",FALSE
+SIGN_914,IMG_3379,37.762223,-122.421511,Valencia,English,Establishment_Name,Permanent,Restaurant,2,,FALSE
+SIGN_915,IMG_3380,37.762082,-122.421441,Valencia,English,Establishment_Description,Professionally_Printed,Gym_Fitness_Studio,0,,FALSE
+SIGN_916,IMG_3381,37.761895,-122.421917,Valencia,English,Establishment_Name,Permanent,Restaurant,2,*Closed,TRUE
+SIGN_917,IMG_3382,37.761993,-122.421923,Valencia,English,Establishment_Name,Permanent,Restaurant,2,,FALSE
+SIGN_918,IMG_3385,37.761839,-122.421482,Valencia,Spanish,Establishment_Name,Permanent,Restaurant,1,,FALSE
+SIGN_919,IMG_3386,37.761829,-122.421946,Valencia,English,Establishment_Name,Permanent,Beauty_Hair_Salon,0,,FALSE
+SIGN_920,IMG_3387,37.761368,-122.421864,Valencia,English,Establishment_Name,Permanent,Restaurant,2,,FALSE
+SIGN_921,IMG_3389,37.761157,-122.421244,Valencia,English,Establishment_Name,Permanent,Hardware,2,,FALSE
+SIGN_922,IMG_3390,37.761368,-122.421864,Valencia,English,Establishment_Name,Professionally_Printed,Clothing,4,,FALSE
+SIGN_923,IMG_3395,37.76131,-122.421827,Valencia,English,Establishment_Name,Professionally_Printed,Institution,0,,FALSE
+SIGN_924,IMG_3397,37.761231,-122.42185,Valencia,English,Establishment_Name,Professionally_Printed,Clothing,3,,FALSE
+SIGN_925,IMG_3397,37.761231,-122.42185,Valencia,English,Establishment_Name,Permanent,Clothing,3,,FALSE
+SIGN_926,IMG_3401,37.760985,-122.421696,Valencia,English,Graffiti,Hand_Written,Commentary,0,Fuck Condos?,FALSE
+SIGN_927,IMG_3402,37.761031,-122.421785,Valencia,English,Establishment_Name,Permanent,Specialty_Foods ,2,,FALSE
+SIGN_928,IMG_3404,37.76114,-122.421884,Valencia,English,Establishment_Description,Hand_Written,Specialty_Foods ,2,Cheese Puns,FALSE
+SIGN_929,IMG_3405,37.76114,-122.421884,Valencia,English,Information,Professionally_Printed,Specialty_Foods ,0,,FALSE
+SIGN_930,IMG_3406,37.760923,-122.421871,Valencia,English,Establishment_Name,Permanent,Bar,3,*Closed forever!,TRUE
+SIGN_931,IMG_3408,37.760932,-122.421772,Valencia,English,Establishment_Description,Permanent,Bakery,2,,FALSE
+SIGN_932,IMG_3408,37.760932,-122.421772,Valencia,English,Information,Professionally_Printed,External,2,,FALSE
+SIGN_933,IMG_3416,37.760565,-122.421188,Valencia,English,Establishment_Name,Permanent,Bar,2,,FALSE
+SIGN_934,IMG_3418,37.760753,-122.421787,Valencia,English,Establishment_Name,Permanent,Restaurant,2,,FALSE
+SIGN_935,IMG_3419,37.760753,-122.421787,Valencia,English,Establishment_Name,Permanent,Restaurant,2,,FALSE
+SIGN_936,IMG_3419,37.760753,-122.421787,Valencia,English,Information,Permanent,External,0,,FALSE
+SIGN_937,IMG_3419,37.760753,-122.421787,Valencia,English,Establishment_Name,Permanent,Shop,2,,FALSE
+SIGN_938,IMG_3419,37.760753,-122.421787,Valencia,English,Establishment_Description,Hand_Written,Shop,2,,FALSE
+SIGN_939,IMG_3420,37.760565,-122.421188,Valencia,English,Establishment_Name,Permanent,Bar,2,,FALSE
+SIGN_940,IMG_3421,37.760619,-122.421734,Valencia,English,Establishment_Name,Professionally_Printed,Shop,3,,FALSE
+SIGN_941,IMG_3421,37.760619,-122.421734,Valencia,English,Establishment_Description,Hand_Written,Shop,3,,FALSE
+SIGN_942,IMG_3423,37.760619,-122.421734,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_943,IMG_3425,37.760447,-122.42149,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_944,IMG_3426,37.760447,-122.42149,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_945,IMG_3426,37.760447,-122.42149,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_946,IMG_3427,37.760304,-122.421826,Valencia,English,Slogan,Home_Printed,Shop,2,SHOTS SHOTS SHOTS (of wheatgrass),FALSE
+SIGN_947,IMG_3427,37.760304,-122.421826,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,,FALSE
+SIGN_948,IMG_3429,37.760276,-122.421212,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,1,*Ali Baba's Cave,FALSE
+SIGN_949,IMG_3429,37.760276,-122.421212,Valencia,English,Establishment_Name,Professionally_Printed,Bar,2,*Ecetera Wine Bar,FALSE
+SIGN_950,IMG_3429,37.760276,-122.421212,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,*Schauplatz,FALSE
+SIGN_951,IMG_3431,37.759965,-122.421814,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,2,*Rhea's Cafe,FALSE
+SIGN_952,IMG_3432,37.759832,-122.421118,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,2,*Valencia's Pizza & Pasta,FALSE
+SIGN_953,IMG_3433,37.75625,-122.421169,Valencia,English,Graffiti,Hand_Written,External,0,Graffiti with Kahlo and Disney Mission,FALSE
+SIGN_954,IMG_3434,37.757088,-122.420978,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,2,*DOSA on Valencia,FALSE
+SIGN_955,IMG_3434,37.757088,-122.420978,Valencia,English,Establishment_Name,Professionally_Printed,Supermarket,3,*Valencia Whole Foods,FALSE
+SIGN_956,IMG_3434,37.757088,-122.420978,Valencia,English,Establishment_Name,Professionally_Printed,Supermarket,3,*Valencia Whole Foods,FALSE
+SIGN_957,IMG_3435,37.75704,-122.421431,Valencia,English,Establishment_Name,Professionally_Printed,Institution,0,*Artists Television Access,FALSE
+SIGN_958,IMG_3436,37.757243,-122.421007,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,2,"*Herbivore, also closed forever",TRUE
+SIGN_959,IMG_3437,37.75704,-122.421431,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,*Afterlife Boutique,FALSE
+SIGN_960,IMG_3437,37.75704,-122.421431,Valencia,English,Information,Permanent,External,0,*street sign,FALSE
+SIGN_961,IMG_3437,37.75704,-122.421431,Valencia,Eng_Span,Establishment_Name,Professionally_Printed,Restaurant,2,*lolo,FALSE
+SIGN_962,IMG_3439,37.757243,-122.421007,Valencia,English,Establishment_Description,Hand_Written,Restaurant,2,"*Herbivore, also closed forever",TRUE
+SIGN_963,IMG_3440,37.757203,-122.420986,Valencia,English,Establishment_Description,Hand_Written,Shop,1,ECO FRIENDLY LAUNDRY MAT,FALSE
+SIGN_964,IMG_3442,37.757171,-122.421386,Valencia,English,Advertisement,Professionally_Printed,External,0,*CCA.EDU advertisement,FALSE
+SIGN_965,IMG_3445,37.757171,-122.421386,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,Afterlife Boutique,FALSE
+SIGN_966,IMG_3445,37.757171,-122.421386,Valencia,English,Advertisement,Professionally_Printed,Shop,2,"*afterlife Boutique, jean advertisement sticker",FALSE
+SIGN_967,IMG_3448,37.757327,-122.421419,Valencia,English,Establishment_Name,Professionally_Printed,Specialty_Foods ,1,*Unsure what these are as distant business in the picture eventually show up in alter pics.,FALSE
+SIGN_968,IMG_3448,37.757327,-122.421419,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,2,,FALSE
+SIGN_969,IMG_3451,37.757385,-122.421403,Valencia,English,Establishment_Name,Professionally_Printed,Shop,0,Psychic Horizons!!!! ,FALSE
+SIGN_970,IMG_3451,37.757385,-122.421403,Valencia,English,Establishment_Description,Home_Printed,Shop,0,Tuesday Night Meditation,FALSE
+SIGN_971,IMG_3452,37.757553,-122.421443,Valencia,English,Establishment_Name,Professionally_Printed,Shop,3,CHROME,FALSE
+SIGN_972,IMG_3452,37.757553,-122.421443,Valencia,English,Establishment_Name,Professionally_Printed,Shop,3,*Other Chrome Sign?,FALSE
+SIGN_973,IMG_3452,37.757553,-122.421443,Valencia,English,Establishment_Name,Hand_Written,Restaurant,1,"*Creek Cafe, closed",TRUE
+SIGN_974,IMG_3454,37.757441,-122.421421,Valencia,English,Information,Hand_Written,Restaurant,1,"Emphasis Quotes ""Staff Wanted""",FALSE
+SIGN_975,IMG_3455,37.757553,-122.421443,Valencia,English,Advertisement,Home_Printed,Shop,3,"""More Riding, Less Emails""",FALSE
+SIGN_976,IMG_3455,37.757553,-122.421443,Valencia,English,Establishment_Name,Professionally_Printed,Shop,3,*More chrome signs?,FALSE
+SIGN_977,IMG_3456,37.757525,-122.421497,Valencia,English,Establishment_Name,Professionally_Printed,Shop,3,*Azalea,FALSE
+SIGN_978,IMG_3456,37.757525,-122.421497,Valencia,English,Establishment_Description,Hand_Written,Shop,3,"*""Check us out online""",FALSE
+SIGN_979,IMG_3457,37.75773,-122.420973,Valencia,English,Establishment_Name,Professionally_Printed,Cafe,1,*Xanath's ice cream,FALSE
+SIGN_980,IMG_3457,37.75773,-122.420973,Valencia,English,Establishment_Description,Home_Printed,Cafe,1,*Xanath's ice cream,FALSE
+SIGN_981,IMG_3457,37.75773,-122.420973,Valencia,English,Information,Permanent,Cafe,1,*Open neon sign?,FALSE
+SIGN_982,IMG_3459,37.757839,-122.421492,Valencia,English,Information,Professionally_Printed,External,0,*Info on community services,FALSE
+SIGN_983,IMG_3459,37.757839,-122.421492,Valencia,English,Information,Professionally_Printed,External,0,*other banner infos,FALSE
+SIGN_984,IMG_3461,37.758114,-122.420933,Valencia,English,Establishment_Name,Professionally_Printed,Auto_Mechanic,0,*Consumers Auto Body Repair,FALSE
+SIGN_985,IMG_3461,37.758114,-122.420933,Valencia,English,Establishment_Name,Professionally_Printed,Auto_Mechanic,0,*Consumers Auto Body Repair,FALSE
+SIGN_986,IMG_3464,37.758351,-122.420958,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,Currents (closed),TRUE
+SIGN_987,IMG_3464,37.758351,-122.420958,Valencia,English,Establishment_Name,Professionally_Printed,Shop,0,"*If referring to Henry Scrhrumpf's flower shop, it's closed and info to be found",TRUE
+SIGN_988,IMG_3464,37.758351,-122.420958,Valencia,Spanish,Establishment_Name,Professionally_Printed,Bar,1,La Rondalla: Band of street musicians,TRUE
+SIGN_989,IMG_3466,37.757914,-122.421498,Valencia,English,Establishment_Name,Professionally_Printed,Gallery_Museum,3,Back to the Picture,FALSE
+SIGN_990,IMG_3466,37.757914,-122.421498,Valencia,English,Establishment_Description,Professionally_Printed,Gallery_Museum,3,,FALSE
+SIGN_991,IMG_3466,37.757914,-122.421498,Valencia,English,Information,Home_Printed,Gallery_Museum,3,,FALSE
+SIGN_992,IMG_3467,37.758052,-122.421264,Valencia,English,Establishment_Name,Professionally_Printed,Cafe,2,*Tokyo Futon & Tea,FALSE
+SIGN_993,IMG_3467,37.758052,-122.421264,Valencia,English,Information,Permanent,External,0,*No Parking,FALSE
+SIGN_994,IMG_3469,37.758052,-122.421264,Valencia,English,Establishment_Name,Professionally_Printed,Cafe,2,*Tokyo Futon & Tea,FALSE
+SIGN_995,IMG_3469,37.758052,-122.421264,Valencia,English,Information,Home_Printed,Cafe,2,*Chair price,FALSE
+SIGN_996,IMG_3470,37.758118,-122.421271,Valencia,English,Establishment_Name,Professionally_Printed,Cafe,1,*Javalencia Cafe,FALSE
+SIGN_997,IMG_3472,37.758185,-122.421506,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,Bike shop,TRUE
+SIGN_998,IMG_3472,37.758185,-122.421506,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,Bike shop (closed),TRUE
+SIGN_999,IMG_3472,37.758185,-122.421506,Valencia,English,Information,Home_Printed,Shop,2,Sale sign,FALSE
+SIGN_1000,IMG_3475,37.758351,-122.420958,Valencia,Spanish,Establishment_Name,Professionally_Printed,Restaurant,1,La Rondalla: Band of street musicians,TRUE
+SIGN_1001,IMG_3476,37.758397,-122.421543,Valencia,English,Information,Home_Printed,Shop,0,"Not sure what shop is, but says ""RETRO FIT""",FALSE
+SIGN_1002,IMG_3476,37.758397,-122.421543,Valencia,English,Establishment_Name,Professionally_Printed,Business ,1,Dog Eared Books ,FALSE
+SIGN_1003,IMG_3481,37.758497,-122.421287,Valencia,English,Information,Professionally_Printed,External,0,Brown & Co. construction banner info?,FALSE
+SIGN_1004,IMG_3482,37.758803,-122.416347,Valencia,English,Establishment_Name,Professionally_Printed,Business ,1,Golden Eagle Market,FALSE
+SIGN_1005,IMG_3482,37.758803,-122.416347,Valencia,English,Establishment_Description,Hand_Written,Business ,1,,FALSE
+SIGN_1006,IMG_3483,37.758351,-122.420958,Valencia,English,Information,Hand_Written,Business ,1,"""Christmas"" writing",FALSE
+SIGN_1007,IMG_3488,37.758793,-122.421599,Valencia,English,Establishment_Description,Home_Printed,Business ,2,Custom and Vintage Eye Wear,FALSE
+SIGN_1008,IMG_3487,37.758793,-122.421599,Valencia,English,Establishment_Description,Professionally_Printed,Restaurant,2,"""Authentic Ethiopian Food""",FALSE
+SIGN_1009,IMG_3489,37.758942,-122.421032,Valencia,English,Establishment_Name,Professionally_Printed,Business ,2,Shoe Biz (shoe store),FALSE
+SIGN_1010,IMG_3489,37.758942,-122.421032,Valencia,Spanish,Establishment_Description,Professionally_Printed,Institution,0,Iglesia Maranatha,FALSE
+SIGN_1011,IMG_3489,37.758942,-122.421032,Valencia,English,Establishment_Name,Professionally_Printed,Gallery_Museum,2,Little Paper Planes,FALSE
+SIGN_1012,IMG_3490,37.758893,-122.421703,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,2,Ethiopian Cafe,FALSE
+SIGN_1013,IMG_3491,37.758985,-122.42135,Valencia,English,Establishment_Name,Professionally_Printed,Cafe,1,Borderlands Cafe,FALSE
+SIGN_1014,IMG_3492,37.758985,-122.421677,Valencia,English,Establishment_Name,Home_Printed,Shop,2,Borderlands Books,FALSE
+SIGN_1015,IMG_3493,37.759309,-122.421061,Valencia,English,Establishment_Name,Professionally_Printed,Bar,1,Amnesia Beer & Music Hall,FALSE
+SIGN_1016,IMG_3494,37.759632,-122.421109,Valencia,English,Establishment_Name,Professionally_Printed,Business ,0,*Santora Supply,FALSE
+SIGN_1017,IMG_3494,37.759632,-122.421109,Valencia,English,Establishment_Name,Professionally_Printed,Business ,0,*Santora Supply,FALSE
+SIGN_1018,IMG_3495,37.759382,-122.42137,Valencia,English,Information,Hand_Written,Restaurant,3,Range restaurant info,FALSE
+SIGN_1019,IMG_3497,37.759411,-122.421694,Valencia,English,Information,Hand_Written,Restaurant,3,More Range restaurant info on drinks,FALSE
+SIGN_1020,IMG_3499,37.759411,-122.421694,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,3,Range/Happy Moose Juice sign,FALSE
+SIGN_1021,IMG_3501,37.759499,-122.421488,Valencia,English,Establishment_Name,Professionally_Printed,Gallery_Museum,2,city art gallery,FALSE
+SIGN_1022,IMG_3502,37.75955,-122.421689,Valencia,English,Establishment_Name,Professionally_Printed,Business ,2,826 valencia pirate supply store,FALSE
+SIGN_1023,IMG_3504,37.75955,-122.421689,Valencia,English,Information,Home_Printed,External,0,There's a lot of different signs in this picture,FALSE
+SIGN_1024,IMG_3505,37.75955,-122.421689,Valencia,English,Information,Home_Printed,External,0,Nature's Hootest Quadrangles; Lard; Planks; No Parrots?,FALSE
+SIGN_1025,IMG_3506,37.759832,-122.421118,Valencia,English,Information,Home_Printed,External,0,,FALSE
+SIGN_1026,IMG_3506,37.759832,-122.421118,Valencia,English,Information,Home_Printed,External,0,,FALSE
+SIGN_1027,IMG_3506,37.759832,-122.421118,Valencia,English,Information,Home_Printed,External,0,,FALSE
+SIGN_1028,IMG_3508,37.759999,-122.421283,Valencia,English,Establishment_Name,Professionally_Printed,Bar,2,The Phoenix Bar & Irish Gathering House,FALSE
+SIGN_1029,IMG_3508,37.759999,-122.421283,Valencia,English,Establishment_Name,Professionally_Printed,Restaurant,2,Burger Joint,FALSE
+SIGN_1030,IMG_3509,37.759799,-122.421662,Valencia,English,Establishment_Name,Professionally_Printed,Shop,2,Gingko Home Furnishings,FALSE
+SIGN_1031,IMG_3509,37.759799,-122.421662,Valencia,English,Establishment_Name,Professionally_Printed,Shop,3,Aggregate Supply (woman clothing store),FALSE
+SIGN_1032,IMG_3511,37.759965,-122.421814,Valencia,English,Establishment_Name,Professionally_Printed,Cafe,2,Rhea's Cafe,FALSE

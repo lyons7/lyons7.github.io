@@ -7,8 +7,113 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2017 Kate Lyons</copyright>
-    <lastBuildDate>Thu, 23 Jul 2015 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Sun, 12 Mar 2017 21:13:14 -0500</lastBuildDate>
     <atom:link href="/portfolio/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Building A Website</title>
+      <link>/portfolio/2017-03-12-build-website/</link>
+      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-03-12-build-website/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
+
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;p&gt;This website was constructed using GitHub, the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown package&lt;/a&gt; for R and Hugo. I got started with &lt;a href=&#34;https://proquestionasker.github.io/blog/Making_Site/&#34;&gt;Amber Thomas’s amazing tutorial&lt;/a&gt; and got some further help from &lt;a href=&#34;http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/&#34;&gt;Robert Myles McDonnell&lt;/a&gt; and more help from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;here&lt;/a&gt;. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.&lt;/p&gt;
+&lt;div id=&#34;kates-approach&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Kate’s Approach&lt;/h4&gt;
+&lt;p&gt;Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.&lt;/p&gt;
+&lt;p&gt;First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.&lt;/p&gt;
+&lt;p&gt;Go back to your computer. (I’m working with a Mac).&lt;/p&gt;
+&lt;p&gt;Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, &lt;strong&gt;serve_site()&lt;/strong&gt; and &lt;strong&gt;STOP&lt;/strong&gt; R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I &lt;strong&gt;serve_site()&lt;/strong&gt; or &lt;strong&gt;new_site()&lt;/strong&gt; in R Studio the “&amp;gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.&lt;/p&gt;
+&lt;p&gt;Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;this link&lt;/a&gt; mentioned above and did the following in terminal:&lt;/p&gt;
+&lt;p&gt;Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am &lt;em&gt;pretty&lt;/em&gt; sure that is what this command does)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rm -r public/&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And NOW you are going to link up to your online GitHub.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git init
+
+$ git remote add origin git@github.com:USERNAME/HUGO.git
+
+$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(I get asked for a password here I set up for my .ssh/id_rsa here)&lt;/p&gt;
+&lt;p&gt;Then:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;#39;initial commit&amp;#39;
+
+$ git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Get asked again for password)&lt;/p&gt;
+&lt;p&gt;Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I &lt;strong&gt;serve_site()&lt;/strong&gt; in R, &lt;strong&gt;STOP&lt;/strong&gt; it again and return to terminal. I then followed the commands listed on Robert’s tutorial.&lt;/p&gt;
+&lt;p&gt;Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git add -A
+
+$ git commit -m &amp;#39;lovely new site&amp;#39;
+
+$ git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Again I get asked for my password)&lt;/p&gt;
+&lt;p&gt;Then go to your username.github.io site. It &lt;em&gt;should&lt;/em&gt; be there! Now when you make changes it’s the same process: do your thing in R studio, &lt;strong&gt;serve_site()&lt;/strong&gt; and then &lt;strong&gt;STOP&lt;/strong&gt; and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Collating Spatial Data </title>
+      <link>/portfolio/2017-03-14-collate/</link>
+      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-03-14-collate/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
+
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I’ve recorded and see the most common topic that is present ‘around’ that sign. This has two issues: 1) the coordinates of public signs and tweets are &lt;em&gt;not&lt;/em&gt; going to be the exact same and 2) there are way more tweets than public signs in the area I’m looking at, so I can’t just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and &lt;em&gt;then&lt;/em&gt; find the topic that has most frequently occured in those tweets associated with that location.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-solution&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Solution&lt;/h2&gt;
+&lt;p&gt;Luckily, there is a way to do this with packages like &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin&lt;/a&gt; and &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/dplyr.pdf&#34;&gt;dplyr&lt;/a&gt;!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
+          &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
+          &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;)
+lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;matching-tweets-with-physical-sign-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Matching tweets with physical sign data&lt;/h2&gt;
+&lt;p&gt;What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have &lt;em&gt;exact&lt;/em&gt; matches, we will use the awesome &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(fuzzyjoin)
+library(dplyr)
+pairsdf &amp;lt;- ll %&amp;gt;%
+  geo_inner_join(tweets, unit=&amp;#39;km&amp;#39;,distance_col=&amp;quot;distance&amp;quot;) %&amp;gt;%
+  filter(distance &amp;lt;= 0.018288)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Joining by: c(&amp;quot;latitude&amp;quot;, &amp;quot;longitude&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I have to use filter here because &amp;#39;max_distance&amp;#39; is not geared to be less than 1 km or 1 mi
+# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
+# to filter afterwards...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you’d like to look at smaller radii, just put in whatever fraction of a kilometer in the ‘distance’ parameter that you are interested in.&lt;/p&gt;
+&lt;p&gt;Now what I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the &lt;strong&gt;group_by()&lt;/strong&gt; function from dplyr as suggested &lt;a href=&#34;http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As R does not have a built in function for mode, we build one. Code for this available &lt;a href=&#34;https://www.tutorialspoint.com/r/r_mean_median_mode.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get the mode
+getmode &amp;lt;- function(v) {
+   uniqv &amp;lt;- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+# Tell R your topic categories are a number so it can deal with them
+pairsdf$V1&amp;lt;- as.numeric(pairsdf$V1)
+
+# Now calculate things about the topics per sign
+topicmode &amp;lt;- pairsdf%&amp;gt;%
+group_by(SIGN_ID)%&amp;gt;% 
+summarise(Mode = getmode(V1))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns &amp;lt;- inner_join(ll, topicmode, by = &amp;quot;SIGN_ID&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Maps! Maps! Maps!</title>
@@ -738,89 +843,557 @@ mapPointssavourface&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
-      <title>Building A Website</title>
-      <link>/portfolio/2017-03-12-build-website/</link>
-      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
+      <title>Thesis Time!</title>
+      <link>/portfolio/2017-05-06-thesis-time/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/portfolio/2017-03-12-build-website/</guid>
-      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
-&lt;!-- /BLOGDOWN-HEAD --&gt;
+      <guid>/portfolio/2017-05-06-thesis-time/</guid>
+      <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;The following is all of the code used to run analyses used in my dissertation.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;twitteR&amp;quot;,&amp;quot;RCurl&amp;quot;,&amp;quot;RJSONIO&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,&amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,&amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;,&amp;quot;ggrepel&amp;quot;,&amp;quot;lubridate&amp;quot;,&amp;quot;purrr&amp;quot;,&amp;quot;broom&amp;quot;, &amp;quot;wordcloud&amp;quot;,&amp;quot;emoGG&amp;quot;,&amp;quot;ldatuning&amp;quot;)
 
-&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
-&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
-&lt;p&gt;This website was constructed using GitHub, the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown package&lt;/a&gt; for R and Hugo. I got started with &lt;a href=&#34;https://proquestionasker.github.io/blog/Making_Site/&#34;&gt;Amber Thomas’s amazing tutorial&lt;/a&gt; and got some further help from &lt;a href=&#34;http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/&#34;&gt;Robert Myles McDonnell&lt;/a&gt; and more help from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;here&lt;/a&gt;. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.&lt;/p&gt;
-&lt;div id=&#34;kates-approach&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Kate’s Approach&lt;/h4&gt;
-&lt;p&gt;Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.&lt;/p&gt;
-&lt;p&gt;First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.&lt;/p&gt;
-&lt;p&gt;Go back to your computer. (I’m working with a Mac).&lt;/p&gt;
-&lt;p&gt;Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, &lt;strong&gt;serve_site()&lt;/strong&gt; and &lt;strong&gt;STOP&lt;/strong&gt; R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I &lt;strong&gt;serve_site()&lt;/strong&gt; or &lt;strong&gt;new_site()&lt;/strong&gt; in R Studio the “&amp;gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.&lt;/p&gt;
-&lt;p&gt;Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;this link&lt;/a&gt; mentioned above and did the following in terminal:&lt;/p&gt;
-&lt;p&gt;Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am &lt;em&gt;pretty&lt;/em&gt; sure that is what this command does)&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rm -r public/&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And NOW you are going to link up to your online GitHub.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git init
-
-$ git remote add origin git@github.com:USERNAME/HUGO.git
-
-$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(I get asked for a password here I set up for my .ssh/id_rsa here)&lt;/p&gt;
-&lt;p&gt;Then:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;#39;initial commit&amp;#39;
-
-$ git push origin master&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(Get asked again for password)&lt;/p&gt;
-&lt;p&gt;Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I &lt;strong&gt;serve_site()&lt;/strong&gt; in R, &lt;strong&gt;STOP&lt;/strong&gt; it again and return to terminal. I then followed the commands listed on Robert’s tutorial.&lt;/p&gt;
-&lt;p&gt;Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git add -A
-
-$ git commit -m &amp;#39;lovely new site&amp;#39;
-
-$ git push origin master&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(Again I get asked for my password)&lt;/p&gt;
-&lt;p&gt;Then go to your username.github.io site. It &lt;em&gt;should&lt;/em&gt; be there! Now when you make changes it’s the same process: do your thing in R studio, &lt;strong&gt;serve_site()&lt;/strong&gt; and then &lt;strong&gt;STOP&lt;/strong&gt; and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Collating Spatial Data </title>
-      <link>/portfolio/2017-03-14-collate/</link>
-      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/portfolio/2017-03-14-collate/</guid>
-      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
-&lt;!-- /BLOGDOWN-HEAD --&gt;
-
-&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
-&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
-&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The Problem&lt;/h2&gt;
-&lt;p&gt;I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I’ve recorded and see the most common topic that is present ‘around’ that sign. This has two issues: 1) the coordinates of public signs and tweets are &lt;em&gt;not&lt;/em&gt; going to be the exact same and 2) there are way more tweets than public signs in the area I’m looking at, so I can’t just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and &lt;em&gt;then&lt;/em&gt; find the topic that has most frequently occured in those tweets associated with that location.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;the-solution&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The Solution&lt;/h2&gt;
-&lt;p&gt;Luckily, there is a way to do this with packages like &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin&lt;/a&gt; and &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/dplyr.pdf&#34;&gt;dplyr&lt;/a&gt;!&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
-          &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
-          &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;)
 lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;matching-tweets-with-physical-sign-data&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Matching tweets with physical sign data&lt;/h2&gt;
-&lt;p&gt;What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have &lt;em&gt;exact&lt;/em&gt; matches, we will use the awesome &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;getting-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Getting the Data&lt;/h2&gt;
+&lt;p&gt;To collect data, I used the &lt;a href=&#34;https://cran.r-project.org/web/packages/twitteR/twitteR.pdf&#34;&gt;twitteR package&lt;/a&gt;. I’m interested in the Mission District neighborhood in San Francisco, California. I obtain a set of coordinates using Google maps and plug that into the ‘geocode’ parameter and then set a radius of 1 kilometer. I know from experience that I only get around 1,000 - 2,000 posts per time I do this, so I set the number of tweets (n) I would like to get from Twitter at ‘7,000’.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# key = &amp;quot;YOUR KEY HERE&amp;quot;
+# secret = &amp;quot;YOUR SECRET HERE&amp;quot;
+
+# tok = &amp;quot;YOUR TOK HERE&amp;quot;
+# tok_sec = &amp;quot;YOUR TOK_SEC HERE&amp;quot;
+
+twitter_oauth &amp;lt;- setup_twitter_oauth(key, secret, tok, tok_sec)
+
+# To collect tweets
+geo &amp;lt;- searchTwitter(&amp;#39;&amp;#39;,n=7000, geocode=&amp;#39;37.76,-122.42,1km&amp;#39;,
+                     retryOnRateLimit=1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now I want to identify emojis and separate just those posts that came from Instagram. I then save those to a CSV file and compile it by copy-pasting by hand to get a corpus.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Now you have a list of tweets. Lists are very difficult to deal with in R, so you convert this into a data frame:
+geoDF&amp;lt;-twListToDF(geo)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Chances are there will be emojis in your Twitter data. You can ‘transform’ these emojis into prose using this code as well as a &lt;a href=&#34;https://github.com/lyons7/emojidictionary&#34;&gt;CSV file&lt;/a&gt; I’ve put together of what all of the emojis look like in R. (The idea for this comes from &lt;a href=&#34;http://opiateforthemass.es/articles/emoticons-in-R/&#34;&gt;Jessica Peterka-Bonetta’s work&lt;/a&gt; – she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.&lt;/p&gt;
+&lt;p&gt;Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;emoticons &amp;lt;- read.csv(&amp;quot;Decoded Emojis Col Sep.csv&amp;quot;, header = T)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To transform the emojis, you first need to transform the tweet data into ASCII:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geoDF$text &amp;lt;- iconv(geoDF$text, from = &amp;quot;latin1&amp;quot;, to = &amp;quot;ascii&amp;quot;, 
+                    sub = &amp;quot;byte&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To ‘count’ the emojis you do a find and replace using the &lt;a href=&#34;https://github.com/lyons7/emojidictionary&#34;&gt;CSV file of ‘Decoded Emojis’&lt;/a&gt; as a reference. Here I am using the &lt;a href=&#34;http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace&#34;&gt;DataCombine package&lt;/a&gt;. What this does is identifies emojis in the tweets and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- FindReplace(data = geoDF, Var = &amp;quot;text&amp;quot;, 
+                      replaceData = emoticons,
+                      from = &amp;quot;R_Encoding&amp;quot;, to = &amp;quot;Name&amp;quot;, 
+                      exact = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now might be a good time to save this file, perhaps in CSV format with the date of when the data was collected:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;write.csv(data,file=paste(&amp;quot;ALL&amp;quot;,Sys.Date(),&amp;quot;.csv&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Subset to just those posts that come from Instagram Now you have a data frame which you can manipulate in various ways. For my research, I’m just interested in posts that have occured on Instagram. (Why not just access them via Instagram’s API you ask? Long story short: they are very &lt;em&gt;very&lt;/em&gt; conservative about providing access for academic research). I’ve found a work-around which is filtering mined tweets by those that have Instagram as a source:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- data[data$statusSource == &amp;quot;&amp;lt;a href=\&amp;quot;http://instagram.com\&amp;quot; rel=\&amp;quot;nofollow\&amp;quot;&amp;gt;Instagram&amp;lt;/a&amp;gt;&amp;quot;, ]
+
+#Save this file
+write.csv(data,file=paste(&amp;quot;INSTA&amp;quot;,Sys.Date(),&amp;quot;.csv&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Having done this for eight months, we have a nice corpus! Let’s load that in.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;analyzing-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Analyzing the Data&lt;/h2&gt;
+&lt;div id=&#34;preparing-data-for-topic-modeling-and-sentiment-analysis&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Preparing data for Topic Modeling and Sentiment Analysis&lt;/h4&gt;
+&lt;p&gt;The data need to be processed a bit more in order to analyze them. Let’s try from the start with &lt;a href=&#34;http://tidytextmining.com/&#34;&gt;Silge and Robinson&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Get rid of stuff particular to the data (here encodings of links and such)
+# Most of these are characters I don&amp;#39;t have encodings for (other scripts, etc.)
+
+tweets$text = gsub(&amp;quot;Just posted a photo&amp;quot;,&amp;quot;&amp;quot;, tweets$text)
+tweets$text = gsub( &amp;quot;&amp;lt;.*?&amp;gt;&amp;quot;, &amp;quot;&amp;quot;, tweets$text)
+
+# Get rid of super frequent spam posters
+tweets &amp;lt;- tweets[! tweets$screenName %in% c(&amp;quot;4AMSOUNDS&amp;quot;,&amp;quot;BruciusTattoo&amp;quot;,&amp;quot;LionsHeartSF&amp;quot;,&amp;quot;hermesalchemist&amp;quot;,&amp;quot;Mrsourmash&amp;quot;,&amp;quot;AaronTheEra&amp;quot;,&amp;quot;AmnesiaBar&amp;quot;,&amp;quot;audreymose2&amp;quot;,&amp;quot;audreymosez&amp;quot;,&amp;quot;Bernalcutlery&amp;quot;,&amp;quot;blncdbrkfst&amp;quot;,&amp;quot;BrunosSF&amp;quot;,&amp;quot;chiddythekidd&amp;quot;,&amp;quot;ChurchChills&amp;quot;,&amp;quot;deeXiepoo&amp;quot;,&amp;quot;fabricoutletsf&amp;quot;,&amp;quot;gever&amp;quot;,&amp;quot;miramirasf&amp;quot;,&amp;quot;papalote415&amp;quot;,&amp;quot;HappyHoundsMasg&amp;quot;,&amp;quot;faern_me&amp;quot;),]
+
+# If you want to combine colors, run this at least 3 times over to make sure it &amp;#39;sticks&amp;#39;
+# coltweets &amp;lt;- tweets
+# coltweets$text &amp;lt;- gsub(&amp;quot; COLONE &amp;quot;, &amp;quot;COLONE&amp;quot;, coltweets$text)
+# coltweets$text &amp;lt;- gsub(&amp;quot; COLTWO &amp;quot;, &amp;quot;COLTWO&amp;quot;, coltweets$text)
+# coltweets$text &amp;lt;- gsub(&amp;quot; COLTHREE &amp;quot;, &amp;quot;COLTHREE&amp;quot;, coltweets$text)
+# coltweets$text &amp;lt;- gsub(&amp;quot; COLFOUR &amp;quot;, &amp;quot;COLFOUR&amp;quot;, coltweets$text)
+# coltweets$text &amp;lt;- gsub(&amp;quot; COLFIVE &amp;quot;, &amp;quot;COLFIVE&amp;quot;, coltweets$text)
+
+# Let&amp;#39;s just use this for now. Maybe good to keep these things together
+# tweets &amp;lt;- coltweets
+
+# This makes a larger list of stop words combining those from the tm package and tidy text -- even though the tm package stop word list is pretty small anyway, just doing this just in case
+data(stop_words)
+mystopwords &amp;lt;- c(stopwords(&amp;#39;english&amp;#39;),stop_words$word, stopwords(&amp;#39;spanish&amp;#39;))
+
+# Now for Silge and Robinson&amp;#39;s code. What this is doing is getting rid of 
+# URLs, re-tweets (RT) and ampersands. This also gets rid of stop words 
+# without having to get rid of hashtags and @ signs by using 
+# str_detect and filter! 
+reg &amp;lt;- &amp;quot;([^A-Za-z_\\d#@&amp;#39;]|&amp;#39;(?![A-Za-z_\\d#@]))&amp;quot;
+tidy_tweets &amp;lt;- tweets %&amp;gt;% 
+  filter(!str_detect(text, &amp;quot;^RT&amp;quot;)) %&amp;gt;%
+  mutate(text = str_replace_all(text, &amp;quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;amp;|&amp;amp;lt;|&amp;amp;gt;|RT|https&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
+  unnest_tokens(word, text, token = &amp;quot;regex&amp;quot;, pattern = reg) %&amp;gt;%
+  filter(!word %in% mystopwords,
+         str_detect(word, &amp;quot;[a-z]&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;frequency-analysis-and-sentiment-analysis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Frequency analysis and Sentiment analysis&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;freq &amp;lt;- tidy_tweets %&amp;gt;% 
+  group_by(latitude,longitude) %&amp;gt;% 
+  count(word, sort = TRUE) %&amp;gt;% 
+  left_join(tidy_tweets %&amp;gt;% 
+              group_by(latitude,longitude) %&amp;gt;% 
+              summarise(total = n())) %&amp;gt;%
+  mutate(freq = n/total)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The n here is the total number of times this term has shown up, and the total is how many terms there are present in a particular coordinate. Now we have a representation of terms, their frequency and their position. Now I might want to plot this somehow… one way would be to try to plot the most frequent terms (n &amp;gt; 50) (Some help on how to do this was taken from &lt;a href=&#34;http://blog.revolutionanalytics.com/2016/01/avoid-overlapping-labels-in-ggplot2-charts.html&#34;&gt;here&lt;/a&gt; and &lt;a href=&#34;http://stackoverflow.com/questions/14288001/geom-text-not-working-when-ggmap-and-geom-point-used&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;freq2 &amp;lt;- subset(freq, n &amp;gt; 50) 
+
+map &amp;lt;- get_map(location = &amp;#39;Valencia St. and 20th, San Francisco,
+               California&amp;#39;, zoom = 15)
+
+freq2$longitude&amp;lt;-as.numeric(freq2$longitude)
+freq2$latitude&amp;lt;-as.numeric(freq2$latitude)
+
+mapPoints &amp;lt;- ggmap(map) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freq2, aes(x = longitude, y = latitude, label = word),size = 3) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Let’s zoom into that main central area to see what’s going on!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;map2 &amp;lt;- get_map(location = &amp;#39;Valencia St. and 19th, San Francisco,
+               California&amp;#39;, zoom = 16)
+mapPoints2 &amp;lt;- ggmap(map2) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freq2, aes(x = longitude, y = latitude, label = word),size = 3) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What about 24th?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Have to go a bit bigger to get more terms
+freq3 &amp;lt;- subset(freq, n &amp;gt; 15) 
+
+map3 &amp;lt;- get_map(location = &amp;#39;Folsom St. and 24th, San Francisco,
+               California&amp;#39;, zoom = 16)
+mapPoints3 &amp;lt;- ggmap(map3) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freq3, aes(x = longitude, y = latitude, label = word),size = 3) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sentiment-analysis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Sentiment analysis&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We can also look at counts of negative and positive words
+bingsenti &amp;lt;- sentiments %&amp;gt;%
+  filter(lexicon ==&amp;quot;bing&amp;quot;)
+
+bing_word_counts &amp;lt;- tidy_tweets %&amp;gt;%
+  inner_join(bingsenti) %&amp;gt;%
+  count(word, sentiment, sort = TRUE) %&amp;gt;%
+  ungroup()
+# If you wanted to look at these
+# bing_word_counts&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Now we can graph these
+bing_word_counts %&amp;gt;%
+  filter(n &amp;gt; 25) %&amp;gt;%
+  mutate(n = ifelse(sentiment == &amp;quot;negative&amp;quot;, -n, n)) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = &amp;quot;identity&amp;quot;) +
+  labs(y = &amp;quot;Contribution to sentiment&amp;quot;,
+       x = NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-20-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;word-cloud&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Word Cloud&lt;/h2&gt;
+&lt;p&gt;In order to do a word cloud we need a document term matrix. This will also be used for topic modeling later.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# First have to make a document term matrix, which involves a few steps
+tidy_tweets %&amp;gt;%
+  count(document, word, sort=TRUE)
+
+tweet_words &amp;lt;- tidy_tweets %&amp;gt;%  
+  count(document, word) %&amp;gt;%
+  ungroup()
+
+total_words &amp;lt;- tweet_words %&amp;gt;% 
+  group_by(document) %&amp;gt;% 
+  summarize(total = sum(n))
+
+post_words &amp;lt;- left_join(tweet_words, total_words)
+
+dtm &amp;lt;- post_words %&amp;gt;% 
+  cast_dtm(document, word, n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;freqw = data.frame(sort(colSums(as.matrix(dtm)), decreasing=TRUE))
+wordcloud(rownames(freqw), freqw[,1], max.words=100, 
+          colors=brewer.pal(1, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-22-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;emojis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Emojis&lt;/h2&gt;
+&lt;p&gt;What if I want to look at just those posts that have emojis in them? Or specific emojis in general?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Identify emojis
+emoticons &amp;lt;- read.csv(&amp;quot;Decoded Emojis Col Sep.csv&amp;quot;, header = T)
+# This also takes time so I will not run it, but this is how you go through and identify emojis in your corpus and &amp;#39;tag&amp;#39; whether or not they are there!
+# emogrepl &amp;lt;- grepl(paste(emoticons$Name, collapse = &amp;quot;|&amp;quot;), tweets$text)
+# save(emogrepl,file=paste(&amp;quot;emo.Rda&amp;quot;))
+# Emo here: https://www.dropbox.com/s/fqlvqfnx0n8npf2/emo.Rda?dl=0
+load(&amp;quot;emo.Rda&amp;quot;)
+emogreplDF&amp;lt;-as.data.frame(emogrepl)
+tweets$id &amp;lt;- 1:nrow(tweets)
+emogreplDF$id &amp;lt;- 1:nrow(emogreplDF)
+tweets &amp;lt;- merge(tweets,emogreplDF,by=&amp;quot;id&amp;quot;)
+emosub &amp;lt;- tweets[tweets$emogrepl == &amp;quot;TRUE&amp;quot;, ]
+
+# to get JUST emojis, no text
+
+tidy_emos &amp;lt;- emosub %&amp;gt;% 
+  mutate(text = str_replace_all(text, &amp;quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;amp;|&amp;amp;lt;|&amp;amp;gt;|RT|https&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
+  unnest_tokens(word, text, token = &amp;quot;regex&amp;quot;, pattern = reg) %&amp;gt;%
+  filter(!word %in% mystopwords,
+         str_detect(word, &amp;quot;[a-z]&amp;quot;))
+
+# Have to do this so they will recognize each other
+tidy_emoticons &amp;lt;- emoticons %&amp;gt;% 
+  mutate(Name = str_replace_all(Name, &amp;quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;amp;|&amp;amp;lt;|&amp;amp;gt;|RT|https&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
+  unnest_tokens(word, Name, token = &amp;quot;regex&amp;quot;, pattern = reg) %&amp;gt;%
+  filter(!word %in% mystopwords,
+         str_detect(word, &amp;quot;[a-z]&amp;quot;))
+
+# I think a semi_join will work: &amp;quot;Return all rows from X where there are matching rows in Y, just keeping columns from X&amp;quot; (http://stat545.com/bit001_dplyr-cheatsheet.html)
+
+emoonly &amp;lt;- semi_join(tidy_emos, tidy_emoticons, by=&amp;quot;word&amp;quot;)
+
+freqe &amp;lt;- emoonly %&amp;gt;% 
+  group_by(latitude,longitude) %&amp;gt;% 
+  count(word, sort = TRUE) %&amp;gt;% 
+  left_join(emoonly %&amp;gt;% 
+              group_by(latitude,longitude) %&amp;gt;% 
+              summarise(total = n())) %&amp;gt;%
+  mutate(freq = n/total)
+
+# freqe
+
+# Map it
+freqe2 &amp;lt;- subset(freqe, n &amp;gt; 20) 
+
+map &amp;lt;- get_map(location = &amp;#39;Valencia St. and 20th, San Francisco,
+               California&amp;#39;, zoom = 15)
+
+freqe2$longitude&amp;lt;-as.numeric(freqe2$longitude)
+freqe2$latitude&amp;lt;-as.numeric(freqe2$latitude)
+
+mapPointse &amp;lt;- ggmap(map) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freqe2, aes(x = longitude, y = latitude, label = word),size = 3) &lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mapPointse&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-24-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;mapping-emojis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Mapping Emojis&lt;/h2&gt;
+&lt;p&gt;To visualize emojis in our corpus, we use the &lt;a href=&#34;https://github.com/dill/emoGG&#34;&gt;emoGG package&lt;/a&gt;. (See also &lt;a href=&#34;https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/&#34;&gt;here&lt;/a&gt;!) I will do a map of the most common emoji (SPARKLES) and ones related to food. This might be better on a subset so we can try that too…&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Let&amp;#39;s do coffee, the egg pan thing, face savouring delicious food + ice cream?
+# ice cream 1f368
+# To find the codes for each emoji:
+# emoji_search(&amp;quot;ice_cream&amp;quot;)
+# First create a subset of just those that have ICE CREAM emoji present
+icecreamg &amp;lt;- grepl(paste(&amp;quot; ICECREAM &amp;quot;), emosub$text)
+icecreamgD&amp;lt;-as.data.frame(icecreamg)
+emosub$ID7 &amp;lt;- 1:nrow(emosub)
+icecreamgD$ID7 &amp;lt;- 1:nrow(icecreamgD)
+emosub &amp;lt;- merge(emosub,icecreamgD,by=&amp;quot;ID7&amp;quot;)
+icecream &amp;lt;- emosub[emosub$icecreamg == &amp;quot;TRUE&amp;quot;, ]
+
+# Same for &amp;#39;Face Savouring Delicious Food&amp;#39;
+# savourfood: 1f60b
+savourfoodgrepl &amp;lt;- grepl(paste(&amp;quot; FACESAVOURINGDELICIOUSFOOD &amp;quot;), emosub$text)
+savourfoodgreplDF&amp;lt;-as.data.frame(savourfoodgrepl)
+emosub$ID7 &amp;lt;- 1:nrow(emosub)
+savourfoodgreplDF$ID7 &amp;lt;- 1:nrow(savourfoodgreplDF)
+emosub &amp;lt;- merge(emosub,savourfoodgreplDF,by=&amp;quot;ID7&amp;quot;)
+savourfood &amp;lt;- emosub[emosub$savourfoodgrepl == &amp;quot;TRUE&amp;quot;, ]
+
+#coffee: 2615
+hotbevg &amp;lt;- grepl(paste(&amp;quot; HOTBEVERAGE &amp;quot;), emosub$text)
+hotbevgD&amp;lt;-as.data.frame(hotbevg)
+emosub$id &amp;lt;- 1:nrow(emosub)
+hotbevgD$id &amp;lt;- 1:nrow(hotbevgD)
+emosub &amp;lt;- merge(emosub,hotbevgD,by=&amp;quot;id&amp;quot;)
+coffee &amp;lt;- emosub[emosub$hotbevg == &amp;quot;TRUE&amp;quot;, ] 
+
+#knifeandfork: 1f374
+mackg &amp;lt;- grepl(paste(&amp;quot; FORKANDKNIFE &amp;quot;), emosub$text)
+mackgD&amp;lt;-as.data.frame(mackg)
+emosub$id &amp;lt;- 1:nrow(emosub)
+mackgD$id &amp;lt;- 1:nrow(mackgD)
+emosub &amp;lt;- merge(emosub,mackgD,by=&amp;quot;id&amp;quot;)
+mack &amp;lt;- emosub[emosub$mackg == &amp;quot;TRUE&amp;quot;, ]
+
+#cooking: # Frying pan egg - Food
+# 1f373
+cookg &amp;lt;- grepl(paste(&amp;quot; COOKING &amp;quot;), emosub$text)
+cookgD&amp;lt;-as.data.frame(cookg)
+emosub$id &amp;lt;- 1:nrow(emosub)
+cookgD$id &amp;lt;- 1:nrow(cookgD)
+emosub &amp;lt;- merge(emosub,cookgD,by=&amp;quot;id&amp;quot;)
+cook &amp;lt;- emosub[emosub$cookg == &amp;quot;TRUE&amp;quot;, ]
+
+
+# Map this
+foodmap &amp;lt;- ggmap(map) + geom_emoji(aes(x = longitude, y = latitude), 
+                                     data=savourfood, emoji=&amp;quot;1f60b&amp;quot;) +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=cook, emoji=&amp;quot;1f373&amp;quot;) +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=coffee, emoji=&amp;quot;2615&amp;quot;) +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=mack, emoji=&amp;quot;1f374&amp;quot;) +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=icecream, emoji=&amp;quot;1f368&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;foodmap&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-26-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Artist palette
+#1f3a8
+arg &amp;lt;- grepl(paste(&amp;quot; ARTISTPALETTE &amp;quot;), emosub$text)
+argD&amp;lt;-as.data.frame(arg)
+emosub$id &amp;lt;- 1:nrow(emosub)
+argD$id &amp;lt;- 1:nrow(argD)
+emosub &amp;lt;- merge(emosub,argD,by=&amp;quot;id&amp;quot;)
+art &amp;lt;- emosub[emosub$arg == &amp;quot;TRUE&amp;quot;, ]
+
+artmap &amp;lt;- ggmap(map) + geom_emoji(aes(x = longitude, y = latitude), 
+                                     data=art, emoji=&amp;quot;1f3a8&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;artmap&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-28-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sparklesgrepl &amp;lt;- grepl(paste(&amp;quot; SPARKLES &amp;quot;), emosub$text)
+sparklesgreplDF&amp;lt;-as.data.frame(sparklesgrepl)
+emosub$ID7 &amp;lt;- 1:nrow(emosub)
+sparklesgreplDF$ID7 &amp;lt;- 1:nrow(sparklesgreplDF)
+emosub &amp;lt;- merge(emosub,sparklesgreplDF,by=&amp;quot;ID7&amp;quot;)
+sparkles &amp;lt;- emosub[emosub$sparklesgrepl == &amp;quot;TRUE&amp;quot;, ]
+
+sparkplug &amp;lt;- ggmap(map) + geom_emoji(aes(x = longitude, y = latitude), 
+                                     data=sparkles, emoji=&amp;quot;2728&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sparkplug&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-30-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;topic-modeling&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Topic Modeling&lt;/h2&gt;
+&lt;div id=&#34;lda-tuning&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;LDA Tuning&lt;/h4&gt;
+&lt;p&gt;Before running a topic model, I am going to try the &lt;a href=&#34;http://rpubs.comci/siri/ldatuning&#34;&gt;LDA tuning package&lt;/a&gt; to assess what might be a good number of topics.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# devtools::install_github(&amp;quot;nikita-moor/ldatuning&amp;quot;)
+# install.packages(&amp;quot;ldatuning&amp;quot;)
+library(&amp;quot;ldatuning&amp;quot;)
+library(&amp;quot;topicmodels&amp;quot;)
+# I will not run this at the moment because it takes forever!
+# result &amp;lt;- FindTopicsNumber(
+#   dtm,
+#   topics = seq(from = 2, to = 15, by = 1),
+#   metrics = c(&amp;quot;Griffiths2004&amp;quot;, &amp;quot;CaoJuan2009&amp;quot;, &amp;quot;Arun2010&amp;quot;, &amp;quot;Deveaud2014&amp;quot;),
+#   method = &amp;quot;Gibbs&amp;quot;,
+#   control = list(seed = 77),
+#   mc.cores = 2L,
+#   verbose = TRUE
+# )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When this finally finishes running, we will do the following to look at graphs of results to see ‘best’ topic number. I guess you want that range which is minimize at its lowest and maximize at its highest. So match those up.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# From here: https://www.dropbox.com/s/qplfwb0pazmk7c1/ldatuning.RData?dl=0
+load(&amp;quot;ldatuning.RData&amp;quot;)
+
+FindTopicsNumber_plot(result)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-32-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;From this, it appears that the maximum and minimum peak points are about 22. I’ll use that as my number of topics.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load(&amp;quot;dtm.Rda&amp;quot;)
+# Set parameters for Gibbs sampling (parameters those used in
+# Grun and Hornik 2011)
+# burnin &amp;lt;- 4000
+# iter &amp;lt;- 2000
+# thin &amp;lt;- 500
+# seed &amp;lt;-list(2003,5,63,100001,765)
+# nstart &amp;lt;- 5
+# best &amp;lt;- TRUE
+# k &amp;lt;- 22
+# This also takes a while to run, so will just load in results
+# lda &amp;lt;-LDA(dtm,k, method=&amp;quot;Gibbs&amp;quot;, 
+#              control=list(nstart=nstart, seed = seed, best=best, 
+#                           burnin = burnin, iter = iter, thin=thin))
+# 
+# # Save this (so you don&amp;#39;t have to keep running it all the time)
+# save(lda,file=paste(&amp;quot;LDA&amp;quot;,k,&amp;quot;.Rda&amp;quot;))
+
+# Let&amp;#39;s check out the results
+
+# test_lda_td &amp;lt;- tidy(test_lda)
+# From here: https://www.dropbox.com/s/4fp81smd3dbrpd6/LDA%2022%20.Rda?dl=0
+load(&amp;quot;LDA 22 .Rda&amp;quot;)
+# Make it tidy to visualize it, etc.
+lda_td &amp;lt;- tidy(lda)
+
+# To graph these results (too many for now, looks messy)
+# lda_top_terms &amp;lt;- lda_td %&amp;gt;%
+#   group_by(topic) %&amp;gt;%
+#   top_n(10, beta) %&amp;gt;%
+#   ungroup() %&amp;gt;%
+#   arrange(topic, -beta)
+# 
+# top_terms &amp;lt;- lda_top_terms %&amp;gt;%
+#   mutate(term = reorder(term, beta)) %&amp;gt;%
+#   ggplot(aes(term, beta, fill = factor(topic))) +
+#   geom_bar(stat = &amp;quot;identity&amp;quot;, show.legend = FALSE) +
+#   facet_wrap(~ topic, scales = &amp;quot;free&amp;quot;) +
+#   coord_flip()
+# 
+# top_terms&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;pairing-this-back-with-original-tweets&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Pairing this back with original tweets&lt;/h2&gt;
+&lt;p&gt;Pair back this information with the original tweets to see how topics are distribtued, learn more about what each topic entails, etc.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Also to link things back
+# Look at results
+# Maybe a little easier to see than tidy graph
+lda.topics &amp;lt;- as.matrix(topics(lda))
+terms(lda,10)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       Topic 1       Topic 2 Topic 3     Topic 4        Topic 5   
+##  [1,] &amp;quot;happy&amp;quot;       &amp;quot;home&amp;quot;  &amp;quot;day&amp;quot;       &amp;quot;amazing&amp;quot;      &amp;quot;bar&amp;quot;     
+##  [2,] &amp;quot;birthday&amp;quot;    &amp;quot;live&amp;quot;  &amp;quot;beautiful&amp;quot; &amp;quot;chapel&amp;quot;       &amp;quot;time&amp;quot;    
+##  [3,] &amp;quot;party&amp;quot;       &amp;quot;black&amp;quot; &amp;quot;favorite&amp;quot;  &amp;quot;ready&amp;quot;        &amp;quot;taqueria&amp;quot;
+##  [4,] &amp;quot;fire&amp;quot;        &amp;quot;rose&amp;quot;  &amp;quot;check&amp;quot;     &amp;quot;friend&amp;quot;       &amp;quot;friday&amp;quot;  
+##  [5,] &amp;quot;friends&amp;quot;     &amp;quot;music&amp;quot; &amp;quot;days&amp;quot;      &amp;quot;special&amp;quot;      &amp;quot;taco&amp;quot;    
+##  [6,] &amp;quot;weekend&amp;quot;     &amp;quot;sweet&amp;quot; &amp;quot;putt&amp;quot;      &amp;quot;water&amp;quot;        &amp;quot;sushi&amp;quot;   
+##  [7,] &amp;quot;holiday&amp;quot;     &amp;quot;real&amp;quot;  &amp;quot;urban&amp;quot;     &amp;quot;awesome&amp;quot;      &amp;quot;baby&amp;quot;    
+##  [8,] &amp;quot;family&amp;quot;      &amp;quot;days&amp;quot;  &amp;quot;heath&amp;quot;     &amp;quot;flour&amp;quot;        &amp;quot;theater&amp;quot; 
+##  [9,] &amp;quot;paypopper&amp;quot;   &amp;quot;sf&amp;quot;    &amp;quot;lovely&amp;quot;    &amp;quot;@thechapelsf&amp;quot; &amp;quot;lunch&amp;quot;   
+## [10,] &amp;quot;celebrating&amp;quot; &amp;quot;basil&amp;quot; &amp;quot;ceramics&amp;quot;  &amp;quot;shot&amp;quot;         &amp;quot;ramen&amp;quot;   
+##       Topic 6              Topic 7         Topic 8    Topic 9    
+##  [1,] &amp;quot;facewithtearsofjoy&amp;quot; &amp;quot;love&amp;quot;          &amp;quot;night&amp;quot;    &amp;quot;francisco&amp;quot;
+##  [2,] &amp;quot;armory&amp;quot;             &amp;quot;heavyblackhea&amp;quot; &amp;quot;tonight&amp;quot;  &amp;quot;san&amp;quot;      
+##  [3,] &amp;quot;alamo&amp;quot;              &amp;quot;city&amp;quot;          &amp;quot;saturday&amp;quot; &amp;quot;mission&amp;quot;  
+##  [4,] &amp;quot;drafthouse&amp;quot;         &amp;quot;building&amp;quot;      &amp;quot;tomorrow&amp;quot; &amp;quot;district&amp;quot; 
+##  [5,] &amp;quot;club&amp;quot;               &amp;quot;guys&amp;quot;          &amp;quot;bay&amp;quot;      &amp;quot;#igerssf&amp;quot; 
+##  [6,] &amp;quot;life&amp;quot;               &amp;quot;people&amp;quot;        &amp;quot;monday&amp;quot;   &amp;quot;yeah&amp;quot;     
+##  [7,] &amp;quot;video&amp;quot;              &amp;quot;time&amp;quot;          &amp;quot;playing&amp;quot;  &amp;quot;cookie&amp;quot;   
+##  [8,] &amp;quot;fun&amp;quot;                &amp;quot;techo&amp;quot;         &amp;quot;books&amp;quot;    &amp;quot;streets&amp;quot;  
+##  [9,] &amp;quot;kink&amp;quot;               &amp;quot;trip&amp;quot;          &amp;quot;free&amp;quot;     &amp;quot;dr&amp;quot;       
+## [10,] &amp;quot;posted&amp;quot;             &amp;quot;hard&amp;quot;          &amp;quot;amnesia&amp;quot;  &amp;quot;beer&amp;quot;     
+##       Topic 10                     Topic 11       Topic 12 
+##  [1,] &amp;quot;tartine&amp;quot;                    &amp;quot;food&amp;quot;         &amp;quot;dinner&amp;quot; 
+##  [2,] &amp;quot;manufactory&amp;quot;                &amp;quot;week&amp;quot;         &amp;quot;photo&amp;quot;  
+##  [3,] &amp;quot;bakery&amp;quot;                     &amp;quot;dog&amp;quot;          &amp;quot;bear&amp;quot;   
+##  [4,] &amp;quot;stop&amp;quot;                       &amp;quot;cheese&amp;quot;       &amp;quot;lazy&amp;quot;   
+##  [5,] &amp;quot;@sfmanufactory&amp;quot;             &amp;quot;school&amp;quot;       &amp;quot;foreign&amp;quot;
+##  [6,] &amp;quot;cream&amp;quot;                      &amp;quot;wineglass&amp;quot;    &amp;quot;cinema&amp;quot; 
+##  [7,] &amp;quot;bread&amp;quot;                      &amp;quot;trick&amp;quot;        &amp;quot;ladies&amp;quot; 
+##  [8,] &amp;quot;ice&amp;quot;                        &amp;quot;perfect&amp;quot;      &amp;quot;#repost&amp;quot;
+##  [9,] &amp;quot;facesavouringdeliciousfood&amp;quot; &amp;quot;tour&amp;quot;         &amp;quot;miss&amp;quot;   
+## [10,] &amp;quot;pizza&amp;quot;                      &amp;quot;forkandknife&amp;quot; &amp;quot;painted&amp;quot;
+##       Topic 13                          Topic 14    Topic 15          
+##  [1,] &amp;quot;colone&amp;quot;                          &amp;quot;san&amp;quot;       &amp;quot;#sanfrancisco&amp;quot;   
+##  [2,] &amp;quot;sparkles&amp;quot;                        &amp;quot;mission&amp;quot;   &amp;quot;#sf&amp;quot;             
+##  [3,] &amp;quot;coltwo&amp;quot;                          &amp;quot;francisco&amp;quot; &amp;quot;#mission&amp;quot;        
+##  [4,] &amp;quot;colthree&amp;quot;                        &amp;quot;district&amp;quot;  &amp;quot;#missiondistrict&amp;quot;
+##  [5,] &amp;quot;twoheas&amp;quot;                         &amp;quot;#igerssf&amp;quot;  &amp;quot;#california&amp;quot;     
+##  [6,] &amp;quot;okhandsign&amp;quot;                      &amp;quot;fran&amp;quot;      &amp;quot;#dolorespark&amp;quot;    
+##  [7,] &amp;quot;personraisinghandsincelebration&amp;quot; &amp;quot;reading&amp;quot;   &amp;quot;#bayarea&amp;quot;        
+##  [8,] &amp;quot;personwithfoldedhands&amp;quot;           &amp;quot;#sfo&amp;quot;      &amp;quot;#themission&amp;quot;     
+##  [9,] &amp;quot;colfour&amp;quot;                         &amp;quot;break&amp;quot;     &amp;quot;#usa&amp;quot;            
+## [10,] &amp;quot;signofthehorns&amp;quot;                  &amp;quot;bright&amp;quot;    &amp;quot;#sanfran&amp;quot;        
+##       Topic 16                       Topic 17           Topic 18  
+##  [1,] &amp;quot;smilingfacewithheashapedeyes&amp;quot; &amp;quot;park&amp;quot;             &amp;quot;mission&amp;quot; 
+##  [2,] &amp;quot;studios&amp;quot;                      &amp;quot;dolores&amp;quot;          &amp;quot;street&amp;quot;  
+##  [3,] &amp;quot;finally&amp;quot;                      &amp;quot;sf&amp;quot;               &amp;quot;art&amp;quot;     
+##  [4,] &amp;quot;sunday&amp;quot;                       &amp;quot;blacksunwithrays&amp;quot; &amp;quot;valencia&amp;quot;
+##  [5,] &amp;quot;yesterday&amp;quot;                    &amp;quot;#dolorespark&amp;quot;     &amp;quot;24th&amp;quot;    
+##  [6,] &amp;quot;pacific&amp;quot;                      &amp;quot;palmtree&amp;quot;         &amp;quot;station&amp;quot; 
+##  [7,] &amp;quot;studio&amp;quot;                       &amp;quot;afternoon&amp;quot;        &amp;quot;st&amp;quot;      
+##  [8,] &amp;quot;southern&amp;quot;                     &amp;quot;bridgeatnight&amp;quot;    &amp;quot;16th&amp;quot;    
+##  [9,] &amp;quot;pretty&amp;quot;                       &amp;quot;sunny&amp;quot;            &amp;quot;cha&amp;quot;     
+## [10,] &amp;quot;fur&amp;quot;                          &amp;quot;summer&amp;quot;           &amp;quot;gray&amp;quot;    
+##       Topic 19        Topic 20     Topic 21    Topic 22     
+##  [1,] &amp;quot;alley&amp;quot;         &amp;quot;kitchen&amp;quot;    &amp;quot;time&amp;quot;      &amp;quot;coffee&amp;quot;     
+##  [2,] &amp;quot;clarion&amp;quot;       &amp;quot;#foodporn&amp;quot;  &amp;quot;elbo&amp;quot;      &amp;quot;morning&amp;quot;    
+##  [3,] &amp;quot;#sf&amp;quot;           &amp;quot;restaurant&amp;quot; &amp;quot;chocolate&amp;quot; &amp;quot;cafe&amp;quot;       
+##  [4,] &amp;quot;#streetart&amp;quot;    &amp;quot;super&amp;quot;      &amp;quot;fun&amp;quot;       &amp;quot;hotbeverage&amp;quot;
+##  [5,] &amp;quot;#art&amp;quot;          &amp;quot;story&amp;quot;      &amp;quot;mission&amp;quot;   &amp;quot;barrel&amp;quot;     
+##  [6,] &amp;quot;#graffiti&amp;quot;     &amp;quot;brunch&amp;quot;     &amp;quot;christmas&amp;quot; &amp;quot;#coffee&amp;quot;    
+##  [7,] &amp;quot;#clarionalley&amp;quot; &amp;quot;chicken&amp;quot;    &amp;quot;theatre&amp;quot;   &amp;quot;tea&amp;quot;        
+##  [8,] &amp;quot;#mural&amp;quot;        &amp;quot;#food&amp;quot;      &amp;quot;house&amp;quot;     &amp;quot;shop&amp;quot;       
+##  [9,] &amp;quot;mural&amp;quot;         &amp;quot;thai&amp;quot;       &amp;quot;hot&amp;quot;       &amp;quot;ritual&amp;quot;     
+## [10,] &amp;quot;link&amp;quot;          &amp;quot;craftsman&amp;quot;  &amp;quot;church&amp;quot;    &amp;quot;acrylic&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Check at top 50 terms in each topic
+# lda.terms &amp;lt;- as.matrix(terms(lda,15))
+# Save as CSV file to look at a bit closer
+# write.csv(lda.terms,file=paste(&amp;quot;TIDY_LDA&amp;quot;,k,&amp;quot;TopicstoTerms.csv&amp;quot;))
+
+# Actual probabilities
+topicProbabilities &amp;lt;- as.data.frame(lda@gamma)
+# write.csv(topicProbabilities,
+#          file=paste(&amp;quot;TIDYLDA&amp;quot;,k,&amp;quot;TopicProbabilities.csv&amp;quot;))
+
+#Write out the topics to a data frame so you can work with them
+test &amp;lt;- as.data.frame(lda.topics)
+# We won&amp;#39;t label these topics bc too many, difficult to label. If you wanted to label, however, this is how you would do it. 
+# a&amp;lt;-c(&amp;#39;Evaluation&amp;#39;, &amp;#39;Food&amp;#39;,&amp;#39;Performance Promos&amp;#39;, &amp;#39;Leisure&amp;#39;, &amp;#39;Places&amp;#39;,
+# &amp;#39;Nightlife&amp;#39;, &amp;#39;Activism/Campaigns&amp;#39;,&amp;#39;Art&amp;#39;,&amp;#39;Outdoors&amp;#39;,&amp;#39;Service/Product Promos&amp;#39;)
+# b&amp;lt;-c(1,2,3,4,5,6,7,8,9,10)
+# namesdf&amp;lt;-data.frame(&amp;quot;Name&amp;quot;=a,&amp;quot;Number&amp;quot;=b)
+# test$V1&amp;lt;-as.factor(test$V1)
+# newtopics &amp;lt;- FindReplace(data = test, Var = &amp;quot;V1&amp;quot;, replaceData = namesdf,
+#                        from = &amp;quot;Number&amp;quot;, to = &amp;quot;Name&amp;quot;, exact = TRUE)
+
+#Merge topics with tweet corpus
+tweets$id &amp;lt;- 1:nrow(tweets)
+test$id &amp;lt;- 1:nrow(test)
+tweets &amp;lt;- merge(tweets,test,by=&amp;quot;id&amp;quot;)
+# Save this
+# save(tweets,file=paste(&amp;quot;tweets&amp;quot;,Sys.Date(),&amp;quot;.Rda&amp;quot;))
+# load(&amp;quot;tweets 2017-03-22 .Rda&amp;quot;)
+
+#Merge topic probabilities with tweet corpus
+topicProbabilities$id &amp;lt;- 1:nrow(topicProbabilities)
+tweets &amp;lt;- merge(tweets, topicProbabilities,by=&amp;quot;id&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;visualizing-topic-model-results&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Visualizing Topic Model Results&lt;/h2&gt;
+&lt;p&gt;You can now map your posts and see where assigned topics are happening!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets$longitude&amp;lt;-as.numeric(tweets$longitude)
+tweets$latitude &amp;lt;- as.numeric(tweets$latitude)
+tweets$V1.x &amp;lt;- factor(tweets$V1.x)
+Topics&amp;lt;-tweets$V1.x
+mapPointstopics &amp;lt;- ggmap(map) + geom_point(aes(x = longitude, y = latitude, 
+                                         color=Topics), 
+                                     data=tweets, alpha=0.5, size = 3)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mapPointstopics&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-36-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What a mess!&lt;/p&gt;
+&lt;p&gt;How about over time?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;visualizing-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Visualizing the data&lt;/h2&gt;
+&lt;p&gt;We can also look at WHEN the posts were generated. We can make a graph of post frequency over time.Graphs constructed with help from &lt;a href=&#34;http://www.cyclismo.org/tutorial/R/time.html&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;https://gist.github.com/stephenturner/3132596&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://stackoverflow.com/questions/27626915/r-graph-frequency-of-observations-over-time-with-small-value-range&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://michaelbommarito.com/2011/03/12/a-quick-look-at-march11-saudi-tweets/&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://stackoverflow.com/questions/31796744/plot-count-frequency-of-tweets-for-word-by-month&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;https://stat.ethz.ch/R-manual/R-devel/library/base/html/as.POSIXlt.html&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://sape.inf.usi.ch/quick-reference/ggplot2/geom&#34;&gt;here&lt;/a&gt; and &lt;a href=&#34;http://stackoverflow.com/questions/3541713/how-to-plot-two-histograms-together-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets$created2 &amp;lt;- as.POSIXct(tweets$created, format=&amp;quot;%m/%d/%Y %H:%M&amp;quot;)
+tweets$created3&amp;lt;-format(tweets$created2,&amp;#39;%H:%M:%S&amp;#39;)
+d3 &amp;lt;- as.data.frame(table(tweets$created3))
+d3 &amp;lt;- d3[order(d3$Freq, decreasing=T), ]
+names(d3) &amp;lt;- c(&amp;quot;created3&amp;quot;,&amp;quot;freq3&amp;quot;)
+tweets &amp;lt;- merge(tweets,d3,by=&amp;quot;created3&amp;quot;)
+tweets$created3 &amp;lt;- as.POSIXct(tweets$created3, format=&amp;quot;%H:%M:%S&amp;quot;)
+minutes &amp;lt;- 60
+
+Topics&amp;lt;-tweets$V1.x
+Time &amp;lt;- tweets$created3&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(tweets, aes(Time, color = Topics)) + 
+  geom_freqpoly(binwidth=60*minutes)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-38-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# For a more general trend
+ggplot(tweets, aes(Time)) + 
+  geom_freqpoly(binwidth=60*minutes)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-38-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;matching-tweets-with-ll-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Matching tweets with LL data&lt;/h2&gt;
+&lt;p&gt;What we are trying to do is to match up locations in the physical LL with the digital LL and then find the most common topic associated with a physical location. Because we do not have &lt;em&gt;exact&lt;/em&gt; matches, we will try the &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(fuzzyjoin)
 library(dplyr)
 pairsdf &amp;lt;- ll %&amp;gt;%
   geo_inner_join(tweets, unit=&amp;#39;km&amp;#39;,distance_col=&amp;quot;distance&amp;quot;) %&amp;gt;%
-  filter(distance &amp;lt;= 0.018288)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Joining by: c(&amp;quot;latitude&amp;quot;, &amp;quot;longitude&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I have to use filter here because &amp;#39;max_distance&amp;#39; is not geared to be less than 1 km or 1 mi
-# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
-# to filter afterwards...&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you’d like to look at smaller radii, just put in whatever fraction of a kilometer in the ‘distance’ parameter that you are interested in.&lt;/p&gt;
-&lt;p&gt;Now what I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the &lt;strong&gt;group_by()&lt;/strong&gt; function from dplyr as suggested &lt;a href=&#34;http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+  filter(distance &amp;lt;= 0.018288)
+
+# What does this look like on a map?
+
+# mapPointsall &amp;lt;- ggmap(map) + geom_point(aes(x = longitude.x, y = latitude.x), 
+#                                     data=pairsdf, alpha=0.5)
+# mapPointsall&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now I have a data frame with a row of each time a post has occurred in a 30 foot vicinity of an LL object. What I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the &lt;em&gt;group_by()&lt;/em&gt; function from dplyr as suggested &lt;a href=&#34;http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;As R does not have a built in function for mode, we build one. Code for this available &lt;a href=&#34;https://www.tutorialspoint.com/r/r_mean_median_mode.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get the mode
 getmode &amp;lt;- function(v) {
@@ -829,15 +1402,1969 @@ getmode &amp;lt;- function(v) {
 }
 
 # Tell R your topic categories are a number so it can deal with them
-pairsdf$V1&amp;lt;- as.numeric(pairsdf$V1)
+pairsdf$V1.x&amp;lt;- as.numeric(pairsdf$V1.x)
 
 # Now calculate things about the topics per sign
 topicmode &amp;lt;- pairsdf%&amp;gt;%
 group_by(SIGN_ID)%&amp;gt;% 
-summarise(Mode = getmode(V1))&lt;/code&gt;&lt;/pre&gt;
+summarise(Mode = getmode(V1.x))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Let’s now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns &amp;lt;- inner_join(ll, topicmode, by = &amp;quot;SIGN_ID&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets.&lt;/p&gt;
+&lt;p&gt;This is kind of messy, so let’s subset the data frame to just have the things we are interested in. Help from &lt;a href=&#34;https://www.r-bloggers.com/taking-a-subset-of-a-data-frame-in-r/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns &amp;lt;- topicsigns[,c(&amp;quot;SIGN_ID&amp;quot;,&amp;quot;latitude&amp;quot;,&amp;quot;longitude&amp;quot;,&amp;quot;LOCATION&amp;quot;,&amp;quot;LANGUAGE&amp;quot;,&amp;quot;COMMUNICATIVE_ROLE&amp;quot;,&amp;quot;MATERIALITY&amp;quot;,&amp;quot;CONTEXT_FRAME&amp;quot;,&amp;quot;YELP&amp;quot;,&amp;quot;CLOSED&amp;quot;,&amp;quot;Mode&amp;quot;)]    # get all rows, only relevant columns
+
+# Rename columns so they make more sense (help from here: http://stackoverflow.com/questions/21502465/replacement-for-rename-in-dplyr/26146202#26146202)
+topicsigns &amp;lt;- rename(topicsigns, Topic = Mode)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;gams&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;GAMs!&lt;/h2&gt;
+&lt;p&gt;Now onto statistics. We want to see what has the most influence on language displayed in a sign. Let’s use a generalized additive model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(mgcv)
+# Let&amp;#39;s visualize our LL data
+# We want to change the order on the plot so it&amp;#39;s easier to look at (help from http://stackoverflow.com/questions/12774210/how-do-you-specifically-order-ggplot2-x-axis-instead-of-alphabetical-order)
+ll$LANGUAGE &amp;lt;- as.character(ll$LANGUAGE)
+Language &amp;lt;- factor(ll$LANGUAGE, levels=c(&amp;quot;English&amp;quot;, &amp;quot;Eng_Span&amp;quot;,&amp;#39;Equal&amp;#39;,&amp;#39;Spanish&amp;#39;, &amp;#39;Span_Eng&amp;#39;,&amp;quot;Other (Chinese)&amp;quot;,&amp;quot;Other (Thai)&amp;quot;,&amp;quot;Other (Tagalog)&amp;quot;))
+
+# Different colors help from http://stackoverflow.com/questions/19778612/change-color-for-two-geom-point-in-ggplot2
+
+# Colorblind palette (help from http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette)
+# cbPalette &amp;lt;- c(&amp;quot;#999999&amp;quot;, &amp;quot;#E69F00&amp;quot;, &amp;quot;#56B4E9&amp;quot;, &amp;quot;#009E73&amp;quot;, &amp;quot;#F0E442&amp;quot;, &amp;quot;#0072B2&amp;quot;, &amp;quot;#D55E00&amp;quot;, &amp;quot;#CC79A7&amp;quot;)
+# mapPoints &amp;lt;- ggmap(map) + geom_point(aes(x = lon, y = lat,color=Language),data=newdata, alpha = 0.7, size=2) + scale_colour_manual(values=cbPalette)
+
+mapll &amp;lt;- get_map(location = &amp;#39;Van Ness and 22nd, San Francisco,
+               California&amp;#39;, zoom = 15)
+
+
+ll$longitude &amp;lt;- as.numeric(ll$longitude)
+ll$latitude &amp;lt;- as.numeric(ll$latitude)
+
+Longitude &amp;lt;- ll$longitude
+Latitude &amp;lt;- ll$latitude
+
+mapPointsll &amp;lt;- ggmap(mapll) + geom_point(aes(x = Longitude, y = Latitude,color=Language),data=ll, size=1.5) + scale_colour_manual(values = c(&amp;quot;Spanish&amp;quot; = &amp;quot;blue&amp;quot;, &amp;quot;English&amp;quot; = &amp;quot;magenta&amp;quot;, &amp;quot;Eng_Span&amp;quot; = &amp;quot;red&amp;quot;, &amp;quot;Span_Eng&amp;quot; = &amp;quot;#339900&amp;quot;, &amp;quot;Equal&amp;quot; = &amp;quot;orange&amp;quot;, &amp;quot;Other (Chinese)&amp;quot;=&amp;quot;purple&amp;quot;,&amp;quot;Other (Thai)&amp;quot; =&amp;quot;#FFCC00&amp;quot;,&amp;quot;Other (Tagalog)&amp;quot; = &amp;quot;grey&amp;quot; ))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mapPointsll&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-44-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;model-selection&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Model Selection&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Generalized Linear Models (Logistic Regression, Multinomial Logistic Regression)&lt;/li&gt;
+&lt;li&gt;Pros: Enable a categorical output&lt;/li&gt;
+&lt;li&gt;Cons: Difficult to capture nonlinear patterns, involves transformation (logit)&lt;/li&gt;
+&lt;li&gt;Cons: Difficult to include coordinates&lt;/li&gt;
+&lt;li&gt;Generalized Additive Model&lt;/li&gt;
+&lt;li&gt;Pros: Relationship between IV and DV not assumed to be linear&lt;/li&gt;
+&lt;li&gt;Pros: Can deal with coordinates with a smooth! Allows the trend of DV to be summarized as a function of more than one IV (latitude and longitude)&lt;/li&gt;
+&lt;li&gt;Pros: Can deal with my weird time distribution with a smooth as well!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;results&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Results&lt;/h4&gt;
+&lt;p&gt;Let’s explore the multinom and see what it can tell us about all of these things&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plotting the data (help on how to manipulate this graph from here: http://r.789695.n4.nabble.com/Ordering-of-stack-in-ggplot-package-ggplot2-td3917159.html)
+
+# Overall counts
+
+dat &amp;lt;- data.frame(table(ll$LOCATION,ll$LANGUAGE))
+dat$Var1 &amp;lt;- factor(dat$Var1, levels = c(&amp;quot;Mission&amp;quot;, &amp;quot;24th&amp;quot;, &amp;quot;Valencia&amp;quot;,&amp;quot;18th&amp;quot;))
+
+dat$Var2 &amp;lt;- factor(dat$Var2, levels = c(&amp;quot;English&amp;quot;, &amp;quot;Eng_Span&amp;quot;, &amp;quot;Equal&amp;quot;,&amp;quot;Span_Eng&amp;quot;,&amp;quot;Spanish&amp;quot;,&amp;quot;Other (Chinese)&amp;quot;,&amp;quot;Other (Thai)&amp;quot;,&amp;quot;Other (Tagalog)&amp;quot;))
+
+names(dat) &amp;lt;- c(&amp;quot;Location&amp;quot;,&amp;quot;Language&amp;quot;,&amp;quot;Count&amp;quot;)
+# levels(dat$Language)
+ggplot(data=dat, aes(x=Location, y=Count, fill=Language)) + geom_bar(stat=&amp;quot;identity&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-45-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Now percentages
+please=prop.table(table(ll$LOCATION, ll$LANGUAGE))
+please2 &amp;lt;- data.frame(please)
+please2$Var1 &amp;lt;- factor(please2$Var1, levels = c(&amp;quot;Mission&amp;quot;, &amp;quot;24th&amp;quot;, &amp;quot;Valencia&amp;quot;,&amp;quot;18th&amp;quot;))
+
+please2$Var2 &amp;lt;- factor(please2$Var2, levels = c(&amp;quot;English&amp;quot;, &amp;quot;Eng_Span&amp;quot;, &amp;quot;Equal&amp;quot;,&amp;quot;Span_Eng&amp;quot;,&amp;quot;Spanish&amp;quot;,&amp;quot;Other (Chinese)&amp;quot;,&amp;quot;Other (Thai)&amp;quot;,&amp;quot;Other (Tagalog)&amp;quot;))
+
+names(please2) &amp;lt;- c(&amp;quot;Location&amp;quot;,&amp;quot;Language&amp;quot;, &amp;quot;Frequency&amp;quot;)
+# Help from http://stackoverflow.com/questions/9563368/create-stacked-percent-barplot-in-r
+library(scales)
+ggplot(please2,aes(x = Location, y = Frequency,fill = Language)) + 
+    geom_bar(position = &amp;quot;fill&amp;quot;,stat = &amp;quot;identity&amp;quot;) + 
+    scale_y_continuous(labels = percent_format())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-45-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;multinomial-logistic-regression&#34; class=&#34;section level5&#34;&gt;
+&lt;h5&gt;Multinomial Logistic Regression&lt;/h5&gt;
+&lt;p&gt;The results of this are so ugly – the p value also has to computed separately. But here is how it is done.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(nnet)
+ll$LANGUAGE &amp;lt;- as.factor(ll$LANGUAGE)
+multi &amp;lt;- multinom(LANGUAGE ~ LOCATION, data=ll)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # weights:  40 (28 variable)
+## initial  value 2145.983671 
+## iter  10 value 1081.616009
+## iter  20 value 1027.458362
+## iter  30 value 1025.668541
+## iter  40 value 1025.609658
+## iter  50 value 1025.585372
+## final  value 1025.584871 
+## converged&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(multi)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Call:
+## multinom(formula = LANGUAGE ~ LOCATION, data = ll)
+## 
+## Coefficients:
+##                   (Intercept) LOCATION24th LOCATIONMission
+## English          3.713392e+00   -1.6606712      -1.1414267
+## Equal            9.161193e-01   -1.6633643      -1.2345010
+## Other (Chinese) -9.539999e+00   -2.5206831       7.8354395
+## Other (Tagalog) -1.005856e+01   -2.9770588       6.9682681
+## Other (Thai)    -9.266575e+00    6.3219050      -0.4741931
+## Span_Eng        -1.264373e-04    0.3878855       0.3748708
+## Spanish          1.945735e+00   -0.3576242      -0.3272004
+##                 LOCATIONValencia
+## English               -0.1162223
+## Equal                -10.6594671
+## Other (Chinese)       -2.5346037
+## Other (Tagalog)       -2.6799698
+## Other (Thai)          -3.8007603
+## Span_Eng             -10.0641616
+## Spanish               -1.7226796
+## 
+## Std. Errors:
+##                 (Intercept) LOCATION24th LOCATIONMission LOCATIONValencia
+## English           0.7156184    0.7559734       0.7490253        0.8768839
+## Equal             0.8366090    0.9293296       0.8988160       65.2725028
+## Other (Chinese)  83.3773119  126.7018959      83.3790835      225.3583589
+## Other (Tagalog) 108.0554714  189.2203510     108.0603056      311.1603627
+## Other (Thai)     72.7242951   72.7315331      77.8555077      351.5400629
+## Span_Eng          0.9999461    1.0431848       1.0375929       76.6336199
+## Spanish           0.7558726    0.7966966       0.7910811        1.0105941
+## 
+## Residual Deviance: 2051.17 
+## AIC: 2107.17&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Get p vals and coefficients
+z &amp;lt;- summary(multi)$coefficients/summary(multi)$standard.errors 
+p &amp;lt;- (1 - pnorm(abs(z), 0, 1)) * 2 
+p&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                  (Intercept) LOCATION24th LOCATIONMission LOCATIONValencia
+## English         2.113511e-07   0.02803958       0.1275380       0.89455708
+## Equal           2.734997e-01   0.07347739       0.1696048       0.87027660
+## Other (Chinese) 9.089052e-01   0.98412746       0.9251301       0.99102639
+## Other (Tagalog) 9.258344e-01   0.98744717       0.9485841       0.99312804
+## Other (Thai)    8.986075e-01   0.93073423       0.9951404       0.99137365
+## Span_Eng        9.998991e-01   0.71002077       0.7178835       0.89551562
+## Spanish         1.004847e-02   0.65351549       0.6791585       0.08826521&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Get the odds and coefficients
+# exp(coef(multi))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;gams-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;GAMs!&lt;/h2&gt;
+&lt;p&gt;Let’s turn to GAMs to look at LL distributions.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gamELL= gam(I(LANGUAGE==&amp;quot;English&amp;quot;)~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED,family=binomial, data=ll)
+
+gamSLL= gam(I(LANGUAGE==&amp;quot;Spanish&amp;quot;)~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED,family=binomial, data=ll)
+
+gamESLL= gam(I(LANGUAGE==&amp;quot;Eng_Span&amp;quot;)~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED,family=binomial, data=ll)
+
+gamSELL= gam(I(LANGUAGE==&amp;quot;Span_Eng&amp;quot;)~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED,family=binomial, data=ll)
+
+gamEQLL= gam(I(LANGUAGE==&amp;quot;Equal&amp;quot;)~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED,family=binomial, data=ll)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;gam-diagnostics&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;GAM diagnostics&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concurvity(gamELL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9993302             0.6214292
+## observed 0.9993302             0.3477924
+## estimate 0.9993302             0.3560434&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concurvity(gamSLL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9993302             0.6214292
+## observed 0.9993302             0.2714755
+## estimate 0.9993302             0.3560434&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concurvity(gamESLL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9993302             0.6214292
+## observed 0.9993302             0.1284416
+## estimate 0.9993302             0.3560434&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concurvity(gamSELL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9993302             0.6214292
+## observed 0.9993302             0.3752692
+## estimate 0.9993302             0.3560434&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concurvity(gamEQLL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9993302             0.6214292
+## observed 0.9993302             0.2880259
+## estimate 0.9993302             0.3560434&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(gamELL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 2 iterations.
+## Gradient range [2.937159e-09,2.937159e-09]
+## (score 0.07031652 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.002898905,0.002898905].
+## Model rank =  106 / 106 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                           k&amp;#39;    edf k-index p-value
+## s(latitude,longitude) 59.000 21.456   0.881       0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(gamSLL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 3 iterations.
+## Gradient range [-3.796155e-10,-3.796155e-10]
+## (score -0.1045091 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.00330123,0.00330123].
+## Model rank =  106 / 106 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                           k&amp;#39;    edf k-index p-value
+## s(latitude,longitude) 59.000 35.459   0.887       0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(gamESLL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 2 iterations.
+## Gradient range [-5.881589e-09,-5.881589e-09]
+## (score -0.5780793 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.001517681,0.001517681].
+## Model rank =  106 / 106 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                           k&amp;#39;    edf k-index p-value
+## s(latitude,longitude) 59.000 18.706   0.949     0.5&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(gamSELL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 4 iterations.
+## Gradient range [-6.671218e-08,-6.671218e-08]
+## (score -0.5312013 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.001353063,0.001353063].
+## Model rank =  106 / 106 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                          k&amp;#39;   edf k-index p-value
+## s(latitude,longitude) 59.00  6.55    0.92    0.18&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(gamEQLL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 3 iterations.
+## Gradient range [-8.346794e-10,-8.346794e-10]
+## (score -0.7151074 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.001447556,0.001447556].
+## Model rank =  106 / 106 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                           k&amp;#39;    edf k-index p-value
+## s(latitude,longitude) 59.000  7.110   0.917    0.24&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-48-1.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-48-2.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-48-3.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-48-4.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-48-5.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;gam-results&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;GAM results&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# English
+summary(gamELL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(LANGUAGE == &amp;quot;English&amp;quot;) ~ s(latitude, longitude, k = 60) + YELP + 
+##     COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED
+## 
+## Parametric coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                    44.0237 51896.9721   0.001
+## YELP                                            0.7416     0.1410   5.260
+## COMMUNICATIVE_ROLEEstablishment_Description    -1.0166     0.4430  -2.295
+## COMMUNICATIVE_ROLEEstablishment_Name           -0.8597     0.4229  -2.033
+## COMMUNICATIVE_ROLEGraffiti                      0.1732     0.7926   0.219
+## COMMUNICATIVE_ROLEinformation                 -23.1788 24511.2101  -0.001
+## COMMUNICATIVE_ROLEInformation                  -1.3411     0.4417  -3.036
+## COMMUNICATIVE_ROLEInstructions                  0.3908     1.4229   0.275
+## COMMUNICATIVE_ROLELeaflet                      -1.1885     1.4932  -0.796
+## COMMUNICATIVE_ROLESlogan                       -0.9822     1.3350  -0.736
+## COMMUNICATIVE_ROLEStreet_Signs                  0.5547     1.0081   0.550
+## COMMUNICATIVE_ROLETrademark                    18.4011 48196.1446   0.000
+## MATERIALITYHand_Written                         0.6733     0.8570   0.786
+## MATERIALITYHome_Printed                         0.5714     0.8598   0.665
+## MATERIALITYPermanent                            1.7312     1.0364   1.670
+## MATERIALITYProfessionally_Printed               1.4481     0.8451   1.714
+## CONTEXT_FRAMEAuto_Mechanic                     -0.6429 51897.1058   0.000
+## CONTEXT_FRAMEBakery                           -24.9360 19246.8495  -0.001
+## CONTEXT_FRAMEBar                              -22.3820 19246.8495  -0.001
+## CONTEXT_FRAMEBeauty_Hair_Salon                -23.2895 19246.8494  -0.001
+## CONTEXT_FRAMEBusiness                         -22.4638 19246.8494  -0.001
+## CONTEXT_FRAMECafe                              -1.4916 20584.5040   0.000
+## CONTEXT_FRAMEClothing                         -23.2780 19246.8495  -0.001
+## CONTEXT_FRAMECommentary                       -22.1075 19246.8495  -0.001
+## CONTEXT_FRAMEExternal                         -22.5786 19246.8494  -0.001
+## CONTEXT_FRAMEFlier                            -45.8507 39139.1784  -0.001
+## CONTEXT_FRAMEGallery_Museum                   -24.1304 19246.8495  -0.001
+## CONTEXT_FRAMEGrocery                           -2.7168 29903.7031   0.000
+## CONTEXT_FRAMEGrocery_Liquor_Store             -23.5920 19246.8494  -0.001
+## CONTEXT_FRAMEGym_Fitness_Studio                 0.0302 28792.2798   0.000
+## CONTEXT_FRAMEHardware                          -1.9022 29882.6610   0.000
+## CONTEXT_FRAMEHotel                            -22.6879 19246.8495  -0.001
+## CONTEXT_FRAMEInstitution                      -23.0377 19246.8494  -0.001
+## CONTEXT_FRAMEJewelry_Store                    -22.3474 19246.8495  -0.001
+## CONTEXT_FRAMELandromat                        -22.3911 19246.8495  -0.001
+## CONTEXT_FRAMEMenu                              -5.0706 51897.1058   0.000
+## CONTEXT_FRAMEMovie_Theater                    -21.4862 19246.8495  -0.001
+## CONTEXT_FRAMENightclub                        -22.0964 19246.8495  -0.001
+## CONTEXT_FRAMENotary_Financial_Services        -23.2806 19246.8494  -0.001
+## CONTEXT_FRAMEResidential                      -45.3584 32847.9910  -0.001
+## CONTEXT_FRAMERestaurant                       -23.8055 19246.8494  -0.001
+## CONTEXT_FRAMEShop                             -22.5694 19246.8494  -0.001
+## CONTEXT_FRAMESpecialty_Foods                  -22.0218 19246.8495  -0.001
+## CONTEXT_FRAMESupermarket                      -23.3643 19246.8494  -0.001
+## CONTEXT_FRAMETravel_Agency                    -47.3202 28896.6233  -0.002
+## CLOSEDFALSE                                   -21.1499 48196.0008   0.000
+## CLOSEDTRUE                                    -21.8697 48196.0008   0.000
+##                                             Pr(&amp;gt;|z|)    
+## (Intercept)                                  0.99932    
+## YELP                                        1.44e-07 ***
+## COMMUNICATIVE_ROLEEstablishment_Description  0.02174 *  
+## COMMUNICATIVE_ROLEEstablishment_Name         0.04206 *  
+## COMMUNICATIVE_ROLEGraffiti                   0.82698    
+## COMMUNICATIVE_ROLEinformation                0.99925    
+## COMMUNICATIVE_ROLEInformation                0.00239 ** 
+## COMMUNICATIVE_ROLEInstructions               0.78358    
+## COMMUNICATIVE_ROLELeaflet                    0.42607    
+## COMMUNICATIVE_ROLESlogan                     0.46189    
+## COMMUNICATIVE_ROLEStreet_Signs               0.58216    
+## COMMUNICATIVE_ROLETrademark                  0.99970    
+## MATERIALITYHand_Written                      0.43208    
+## MATERIALITYHome_Printed                      0.50631    
+## MATERIALITYPermanent                         0.09483 .  
+## MATERIALITYProfessionally_Printed            0.08661 .  
+## CONTEXT_FRAMEAuto_Mechanic                   0.99999    
+## CONTEXT_FRAMEBakery                          0.99897    
+## CONTEXT_FRAMEBar                             0.99907    
+## CONTEXT_FRAMEBeauty_Hair_Salon               0.99903    
+## CONTEXT_FRAMEBusiness                        0.99907    
+## CONTEXT_FRAMECafe                            0.99994    
+## CONTEXT_FRAMEClothing                        0.99904    
+## CONTEXT_FRAMECommentary                      0.99908    
+## CONTEXT_FRAMEExternal                        0.99906    
+## CONTEXT_FRAMEFlier                           0.99907    
+## CONTEXT_FRAMEGallery_Museum                  0.99900    
+## CONTEXT_FRAMEGrocery                         0.99993    
+## CONTEXT_FRAMEGrocery_Liquor_Store            0.99902    
+## CONTEXT_FRAMEGym_Fitness_Studio              1.00000    
+## CONTEXT_FRAMEHardware                        0.99995    
+## CONTEXT_FRAMEHotel                           0.99906    
+## CONTEXT_FRAMEInstitution                     0.99904    
+## CONTEXT_FRAMEJewelry_Store                   0.99907    
+## CONTEXT_FRAMELandromat                       0.99907    
+## CONTEXT_FRAMEMenu                            0.99992    
+## CONTEXT_FRAMEMovie_Theater                   0.99911    
+## CONTEXT_FRAMENightclub                       0.99908    
+## CONTEXT_FRAMENotary_Financial_Services       0.99903    
+## CONTEXT_FRAMEResidential                     0.99890    
+## CONTEXT_FRAMERestaurant                      0.99901    
+## CONTEXT_FRAMEShop                            0.99906    
+## CONTEXT_FRAMESpecialty_Foods                 0.99909    
+## CONTEXT_FRAMESupermarket                     0.99903    
+## CONTEXT_FRAMETravel_Agency                   0.99869    
+## CLOSEDFALSE                                  0.99965    
+## CLOSEDTRUE                                   0.99964    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq  p-value    
+## s(latitude,longitude) 21.46  28.48  64.21 0.000144 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## R-sq.(adj) =  0.266   Deviance explained =   28%
+## UBRE = 0.070317  Scale est. = 1         n = 1032&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get odds ratios (commented out for clarity)
+# exp(coef(gamE))
+
+# Spanish
+summary(gamSLL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(LANGUAGE == &amp;quot;Spanish&amp;quot;) ~ s(latitude, longitude, k = 60) + YELP + 
+##     COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED
+## 
+## Parametric coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                 -5.187e+01  6.352e+05   0.000
+## YELP                                        -6.091e-01  1.745e-01  -3.490
+## COMMUNICATIVE_ROLEEstablishment_Description  5.948e-01  5.321e-01   1.118
+## COMMUNICATIVE_ROLEEstablishment_Name         5.442e-01  5.122e-01   1.063
+## COMMUNICATIVE_ROLEGraffiti                  -2.188e+00  1.106e+00  -1.978
+## COMMUNICATIVE_ROLEinformation               -1.127e-01  1.416e+00  -0.080
+## COMMUNICATIVE_ROLEInformation                3.734e-01  5.304e-01   0.704
+## COMMUNICATIVE_ROLEInstructions               3.725e-01  1.602e+00   0.233
+## COMMUNICATIVE_ROLELeaflet                   -1.945e-01  1.445e+00  -0.135
+## COMMUNICATIVE_ROLESlogan                     2.172e-01  1.458e+00   0.149
+## COMMUNICATIVE_ROLEStreet_Signs              -8.371e-01  1.373e+00  -0.610
+## COMMUNICATIVE_ROLETrademark                 -2.306e+01  5.871e+05   0.000
+## MATERIALITYHand_Written                     -9.566e-01  9.062e-01  -1.056
+## MATERIALITYHome_Printed                     -1.217e+00  9.193e-01  -1.324
+## MATERIALITYPermanent                        -2.994e+00  1.254e+00  -2.388
+## MATERIALITYProfessionally_Printed           -2.166e+00  8.988e-01  -2.410
+## CONTEXT_FRAMEAuto_Mechanic                   9.136e-01  6.351e+05   0.000
+## CONTEXT_FRAMEBakery                          2.950e+01  2.420e+05   0.000
+## CONTEXT_FRAMEBar                             2.672e+01  2.420e+05   0.000
+## CONTEXT_FRAMEBeauty_Hair_Salon               2.752e+01  2.420e+05   0.000
+## CONTEXT_FRAMEBusiness                        2.676e+01  2.420e+05   0.000
+## CONTEXT_FRAMECafe                            1.552e+00  2.580e+05   0.000
+## CONTEXT_FRAMEClothing                        2.849e+01  2.420e+05   0.000
+## CONTEXT_FRAMECommentary                      2.818e+01  2.420e+05   0.000
+## CONTEXT_FRAMEExternal                        2.729e+01  2.420e+05   0.000
+## CONTEXT_FRAMEFlier                           5.829e+01  4.805e+05   0.000
+## CONTEXT_FRAMEGallery_Museum                  2.657e+01  2.420e+05   0.000
+## CONTEXT_FRAMEGrocery                         3.085e+00  3.651e+05   0.000
+## CONTEXT_FRAMEGrocery_Liquor_Store            2.732e+01  2.420e+05   0.000
+## CONTEXT_FRAMEGym_Fitness_Studio             -6.323e-02  3.655e+05   0.000
+## CONTEXT_FRAMEHardware                        1.891e+00  3.722e+05   0.000
+## CONTEXT_FRAMEHotel                           1.565e+00  2.992e+05   0.000
+## CONTEXT_FRAMEInstitution                     2.809e+01  2.420e+05   0.000
+## CONTEXT_FRAMEJewelry_Store                   2.580e+01  2.420e+05   0.000
+## CONTEXT_FRAMELandromat                       2.648e+01  2.420e+05   0.000
+## CONTEXT_FRAMEMenu                            6.346e+00  6.351e+05   0.000
+## CONTEXT_FRAMEMovie_Theater                   2.658e+01  2.420e+05   0.000
+## CONTEXT_FRAMENightclub                       1.394e+00  3.179e+05   0.000
+## CONTEXT_FRAMENotary_Financial_Services       2.759e+01  2.420e+05   0.000
+## CONTEXT_FRAMEResidential                     5.575e+01  3.985e+05   0.000
+## CONTEXT_FRAMERestaurant                      2.805e+01  2.420e+05   0.000
+## CONTEXT_FRAMEShop                            2.635e+01  2.420e+05   0.000
+## CONTEXT_FRAMESpecialty_Foods                 2.655e+01  2.420e+05   0.000
+## CONTEXT_FRAMESupermarket                     2.723e+01  2.420e+05   0.000
+## CONTEXT_FRAMETravel_Agency                   3.183e+01  2.420e+05   0.000
+## CLOSEDFALSE                                  2.481e+01  5.873e+05   0.000
+## CLOSEDTRUE                                   2.529e+01  5.873e+05   0.000
+##                                             Pr(&amp;gt;|z|)    
+## (Intercept)                                 0.999935    
+## YELP                                        0.000482 ***
+## COMMUNICATIVE_ROLEEstablishment_Description 0.263683    
+## COMMUNICATIVE_ROLEEstablishment_Name        0.288004    
+## COMMUNICATIVE_ROLEGraffiti                  0.047951 *  
+## COMMUNICATIVE_ROLEinformation               0.936542    
+## COMMUNICATIVE_ROLEInformation               0.481422    
+## COMMUNICATIVE_ROLEInstructions              0.816079    
+## COMMUNICATIVE_ROLELeaflet                   0.892933    
+## COMMUNICATIVE_ROLESlogan                    0.881545    
+## COMMUNICATIVE_ROLEStreet_Signs              0.541943    
+## COMMUNICATIVE_ROLETrademark                 0.999969    
+## MATERIALITYHand_Written                     0.291186    
+## MATERIALITYHome_Printed                     0.185457    
+## MATERIALITYPermanent                        0.016922 *  
+## MATERIALITYProfessionally_Printed           0.015944 *  
+## CONTEXT_FRAMEAuto_Mechanic                  0.999999    
+## CONTEXT_FRAMEBakery                         0.999903    
+## CONTEXT_FRAMEBar                            0.999912    
+## CONTEXT_FRAMEBeauty_Hair_Salon              0.999909    
+## CONTEXT_FRAMEBusiness                       0.999912    
+## CONTEXT_FRAMECafe                           0.999995    
+## CONTEXT_FRAMEClothing                       0.999906    
+## CONTEXT_FRAMECommentary                     0.999907    
+## CONTEXT_FRAMEExternal                       0.999910    
+## CONTEXT_FRAMEFlier                          0.999903    
+## CONTEXT_FRAMEGallery_Museum                 0.999912    
+## CONTEXT_FRAMEGrocery                        0.999993    
+## CONTEXT_FRAMEGrocery_Liquor_Store           0.999910    
+## CONTEXT_FRAMEGym_Fitness_Studio             1.000000    
+## CONTEXT_FRAMEHardware                       0.999996    
+## CONTEXT_FRAMEHotel                          0.999996    
+## CONTEXT_FRAMEInstitution                    0.999907    
+## CONTEXT_FRAMEJewelry_Store                  0.999915    
+## CONTEXT_FRAMELandromat                      0.999913    
+## CONTEXT_FRAMEMenu                           0.999992    
+## CONTEXT_FRAMEMovie_Theater                  0.999912    
+## CONTEXT_FRAMENightclub                      0.999997    
+## CONTEXT_FRAMENotary_Financial_Services      0.999909    
+## CONTEXT_FRAMEResidential                    0.999888    
+## CONTEXT_FRAMERestaurant                     0.999908    
+## CONTEXT_FRAMEShop                           0.999913    
+## CONTEXT_FRAMESpecialty_Foods                0.999912    
+## CONTEXT_FRAMESupermarket                    0.999910    
+## CONTEXT_FRAMETravel_Agency                  0.999895    
+## CLOSEDFALSE                                 0.999966    
+## CLOSEDTRUE                                  0.999966    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq p-value   
+## s(latitude,longitude) 35.46   43.9  72.91 0.00415 **
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## R-sq.(adj) =  0.243   Deviance explained = 29.5%
+## UBRE = -0.10451  Scale est. = 1         n = 1032&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Odds ratios
+# exp(coef(gamES))
+
+# Mostly English with Some Spanish
+# Spanish
+summary(gamESLL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(LANGUAGE == &amp;quot;Eng_Span&amp;quot;) ~ s(latitude, longitude, k = 60) + 
+##     YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + 
+##     CLOSED
+## 
+## Parametric coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                 -7.440e+01  4.502e+05   0.000
+## YELP                                         4.208e-03  2.567e-01   0.016
+## COMMUNICATIVE_ROLEEstablishment_Description  9.883e-01  1.150e+00   0.860
+## COMMUNICATIVE_ROLEEstablishment_Name         1.158e+00  1.112e+00   1.041
+## COMMUNICATIVE_ROLEGraffiti                   2.157e+00  1.442e+00   1.496
+## COMMUNICATIVE_ROLEinformation               -2.275e+01  2.287e+05   0.000
+## COMMUNICATIVE_ROLEInformation                1.488e+00  1.131e+00   1.316
+## COMMUNICATIVE_ROLEInstructions              -2.221e+01  1.465e+05   0.000
+## COMMUNICATIVE_ROLELeaflet                   -1.970e+01  1.068e+05   0.000
+## COMMUNICATIVE_ROLESlogan                     3.117e+00  1.712e+00   1.821
+## COMMUNICATIVE_ROLEStreet_Signs              -2.277e+01  7.992e+04   0.000
+## COMMUNICATIVE_ROLETrademark                 -2.167e+01  4.078e+05   0.000
+## MATERIALITYHand_Written                      2.143e+01  8.507e+04   0.000
+## MATERIALITYHome_Printed                      2.057e+01  8.507e+04   0.000
+## MATERIALITYPermanent                         2.155e+01  8.507e+04   0.000
+## MATERIALITYProfessionally_Printed            2.131e+01  8.507e+04   0.000
+## CONTEXT_FRAMEAuto_Mechanic                   1.795e+00  4.421e+05   0.000
+## CONTEXT_FRAMEBakery                          2.402e+01  1.707e+05   0.000
+## CONTEXT_FRAMEBar                             3.610e-01  1.884e+05   0.000
+## CONTEXT_FRAMEBeauty_Hair_Salon               2.429e+01  1.707e+05   0.000
+## CONTEXT_FRAMEBusiness                        2.354e+01  1.707e+05   0.000
+## CONTEXT_FRAMECafe                            5.885e-01  1.834e+05   0.000
+## CONTEXT_FRAMEClothing                        6.496e-02  1.935e+05   0.000
+## CONTEXT_FRAMECommentary                      2.744e-01  1.982e+05   0.000
+## CONTEXT_FRAMEExternal                        2.429e+01  1.707e+05   0.000
+## CONTEXT_FRAMEFlier                           2.057e+01  3.517e+05   0.000
+## CONTEXT_FRAMEGallery_Museum                  2.447e+01  1.707e+05   0.000
+## CONTEXT_FRAMEGrocery                         6.510e-01  2.611e+05   0.000
+## CONTEXT_FRAMEGrocery_Liquor_Store            2.496e+01  1.707e+05   0.000
+## CONTEXT_FRAMEGym_Fitness_Studio              7.352e-01  2.615e+05   0.000
+## CONTEXT_FRAMEHardware                        6.482e-01  2.636e+05   0.000
+## CONTEXT_FRAMEHotel                           2.572e+01  1.707e+05   0.000
+## CONTEXT_FRAMEInstitution                     1.031e+00  1.925e+05   0.000
+## CONTEXT_FRAMEJewelry_Store                   2.431e+01  1.707e+05   0.000
+## CONTEXT_FRAMELandromat                       2.533e+01  1.707e+05   0.000
+## CONTEXT_FRAMEMenu                            1.820e+00  4.421e+05   0.000
+## CONTEXT_FRAMEMovie_Theater                   1.285e-01  2.191e+05   0.000
+## CONTEXT_FRAMENightclub                       2.516e+01  1.707e+05   0.000
+## CONTEXT_FRAMENotary_Financial_Services       5.360e-01  1.964e+05   0.000
+## CONTEXT_FRAMEResidential                     8.533e-01  2.642e+05   0.000
+## CONTEXT_FRAMERestaurant                      2.431e+01  1.707e+05   0.000
+## CONTEXT_FRAMEShop                            2.440e+01  1.707e+05   0.000
+## CONTEXT_FRAMESpecialty_Foods                 9.096e-01  2.038e+05   0.000
+## CONTEXT_FRAMESupermarket                     2.522e+01  1.707e+05   0.000
+## CONTEXT_FRAMETravel_Agency                   1.447e+00  2.498e+05   0.000
+## CLOSEDFALSE                                  2.440e+01  4.078e+05   0.000
+## CLOSEDTRUE                                   2.556e+01  4.078e+05   0.000
+##                                             Pr(&amp;gt;|z|)  
+## (Intercept)                                   0.9999  
+## YELP                                          0.9869  
+## COMMUNICATIVE_ROLEEstablishment_Description   0.3900  
+## COMMUNICATIVE_ROLEEstablishment_Name          0.2980  
+## COMMUNICATIVE_ROLEGraffiti                    0.1348  
+## COMMUNICATIVE_ROLEinformation                 0.9999  
+## COMMUNICATIVE_ROLEInformation                 0.1881  
+## COMMUNICATIVE_ROLEInstructions                0.9999  
+## COMMUNICATIVE_ROLELeaflet                     0.9999  
+## COMMUNICATIVE_ROLESlogan                      0.0686 .
+## COMMUNICATIVE_ROLEStreet_Signs                0.9998  
+## COMMUNICATIVE_ROLETrademark                   1.0000  
+## MATERIALITYHand_Written                       0.9998  
+## MATERIALITYHome_Printed                       0.9998  
+## MATERIALITYPermanent                          0.9998  
+## MATERIALITYProfessionally_Printed             0.9998  
+## CONTEXT_FRAMEAuto_Mechanic                    1.0000  
+## CONTEXT_FRAMEBakery                           0.9999  
+## CONTEXT_FRAMEBar                              1.0000  
+## CONTEXT_FRAMEBeauty_Hair_Salon                0.9999  
+## CONTEXT_FRAMEBusiness                         0.9999  
+## CONTEXT_FRAMECafe                             1.0000  
+## CONTEXT_FRAMEClothing                         1.0000  
+## CONTEXT_FRAMECommentary                       1.0000  
+## CONTEXT_FRAMEExternal                         0.9999  
+## CONTEXT_FRAMEFlier                            1.0000  
+## CONTEXT_FRAMEGallery_Museum                   0.9999  
+## CONTEXT_FRAMEGrocery                          1.0000  
+## CONTEXT_FRAMEGrocery_Liquor_Store             0.9999  
+## CONTEXT_FRAMEGym_Fitness_Studio               1.0000  
+## CONTEXT_FRAMEHardware                         1.0000  
+## CONTEXT_FRAMEHotel                            0.9999  
+## CONTEXT_FRAMEInstitution                      1.0000  
+## CONTEXT_FRAMEJewelry_Store                    0.9999  
+## CONTEXT_FRAMELandromat                        0.9999  
+## CONTEXT_FRAMEMenu                             1.0000  
+## CONTEXT_FRAMEMovie_Theater                    1.0000  
+## CONTEXT_FRAMENightclub                        0.9999  
+## CONTEXT_FRAMENotary_Financial_Services        1.0000  
+## CONTEXT_FRAMEResidential                      1.0000  
+## CONTEXT_FRAMERestaurant                       0.9999  
+## CONTEXT_FRAMEShop                             0.9999  
+## CONTEXT_FRAMESpecialty_Foods                  1.0000  
+## CONTEXT_FRAMESupermarket                      0.9999  
+## CONTEXT_FRAMETravel_Agency                    1.0000  
+## CLOSEDFALSE                                   1.0000  
+## CLOSEDTRUE                                    0.9999  
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq p-value
+## s(latitude,longitude) 18.71  25.06  23.19   0.568
+## 
+## R-sq.(adj) =  0.041   Deviance explained = 20.5%
+## UBRE = -0.57808  Scale est. = 1         n = 1032&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Odds ratios
+# exp(coef(gamES))
+
+# Mostly Spanish with some English
+summary(gamSELL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(LANGUAGE == &amp;quot;Span_Eng&amp;quot;) ~ s(latitude, longitude, k = 60) + 
+##     YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + 
+##     CLOSED
+## 
+## Parametric coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                 -1.219e+02  3.702e+07   0.000
+## YELP                                        -9.442e-01  2.748e-01  -3.436
+## COMMUNICATIVE_ROLEEstablishment_Description  1.607e+00  1.093e+00   1.470
+## COMMUNICATIVE_ROLEEstablishment_Name         1.024e+00  1.079e+00   0.949
+## COMMUNICATIVE_ROLEGraffiti                  -2.759e+01  1.917e+07   0.000
+## COMMUNICATIVE_ROLEinformation                2.203e+00  1.728e+00   1.274
+## COMMUNICATIVE_ROLEInformation                1.501e+00  1.109e+00   1.354
+## COMMUNICATIVE_ROLEInstructions              -9.506e-01  2.834e+07   0.000
+## COMMUNICATIVE_ROLELeaflet                   -2.553e+01  3.663e+07   0.000
+## COMMUNICATIVE_ROLESlogan                    -3.002e+01  2.740e+07   0.000
+## COMMUNICATIVE_ROLEStreet_Signs              -2.743e+01  3.036e+06   0.000
+## COMMUNICATIVE_ROLETrademark                 -2.870e+01  6.711e+07   0.000
+## MATERIALITYHand_Written                      3.043e+01  2.167e+07   0.000
+## MATERIALITYHome_Printed                      3.140e+01  2.167e+07   0.000
+## MATERIALITYPermanent                         3.166e+01  2.167e+07   0.000
+## MATERIALITYProfessionally_Printed            3.120e+01  2.167e+07   0.000
+## CONTEXT_FRAMEAuto_Mechanic                   4.002e+01  7.351e+07   0.000
+## CONTEXT_FRAMEBakery                          7.124e+01  3.001e+07   0.000
+## CONTEXT_FRAMEBar                             7.258e+01  3.001e+07   0.000
+## CONTEXT_FRAMEBeauty_Hair_Salon               7.214e+01  3.001e+07   0.000
+## CONTEXT_FRAMEBusiness                        7.179e+01  3.001e+07   0.000
+## CONTEXT_FRAMECafe                            4.060e+01  3.221e+07   0.000
+## CONTEXT_FRAMEClothing                        7.157e+01  3.001e+07   0.000
+## CONTEXT_FRAMECommentary                      4.359e+01  4.121e+07   0.000
+## CONTEXT_FRAMEExternal                        4.199e+01  3.107e+07   0.000
+## CONTEXT_FRAMEFlier                           6.552e+01  6.704e+07   0.000
+## CONTEXT_FRAMEGallery_Museum                  7.347e+01  3.001e+07   0.000
+## CONTEXT_FRAMEGrocery                         4.239e+01  4.502e+07   0.000
+## CONTEXT_FRAMEGrocery_Liquor_Store            7.224e+01  3.001e+07   0.000
+## CONTEXT_FRAMEGym_Fitness_Studio              3.940e+01  4.502e+07   0.000
+## CONTEXT_FRAMEHardware                        4.143e+01  4.502e+07   0.000
+## CONTEXT_FRAMEHotel                           4.115e+01  3.676e+07   0.000
+## CONTEXT_FRAMEInstitution                     3.949e+01  3.373e+07   0.000
+## CONTEXT_FRAMEJewelry_Store                   7.331e+01  3.001e+07   0.000
+## CONTEXT_FRAMELandromat                       7.152e+01  3.001e+07   0.000
+## CONTEXT_FRAMEMenu                            4.482e+01  7.351e+07   0.000
+## CONTEXT_FRAMEMovie_Theater                   4.067e+01  3.826e+07   0.000
+## CONTEXT_FRAMENightclub                       4.036e+01  3.929e+07   0.000
+## CONTEXT_FRAMENotary_Financial_Services       7.042e+01  3.001e+07   0.000
+## CONTEXT_FRAMEResidential                     4.161e+01  5.024e+07   0.000
+## CONTEXT_FRAMERestaurant                      7.267e+01  3.001e+07   0.000
+## CONTEXT_FRAMEShop                            7.233e+01  3.001e+07   0.000
+## CONTEXT_FRAMESpecialty_Foods                 4.140e+01  3.580e+07   0.000
+## CONTEXT_FRAMESupermarket                     7.308e+01  3.001e+07   0.000
+## CONTEXT_FRAMETravel_Agency                   7.418e+01  3.001e+07   0.000
+## CLOSEDFALSE                                  1.528e+01  6.242e+03   0.002
+## CLOSEDTRUE                                   1.474e+01  6.242e+03   0.002
+##                                             Pr(&amp;gt;|z|)    
+## (Intercept)                                  1.00000    
+## YELP                                         0.00059 ***
+## COMMUNICATIVE_ROLEEstablishment_Description  0.14161    
+## COMMUNICATIVE_ROLEEstablishment_Name         0.34273    
+## COMMUNICATIVE_ROLEGraffiti                   1.00000    
+## COMMUNICATIVE_ROLEinformation                0.20249    
+## COMMUNICATIVE_ROLEInformation                0.17569    
+## COMMUNICATIVE_ROLEInstructions               1.00000    
+## COMMUNICATIVE_ROLELeaflet                    1.00000    
+## COMMUNICATIVE_ROLESlogan                     1.00000    
+## COMMUNICATIVE_ROLEStreet_Signs               0.99999    
+## COMMUNICATIVE_ROLETrademark                  1.00000    
+## MATERIALITYHand_Written                      1.00000    
+## MATERIALITYHome_Printed                      1.00000    
+## MATERIALITYPermanent                         1.00000    
+## MATERIALITYProfessionally_Printed            1.00000    
+## CONTEXT_FRAMEAuto_Mechanic                   1.00000    
+## CONTEXT_FRAMEBakery                          1.00000    
+## CONTEXT_FRAMEBar                             1.00000    
+## CONTEXT_FRAMEBeauty_Hair_Salon               1.00000    
+## CONTEXT_FRAMEBusiness                        1.00000    
+## CONTEXT_FRAMECafe                            1.00000    
+## CONTEXT_FRAMEClothing                        1.00000    
+## CONTEXT_FRAMECommentary                      1.00000    
+## CONTEXT_FRAMEExternal                        1.00000    
+## CONTEXT_FRAMEFlier                           1.00000    
+## CONTEXT_FRAMEGallery_Museum                  1.00000    
+## CONTEXT_FRAMEGrocery                         1.00000    
+## CONTEXT_FRAMEGrocery_Liquor_Store            1.00000    
+## CONTEXT_FRAMEGym_Fitness_Studio              1.00000    
+## CONTEXT_FRAMEHardware                        1.00000    
+## CONTEXT_FRAMEHotel                           1.00000    
+## CONTEXT_FRAMEInstitution                     1.00000    
+## CONTEXT_FRAMEJewelry_Store                   1.00000    
+## CONTEXT_FRAMELandromat                       1.00000    
+## CONTEXT_FRAMEMenu                            1.00000    
+## CONTEXT_FRAMEMovie_Theater                   1.00000    
+## CONTEXT_FRAMENightclub                       1.00000    
+## CONTEXT_FRAMENotary_Financial_Services       1.00000    
+## CONTEXT_FRAMEResidential                     1.00000    
+## CONTEXT_FRAMERestaurant                      1.00000    
+## CONTEXT_FRAMEShop                            1.00000    
+## CONTEXT_FRAMESpecialty_Foods                 1.00000    
+## CONTEXT_FRAMESupermarket                     1.00000    
+## CONTEXT_FRAMETravel_Agency                   1.00000    
+## CLOSEDFALSE                                  0.99805    
+## CLOSEDTRUE                                   0.99812    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq p-value  
+## s(latitude,longitude) 6.546  9.113  15.16  0.0895 .
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## R-sq.(adj) =  0.0607   Deviance explained = 19.7%
+## UBRE = -0.5312  Scale est. = 1         n = 1032&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Odds ratios
+# exp(coef(gamSE))
+
+# Equal
+summary(gamEQLL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(LANGUAGE == &amp;quot;Equal&amp;quot;) ~ s(latitude, longitude, k = 60) + YELP + 
+##     COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED
+## 
+## Parametric coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                 -8.083e+01  2.224e+06   0.000
+## YELP                                        -1.041e+00  4.483e-01  -2.322
+## COMMUNICATIVE_ROLEEstablishment_Description -3.665e-01  1.036e+00  -0.354
+## COMMUNICATIVE_ROLEEstablishment_Name        -1.530e-01  9.492e-01  -0.161
+## COMMUNICATIVE_ROLEGraffiti                   1.354e+00  1.562e+00   0.867
+## COMMUNICATIVE_ROLEinformation                3.844e+00  1.737e+00   2.212
+## COMMUNICATIVE_ROLEInformation                1.634e+00  9.271e-01   1.762
+## COMMUNICATIVE_ROLEInstructions              -2.572e+01  6.156e+05   0.000
+## COMMUNICATIVE_ROLELeaflet                   -2.445e+01  4.656e+05   0.000
+## COMMUNICATIVE_ROLESlogan                    -2.640e+01  6.700e+05   0.000
+## COMMUNICATIVE_ROLEStreet_Signs               2.472e+00  2.320e+00   1.066
+## COMMUNICATIVE_ROLETrademark                 -2.287e+01  2.033e+06   0.000
+## MATERIALITYHand_Written                      2.674e+01  4.162e+05   0.000
+## MATERIALITYHome_Printed                      2.704e+01  4.162e+05   0.000
+## MATERIALITYPermanent                         2.494e+01  4.162e+05   0.000
+## MATERIALITYProfessionally_Printed            2.639e+01  4.162e+05   0.000
+## CONTEXT_FRAMEAuto_Mechanic                  -2.323e+00  2.184e+06   0.000
+## CONTEXT_FRAMEBakery                          2.667e+01  7.987e+05   0.000
+## CONTEXT_FRAMEBar                             2.817e-01  8.847e+05   0.000
+## CONTEXT_FRAMEBeauty_Hair_Salon              -6.883e-01  8.407e+05   0.000
+## CONTEXT_FRAMEBusiness                        2.493e+01  7.987e+05   0.000
+## CONTEXT_FRAMECafe                           -2.876e-01  8.560e+05   0.000
+## CONTEXT_FRAMEClothing                       -1.417e+00  8.909e+05   0.000
+## CONTEXT_FRAMECommentary                     -1.986e+00  9.232e+05   0.000
+## CONTEXT_FRAMEExternal                        2.376e+01  7.987e+05   0.000
+## CONTEXT_FRAMEFlier                           2.326e+01  1.709e+06   0.000
+## CONTEXT_FRAMEGallery_Museum                  2.653e+01  7.987e+05   0.000
+## CONTEXT_FRAMEGrocery                         8.718e-01  1.289e+06   0.000
+## CONTEXT_FRAMEGrocery_Liquor_Store            2.614e+01  7.987e+05   0.000
+## CONTEXT_FRAMEGym_Fitness_Studio             -1.957e+00  1.271e+06   0.000
+## CONTEXT_FRAMEHardware                       -3.103e-01  1.247e+06   0.000
+## CONTEXT_FRAMEHotel                           2.717e+01  7.987e+05   0.000
+## CONTEXT_FRAMEInstitution                     2.406e+01  7.987e+05   0.000
+## CONTEXT_FRAMEJewelry_Store                  -1.158e+00  9.500e+05   0.000
+## CONTEXT_FRAMELandromat                      -8.332e-01  9.580e+05   0.000
+## CONTEXT_FRAMEMenu                            3.488e-01  2.184e+06   0.000
+## CONTEXT_FRAMEMovie_Theater                  -1.482e+00  1.035e+06   0.000
+## CONTEXT_FRAMENightclub                      -2.489e-01  1.057e+06   0.000
+## CONTEXT_FRAMENotary_Financial_Services       2.650e+01  7.987e+05   0.000
+## CONTEXT_FRAMEResidential                    -1.179e+00  1.269e+06   0.000
+## CONTEXT_FRAMERestaurant                      2.383e+01  7.987e+05   0.000
+## CONTEXT_FRAMEShop                            2.496e+01  7.987e+05   0.000
+## CONTEXT_FRAMESpecialty_Foods                -1.884e-01  9.262e+05   0.000
+## CONTEXT_FRAMESupermarket                     2.449e+01  7.987e+05   0.000
+## CONTEXT_FRAMETravel_Agency                  -1.314e+00  1.210e+06   0.000
+## CLOSEDFALSE                                  2.602e+01  2.033e+06   0.000
+## CLOSEDTRUE                                   1.650e+00  2.046e+06   0.000
+##                                             Pr(&amp;gt;|z|)  
+## (Intercept)                                   1.0000  
+## YELP                                          0.0202 *
+## COMMUNICATIVE_ROLEEstablishment_Description   0.7235  
+## COMMUNICATIVE_ROLEEstablishment_Name          0.8720  
+## COMMUNICATIVE_ROLEGraffiti                    0.3862  
+## COMMUNICATIVE_ROLEinformation                 0.0269 *
+## COMMUNICATIVE_ROLEInformation                 0.0781 .
+## COMMUNICATIVE_ROLEInstructions                1.0000  
+## COMMUNICATIVE_ROLELeaflet                     1.0000  
+## COMMUNICATIVE_ROLESlogan                      1.0000  
+## COMMUNICATIVE_ROLEStreet_Signs                0.2866  
+## COMMUNICATIVE_ROLETrademark                   1.0000  
+## MATERIALITYHand_Written                       0.9999  
+## MATERIALITYHome_Printed                       0.9999  
+## MATERIALITYPermanent                          1.0000  
+## MATERIALITYProfessionally_Printed             0.9999  
+## CONTEXT_FRAMEAuto_Mechanic                    1.0000  
+## CONTEXT_FRAMEBakery                           1.0000  
+## CONTEXT_FRAMEBar                              1.0000  
+## CONTEXT_FRAMEBeauty_Hair_Salon                1.0000  
+## CONTEXT_FRAMEBusiness                         1.0000  
+## CONTEXT_FRAMECafe                             1.0000  
+## CONTEXT_FRAMEClothing                         1.0000  
+## CONTEXT_FRAMECommentary                       1.0000  
+## CONTEXT_FRAMEExternal                         1.0000  
+## CONTEXT_FRAMEFlier                            1.0000  
+## CONTEXT_FRAMEGallery_Museum                   1.0000  
+## CONTEXT_FRAMEGrocery                          1.0000  
+## CONTEXT_FRAMEGrocery_Liquor_Store             1.0000  
+## CONTEXT_FRAMEGym_Fitness_Studio               1.0000  
+## CONTEXT_FRAMEHardware                         1.0000  
+## CONTEXT_FRAMEHotel                            1.0000  
+## CONTEXT_FRAMEInstitution                      1.0000  
+## CONTEXT_FRAMEJewelry_Store                    1.0000  
+## CONTEXT_FRAMELandromat                        1.0000  
+## CONTEXT_FRAMEMenu                             1.0000  
+## CONTEXT_FRAMEMovie_Theater                    1.0000  
+## CONTEXT_FRAMENightclub                        1.0000  
+## CONTEXT_FRAMENotary_Financial_Services        1.0000  
+## CONTEXT_FRAMEResidential                      1.0000  
+## CONTEXT_FRAMERestaurant                       1.0000  
+## CONTEXT_FRAMEShop                             1.0000  
+## CONTEXT_FRAMESpecialty_Foods                  1.0000  
+## CONTEXT_FRAMESupermarket                      1.0000  
+## CONTEXT_FRAMETravel_Agency                    1.0000  
+## CLOSEDFALSE                                   1.0000  
+## CLOSEDTRUE                                    1.0000  
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                        edf Ref.df Chi.sq p-value
+## s(latitude,longitude) 7.11  9.628  15.22   0.102
+## 
+## R-sq.(adj) =  0.144   Deviance explained = 31.5%
+## UBRE = -0.71511  Scale est. = 1         n = 1032&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Odds ratios
+# exp(coef(gamEQ))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see from these results a lot of information – what is significant, deviance explained, coefficients, etc. But it is also useful to plot probabilities.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plot probabilities? (Adapted from http://myweb.uiowa.edu/pbreheny/publications/visreg.pdf)
+library(visreg)
+# We will just look at those flagged as &amp;#39;significant&amp;#39;
+# Probability of English by coordinate
+visreg2d(gamELL, &amp;quot;longitude&amp;quot;, &amp;quot;latitude&amp;quot;, plot.type=&amp;quot;image&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-50-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Spanish
+visreg2d(gamSLL, &amp;quot;longitude&amp;quot;, &amp;quot;latitude&amp;quot;, plot.type=&amp;quot;image&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-50-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;combining-ll-and-instagram-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Combining LL and Instagram Data&lt;/h3&gt;
+&lt;p&gt;Remember to remind R that your ‘Mode’ is actually a category, not a continuous variable.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns$YELP &amp;lt;- as.factor(topicsigns$YELP)
+topicsigns$Topic &amp;lt;- as.factor(topicsigns$Topic)
+
+# Subset to get rid of Trademark with has no observations
+topicsigns&amp;lt;-subset(topicsigns, COMMUNICATIVE_ROLE==&amp;quot;Establishment_Name&amp;quot; | COMMUNICATIVE_ROLE ==&amp;quot;Establishment_Description&amp;quot;| COMMUNICATIVE_ROLE==&amp;quot;Graffiti&amp;quot;| COMMUNICATIVE_ROLE==&amp;quot;Advertisement&amp;quot;| COMMUNICATIVE_ROLE==&amp;quot;Information&amp;quot;| COMMUNICATIVE_ROLE==&amp;quot;Instructions&amp;quot;| COMMUNICATIVE_ROLE==&amp;quot;Leaflet&amp;quot;| COMMUNICATIVE_ROLE==&amp;quot;Slogan&amp;quot;| COMMUNICATIVE_ROLE==&amp;quot;Street_Signs&amp;quot;)
+
+# On to the first GAM!
+# We have adjusted k to 40.
+# English
+gamE= gam(I(LANGUAGE==&amp;quot;English&amp;quot;)~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + Topic,family=binomial, data=topicsigns)
+
+# Spanish
+gamS= gam(I(LANGUAGE==&amp;quot;Spanish&amp;quot;)~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + Topic,family=binomial, data=topicsigns)
+
+# Mostly English with some Spanish
+gamES = gam(I(LANGUAGE==&amp;quot;Eng_Span&amp;quot;)~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + Topic,family=binomial, data=topicsigns)
+
+# Mostly Spanish with some English
+gamSE = gam(I(LANGUAGE==&amp;quot;Span_Eng&amp;quot;)~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + Topic,family=binomial, data=topicsigns)
+
+# Equal
+gamEQ = gam(I(LANGUAGE==&amp;quot;Equal&amp;quot;)~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + Topic,family=binomial, data=topicsigns)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;model-checking&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Model checking&lt;/h3&gt;
+&lt;p&gt;It’s also time to check for concurvity, to see if &lt;a href=&#34;https://stat.ethz.ch/R-manual/R-devel/library/mgcv/html/concurvity.html&#34;&gt;“a smooth term in [my] model could be approximated by one or more of the other smooth terms in the model”&lt;/a&gt;. I think I am potentially at risk for this perhaps as “this is often the case when a smooth of space is included in a model, along with smooths of other covariates that also vary more or less smoothly in space”.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concurvity(gamE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9995429             0.8130711
+## observed 0.9995429             0.4924878
+## estimate 0.9995429             0.4007821&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concurvity(gamS)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9995429             0.8130711
+## observed 0.9995429             0.4332782
+## estimate 0.9995429             0.4007821&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concurvity(gamES)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9995429             0.8130711
+## observed 0.9995429             0.3382393
+## estimate 0.9995429             0.4007821&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concurvity(gamSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9995429             0.8130711
+## observed 0.9995429             0.5602935
+## estimate 0.9995429             0.4007821&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concurvity(gamEQ)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9995429             0.8130711
+## observed 0.9995429             0.4685437
+## estimate 0.9995429             0.4007821&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Concurvity measures suggest that my smooths are okay – they are all pretty far away from 1.&lt;/p&gt;
+&lt;p&gt;Now onto gam.check to look at more diagnostics. There is an issue here where the k-index is less than 1 for these models, but this doesn’t get solved until k is up to around 300 or so, which would not be the best solution (would make the model prone to over-fitting!). So, while these suggest k is too low, I keep k as is to not over fit the model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(gamE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 3 iterations.
+## Gradient range [2.738027e-09,2.738027e-09]
+## (score 0.04053542 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.001719122,0.001719122].
+## Model rank =  126 / 126 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                           k&amp;#39;    edf k-index p-value
+## s(latitude,longitude) 59.000 20.107   0.938    0.02&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(gamS)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 9 iterations.
+## Gradient range [2.463495e-07,2.463495e-07]
+## (score -0.172996 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.002485206,0.002485206].
+## Model rank =  126 / 126 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                          k&amp;#39;   edf k-index p-value
+## s(latitude,longitude) 59.00 57.96    1.07    0.98&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(gamES)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 3 iterations.
+## Gradient range [-5.25853e-09,-5.25853e-09]
+## (score -0.5617174 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.002522951,0.002522951].
+## Model rank =  126 / 126 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                          k&amp;#39;   edf k-index p-value
+## s(latitude,longitude) 59.00 17.64    1.11       1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(gamSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 7 iterations.
+## Gradient range [-6.972236e-07,-6.972236e-07]
+## (score -0.5066816 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [6.96943e-07,6.96943e-07].
+## Model rank =  126 / 126 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                          k&amp;#39;   edf k-index p-value
+## s(latitude,longitude) 59.00  2.00    1.03    0.84&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(gamEQ)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## step failed after 35 iterations.
+## Gradient range [3.18731e-05,3.18731e-05]
+## (score -0.7286916 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.001106209,0.001106209].
+## Model rank =  126 / 126 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                          k&amp;#39;   edf k-index p-value
+## s(latitude,longitude) 59.00 12.76    1.26       1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-53-1.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-53-2.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-53-3.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-53-4.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-53-5.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;results-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Results&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# English
+summary(gamE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(LANGUAGE == &amp;quot;English&amp;quot;) ~ s(latitude, longitude, k = 60) + YELP + 
+##     COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + 
+##     Topic
+## 
+## Parametric coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                  4.990e+01  5.036e+05   0.000
+## YELP1                                        2.984e-01  3.220e-01   0.927
+## YELP2                                        1.588e+00  4.304e-01   3.688
+## YELP3                                        2.082e+00  1.254e+00   1.660
+## YELP4                                        2.518e+01  2.451e+05   0.000
+## COMMUNICATIVE_ROLEEstablishment_Description -1.026e+00  6.068e-01  -1.690
+## COMMUNICATIVE_ROLEEstablishment_Name        -7.267e-01  5.730e-01  -1.268
+## COMMUNICATIVE_ROLEGraffiti                   8.023e-01  1.078e+00   0.744
+## COMMUNICATIVE_ROLEInformation               -8.694e-01  5.884e-01  -1.478
+## COMMUNICATIVE_ROLEInstructions               2.497e+01  1.296e+05   0.000
+## COMMUNICATIVE_ROLELeaflet                   -3.804e-01  1.913e+00  -0.199
+## COMMUNICATIVE_ROLESlogan                    -1.360e+00  1.391e+00  -0.978
+## COMMUNICATIVE_ROLEStreet_Signs               1.046e+00  1.450e+00   0.722
+## MATERIALITYHand_Written                      6.629e-01  1.495e+00   0.443
+## MATERIALITYHome_Printed                      7.129e-01  1.525e+00   0.468
+## MATERIALITYPermanent                         2.042e+00  1.721e+00   1.186
+## MATERIALITYProfessionally_Printed            1.567e+00  1.500e+00   1.044
+## CONTEXT_FRAMEBakery                         -2.696e+01  3.561e+05   0.000
+## CONTEXT_FRAMEBar                            -2.457e+01  3.561e+05   0.000
+## CONTEXT_FRAMEBeauty_Hair_Salon              -2.574e+01  3.561e+05   0.000
+## CONTEXT_FRAMEBusiness                       -2.529e+01  3.561e+05   0.000
+## CONTEXT_FRAMECafe                            1.666e-02  3.606e+05   0.000
+## CONTEXT_FRAMEClothing                       -2.576e+01  3.561e+05   0.000
+## CONTEXT_FRAMECommentary                     -2.541e+01  3.561e+05   0.000
+## CONTEXT_FRAMEExternal                       -2.548e+01  3.561e+05   0.000
+## CONTEXT_FRAMEFlier                          -5.344e+01  4.362e+05   0.000
+## CONTEXT_FRAMEGallery_Museum                 -2.710e+01  3.561e+05   0.000
+## CONTEXT_FRAMEGrocery_Liquor_Store           -2.641e+01  3.561e+05   0.000
+## CONTEXT_FRAMEGym_Fitness_Studio              4.657e-01  3.964e+05   0.000
+## CONTEXT_FRAMEHardware                       -1.595e+00  4.191e+05   0.000
+## CONTEXT_FRAMEHotel                          -2.606e+01  3.561e+05   0.000
+## CONTEXT_FRAMEInstitution                    -2.557e+01  3.561e+05   0.000
+## CONTEXT_FRAMEJewelry_Store                  -2.339e+01  3.561e+05   0.000
+## CONTEXT_FRAMELandromat                      -4.914e-01  4.305e+05   0.000
+## CONTEXT_FRAMEMenu                           -5.225e+00  5.036e+05   0.000
+## CONTEXT_FRAMEMovie_Theater                  -2.367e+01  3.561e+05   0.000
+## CONTEXT_FRAMENightclub                      -4.828e-01  4.089e+05   0.000
+## CONTEXT_FRAMENotary_Financial_Services      -2.855e+01  3.561e+05   0.000
+## CONTEXT_FRAMEResidential                    -7.777e+01  4.673e+05   0.000
+## CONTEXT_FRAMERestaurant                     -2.664e+01  3.561e+05   0.000
+## CONTEXT_FRAMEShop                           -2.552e+01  3.561e+05   0.000
+## CONTEXT_FRAMESpecialty_Foods                -2.583e+01  3.561e+05   0.000
+## CONTEXT_FRAMESupermarket                    -2.544e+01  3.561e+05   0.000
+## CONTEXT_FRAMETravel_Agency                  -5.426e+01  3.901e+05   0.000
+## CLOSEDFALSE                                 -2.463e+01  3.561e+05   0.000
+## CLOSEDTRUE                                  -2.430e+01  3.561e+05   0.000
+## Topic2                                      -1.673e-01  5.049e-01  -0.331
+## Topic3                                       3.205e-01  6.109e-01   0.525
+## Topic4                                       9.554e-01  4.934e-01   1.936
+## Topic5                                       3.184e-01  5.598e-01   0.569
+## Topic6                                       3.246e-01  7.153e-01   0.454
+## Topic7                                       1.838e+00  1.023e+00   1.798
+## Topic8                                       1.427e+00  8.291e-01   1.721
+## Topic9                                       7.251e-01  5.262e-01   1.378
+## Topic10                                      1.284e+00  6.455e-01   1.989
+## Topic11                                      3.955e-01  1.101e+00   0.359
+## Topic12                                     -9.880e-02  6.304e-01  -0.157
+## Topic13                                      2.616e+01  1.375e+05   0.000
+## Topic14                                      2.721e+01  1.291e+05   0.000
+## Topic15                                     -1.580e+00  1.345e+00  -1.175
+## Topic16                                      2.033e+00  9.328e-01   2.179
+## Topic17                                      7.820e-01  7.100e-01   1.101
+## Topic18                                     -1.331e-01  7.560e-01  -0.176
+## Topic19                                     -4.293e-01  6.751e-01  -0.636
+## Topic20                                      2.557e+01  1.684e+05   0.000
+## Topic21                                     -1.319e+00  9.210e-01  -1.433
+## Topic22                                      1.759e+00  1.237e+00   1.421
+##                                             Pr(&amp;gt;|z|)    
+## (Intercept)                                 0.999921    
+## YELP1                                       0.353962    
+## YELP2                                       0.000226 ***
+## YELP3                                       0.096956 .  
+## YELP4                                       0.999918    
+## COMMUNICATIVE_ROLEEstablishment_Description 0.091033 .  
+## COMMUNICATIVE_ROLEEstablishment_Name        0.204729    
+## COMMUNICATIVE_ROLEGraffiti                  0.456689    
+## COMMUNICATIVE_ROLEInformation               0.139481    
+## COMMUNICATIVE_ROLEInstructions              0.999846    
+## COMMUNICATIVE_ROLELeaflet                   0.842426    
+## COMMUNICATIVE_ROLESlogan                    0.328013    
+## COMMUNICATIVE_ROLEStreet_Signs              0.470596    
+## MATERIALITYHand_Written                     0.657435    
+## MATERIALITYHome_Printed                     0.640091    
+## MATERIALITYPermanent                        0.235460    
+## MATERIALITYProfessionally_Printed           0.296401    
+## CONTEXT_FRAMEBakery                         0.999940    
+## CONTEXT_FRAMEBar                            0.999945    
+## CONTEXT_FRAMEBeauty_Hair_Salon              0.999942    
+## CONTEXT_FRAMEBusiness                       0.999943    
+## CONTEXT_FRAMECafe                           1.000000    
+## CONTEXT_FRAMEClothing                       0.999942    
+## CONTEXT_FRAMECommentary                     0.999943    
+## CONTEXT_FRAMEExternal                       0.999943    
+## CONTEXT_FRAMEFlier                          0.999902    
+## CONTEXT_FRAMEGallery_Museum                 0.999939    
+## CONTEXT_FRAMEGrocery_Liquor_Store           0.999941    
+## CONTEXT_FRAMEGym_Fitness_Studio             0.999999    
+## CONTEXT_FRAMEHardware                       0.999997    
+## CONTEXT_FRAMEHotel                          0.999942    
+## CONTEXT_FRAMEInstitution                    0.999943    
+## CONTEXT_FRAMEJewelry_Store                  0.999948    
+## CONTEXT_FRAMELandromat                      0.999999    
+## CONTEXT_FRAMEMenu                           0.999992    
+## CONTEXT_FRAMEMovie_Theater                  0.999947    
+## CONTEXT_FRAMENightclub                      0.999999    
+## CONTEXT_FRAMENotary_Financial_Services      0.999936    
+## CONTEXT_FRAMEResidential                    0.999867    
+## CONTEXT_FRAMERestaurant                     0.999940    
+## CONTEXT_FRAMEShop                           0.999943    
+## CONTEXT_FRAMESpecialty_Foods                0.999942    
+## CONTEXT_FRAMESupermarket                    0.999943    
+## CONTEXT_FRAMETravel_Agency                  0.999889    
+## CLOSEDFALSE                                 0.999945    
+## CLOSEDTRUE                                  0.999946    
+## Topic2                                      0.740359    
+## Topic3                                      0.599904    
+## Topic4                                      0.052811 .  
+## Topic5                                      0.569532    
+## Topic6                                      0.649956    
+## Topic7                                      0.072237 .  
+## Topic8                                      0.085337 .  
+## Topic9                                      0.168237    
+## Topic10                                     0.046698 *  
+## Topic11                                     0.719444    
+## Topic12                                     0.875468    
+## Topic13                                     0.999848    
+## Topic14                                     0.999832    
+## Topic15                                     0.240117    
+## Topic16                                     0.029330 *  
+## Topic17                                     0.270734    
+## Topic18                                     0.860228    
+## Topic19                                     0.524893    
+## Topic20                                     0.999879    
+## Topic21                                     0.151954    
+## Topic22                                     0.155201    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq p-value  
+## s(latitude,longitude) 20.11  26.84  41.76  0.0355 *
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## R-sq.(adj) =  0.335   Deviance explained = 38.2%
+## UBRE = 0.040535  Scale est. = 1         n = 700&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get odds ratios (commented out for clarity)
+# exp(coef(gamE))
+
+# Spanish
+summary(gamS)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(LANGUAGE == &amp;quot;Spanish&amp;quot;) ~ s(latitude, longitude, k = 60) + YELP + 
+##     COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + 
+##     Topic
+## 
+## Parametric coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                 -6.405e+02  9.491e+07   0.000
+## YELP1                                       -3.300e-01  5.326e-01  -0.620
+## YELP2                                       -2.298e+00  8.522e-01  -2.696
+## YELP3                                        5.881e-02  2.561e+00   0.023
+## YELP4                                       -4.461e+01  4.745e+07   0.000
+## COMMUNICATIVE_ROLEEstablishment_Description  2.528e+00  1.290e+00   1.959
+## COMMUNICATIVE_ROLEEstablishment_Name         2.189e+00  1.264e+00   1.732
+## COMMUNICATIVE_ROLEGraffiti                  -1.206e+00  1.800e+00  -0.670
+## COMMUNICATIVE_ROLEInformation                1.447e+00  1.239e+00   1.168
+## COMMUNICATIVE_ROLEInstructions              -2.627e+02  3.032e+07   0.000
+## COMMUNICATIVE_ROLELeaflet                    1.924e+00  2.592e+00   0.742
+## COMMUNICATIVE_ROLESlogan                     2.383e+00  2.011e+00   1.185
+## COMMUNICATIVE_ROLEStreet_Signs              -1.667e+02  1.628e+07   0.000
+## MATERIALITYHand_Written                      3.010e+00  3.356e+00   0.897
+## MATERIALITYHome_Printed                      2.265e+00  3.597e+00   0.630
+## MATERIALITYPermanent                        -1.213e+00  3.832e+00  -0.317
+## MATERIALITYProfessionally_Printed            6.240e-02  3.447e+00   0.018
+## CONTEXT_FRAMEBakery                          3.139e+02  6.711e+07   0.000
+## CONTEXT_FRAMEBar                             2.685e+02  6.946e+07   0.000
+## CONTEXT_FRAMEBeauty_Hair_Salon               3.114e+02  6.711e+07   0.000
+## CONTEXT_FRAMEBusiness                        3.129e+02  6.711e+07   0.000
+## CONTEXT_FRAMECafe                            2.752e+02  6.838e+07   0.000
+## CONTEXT_FRAMEClothing                        3.139e+02  6.711e+07   0.000
+## CONTEXT_FRAMECommentary                      3.167e+02  6.711e+07   0.000
+## CONTEXT_FRAMEExternal                        3.146e+02  6.711e+07   0.000
+## CONTEXT_FRAMEFlier                           3.613e+02  8.219e+07   0.000
+## CONTEXT_FRAMEGallery_Museum                  3.003e+02  6.711e+07   0.000
+## CONTEXT_FRAMEGrocery_Liquor_Store            3.121e+02  6.711e+07   0.000
+## CONTEXT_FRAMEGym_Fitness_Studio              2.746e+02  7.503e+07   0.000
+## CONTEXT_FRAMEHardware                        2.675e+02  8.219e+07   0.000
+## CONTEXT_FRAMEHotel                           2.680e+02  7.249e+07   0.000
+## CONTEXT_FRAMEInstitution                     3.120e+02  6.711e+07   0.000
+## CONTEXT_FRAMEJewelry_Store                   3.081e+02  6.711e+07   0.000
+## CONTEXT_FRAMELandromat                       7.204e+01  8.268e+07   0.000
+## CONTEXT_FRAMEMenu                            6.990e+03  9.491e+07   0.000
+## CONTEXT_FRAMEMovie_Theater                   3.129e+02  6.711e+07   0.000
+## CONTEXT_FRAMENightclub                       2.521e+02  7.749e+07   0.000
+## CONTEXT_FRAMENotary_Financial_Services       3.141e+02  6.711e+07   0.000
+## CONTEXT_FRAMEResidential                     4.009e+02  8.878e+07   0.000
+## CONTEXT_FRAMERestaurant                      3.149e+02  6.711e+07   0.000
+## CONTEXT_FRAMEShop                            3.119e+02  6.711e+07   0.000
+## CONTEXT_FRAMESpecialty_Foods                 3.495e+02  7.045e+07   0.000
+## CONTEXT_FRAMESupermarket                     3.127e+02  6.711e+07   0.000
+## CONTEXT_FRAMETravel_Agency                   3.212e+02  6.711e+07   0.000
+## CLOSEDFALSE                                  5.548e+01  6.711e+07   0.000
+## CLOSEDTRUE                                   5.434e+01  6.711e+07   0.000
+## Topic2                                      -1.388e+00  1.392e+00  -0.997
+## Topic3                                      -1.043e+00  1.299e+00  -0.803
+## Topic4                                       3.978e-01  1.390e+00   0.286
+## Topic5                                      -3.210e+00  1.909e+00  -1.682
+## Topic6                                      -1.250e+00  1.590e+00  -0.786
+## Topic7                                      -7.038e-01  3.401e+00  -0.207
+## Topic8                                      -6.842e+00  2.277e+00  -3.005
+## Topic9                                      -3.714e+00  1.972e+00  -1.883
+## Topic10                                     -2.015e+00  1.988e+00  -1.014
+## Topic11                                      1.331e+00  2.402e+00   0.554
+## Topic12                                      3.456e-01  1.050e+00   0.329
+## Topic13                                     -4.195e+01  3.047e+07   0.000
+## Topic14                                     -4.890e+01  3.001e+07   0.000
+## Topic15                                     -4.179e+00  2.514e+00  -1.662
+## Topic16                                     -7.043e+00  2.499e+00  -2.818
+## Topic17                                     -7.767e+00  2.821e+00  -2.753
+## Topic18                                     -3.160e+00  2.059e+00  -1.534
+## Topic19                                     -1.841e+00  2.599e+00  -0.708
+## Topic20                                     -5.276e+01  3.355e+07   0.000
+## Topic21                                     -2.558e-01  2.339e+00  -0.109
+## Topic22                                     -4.039e+01  1.799e+07   0.000
+##                                             Pr(&amp;gt;|z|)   
+## (Intercept)                                  0.99999   
+## YELP1                                        0.53552   
+## YELP2                                        0.00702 **
+## YELP3                                        0.98168   
+## YELP4                                        1.00000   
+## COMMUNICATIVE_ROLEEstablishment_Description  0.05014 . 
+## COMMUNICATIVE_ROLEEstablishment_Name         0.08326 . 
+## COMMUNICATIVE_ROLEGraffiti                   0.50272   
+## COMMUNICATIVE_ROLEInformation                0.24273   
+## COMMUNICATIVE_ROLEInstructions               0.99999   
+## COMMUNICATIVE_ROLELeaflet                    0.45787   
+## COMMUNICATIVE_ROLESlogan                     0.23612   
+## COMMUNICATIVE_ROLEStreet_Signs               0.99999   
+## MATERIALITYHand_Written                      0.36988   
+## MATERIALITYHome_Printed                      0.52884   
+## MATERIALITYPermanent                         0.75151   
+## MATERIALITYProfessionally_Printed            0.98556   
+## CONTEXT_FRAMEBakery                          1.00000   
+## CONTEXT_FRAMEBar                             1.00000   
+## CONTEXT_FRAMEBeauty_Hair_Salon               1.00000   
+## CONTEXT_FRAMEBusiness                        1.00000   
+## CONTEXT_FRAMECafe                            1.00000   
+## CONTEXT_FRAMEClothing                        1.00000   
+## CONTEXT_FRAMECommentary                      1.00000   
+## CONTEXT_FRAMEExternal                        1.00000   
+## CONTEXT_FRAMEFlier                           1.00000   
+## CONTEXT_FRAMEGallery_Museum                  1.00000   
+## CONTEXT_FRAMEGrocery_Liquor_Store            1.00000   
+## CONTEXT_FRAMEGym_Fitness_Studio              1.00000   
+## CONTEXT_FRAMEHardware                        1.00000   
+## CONTEXT_FRAMEHotel                           1.00000   
+## CONTEXT_FRAMEInstitution                     1.00000   
+## CONTEXT_FRAMEJewelry_Store                   1.00000   
+## CONTEXT_FRAMELandromat                       1.00000   
+## CONTEXT_FRAMEMenu                            0.99994   
+## CONTEXT_FRAMEMovie_Theater                   1.00000   
+## CONTEXT_FRAMENightclub                       1.00000   
+## CONTEXT_FRAMENotary_Financial_Services       1.00000   
+## CONTEXT_FRAMEResidential                     1.00000   
+## CONTEXT_FRAMERestaurant                      1.00000   
+## CONTEXT_FRAMEShop                            1.00000   
+## CONTEXT_FRAMESpecialty_Foods                 1.00000   
+## CONTEXT_FRAMESupermarket                     1.00000   
+## CONTEXT_FRAMETravel_Agency                   1.00000   
+## CLOSEDFALSE                                  1.00000   
+## CLOSEDTRUE                                   1.00000   
+## Topic2                                       0.31881   
+## Topic3                                       0.42176   
+## Topic4                                       0.77471   
+## Topic5                                       0.09262 . 
+## Topic6                                       0.43168   
+## Topic7                                       0.83605   
+## Topic8                                       0.00266 **
+## Topic9                                       0.05965 . 
+## Topic10                                      0.31071   
+## Topic11                                      0.57937   
+## Topic12                                      0.74211   
+## Topic13                                      1.00000   
+## Topic14                                      1.00000   
+## Topic15                                      0.09648 . 
+## Topic16                                      0.00483 **
+## Topic17                                      0.00591 **
+## Topic18                                      0.12492   
+## Topic19                                      0.47879   
+## Topic20                                      1.00000   
+## Topic21                                      0.91292   
+## Topic22                                      1.00000   
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq p-value
+## s(latitude,longitude) 57.96  58.61  64.08   0.294
+## 
+## R-sq.(adj) =  0.438   Deviance explained = 53.4%
+## UBRE = -0.173  Scale est. = 1         n = 700&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Odds ratios
+# exp(coef(gamES))
+
+# Mostly English with Some Spanish
+# Spanish
+summary(gamES)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(LANGUAGE == &amp;quot;Eng_Span&amp;quot;) ~ s(latitude, longitude, k = 60) + 
+##     YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + 
+##     CLOSED + Topic
+## 
+## Parametric coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                 -9.157e+01  6.723e+07   0.000
+## YELP1                                        1.712e+00  1.024e+00   1.672
+## YELP2                                       -3.042e-01  1.165e+00  -0.261
+## YELP3                                       -3.202e+01  1.331e+07   0.000
+## YELP4                                        9.460e-01  5.054e+07   0.000
+## COMMUNICATIVE_ROLEEstablishment_Description -2.680e-02  1.475e+00  -0.018
+## COMMUNICATIVE_ROLEEstablishment_Name         2.765e-02  1.424e+00   0.019
+## COMMUNICATIVE_ROLEGraffiti                   3.348e+01  8.920e+06   0.000
+## COMMUNICATIVE_ROLEInformation               -9.775e-01  1.595e+00  -0.613
+## COMMUNICATIVE_ROLEInstructions              -2.237e+00  3.135e+07   0.000
+## COMMUNICATIVE_ROLELeaflet                    1.298e+01  1.978e+07   0.000
+## COMMUNICATIVE_ROLESlogan                     2.938e+00  2.178e+00   1.349
+## COMMUNICATIVE_ROLEStreet_Signs              -4.105e+00  1.867e+07   0.000
+## MATERIALITYHand_Written                      2.620e+01  2.552e+06   0.000
+## MATERIALITYHome_Printed                      2.584e+01  2.552e+06   0.000
+## MATERIALITYPermanent                         2.910e+01  2.552e+06   0.000
+## MATERIALITYProfessionally_Printed            2.669e+01  2.552e+06   0.000
+## CONTEXT_FRAMEBakery                          2.951e+01  6.994e+07   0.000
+## CONTEXT_FRAMEBar                             3.607e+01  6.949e+07   0.000
+## CONTEXT_FRAMEBeauty_Hair_Salon               6.884e+01  6.711e+07   0.000
+## CONTEXT_FRAMEBusiness                        6.671e+01  6.711e+07   0.000
+## CONTEXT_FRAMECafe                            3.592e+01  6.835e+07   0.000
+## CONTEXT_FRAMEClothing                        3.707e+01  6.932e+07   0.000
+## CONTEXT_FRAMECommentary                      5.441e+00  7.104e+07   0.000
+## CONTEXT_FRAMEExternal                        3.740e+01  6.770e+07   0.000
+## CONTEXT_FRAMEFlier                           2.216e+01  8.454e+07   0.000
+## CONTEXT_FRAMEGallery_Museum                  7.062e+01  6.711e+07   0.000
+## CONTEXT_FRAMEGrocery_Liquor_Store            6.907e+01  6.711e+07   0.000
+## CONTEXT_FRAMEGym_Fitness_Studio              3.604e+01  7.503e+07   0.000
+## CONTEXT_FRAMEHardware                        3.687e+01  8.219e+07   0.000
+## CONTEXT_FRAMEHotel                           7.043e+01  6.711e+07   0.000
+## CONTEXT_FRAMEInstitution                     3.782e+01  7.127e+07   0.000
+## CONTEXT_FRAMEJewelry_Store                   3.541e+01  7.045e+07   0.000
+## CONTEXT_FRAMELandromat                       4.067e+01  8.232e+07   0.000
+## CONTEXT_FRAMEMenu                            4.285e+01  9.491e+07   0.000
+## CONTEXT_FRAMEMovie_Theater                   3.530e+01  7.187e+07   0.000
+## CONTEXT_FRAMENightclub                       3.814e+01  7.786e+07   0.000
+## CONTEXT_FRAMENotary_Financial_Services       3.813e+01  7.351e+07   0.000
+## CONTEXT_FRAMEResidential                     6.612e+01  8.893e+07   0.000
+## CONTEXT_FRAMERestaurant                      6.800e+01  6.711e+07   0.000
+## CONTEXT_FRAMEShop                            6.791e+01  6.711e+07   0.000
+## CONTEXT_FRAMESpecialty_Foods                 3.632e+01  7.062e+07   0.000
+## CONTEXT_FRAMESupermarket                     6.970e+01  6.711e+07   0.000
+## CONTEXT_FRAMETravel_Agency                   3.740e+01  7.351e+07   0.000
+## CLOSEDFALSE                                 -7.310e+00  3.126e+06   0.000
+## CLOSEDTRUE                                  -7.519e+00  3.126e+06   0.000
+## Topic2                                       2.534e-01  1.140e+00   0.222
+## Topic3                                      -5.211e-01  1.581e+00  -0.330
+## Topic4                                      -2.192e+00  1.360e+00  -1.611
+## Topic5                                      -3.224e+01  1.140e+07   0.000
+## Topic6                                       9.174e-01  1.343e+00   0.683
+## Topic7                                       1.400e+00  1.672e+00   0.838
+## Topic8                                      -3.084e+01  3.122e+06   0.000
+## Topic9                                       8.210e-01  1.016e+00   0.808
+## Topic10                                     -1.965e+00  1.470e+00  -1.336
+## Topic11                                     -3.118e+01  2.340e+07   0.000
+## Topic12                                     -3.255e+01  1.469e+07   0.000
+## Topic13                                     -3.089e+01  3.046e+07   0.000
+## Topic14                                     -2.990e+01  3.006e+07   0.000
+## Topic15                                      6.170e+00  1.775e+00   3.476
+## Topic16                                     -5.035e-01  1.513e+00  -0.333
+## Topic17                                     -3.304e+01  1.684e+07   0.000
+## Topic18                                      1.425e-01  2.359e+00   0.060
+## Topic19                                     -3.344e-01  1.301e+00  -0.257
+## Topic20                                     -3.063e+01  3.395e+07   0.000
+## Topic21                                     -3.061e+01  1.837e+07   0.000
+## Topic22                                     -5.892e+01  9.203e+06   0.000
+##                                             Pr(&amp;gt;|z|)    
+## (Intercept)                                 0.999999    
+## YELP1                                       0.094554 .  
+## YELP2                                       0.793932    
+## YELP3                                       0.999998    
+## YELP4                                       1.000000    
+## COMMUNICATIVE_ROLEEstablishment_Description 0.985504    
+## COMMUNICATIVE_ROLEEstablishment_Name        0.984507    
+## COMMUNICATIVE_ROLEGraffiti                  0.999997    
+## COMMUNICATIVE_ROLEInformation               0.539858    
+## COMMUNICATIVE_ROLEInstructions              1.000000    
+## COMMUNICATIVE_ROLELeaflet                   0.999999    
+## COMMUNICATIVE_ROLESlogan                    0.177245    
+## COMMUNICATIVE_ROLEStreet_Signs              1.000000    
+## MATERIALITYHand_Written                     0.999992    
+## MATERIALITYHome_Printed                     0.999992    
+## MATERIALITYPermanent                        0.999991    
+## MATERIALITYProfessionally_Printed           0.999992    
+## CONTEXT_FRAMEBakery                         1.000000    
+## CONTEXT_FRAMEBar                            1.000000    
+## CONTEXT_FRAMEBeauty_Hair_Salon              0.999999    
+## CONTEXT_FRAMEBusiness                       0.999999    
+## CONTEXT_FRAMECafe                           1.000000    
+## CONTEXT_FRAMEClothing                       1.000000    
+## CONTEXT_FRAMECommentary                     1.000000    
+## CONTEXT_FRAMEExternal                       1.000000    
+## CONTEXT_FRAMEFlier                          1.000000    
+## CONTEXT_FRAMEGallery_Museum                 0.999999    
+## CONTEXT_FRAMEGrocery_Liquor_Store           0.999999    
+## CONTEXT_FRAMEGym_Fitness_Studio             1.000000    
+## CONTEXT_FRAMEHardware                       1.000000    
+## CONTEXT_FRAMEHotel                          0.999999    
+## CONTEXT_FRAMEInstitution                    1.000000    
+## CONTEXT_FRAMEJewelry_Store                  1.000000    
+## CONTEXT_FRAMELandromat                      1.000000    
+## CONTEXT_FRAMEMenu                           1.000000    
+## CONTEXT_FRAMEMovie_Theater                  1.000000    
+## CONTEXT_FRAMENightclub                      1.000000    
+## CONTEXT_FRAMENotary_Financial_Services      1.000000    
+## CONTEXT_FRAMEResidential                    0.999999    
+## CONTEXT_FRAMERestaurant                     0.999999    
+## CONTEXT_FRAMEShop                           0.999999    
+## CONTEXT_FRAMESpecialty_Foods                1.000000    
+## CONTEXT_FRAMESupermarket                    0.999999    
+## CONTEXT_FRAMETravel_Agency                  1.000000    
+## CLOSEDFALSE                                 0.999998    
+## CLOSEDTRUE                                  0.999998    
+## Topic2                                      0.824161    
+## Topic3                                      0.741752    
+## Topic4                                      0.107155    
+## Topic5                                      0.999998    
+## Topic6                                      0.494642    
+## Topic7                                      0.402244    
+## Topic8                                      0.999992    
+## Topic9                                      0.418832    
+## Topic10                                     0.181480    
+## Topic11                                     0.999999    
+## Topic12                                     0.999998    
+## Topic13                                     0.999999    
+## Topic14                                     0.999999    
+## Topic15                                     0.000509 ***
+## Topic16                                     0.739367    
+## Topic17                                     0.999998    
+## Topic18                                     0.951830    
+## Topic19                                     0.797135    
+## Topic20                                     0.999999    
+## Topic21                                     0.999999    
+## Topic22                                     0.999995    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq p-value
+## s(latitude,longitude) 17.64  23.38  23.22   0.467
+## 
+## R-sq.(adj) =  0.256   Deviance explained = 47.1%
+## UBRE = -0.56172  Scale est. = 1         n = 700&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Odds ratios
+# exp(coef(gamES))
+
+# Mostly Spanish with some English
+summary(gamSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(LANGUAGE == &amp;quot;Span_Eng&amp;quot;) ~ s(latitude, longitude, k = 60) + 
+##     YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + 
+##     CLOSED + Topic
+## 
+## Parametric coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                 -8.388e+06  6.712e+07  -0.125
+## YELP1                                       -5.546e-01  5.436e-01  -1.020
+## YELP2                                       -1.772e+00  9.086e-01  -1.950
+## YELP3                                       -2.471e+01  1.482e+05   0.000
+## YELP4                                       -2.476e+01  7.382e+05   0.000
+## COMMUNICATIVE_ROLEEstablishment_Description  6.912e-01  1.237e+00   0.559
+## COMMUNICATIVE_ROLEEstablishment_Name         2.719e-02  1.204e+00   0.023
+## COMMUNICATIVE_ROLEGraffiti                  -2.871e-02  3.738e+05   0.000
+## COMMUNICATIVE_ROLEInformation                9.792e-01  1.248e+00   0.785
+## COMMUNICATIVE_ROLEInstructions              -1.003e-01  3.930e+05   0.000
+## COMMUNICATIVE_ROLELeaflet                   -2.249e+01  3.507e+05   0.000
+## COMMUNICATIVE_ROLESlogan                     1.047e+00  4.646e+05   0.000
+## COMMUNICATIVE_ROLEStreet_Signs               2.317e+01  2.708e+05   0.000
+## MATERIALITYHand_Written                     -2.686e+00  3.420e+05   0.000
+## MATERIALITYHome_Printed                     -1.065e+00  3.420e+05   0.000
+## MATERIALITYPermanent                        -2.458e+01  3.602e+05   0.000
+## MATERIALITYProfessionally_Printed           -8.574e-01  3.420e+05   0.000
+## CONTEXT_FRAMEBakery                          8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEBar                             8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEBeauty_Hair_Salon               8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEBusiness                        8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMECafe                            8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEClothing                        8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMECommentary                      8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEExternal                        8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEFlier                           8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEGallery_Museum                  8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEGrocery_Liquor_Store            8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEGym_Fitness_Studio              8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEHardware                        8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEHotel                           8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEInstitution                     8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEJewelry_Store                   8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMELandromat                       8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEMenu                            8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEMovie_Theater                   8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMENightclub                       8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMENotary_Financial_Services       8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEResidential                     8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMERestaurant                      8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMEShop                            8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMESpecialty_Foods                 8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMESupermarket                     8.388e+06  6.711e+07   0.125
+## CONTEXT_FRAMETravel_Agency                   8.388e+06  6.711e+07   0.125
+## CLOSEDFALSE                                  1.256e+00  1.179e+06   0.000
+## CLOSEDTRUE                                   1.712e+00  1.179e+06   0.000
+## Topic2                                       2.975e-01  7.916e-01   0.376
+## Topic3                                      -9.652e-01  1.170e+00  -0.825
+## Topic4                                      -1.114e+00  8.622e-01  -1.292
+## Topic5                                       1.321e+00  6.948e-01   1.902
+## Topic6                                      -5.116e+01  1.801e+05   0.000
+## Topic7                                      -2.609e+01  2.034e+05   0.000
+## Topic8                                      -2.550e+01  2.359e+05   0.000
+## Topic9                                      -2.607e+01  1.266e+05   0.000
+## Topic10                                     -1.364e+00  1.061e+00  -1.285
+## Topic11                                     -2.577e+01  2.807e+05   0.000
+## Topic12                                      1.118e-01  9.142e-01   0.122
+## Topic13                                     -2.633e+01  4.527e+05   0.000
+## Topic14                                     -2.553e+01  4.402e+05   0.000
+## Topic15                                     -2.618e+01  4.851e+05   0.000
+## Topic16                                     -2.533e+01  1.231e+05   0.000
+## Topic17                                     -2.112e-01  1.219e+00  -0.173
+## Topic18                                     -2.023e+00  1.422e+00  -1.423
+## Topic19                                     -6.111e-01  9.939e-01  -0.615
+## Topic20                                     -2.548e+01  4.378e+05   0.000
+## Topic21                                      1.126e+00  1.005e+00   1.120
+## Topic22                                     -2.517e+01  2.460e+05   0.000
+##                                             Pr(&amp;gt;|z|)  
+## (Intercept)                                   0.9005  
+## YELP1                                         0.3076  
+## YELP2                                         0.0512 .
+## YELP3                                         0.9999  
+## YELP4                                         1.0000  
+## COMMUNICATIVE_ROLEEstablishment_Description   0.5763  
+## COMMUNICATIVE_ROLEEstablishment_Name          0.9820  
+## COMMUNICATIVE_ROLEGraffiti                    1.0000  
+## COMMUNICATIVE_ROLEInformation                 0.4326  
+## COMMUNICATIVE_ROLEInstructions                1.0000  
+## COMMUNICATIVE_ROLELeaflet                     0.9999  
+## COMMUNICATIVE_ROLESlogan                      1.0000  
+## COMMUNICATIVE_ROLEStreet_Signs                0.9999  
+## MATERIALITYHand_Written                       1.0000  
+## MATERIALITYHome_Printed                       1.0000  
+## MATERIALITYPermanent                          0.9999  
+## MATERIALITYProfessionally_Printed             1.0000  
+## CONTEXT_FRAMEBakery                           0.9005  
+## CONTEXT_FRAMEBar                              0.9005  
+## CONTEXT_FRAMEBeauty_Hair_Salon                0.9005  
+## CONTEXT_FRAMEBusiness                         0.9005  
+## CONTEXT_FRAMECafe                             0.9005  
+## CONTEXT_FRAMEClothing                         0.9005  
+## CONTEXT_FRAMECommentary                       0.9005  
+## CONTEXT_FRAMEExternal                         0.9005  
+## CONTEXT_FRAMEFlier                            0.9005  
+## CONTEXT_FRAMEGallery_Museum                   0.9005  
+## CONTEXT_FRAMEGrocery_Liquor_Store             0.9005  
+## CONTEXT_FRAMEGym_Fitness_Studio               0.9005  
+## CONTEXT_FRAMEHardware                         0.9005  
+## CONTEXT_FRAMEHotel                            0.9005  
+## CONTEXT_FRAMEInstitution                      0.9005  
+## CONTEXT_FRAMEJewelry_Store                    0.9005  
+## CONTEXT_FRAMELandromat                        0.9005  
+## CONTEXT_FRAMEMenu                             0.9005  
+## CONTEXT_FRAMEMovie_Theater                    0.9005  
+## CONTEXT_FRAMENightclub                        0.9005  
+## CONTEXT_FRAMENotary_Financial_Services        0.9005  
+## CONTEXT_FRAMEResidential                      0.9005  
+## CONTEXT_FRAMERestaurant                       0.9005  
+## CONTEXT_FRAMEShop                             0.9005  
+## CONTEXT_FRAMESpecialty_Foods                  0.9005  
+## CONTEXT_FRAMESupermarket                      0.9005  
+## CONTEXT_FRAMETravel_Agency                    0.9005  
+## CLOSEDFALSE                                   1.0000  
+## CLOSEDTRUE                                    1.0000  
+## Topic2                                        0.7070  
+## Topic3                                        0.4094  
+## Topic4                                        0.1962  
+## Topic5                                        0.0572 .
+## Topic6                                        0.9998  
+## Topic7                                        0.9999  
+## Topic8                                        0.9999  
+## Topic9                                        0.9998  
+## Topic10                                       0.1986  
+## Topic11                                       0.9999  
+## Topic12                                       0.9026  
+## Topic13                                       1.0000  
+## Topic14                                       1.0000  
+## Topic15                                       1.0000  
+## Topic16                                       0.9998  
+## Topic17                                       0.8625  
+## Topic18                                       0.1548  
+## Topic19                                       0.5387  
+## Topic20                                       1.0000  
+## Topic21                                       0.2626  
+## Topic22                                       0.9999  
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq p-value  
+## s(latitude,longitude) 2.001  2.001  5.263  0.0721 .
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## R-sq.(adj) =  0.074   Deviance explained = 31.1%
+## UBRE = -0.50668  Scale est. = 1         n = 700&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Odds ratios
+# exp(coef(gamSE))
+
+# Equal
+summary(gamEQ)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(LANGUAGE == &amp;quot;Equal&amp;quot;) ~ s(latitude, longitude, k = 60) + YELP + 
+##     COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + 
+##     Topic
+## 
+## Parametric coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                  2.852e+02  1.036e+08   0.000
+## YELP1                                       -2.500e+01  1.868e+03  -0.013
+## YELP2                                       -2.659e+01  3.278e+03  -0.008
+## YELP3                                       -1.986e+03  1.424e+07   0.000
+## YELP4                                        3.948e+02  5.071e+07   0.000
+## COMMUNICATIVE_ROLEEstablishment_Description  2.430e+01  2.547e+05   0.000
+## COMMUNICATIVE_ROLEEstablishment_Name         2.329e+01  2.547e+05   0.000
+## COMMUNICATIVE_ROLEGraffiti                  -1.301e+02  2.252e+07   0.000
+## COMMUNICATIVE_ROLEInformation                2.568e+01  2.547e+05   0.000
+## COMMUNICATIVE_ROLEInstructions              -1.092e+03  3.071e+07   0.000
+## COMMUNICATIVE_ROLELeaflet                   -2.776e+02  4.703e+07   0.000
+## COMMUNICATIVE_ROLESlogan                    -1.116e+01  3.092e+07   0.000
+## COMMUNICATIVE_ROLEStreet_Signs               4.654e+01  1.937e+07   0.000
+## MATERIALITYHand_Written                     -8.454e+01  4.152e+07   0.000
+## MATERIALITYHome_Printed                     -8.813e+01  4.152e+07   0.000
+## MATERIALITYPermanent                        -3.476e+02  4.277e+07   0.000
+## MATERIALITYProfessionally_Printed           -2.691e+02  4.152e+07   0.000
+## CONTEXT_FRAMEBakery                         -6.589e+02  6.794e+07   0.000
+## CONTEXT_FRAMEBar                            -4.177e+02  6.957e+07   0.000
+## CONTEXT_FRAMEBeauty_Hair_Salon              -4.185e+02  6.851e+07   0.000
+## CONTEXT_FRAMEBusiness                       -2.529e+02  6.711e+07   0.000
+## CONTEXT_FRAMECafe                           -4.759e+02  6.842e+07   0.000
+## CONTEXT_FRAMEClothing                       -4.444e+02  6.929e+07   0.000
+## CONTEXT_FRAMECommentary                     -4.744e+02  7.478e+07   0.000
+## CONTEXT_FRAMEExternal                       -2.628e+02  6.711e+07   0.000
+## CONTEXT_FRAMEFlier                           3.668e+02  9.538e+07   0.000
+## CONTEXT_FRAMEGallery_Museum                  7.260e+02  6.711e+07   0.000
+## CONTEXT_FRAMEGrocery_Liquor_Store           -5.364e+02  6.794e+07   0.000
+## CONTEXT_FRAMEGym_Fitness_Studio             -3.441e+02  7.543e+07   0.000
+## CONTEXT_FRAMEHardware                       -2.966e+02  8.248e+07   0.000
+## CONTEXT_FRAMEHotel                          -2.207e+02  6.711e+07   0.000
+## CONTEXT_FRAMEInstitution                    -4.852e+02  7.126e+07   0.000
+## CONTEXT_FRAMEJewelry_Store                  -5.329e+02  7.048e+07   0.000
+## CONTEXT_FRAMELandromat                      -5.956e+02  8.219e+07   0.000
+## CONTEXT_FRAMEMenu                            1.656e+03  9.553e+07   0.000
+## CONTEXT_FRAMEMovie_Theater                  -3.023e+02  7.194e+07   0.000
+## CONTEXT_FRAMENightclub                       8.276e+02  7.817e+07   0.000
+## CONTEXT_FRAMENotary_Financial_Services      -2.366e+02  7.449e+07   0.000
+## CONTEXT_FRAMEResidential                    -2.834e+02  8.922e+07   0.000
+## CONTEXT_FRAMERestaurant                     -5.356e+02  6.740e+07   0.000
+## CONTEXT_FRAMEShop                           -2.492e+02  6.711e+07   0.000
+## CONTEXT_FRAMESpecialty_Foods                -2.741e+02  7.066e+07   0.000
+## CONTEXT_FRAMESupermarket                    -4.127e+02  6.711e+07   0.000
+## CONTEXT_FRAMETravel_Agency                   3.185e+02  7.351e+07   0.000
+## CLOSEDFALSE                                 -2.562e+02  6.711e+07   0.000
+## CLOSEDTRUE                                  -1.812e+02  6.895e+07   0.000
+## Topic2                                       1.122e+02  5.694e+03   0.020
+## Topic3                                      -7.341e+01  1.513e+04  -0.005
+## Topic4                                       2.010e+01  1.017e+04   0.002
+## Topic5                                      -9.792e+01  1.166e+07   0.000
+## Topic6                                      -1.909e+02  1.354e+07   0.000
+## Topic7                                      -2.990e+02  1.544e+07   0.000
+## Topic8                                      -4.571e+01  1.567e+04  -0.003
+## Topic9                                      -3.349e+02  9.304e+06   0.000
+## Topic10                                     -2.491e+02  1.086e+07   0.000
+## Topic11                                      3.518e+02  3.937e+04   0.009
+## Topic12                                     -1.031e+02  1.503e+07   0.000
+## Topic13                                      1.268e+02  3.076e+07   0.000
+## Topic14                                     -4.679e+02  3.017e+07   0.000
+## Topic15                                      1.865e+02  3.031e+07   0.000
+## Topic16                                     -1.588e+02  1.731e+07   0.000
+## Topic17                                      2.371e+02  1.731e+07   0.000
+## Topic18                                      2.497e+02  1.060e+07   0.000
+## Topic19                                     -1.098e+00  1.019e+04   0.000
+## Topic20                                      2.688e+02  3.471e+07   0.000
+## Topic21                                      1.669e+02  3.945e+04   0.004
+## Topic22                                      3.523e+02  9.783e+03   0.036
+##                                             Pr(&amp;gt;|z|)
+## (Intercept)                                    1.000
+## YELP1                                          0.989
+## YELP2                                          0.994
+## YELP3                                          1.000
+## YELP4                                          1.000
+## COMMUNICATIVE_ROLEEstablishment_Description    1.000
+## COMMUNICATIVE_ROLEEstablishment_Name           1.000
+## COMMUNICATIVE_ROLEGraffiti                     1.000
+## COMMUNICATIVE_ROLEInformation                  1.000
+## COMMUNICATIVE_ROLEInstructions                 1.000
+## COMMUNICATIVE_ROLELeaflet                      1.000
+## COMMUNICATIVE_ROLESlogan                       1.000
+## COMMUNICATIVE_ROLEStreet_Signs                 1.000
+## MATERIALITYHand_Written                        1.000
+## MATERIALITYHome_Printed                        1.000
+## MATERIALITYPermanent                           1.000
+## MATERIALITYProfessionally_Printed              1.000
+## CONTEXT_FRAMEBakery                            1.000
+## CONTEXT_FRAMEBar                               1.000
+## CONTEXT_FRAMEBeauty_Hair_Salon                 1.000
+## CONTEXT_FRAMEBusiness                          1.000
+## CONTEXT_FRAMECafe                              1.000
+## CONTEXT_FRAMEClothing                          1.000
+## CONTEXT_FRAMECommentary                        1.000
+## CONTEXT_FRAMEExternal                          1.000
+## CONTEXT_FRAMEFlier                             1.000
+## CONTEXT_FRAMEGallery_Museum                    1.000
+## CONTEXT_FRAMEGrocery_Liquor_Store              1.000
+## CONTEXT_FRAMEGym_Fitness_Studio                1.000
+## CONTEXT_FRAMEHardware                          1.000
+## CONTEXT_FRAMEHotel                             1.000
+## CONTEXT_FRAMEInstitution                       1.000
+## CONTEXT_FRAMEJewelry_Store                     1.000
+## CONTEXT_FRAMELandromat                         1.000
+## CONTEXT_FRAMEMenu                              1.000
+## CONTEXT_FRAMEMovie_Theater                     1.000
+## CONTEXT_FRAMENightclub                         1.000
+## CONTEXT_FRAMENotary_Financial_Services         1.000
+## CONTEXT_FRAMEResidential                       1.000
+## CONTEXT_FRAMERestaurant                        1.000
+## CONTEXT_FRAMEShop                              1.000
+## CONTEXT_FRAMESpecialty_Foods                   1.000
+## CONTEXT_FRAMESupermarket                       1.000
+## CONTEXT_FRAMETravel_Agency                     1.000
+## CLOSEDFALSE                                    1.000
+## CLOSEDTRUE                                     1.000
+## Topic2                                         0.984
+## Topic3                                         0.996
+## Topic4                                         0.998
+## Topic5                                         1.000
+## Topic6                                         1.000
+## Topic7                                         1.000
+## Topic8                                         0.998
+## Topic9                                         1.000
+## Topic10                                        1.000
+## Topic11                                        0.993
+## Topic12                                        1.000
+## Topic13                                        1.000
+## Topic14                                        1.000
+## Topic15                                        1.000
+## Topic16                                        1.000
+## Topic17                                        1.000
+## Topic18                                        1.000
+## Topic19                                        1.000
+## Topic20                                        1.000
+## Topic21                                        0.997
+## Topic22                                        0.971
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq p-value
+## s(latitude,longitude) 12.76  13.06  0.002       1
+## 
+## R-sq.(adj) =  0.698   Deviance explained = 83.3%
+## UBRE = -0.72869  Scale est. = 1         n = 700&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Odds ratios
+# exp(coef(gamEQ))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see from these results a lot of information – what is significant, deviance explained, coefficients, etc. But it is also useful to plot probabilities.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plot probabilities? (Adapted from http://myweb.uiowa.edu/pbreheny/publications/visreg.pdf)
+library(visreg)
+# We will just look at those flagged as &amp;#39;significant&amp;#39;
+# Probability of English by coordinate
+visreg2d(gamE, &amp;quot;longitude&amp;quot;, &amp;quot;latitude&amp;quot;, plot.type=&amp;quot;image&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-55-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Spanish
+visreg2d(gamS, &amp;quot;longitude&amp;quot;, &amp;quot;latitude&amp;quot;, plot.type=&amp;quot;image&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-55-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;gams-for-instagram-only&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;GAMs for Instagram only&lt;/h2&gt;
+&lt;p&gt;Let’s look at GAMs within our social media data set.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;emogam &amp;lt;- gam(I(emogrepl==&amp;quot;TRUE&amp;quot;)~s(latitude,longitude, k=60) + V1.x, family=binomial,data=tweets)
+concurvity(emogam)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9168534            0.09941700
+## observed 0.9168534            0.02028529
+## estimate 0.9168534            0.01043618&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Concurvity seems ok
+gam.check(emogam)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 3 iterations.
+## Gradient range [5.004738e-08,5.004738e-08]
+## (score -0.008444863 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.0001851222,0.0001851222].
+## Model rank =  81 / 81 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                           k&amp;#39;    edf k-index p-value
+## s(latitude,longitude) 59.000 36.914   0.915       0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Same issue with gam.check but will keep k on the lower side to avoid over fitting
+
+# Results!
+summary(emogam)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(emogrepl == &amp;quot;TRUE&amp;quot;) ~ s(latitude, longitude, k = 60) + V1.x
+## 
+## Parametric coefficients:
+##             Estimate Std. Error z value Pr(&amp;gt;|z|)    
+## (Intercept) -1.51773    0.06987 -21.723  &amp;lt; 2e-16 ***
+## V1.x2       -0.10551    0.10678  -0.988 0.323073    
+## V1.x3        0.07772    0.10716   0.725 0.468282    
+## V1.x4        0.01201    0.11055   0.109 0.913452    
+## V1.x5        0.00548    0.11107   0.049 0.960649    
+## V1.x6        0.18434    0.11212   1.644 0.100142    
+## V1.x7        0.38492    0.11253   3.421 0.000625 ***
+## V1.x8        0.11688    0.11947   0.978 0.327903    
+## V1.x9       -0.01001    0.09944  -0.101 0.919822    
+## V1.x10       0.24011    0.11187   2.146 0.031849 *  
+## V1.x11       0.20051    0.12685   1.581 0.113942    
+## V1.x12       0.16066    0.12227   1.314 0.188856    
+## V1.x13       0.78768    0.11795   6.678 2.43e-11 ***
+## V1.x14       0.07260    0.10874   0.668 0.504380    
+## V1.x15       0.05380    0.12258   0.439 0.660701    
+## V1.x16       0.27443    0.13654   2.010 0.044448 *  
+## V1.x17       0.15745    0.10518   1.497 0.134416    
+## V1.x18      -0.02877    0.13462  -0.214 0.830771    
+## V1.x19       0.12386    0.12564   0.986 0.324213    
+## V1.x20       0.09485    0.14550   0.652 0.514487    
+## V1.x21       0.04794    0.15142   0.317 0.751550    
+## V1.x22       0.09597    0.13291   0.722 0.470255    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq p-value    
+## s(latitude,longitude) 36.91     46  193.8  &amp;lt;2e-16 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## R-sq.(adj) =  0.0158   Deviance explained = 1.87%
+## UBRE = -0.0084449  Scale est. = 1         n = 16744&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Now Sparkles emoji
+sparky &amp;lt;- grepl(paste(&amp;quot; SPARKLES &amp;quot;), tweets$text)
+sparkyDF&amp;lt;-as.data.frame(sparky)
+tweets$id &amp;lt;- 1:nrow(tweets)
+sparkyDF$id &amp;lt;- 1:nrow(sparkyDF)
+tweets &amp;lt;- merge(tweets,sparkyDF,by=&amp;quot;id&amp;quot;)
+
+sparkygam &amp;lt;- gam(I(sparky==&amp;quot;TRUE&amp;quot;)~s(latitude,longitude, k=60) + V1.x, family=binomial, data=tweets)
+concurvity(sparkygam)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               para s(latitude,longitude)
+## worst    0.9168534           0.099417003
+## observed 0.9168534           0.009350418
+## estimate 0.9168534           0.010436183&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gam.check(sparkygam)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Method: UBRE   Optimizer: outer newton
+## full convergence after 3 iterations.
+## Gradient range [7.38181e-08,7.38181e-08]
+## (score -0.8937008 &amp;amp; scale 1).
+## Hessian positive definite, eigenvalue range [0.0003198463,0.0003198463].
+## Model rank =  81 / 81 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&amp;lt;1) may
+## indicate that k is too low, especially if edf is close to k&amp;#39;.
+## 
+##                           k&amp;#39;    edf k-index p-value
+## s(latitude,longitude) 59.000 31.750   0.859    0.14&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(sparkygam)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## I(sparky == &amp;quot;TRUE&amp;quot;) ~ s(latitude, longitude, k = 60) + V1.x
+## 
+## Parametric coefficients:
+##              Estimate Std. Error z value Pr(&amp;gt;|z|)    
+## (Intercept) -5.043769   0.308248 -16.363  &amp;lt; 2e-16 ***
+## V1.x2        0.374535   0.421174   0.889 0.373860    
+## V1.x3        0.521652   0.414222   1.259 0.207903    
+## V1.x4        0.540606   0.421866   1.281 0.200031    
+## V1.x5       -0.333582   0.542760  -0.615 0.538817    
+## V1.x6        0.406962   0.453892   0.897 0.369929    
+## V1.x7        0.610551   0.441826   1.382 0.167008    
+## V1.x8        0.459427   0.469569   0.978 0.327876    
+## V1.x9       -0.006097   0.429996  -0.014 0.988687    
+## V1.x10      -0.073187   0.513893  -0.142 0.886751    
+## V1.x11      -0.088493   0.588622  -0.150 0.880497    
+## V1.x12       0.105301   0.543732   0.194 0.846439    
+## V1.x13       1.363123   0.403352   3.379 0.000726 ***
+## V1.x14       0.396858   0.430658   0.922 0.356781    
+## V1.x15      -0.551737   0.654946  -0.842 0.399555    
+## V1.x16      -1.265384   1.047887  -1.208 0.227217    
+## V1.x17       0.066183   0.454785   0.146 0.884297    
+## V1.x18      -0.010056   0.588844  -0.017 0.986375    
+## V1.x19      -0.449025   0.657493  -0.683 0.494648    
+## V1.x20       0.043034   0.656281   0.066 0.947718    
+## V1.x21      -0.942557   1.047574  -0.900 0.368252    
+## V1.x22      -0.214021   0.655523  -0.326 0.744055    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Approximate significance of smooth terms:
+##                         edf Ref.df Chi.sq  p-value    
+## s(latitude,longitude) 31.75  40.41  86.64 3.35e-05 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## R-sq.(adj) =  0.0116   Deviance explained = 7.43%
+## UBRE = -0.8937  Scale est. = 1         n = 16744&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-56-1.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;/portfolio/2017-05-06-thesis-time_files/figure-html/unnamed-chunk-56-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

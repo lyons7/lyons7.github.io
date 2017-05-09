@@ -1,0 +1,935 @@
+---
+date: 2015-07-23T21:13:14-05:00
+draft: false
+image: "img/portfolio/thesistime.jpg"
+title: "Thesis Time!"
+description: "Code and analyses used in my dissertation"
+weight: 8
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+The following is all of the code used to run analyses used in my dissertation. 
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, results='hide'}
+packs = c("twitteR","RCurl","RJSONIO","stringr","ggplot2","devtools","DataCombine","ggmap","topicmodels","slam","Rmpfr","tm","stringr","wordcloud","plyr","tidytext","dplyr","tidyr","xlsx","ggrepel","lubridate","purrr","broom", "wordcloud","emoGG","ldatuning")
+
+lapply(packs, library, character.only=T)
+```
+
+## Getting the Data
+To collect data, I used the [twitteR package](https://cran.r-project.org/web/packages/twitteR/twitteR.pdf). I'm interested in the Mission District neighborhood in San Francisco, California. I obtain a set of coordinates using Google maps and plug that into the 'geocode' parameter and then set a radius of 1 kilometer. I know from experience that I only get around 1,000 - 2,000 posts per time I do this, so I set the number of tweets (n) I would like to get from Twitter at '7,000'.  
+
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, results='hide'}
+key = "SBHjF9qefRrX2UBmZiC0plufa"
+secret = "MBhs5X4FXkmpeeSWg37hLLbLRYR0UcxcU7u34U8z1hUgR7kMxS"
+
+tok = "420794535-8JhPvbbAsCdZNceRx4X9OdFUTafOcqFKXQgMDELy"
+tok_sec = "iNdMpmPb3CqBqztzuouujGJizziFoONgebA5Aq374ugwW"
+```
+```{r, echo=TRUE, results='hide', message=FALSE, warning=FALSE, results='hide'}
+# key = "YOUR KEY HERE"
+# secret = "YOUR SECRET HERE"
+
+# tok = "YOUR TOK HERE"
+# tok_sec = "YOUR TOK_SEC HERE"
+
+twitter_oauth <- setup_twitter_oauth(key, secret, tok, tok_sec)
+
+# To collect tweets
+geo <- searchTwitter('',n=7000, geocode='37.76,-122.42,1km',
+                     retryOnRateLimit=1)
+```
+
+Now I want to identify emojis and separate just those posts that came from Instagram. I then save those to a CSV file and compile it by copy-pasting by hand to get a corpus. 
+
+```{r, echo=TRUE}
+# Now you have a list of tweets. Lists are very difficult to deal with in R, so you convert this into a data frame:
+geoDF<-twListToDF(geo)
+```
+
+Chances are there will be emojis in your Twitter data. You can 'transform' these emojis into prose using this code as well as a [CSV file](https://github.com/lyons7/emojidictionary) I've put together of what all of the emojis look like in R. (The idea for this comes from [Jessica Peterka-Bonetta's work](http://opiateforthemass.es/articles/emoticons-in-R/) -- she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.
+
+Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.
+
+```{r, echo=TRUE}
+emoticons <- read.csv("Decoded Emojis Col Sep.csv", header = T)
+```
+
+To transform the emojis, you first need to transform the tweet data into ASCII:
+```{r, echo=TRUE}
+geoDF$text <- iconv(geoDF$text, from = "latin1", to = "ascii", 
+                    sub = "byte")
+```
+
+To 'count' the emojis you do a find and replace using the [CSV file of 'Decoded Emojis'](https://github.com/lyons7/emojidictionary) as a reference. Here I am using the [DataCombine package](http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace). What this does is identifies emojis in the tweets and then replaces them with a prose version. I used whatever description pops up when hovering one's cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.
+
+```{r, echo=TRUE}
+data <- FindReplace(data = geoDF, Var = "text", 
+                      replaceData = emoticons,
+                      from = "R_Encoding", to = "Name", 
+                      exact = FALSE)
+```
+
+Now might be a good time to save this file, perhaps in CSV format with the date of when the data was collected: 
+```{r, echo=TRUE}
+write.csv(data,file=paste("ALL",Sys.Date(),".csv"))
+```
+
+Subset to just those posts that come from Instagram
+Now you have a data frame which you can manipulate in various ways. For my research, I'm just interested in posts that have occured on Instagram. (Why not just access them via Instagram's API you ask? Long story short: they are very *very* conservative about providing access for academic research). I've found a work-around which is filtering mined tweets by those that have Instagram as a source:
+
+```{r, echo=TRUE}
+data <- data[data$statusSource == 
+        "<a href=\"http://instagram.com\" rel=\"nofollow\">Instagram</a>", ]
+
+#Save this file
+write.csv(data,file=paste("INSTA",Sys.Date(),".csv"))
+```
+
+Having done this for eight months, we have a nice corpus! Let's load that in.
+
+## Analyzing the Data
+```{r, echo=FALSE}
+# Instagram corpus (https://www.dropbox.com/s/u66fid58q56iqji/Col_Sep_INSTACORPUS.csv?dl=0)
+tweets <- read.csv("Col_Sep_INSTACORPUS.csv", header=T)
+
+# LL data (https://www.dropbox.com/s/pfs0d9ofy8mshrc/9_March_Mission_Data.csv?dl=0)
+ll <- read.csv("9_March_Mission_Data.csv", header=T)
+```
+
+#### Preparing data for Topic Modeling and Sentiment Analysis 
+The data need to be processed a bit more in order to analyze them. Let's try from the start with [Silge and Robinson](http://tidytextmining.com/).
+
+```{r}
+# Get rid of stuff particular to the data (here encodings of links and such)
+# Most of these are characters I don't have encodings for (other scripts, etc.)
+
+tweets$text = gsub("Just posted a photo","", tweets$text)
+tweets$text = gsub( "<.*?>", "", tweets$text)
+
+# Get rid of super frequent spam posters
+tweets <- tweets[! tweets$screenName %in% c("4AMSOUNDS","BruciusTattoo","LionsHeartSF","hermesalchemist","Mrsourmash","AaronTheEra","AmnesiaBar","audreymose2","audreymosez","Bernalcutlery","blncdbrkfst","BrunosSF","chiddythekidd","ChurchChills","deeXiepoo","fabricoutletsf","gever","miramirasf","papalote415","HappyHoundsMasg","faern_me"),]
+
+# If you want to combine colors, run this at least 3 times over to make sure it 'sticks'
+# coltweets <- tweets
+# coltweets$text <- gsub(" COLONE ", "COLONE", coltweets$text)
+# coltweets$text <- gsub(" COLTWO ", "COLTWO", coltweets$text)
+# coltweets$text <- gsub(" COLTHREE ", "COLTHREE", coltweets$text)
+# coltweets$text <- gsub(" COLFOUR ", "COLFOUR", coltweets$text)
+# coltweets$text <- gsub(" COLFIVE ", "COLFIVE", coltweets$text)
+
+# Let's just use this for now. Maybe good to keep these things together
+# tweets <- coltweets
+
+# This makes a larger list of stop words combining those from the tm package and tidy text -- even though the tm package stop word list is pretty small anyway, just doing this just in case
+data(stop_words)
+mystopwords <- c(stopwords('english'),stop_words$word, stopwords('spanish'))
+
+# Now for Silge and Robinson's code. What this is doing is getting rid of 
+# URLs, re-tweets (RT) and ampersands. This also gets rid of stop words 
+# without having to get rid of hashtags and @ signs by using 
+# str_detect and filter! 
+reg <- "([^A-Za-z_\\d#@']|'(?![A-Za-z_\\d#@]))"
+tidy_tweets <- tweets %>% 
+  filter(!str_detect(text, "^RT")) %>%
+  mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https", "")) %>%
+  unnest_tokens(word, text, token = "regex", pattern = reg) %>%
+  filter(!word %in% mystopwords,
+         str_detect(word, "[a-z]"))
+```
+
+## Frequency analysis and Sentiment analysis
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, results = 'hide'}
+freq <- tidy_tweets %>% 
+  group_by(latitude,longitude) %>% 
+  count(word, sort = TRUE) %>% 
+  left_join(tidy_tweets %>% 
+              group_by(latitude,longitude) %>% 
+              summarise(total = n())) %>%
+  mutate(freq = n/total)
+```
+
+The n here is the total number of times this term has shown up, and the total is how many terms there are present in a particular coordinate. 
+Now we have a representation of terms, their frequency and their position. Now I might want to plot this somehow... one way would be to try to plot the most frequent terms (n > 50)
+(Some help on how to do this was taken from [here](http://blog.revolutionanalytics.com/2016/01/avoid-overlapping-labels-in-ggplot2-charts.html) and [here](http://stackoverflow.com/questions/14288001/geom-text-not-working-when-ggmap-and-geom-point-used))
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+freq2 <- subset(freq, n > 50) 
+
+map <- get_map(location = 'Valencia St. and 20th, San Francisco,
+               California', zoom = 15)
+
+freq2$longitude<-as.numeric(freq2$longitude)
+freq2$latitude<-as.numeric(freq2$latitude)
+
+mapPoints <- ggmap(map) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freq2, aes(x = longitude, y = latitude, label = word),size = 3) 
+```
+
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+mapPoints
+```
+
+Let's zoom into that main central area to see what's going on!
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
+map2 <- get_map(location = 'Valencia St. and 19th, San Francisco,
+               California', zoom = 16)
+mapPoints2 <- ggmap(map2) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freq2, aes(x = longitude, y = latitude, label = word),size = 3) 
+```
+
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+mapPoints2
+```
+
+What about 24th?
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
+# Have to go a bit bigger to get more terms
+freq3 <- subset(freq, n > 15) 
+
+map3 <- get_map(location = 'Folsom St. and 24th, San Francisco,
+               California', zoom = 16)
+mapPoints3 <- ggmap(map3) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freq3, aes(x = longitude, y = latitude, label = word),size = 3) 
+
+```
+
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+mapPoints3
+```
+
+## Sentiment analysis
+
+```{r, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
+# We can also look at counts of negative and positive words
+bingsenti <- sentiments %>%
+  filter(lexicon =="bing")
+
+bing_word_counts <- tidy_tweets %>%
+  inner_join(bingsenti) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  ungroup()
+# If you wanted to look at these
+# bing_word_counts
+```
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+# Now we can graph these
+bing_word_counts %>%
+  filter(n > 25) %>%
+  mutate(n = ifelse(sentiment == "negative", -n, n)) %>%
+  mutate(word = reorder(word, n)) %>%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = "identity") +
+  labs(y = "Contribution to sentiment",
+       x = NULL) +
+  coord_flip()
+```
+
+## Word Cloud
+
+In order to do a word cloud we need a document term matrix. This will also be used for topic modeling later. 
+
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+# First have to make a document term matrix, which involves a few steps
+tidy_tweets %>%
+  count(document, word, sort=TRUE)
+
+tweet_words <- tidy_tweets %>%  
+  count(document, word) %>%
+  ungroup()
+
+total_words <- tweet_words %>% 
+  group_by(document) %>% 
+  summarize(total = sum(n))
+
+post_words <- left_join(tweet_words, total_words)
+
+dtm <- post_words %>% 
+  cast_dtm(document, word, n)
+```
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+freqw = data.frame(sort(colSums(as.matrix(dtm)), decreasing=TRUE))
+wordcloud(rownames(freqw), freqw[,1], max.words=100, 
+          colors=brewer.pal(1, "Dark2"))
+```
+
+
+## Emojis
+
+What if I want to look at just those posts that have emojis in them? Or specific emojis in general? 
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+# Identify emojis
+emoticons <- read.csv("Decoded Emojis Col Sep.csv", header = T)
+# This also takes time so I will not run it, but this is how you go through and identify emojis in your corpus and 'tag' whether or not they are there!
+# emogrepl <- grepl(paste(emoticons$Name, collapse = "|"), tweets$text)
+# save(emogrepl,file=paste("emo.Rda"))
+# Emo here: https://www.dropbox.com/s/fqlvqfnx0n8npf2/emo.Rda?dl=0
+load("emo.Rda")
+emogreplDF<-as.data.frame(emogrepl)
+tweets$id <- 1:nrow(tweets)
+emogreplDF$id <- 1:nrow(emogreplDF)
+tweets <- merge(tweets,emogreplDF,by="id")
+emosub <- tweets[tweets$emogrepl == "TRUE", ]
+
+# to get JUST emojis, no text
+
+tidy_emos <- emosub %>% 
+  mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https", "")) %>%
+  unnest_tokens(word, text, token = "regex", pattern = reg) %>%
+  filter(!word %in% mystopwords,
+         str_detect(word, "[a-z]"))
+
+# Have to do this so they will recognize each other
+tidy_emoticons <- emoticons %>% 
+  mutate(Name = str_replace_all(Name, "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https", "")) %>%
+  unnest_tokens(word, Name, token = "regex", pattern = reg) %>%
+  filter(!word %in% mystopwords,
+         str_detect(word, "[a-z]"))
+
+# I think a semi_join will work: "Return all rows from X where there are matching rows in Y, just keeping columns from X" (http://stat545.com/bit001_dplyr-cheatsheet.html)
+
+emoonly <- semi_join(tidy_emos, tidy_emoticons, by="word")
+
+freqe <- emoonly %>% 
+  group_by(latitude,longitude) %>% 
+  count(word, sort = TRUE) %>% 
+  left_join(emoonly %>% 
+              group_by(latitude,longitude) %>% 
+              summarise(total = n())) %>%
+  mutate(freq = n/total)
+
+# freqe
+
+# Map it
+freqe2 <- subset(freqe, n > 20) 
+
+map <- get_map(location = 'Valencia St. and 20th, San Francisco,
+               California', zoom = 15)
+
+freqe2$longitude<-as.numeric(freqe2$longitude)
+freqe2$latitude<-as.numeric(freqe2$latitude)
+
+mapPointse <- ggmap(map) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freqe2, aes(x = longitude, y = latitude, label = word),size = 3) 
+```
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+mapPointse
+```
+
+## Mapping Emojis
+
+To visualize emojis in our corpus, we use the [emoGG package](https://github.com/dill/emoGG). (See also [here](https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/)!) I will do a map of the most common emoji (SPARKLES) and ones related to food. This might be better on a subset so we can try that too...
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+# Let's do coffee, the egg pan thing, face savouring delicious food + ice cream?
+# ice cream 1f368
+# To find the codes for each emoji:
+# emoji_search("ice_cream")
+# First create a subset of just those that have ICE CREAM emoji present
+icecreamg <- grepl(paste(" ICECREAM "), emosub$text)
+icecreamgD<-as.data.frame(icecreamg)
+emosub$ID7 <- 1:nrow(emosub)
+icecreamgD$ID7 <- 1:nrow(icecreamgD)
+emosub <- merge(emosub,icecreamgD,by="ID7")
+icecream <- emosub[emosub$icecreamg == "TRUE", ]
+
+# Same for 'Face Savouring Delicious Food'
+# savourfood: 1f60b
+savourfoodgrepl <- grepl(paste(" FACESAVOURINGDELICIOUSFOOD "), emosub$text)
+savourfoodgreplDF<-as.data.frame(savourfoodgrepl)
+emosub$ID7 <- 1:nrow(emosub)
+savourfoodgreplDF$ID7 <- 1:nrow(savourfoodgreplDF)
+emosub <- merge(emosub,savourfoodgreplDF,by="ID7")
+savourfood <- emosub[emosub$savourfoodgrepl == "TRUE", ]
+
+#coffee: 2615
+hotbevg <- grepl(paste(" HOTBEVERAGE "), emosub$text)
+hotbevgD<-as.data.frame(hotbevg)
+emosub$id <- 1:nrow(emosub)
+hotbevgD$id <- 1:nrow(hotbevgD)
+emosub <- merge(emosub,hotbevgD,by="id")
+coffee <- emosub[emosub$hotbevg == "TRUE", ] 
+
+#knifeandfork: 1f374
+mackg <- grepl(paste(" FORKANDKNIFE "), emosub$text)
+mackgD<-as.data.frame(mackg)
+emosub$id <- 1:nrow(emosub)
+mackgD$id <- 1:nrow(mackgD)
+emosub <- merge(emosub,mackgD,by="id")
+mack <- emosub[emosub$mackg == "TRUE", ]
+
+#cooking: # Frying pan egg - Food
+# 1f373
+cookg <- grepl(paste(" COOKING "), emosub$text)
+cookgD<-as.data.frame(cookg)
+emosub$id <- 1:nrow(emosub)
+cookgD$id <- 1:nrow(cookgD)
+emosub <- merge(emosub,cookgD,by="id")
+cook <- emosub[emosub$cookg == "TRUE", ]
+
+
+# Map this
+foodmap <- ggmap(map) + geom_emoji(aes(x = longitude, y = latitude), 
+                                     data=savourfood, emoji="1f60b") +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=cook, emoji="1f373") +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=coffee, emoji="2615") +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=mack, emoji="1f374") +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=icecream, emoji="1f368")
+```
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+foodmap
+```
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+# Artist palette
+#1f3a8
+arg <- grepl(paste(" ARTISTPALETTE "), emosub$text)
+argD<-as.data.frame(arg)
+emosub$id <- 1:nrow(emosub)
+argD$id <- 1:nrow(argD)
+emosub <- merge(emosub,argD,by="id")
+art <- emosub[emosub$arg == "TRUE", ]
+
+artmap <- ggmap(map) + geom_emoji(aes(x = longitude, y = latitude), 
+                                     data=art, emoji="1f3a8")
+```
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+artmap
+```
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+sparklesgrepl <- grepl(paste(" SPARKLES "), emosub$text)
+sparklesgreplDF<-as.data.frame(sparklesgrepl)
+emosub$ID7 <- 1:nrow(emosub)
+sparklesgreplDF$ID7 <- 1:nrow(sparklesgreplDF)
+emosub <- merge(emosub,sparklesgreplDF,by="ID7")
+sparkles <- emosub[emosub$sparklesgrepl == "TRUE", ]
+
+sparkplug <- ggmap(map) + geom_emoji(aes(x = longitude, y = latitude), 
+                                     data=sparkles, emoji="2728")
+```
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+sparkplug
+```
+
+## Topic Modeling
+
+#### LDA Tuning
+
+Before running a topic model, I am going to try the [LDA tuning package](http://rpubs.comci/siri/ldatuning) to assess what might be a good number of topics. 
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+# devtools::install_github("nikita-moor/ldatuning")
+# install.packages("ldatuning")
+library("ldatuning")
+library("topicmodels")
+# I will not run this at the moment because it takes forever!
+# result <- FindTopicsNumber(
+#   dtm,
+#   topics = seq(from = 2, to = 15, by = 1),
+#   metrics = c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014"),
+#   method = "Gibbs",
+#   control = list(seed = 77),
+#   mc.cores = 2L,
+#   verbose = TRUE
+# )
+```
+
+When this finally finishes running, we will do the following to look at graphs of results to see 'best' topic number. I guess you want that range which is minimize at its lowest and maximize at its highest. So match those up. 
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+# From here: https://www.dropbox.com/s/qplfwb0pazmk7c1/ldatuning.RData?dl=0
+load("ldatuning.RData")
+
+FindTopicsNumber_plot(result)
+```
+
+From this, it appears that the maximum and minimum peak points are about 22. I'll use that as my number of topics.
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+# load("dtm.Rda")
+# Set parameters for Gibbs sampling (parameters those used in
+# Grun and Hornik 2011)
+# burnin <- 4000
+# iter <- 2000
+# thin <- 500
+# seed <-list(2003,5,63,100001,765)
+# nstart <- 5
+# best <- TRUE
+# k <- 22
+# This also takes a while to run, so will just load in results
+# lda <-LDA(dtm,k, method="Gibbs", 
+#              control=list(nstart=nstart, seed = seed, best=best, 
+#                           burnin = burnin, iter = iter, thin=thin))
+# 
+# # Save this (so you don't have to keep running it all the time)
+# save(lda,file=paste("LDA",k,".Rda"))
+
+# Let's check out the results
+
+# test_lda_td <- tidy(test_lda)
+# From here: https://www.dropbox.com/s/4fp81smd3dbrpd6/LDA%2022%20.Rda?dl=0
+load("LDA 22 .Rda")
+# Make it tidy to visualize it, etc.
+lda_td <- tidy(lda)
+
+# To graph these results (too many for now, looks messy)
+# lda_top_terms <- lda_td %>%
+#   group_by(topic) %>%
+#   top_n(10, beta) %>%
+#   ungroup() %>%
+#   arrange(topic, -beta)
+# 
+# top_terms <- lda_top_terms %>%
+#   mutate(term = reorder(term, beta)) %>%
+#   ggplot(aes(term, beta, fill = factor(topic))) +
+#   geom_bar(stat = "identity", show.legend = FALSE) +
+#   facet_wrap(~ topic, scales = "free") +
+#   coord_flip()
+# 
+# top_terms
+```
+
+## Pairing this back with original tweets
+
+Pair back this information with the original tweets to see how topics are distribtued, learn more about what each topic entails, etc. 
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+# Also to link things back
+# Look at results
+# Maybe a little easier to see than tidy graph
+lda.topics <- as.matrix(topics(lda))
+terms(lda,10)
+
+# Check at top 50 terms in each topic
+# lda.terms <- as.matrix(terms(lda,15))
+# Save as CSV file to look at a bit closer
+# write.csv(lda.terms,file=paste("TIDY_LDA",k,"TopicstoTerms.csv"))
+
+# Actual probabilities
+topicProbabilities <- as.data.frame(lda@gamma)
+# write.csv(topicProbabilities,
+#          file=paste("TIDYLDA",k,"TopicProbabilities.csv"))
+
+#Write out the topics to a data frame so you can work with them
+test <- as.data.frame(lda.topics)
+# We won't label these topics bc too many, difficult to label. If you wanted to label, however, this is how you would do it. 
+# a<-c('Evaluation', 'Food','Performance Promos', 'Leisure', 'Places',
+# 'Nightlife', 'Activism/Campaigns','Art','Outdoors','Service/Product Promos')
+# b<-c(1,2,3,4,5,6,7,8,9,10)
+# namesdf<-data.frame("Name"=a,"Number"=b)
+# test$V1<-as.factor(test$V1)
+# newtopics <- FindReplace(data = test, Var = "V1", replaceData = namesdf,
+#                        from = "Number", to = "Name", exact = TRUE)
+
+#Merge topics with tweet corpus
+tweets$id <- 1:nrow(tweets)
+test$id <- 1:nrow(test)
+tweets <- merge(tweets,test,by="id")
+# Save this
+# save(tweets,file=paste("tweets",Sys.Date(),".Rda"))
+# load("tweets 2017-03-22 .Rda")
+
+#Merge topic probabilities with tweet corpus
+topicProbabilities$id <- 1:nrow(topicProbabilities)
+tweets <- merge(tweets, topicProbabilities,by="id")
+```
+
+## Visualizing Topic Model Results
+You can now map your posts and see where assigned topics are happening!
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+tweets$longitude<-as.numeric(tweets$longitude)
+tweets$latitude <- as.numeric(tweets$latitude)
+tweets$V1.x <- factor(tweets$V1.x)
+Topics<-tweets$V1.x
+mapPointstopics <- ggmap(map) + geom_point(aes(x = longitude, y = latitude, 
+                                         color=Topics), 
+                                     data=tweets, alpha=0.5, size = 3)
+```
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+mapPointstopics
+```
+
+What a mess!
+
+How about over time?
+
+## Visualizing the data
+We can also look at WHEN the posts were generated. We can make a graph of post frequency over time.Graphs constructed with help from [here](http://www.cyclismo.org/tutorial/R/time.html), [here](https://gist.github.com/stephenturner/3132596),
+[here](http://stackoverflow.com/questions/27626915/r-graph-frequency-of-observations-over-time-with-small-value-range), [here](http://michaelbommarito.com/2011/03/12/a-quick-look-at-march11-saudi-tweets/), [here](http://stackoverflow.com/questions/31796744/plot-count-frequency-of-tweets-for-word-by-month), [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/as.POSIXlt.html), [here](http://sape.inf.usi.ch/quick-reference/ggplot2/geom) and [here](http://stackoverflow.com/questions/3541713/how-to-plot-two-histograms-together-in-r).
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+tweets$created2 <- as.POSIXct(tweets$created, format="%m/%d/%Y %H:%M")
+tweets$created3<-format(tweets$created2,'%H:%M:%S')
+d3 <- as.data.frame(table(tweets$created3))
+d3 <- d3[order(d3$Freq, decreasing=T), ]
+names(d3) <- c("created3","freq3")
+tweets <- merge(tweets,d3,by="created3")
+tweets$created3 <- as.POSIXct(tweets$created3, format="%H:%M:%S")
+minutes <- 60
+
+Topics<-tweets$V1.x
+Time <- tweets$created3
+```
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+ggplot(tweets, aes(Time, color = Topics)) + 
+  geom_freqpoly(binwidth=60*minutes)
+
+# For a more general trend
+ggplot(tweets, aes(Time)) + 
+  geom_freqpoly(binwidth=60*minutes)
+```
+
+
+## Matching tweets with LL data
+What we are trying to do is to match up locations in the physical LL with the digital LL and then find the most common topic associated with a physical location. Because we do not have *exact* matches, we will try the [fuzzyjoin package](https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf).
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+library(fuzzyjoin)
+library(dplyr)
+pairsdf <- ll %>%
+  geo_inner_join(tweets, unit='km',distance_col="distance") %>%
+  filter(distance <= 0.018288)
+
+# What does this look like on a map?
+
+# mapPointsall <- ggmap(map) + geom_point(aes(x = longitude.x, y = latitude.x), 
+#                                     data=pairsdf, alpha=0.5)
+# mapPointsall
+```
+
+Now I have a data frame with a row of each time a post has occurred in a 30 foot vicinity of an LL object. What I would like to do is figure out the most common topic that is associated with a particular sign. We'll use the idea of 'mode' here with our topics and the *group_by()* function from dplyr as suggested [here](http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r).
+
+As R does not have a built in function for mode, we build one. Code for this available [here](https://www.tutorialspoint.com/r/r_mean_median_mode.htm).
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+# To get the mode
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+# Tell R your topic categories are a number so it can deal with them
+pairsdf$V1.x<- as.numeric(pairsdf$V1.x)
+
+# Now calculate things about the topics per sign
+topicmode <- pairsdf%>%
+group_by(SIGN_ID)%>% 
+summarise(Mode = getmode(V1.x))
+```
+
+Let's now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+topicsigns <- inner_join(ll, topicmode, by = "SIGN_ID")
+```
+
+This is kind of messy, so let's subset the data frame to just have the things we are interested in. Help from [here](https://www.r-bloggers.com/taking-a-subset-of-a-data-frame-in-r/).
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+topicsigns <- topicsigns[,c("SIGN_ID","latitude","longitude","LOCATION","LANGUAGE","COMMUNICATIVE_ROLE","MATERIALITY","CONTEXT_FRAME","YELP","CLOSED","Mode")]    # get all rows, only relevant columns
+
+# Rename columns so they make more sense (help from here: http://stackoverflow.com/questions/21502465/replacement-for-rename-in-dplyr/26146202#26146202)
+topicsigns <- rename(topicsigns, Topic = Mode)
+```
+
+## GAMs!
+
+Now onto statistics. We want to see what has the most influence on language displayed in a sign. Let's use a generalized additive model.
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+library(mgcv)
+# Let's visualize our LL data
+# We want to change the order on the plot so it's easier to look at (help from http://stackoverflow.com/questions/12774210/how-do-you-specifically-order-ggplot2-x-axis-instead-of-alphabetical-order)
+ll$LANGUAGE <- as.character(ll$LANGUAGE)
+Language <- factor(ll$LANGUAGE, levels=c("English", "Eng_Span",'Equal','Spanish', 'Span_Eng',"Other (Chinese)","Other (Thai)","Other (Tagalog)"))
+
+# Different colors help from http://stackoverflow.com/questions/19778612/change-color-for-two-geom-point-in-ggplot2
+
+# Colorblind palette (help from http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette)
+# cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+# mapPoints <- ggmap(map) + geom_point(aes(x = lon, y = lat,color=Language),data=newdata, alpha = 0.7, size=2) + scale_colour_manual(values=cbPalette)
+
+mapll <- get_map(location = 'Van Ness and 22nd, San Francisco,
+               California', zoom = 15)
+
+
+ll$longitude <- as.numeric(ll$longitude)
+ll$latitude <- as.numeric(ll$latitude)
+
+Longitude <- ll$longitude
+Latitude <- ll$latitude
+
+mapPointsll <- ggmap(mapll) + geom_point(aes(x = Longitude, y = Latitude,color=Language),data=ll, size=1.5) + scale_colour_manual(values = c("Spanish" = "blue", "English" = "magenta", "Eng_Span" = "red", "Span_Eng" = "#339900", "Equal" = "orange", "Other (Chinese)"="purple","Other (Thai)" ="#FFCC00","Other (Tagalog)" = "grey" ))
+```
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+mapPointsll
+```
+
+### Model Selection
+- Generalized Linear Models (Logistic Regression, Multinomial Logistic Regression)
++ Pros: Enable a categorical output
++ Cons: Difficult to capture nonlinear patterns, involves transformation (logit)
++ Cons: Difficult to include coordinates
+- Generalized Additive Model
++ Pros: Relationship between IV and DV not assumed to be linear
++ Pros: Can deal with coordinates with a smooth! Allows the trend of DV to be summarized as a function of more than one IV (latitude and longitude)
++ Pros: Can deal with my weird time distribution with a smooth as well!
+
+#### Results
+
+Let's explore the multinom and see what it can tell us about all of these things
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+# Plotting the data (help on how to manipulate this graph from here: http://r.789695.n4.nabble.com/Ordering-of-stack-in-ggplot-package-ggplot2-td3917159.html)
+
+# Overall counts
+
+dat <- data.frame(table(ll$LOCATION,ll$LANGUAGE))
+dat$Var1 <- factor(dat$Var1, levels = c("Mission", "24th", "Valencia","18th"))
+
+dat$Var2 <- factor(dat$Var2, levels = c("English", "Eng_Span", "Equal","Span_Eng","Spanish","Other (Chinese)","Other (Thai)","Other (Tagalog)"))
+
+names(dat) <- c("Location","Language","Count")
+# levels(dat$Language)
+ggplot(data=dat, aes(x=Location, y=Count, fill=Language)) + geom_bar(stat="identity")
+
+# Now percentages
+please=prop.table(table(ll$LOCATION, ll$LANGUAGE))
+please2 <- data.frame(please)
+please2$Var1 <- factor(please2$Var1, levels = c("Mission", "24th", "Valencia","18th"))
+
+please2$Var2 <- factor(please2$Var2, levels = c("English", "Eng_Span", "Equal","Span_Eng","Spanish","Other (Chinese)","Other (Thai)","Other (Tagalog)"))
+
+names(please2) <- c("Location","Language", "Frequency")
+# Help from http://stackoverflow.com/questions/9563368/create-stacked-percent-barplot-in-r
+library(scales)
+ggplot(please2,aes(x = Location, y = Frequency,fill = Language)) + 
+    geom_bar(position = "fill",stat = "identity") + 
+    scale_y_continuous(labels = percent_format())
+```
+
+##### Multinomial Logistic Regression
+
+The results of this are so ugly -- the p value also has to computed separately. But here is how it is done.
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+library(nnet)
+ll$LANGUAGE <- as.factor(ll$LANGUAGE)
+multi <- multinom(LANGUAGE ~ LOCATION, data=ll)
+summary(multi)
+
+# Get p vals and coefficients
+z <- summary(multi)$coefficients/summary(multi)$standard.errors 
+p <- (1 - pnorm(abs(z), 0, 1)) * 2 
+p
+
+# Get the odds and coefficients
+# exp(coef(multi))
+```
+
+## GAMs!
+
+Let's turn to GAMs to look at LL distributions.
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+gamELL= gam(I(LANGUAGE=="English")~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED,family=binomial, data=ll)
+
+gamSLL= gam(I(LANGUAGE=="Spanish")~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED,family=binomial, data=ll)
+
+gamESLL= gam(I(LANGUAGE=="Eng_Span")~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED,family=binomial, data=ll)
+
+gamSELL= gam(I(LANGUAGE=="Span_Eng")~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED,family=binomial, data=ll)
+
+gamEQLL= gam(I(LANGUAGE=="Equal")~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED,family=binomial, data=ll)
+```
+
+#### GAM diagnostics
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, fig.show='hold'}
+concurvity(gamELL)
+concurvity(gamSLL)
+concurvity(gamESLL)
+concurvity(gamSELL)
+concurvity(gamEQLL)
+gam.check(gamELL)
+gam.check(gamSLL)
+gam.check(gamESLL)
+gam.check(gamSELL)
+gam.check(gamEQLL)
+```
+
+#### GAM results
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+# English
+summary(gamELL)
+# To get odds ratios (commented out for clarity)
+# exp(coef(gamE))
+
+# Spanish
+summary(gamSLL)
+# Odds ratios
+# exp(coef(gamES))
+
+# Mostly English with Some Spanish
+# Spanish
+summary(gamESLL)
+# Odds ratios
+# exp(coef(gamES))
+
+# Mostly Spanish with some English
+summary(gamSELL)
+# Odds ratios
+# exp(coef(gamSE))
+
+# Equal
+summary(gamEQLL)
+# Odds ratios
+# exp(coef(gamEQ))
+```
+
+We can see from these results a lot of information -- what is significant, deviance explained, coefficients, etc. But it is also useful to plot probabilities. 
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+# Plot probabilities? (Adapted from http://myweb.uiowa.edu/pbreheny/publications/visreg.pdf)
+library(visreg)
+# We will just look at those flagged as 'significant'
+# Probability of English by coordinate
+visreg2d(gamELL, "longitude", "latitude", plot.type="image")
+
+# Spanish
+visreg2d(gamSLL, "longitude", "latitude", plot.type="image")
+```
+
+### Combining LL and Instagram Data
+
+Remember to remind R that your 'Mode' is actually a category, not a continuous variable. 
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+topicsigns$YELP <- as.factor(topicsigns$YELP)
+topicsigns$Topic <- as.factor(topicsigns$Topic)
+
+# Subset to get rid of Trademark with has no observations
+topicsigns<-subset(topicsigns, COMMUNICATIVE_ROLE=="Establishment_Name" | COMMUNICATIVE_ROLE =="Establishment_Description"| COMMUNICATIVE_ROLE=="Graffiti"| COMMUNICATIVE_ROLE=="Advertisement"| COMMUNICATIVE_ROLE=="Information"| COMMUNICATIVE_ROLE=="Instructions"| COMMUNICATIVE_ROLE=="Leaflet"| COMMUNICATIVE_ROLE=="Slogan"| COMMUNICATIVE_ROLE=="Street_Signs")
+
+# On to the first GAM!
+# We have adjusted k to 40.
+# English
+gamE= gam(I(LANGUAGE=="English")~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + Topic,family=binomial, data=topicsigns)
+
+# Spanish
+gamS= gam(I(LANGUAGE=="Spanish")~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + Topic,family=binomial, data=topicsigns)
+
+# Mostly English with some Spanish
+gamES = gam(I(LANGUAGE=="Eng_Span")~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + Topic,family=binomial, data=topicsigns)
+
+# Mostly Spanish with some English
+gamSE = gam(I(LANGUAGE=="Span_Eng")~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + Topic,family=binomial, data=topicsigns)
+
+# Equal
+gamEQ = gam(I(LANGUAGE=="Equal")~s(latitude,longitude, k=60) + YELP + COMMUNICATIVE_ROLE + MATERIALITY + CONTEXT_FRAME + CLOSED + Topic,family=binomial, data=topicsigns)
+```
+
+### Model checking
+It's also time to check for concurvity, to see if ["a smooth term in [my] model could be approximated by one or more of the other smooth terms in the model"](https://stat.ethz.ch/R-manual/R-devel/library/mgcv/html/concurvity.html). I think I am potentially at risk for this perhaps as "this is often the case when a smooth of space is included in a model, along with smooths of other covariates that also vary more or less smoothly in space".
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+concurvity(gamE)
+concurvity(gamS)
+concurvity(gamES)
+concurvity(gamSE)
+concurvity(gamEQ)
+```
+
+Concurvity measures suggest that my smooths are okay -- they are all pretty far away from 1. 
+
+Now onto gam.check to look at more diagnostics. There is an issue here where the k-index is less than 1 for these models, but this doesn't get solved until k is up to around 300 or so, which would not be the best solution (would make the model prone to over-fitting!). So, while these suggest k is too low, I keep k as is to not over fit the model.
+
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, fig.show='hold'}
+gam.check(gamE)
+gam.check(gamS)
+gam.check(gamES)
+gam.check(gamSE)
+gam.check(gamEQ)
+```
+
+## Results
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+# English
+summary(gamE)
+# To get odds ratios (commented out for clarity)
+# exp(coef(gamE))
+
+# Spanish
+summary(gamS)
+# Odds ratios
+# exp(coef(gamES))
+
+# Mostly English with Some Spanish
+# Spanish
+summary(gamES)
+# Odds ratios
+# exp(coef(gamES))
+
+# Mostly Spanish with some English
+summary(gamSE)
+# Odds ratios
+# exp(coef(gamSE))
+
+# Equal
+summary(gamEQ)
+# Odds ratios
+# exp(coef(gamEQ))
+```
+
+We can see from these results a lot of information -- what is significant, deviance explained, coefficients, etc. But it is also useful to plot probabilities. 
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+# Plot probabilities? (Adapted from http://myweb.uiowa.edu/pbreheny/publications/visreg.pdf)
+library(visreg)
+# We will just look at those flagged as 'significant'
+# Probability of English by coordinate
+visreg2d(gamE, "longitude", "latitude", plot.type="image")
+
+# Spanish
+visreg2d(gamS, "longitude", "latitude", plot.type="image")
+```
+
+## GAMs for Instagram only
+Let's look at GAMs within our social media data set. 
+```{r, echo=TRUE, warning=FALSE, error=FALSE, message=FALSE, fig.show='hold'}
+emogam <- gam(I(emogrepl=="TRUE")~s(latitude,longitude, k=60) + V1.x, family=binomial,data=tweets)
+concurvity(emogam)
+# Concurvity seems ok
+gam.check(emogam)
+# Same issue with gam.check but will keep k on the lower side to avoid over fitting
+
+# Results!
+summary(emogam)
+
+# Now Sparkles emoji
+sparky <- grepl(paste(" SPARKLES "), tweets$text)
+sparkyDF<-as.data.frame(sparky)
+tweets$id <- 1:nrow(tweets)
+sparkyDF$id <- 1:nrow(sparkyDF)
+tweets <- merge(tweets,sparkyDF,by="id")
+
+sparkygam <- gam(I(sparky=="TRUE")~s(latitude,longitude, k=60) + V1.x, family=binomial, data=tweets)
+concurvity(sparkygam)
+gam.check(sparkygam)
+summary(sparkygam)
+```
