@@ -95,7 +95,7 @@
     <div class="col-lg-8">
       <div class="content-column-content">
          <h1>Emoji Dictionary</h1>
-         <p>If you are working with social media data, it is very likely you’ll run into emojis. Because of their encoding, however, they can be tricky to deal with. Fortunately, <a href="http://opiateforthemass.es/articles/emoticons-in-R/">Jessica Peterka-Bonetta’s work</a> introduced the idea of an emoji dictionary which has the prose name of an emoji matched up to its R encoding and unicode codepoint. This list, however, does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis. Good news though – I made <a href="https://github.com/lyons7/emojidictionary">my own</a> emoji dictionary that has all 2,204 of them! I also have included the number of each emoji as listed in the <a href="http://unicode.org/emoji/charts/emoji-list.html">Unicode Emoji List</a> v. 5.0.</p>
+         <p>If you are working with social media data, it is very likely you’ll run into emojis. Because of their encoding, however, they can be tricky to deal with. Fortunately, <a href="http://opiateforthemass.es/articles/emoticons-in-R/">Jessica Peterka-Bonetta’s work</a> introduced the idea of an emoji dictionary which has the prose name of an emoji matched up to its R encoding and unicode codepoint. This list, however, does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis. Good news though – I made <a href="https://github.com/lyons7/emojidictionary">my own emoji dictionary</a> that has all 2,204 of them! I also have included the number of each emoji as listed in the <a href="http://unicode.org/emoji/charts/emoji-list.html">Unicode Emoji List v. 5.0</a>.</p>
 <p><strong>If you use this emoji dictionary for your own research, please make sure to acknowledge both myself and Jessica.</strong></p>
 <p>This dictionary is available as a CSV file on my <a href="https://github.com/lyons7/emojidictionary">github page</a>. The prose emoji name in the CSV file conveniently has spaces on each side of the emoji name (e.g. &quot; FACEWITHTEARSOFJOY “) so if emojis are right next to other words they won’t be smushed together. Emoji names themselves have no spaces if the name of the emoji is longer than one word. I did this to make text analyses such as sentiment analysis and topic modeling possible without endangering the integrity of the emoji classification. (As we don’t want stop words that are part of emoji names to be deleted!)</p>
 <p>Here is how to use this dictionary for emoji identification in R. There are a few formatting steps and a tricky find-and-replace producedure that requires another R package, but once you have the dictionary loaded and the text in the right format you will be ready to go!</p>
@@ -109,14 +109,13 @@ emoticons &lt;- read.csv(&quot;Decoded Emojis Col Sep.csv&quot;, header = T)</co
                     sub = &quot;byte&quot;)</code></pre>
 </div>
 <div id="processing-the-data-1" class="section level2">
-<h2>Processing the data</h2>
 <p>To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the <a href="http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace">DataCombine package</a>. What this does is identifies emojis in posts and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post. You can also cross-check the name listed on the dictionary and the number of the emoji entry in the <a href="http://unicode.org/emoji/charts/full-emoji-list.html#1f918">Unicode Emoji List</a>.</p>
 <pre class="r"><code>library(DataCombine)
 tweets &lt;- FindReplace(data = tweets, Var = &quot;text&quot;, 
                       replaceData = emoticons,
                       from = &quot;R_Encoding&quot;, to = &quot;Name&quot;, 
                       exact = FALSE)</code></pre>
-<p>You now have a data frame with emojis in prose form. You can do fun things like <a href="https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/">make maps with emojis</a> (if you have geotag information) or note which are the most frequent emojis and <a href="https://github.com/dill/emoGG">plot them</a> – there are possibilities galore! Have fun 😄</p>
+<p>You now have a data frame with emojis in prose form. You can do fun things like <a href="https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/">make maps with emojis</a> (if you have geotag information) or note which are the most frequent emojis and <a href="https://github.com/dill/emoGG">plot them</a> etc. etc. – there are possibilities galore! Have fun 😄</p>
 </div>
 
          
