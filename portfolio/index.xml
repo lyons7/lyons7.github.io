@@ -7,8 +7,98 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2017 Kate Lyons</copyright>
-    <lastBuildDate>Thu, 23 Jul 2015 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Sun, 12 Mar 2017 21:13:14 -0500</lastBuildDate>
     <atom:link href="/portfolio/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Emoji Dictionary</title>
+      <link>/portfolio/2017-10-04-emoji-dictionary/</link>
+      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-10-04-emoji-dictionary/</guid>
+      <description>&lt;p&gt;If you are working with social media data, it is very likely you’ll run into emojis. Because of their encoding, however, they can be tricky to deal with. Fortunately, &lt;a href=&#34;http://opiateforthemass.es/articles/emoticons-in-R/&#34;&gt;Jessica Peterka-Bonetta’s work&lt;/a&gt; introduced the idea of an emoji dictionary which has the prose name of an emoji matched up to its R encoding and unicode codepoint. This list, however, does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis. Good news though – I made &lt;a href=&#34;https://github.com/lyons7/emojidictionary&#34;&gt;my own&lt;/a&gt; emoji dictionary that has all 2,204 of them! I also have included the number of each emoji as listed in the &lt;a href=&#34;http://unicode.org/emoji/charts/emoji-list.html&#34;&gt;Unicode Emoji List&lt;/a&gt; v. 5.0.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If you use this emoji dictionary for your own research, please make sure to acknowledge both myself and Jessica.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This dictionary is available as a CSV file on my &lt;a href=&#34;https://github.com/lyons7/emojidictionary&#34;&gt;github page&lt;/a&gt;. The prose emoji name in the CSV file conveniently has spaces on each side of the emoji name (e.g. &amp;quot; FACEWITHTEARSOFJOY “) so if emojis are right next to other words they won’t be smushed together. Emoji names themselves have no spaces if the name of the emoji is longer than one word. I did this to make text analyses such as sentiment analysis and topic modeling possible without endangering the integrity of the emoji classification. (As we don’t want stop words that are part of emoji names to be deleted!)&lt;/p&gt;
+&lt;p&gt;Here is how to use this dictionary for emoji identification in R. There are a few formatting steps and a tricky find-and-replace producedure that requires another R package, but once you have the dictionary loaded and the text in the right format you will be ready to go!&lt;/p&gt;
+&lt;div id=&#34;processing-the-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Processing the data&lt;/h2&gt;
+&lt;p&gt;Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets=read.csv(&amp;quot;Col_Sep_INSTACORPUS.csv&amp;quot;, header=T)
+emoticons &amp;lt;- read.csv(&amp;quot;Decoded Emojis Col Sep.csv&amp;quot;, header = T)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To transform the emojis, you first need to transform your tweet data into ASCII:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets$text &amp;lt;- iconv(tweets$text, from = &amp;quot;latin1&amp;quot;, to = &amp;quot;ascii&amp;quot;, 
+                    sub = &amp;quot;byte&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;processing-the-data-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Processing the data&lt;/h2&gt;
+&lt;p&gt;To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the &lt;a href=&#34;http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace&#34;&gt;DataCombine package&lt;/a&gt;. What this does is identifies emojis in posts and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post. You can also cross-check the name listed on the dictionary and the number of the emoji entry in the &lt;a href=&#34;http://unicode.org/emoji/charts/full-emoji-list.html#1f918&#34;&gt;Unicode Emoji List&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(DataCombine)
+tweets &amp;lt;- FindReplace(data = tweets, Var = &amp;quot;text&amp;quot;, 
+                      replaceData = emoticons,
+                      from = &amp;quot;R_Encoding&amp;quot;, to = &amp;quot;Name&amp;quot;, 
+                      exact = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You now have a data frame with emojis in prose form. You can do fun things like &lt;a href=&#34;https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/&#34;&gt;make maps with emojis&lt;/a&gt; (if you have geotag information) or note which are the most frequent emojis and &lt;a href=&#34;https://github.com/dill/emoGG&#34;&gt;plot them&lt;/a&gt; – there are possibilities galore! Have fun 😄&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Collating Spatial Data </title>
+      <link>/portfolio/2017-03-14-collate/</link>
+      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-03-14-collate/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
+
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I’ve recorded and see the most common topic that is present ‘around’ that sign. This has two issues: 1) the coordinates of public signs and tweets are &lt;em&gt;not&lt;/em&gt; going to be the exact same and 2) there are way more tweets than public signs in the area I’m looking at, so I can’t just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and &lt;em&gt;then&lt;/em&gt; find the topic that has most frequently occured in those tweets associated with that location.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-solution&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The Solution&lt;/h2&gt;
+&lt;p&gt;Luckily, there is a way to do this with packages like &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin&lt;/a&gt; and &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/dplyr.pdf&#34;&gt;dplyr&lt;/a&gt;!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
+          &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
+          &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;)
+lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;matching-tweets-with-physical-sign-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Matching tweets with physical sign data&lt;/h2&gt;
+&lt;p&gt;What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have &lt;em&gt;exact&lt;/em&gt; matches, we will use the awesome &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(fuzzyjoin)
+library(dplyr)
+pairsdf &amp;lt;- ll %&amp;gt;%
+  geo_inner_join(tweets, unit=&amp;#39;km&amp;#39;,distance_col=&amp;quot;distance&amp;quot;) %&amp;gt;%
+  filter(distance &amp;lt;= 0.018288)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Joining by: c(&amp;quot;latitude&amp;quot;, &amp;quot;longitude&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I have to use filter here because &amp;#39;max_distance&amp;#39; is not geared to be less than 1 km or 1 mi
+# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
+# to filter afterwards...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you’d like to look at smaller radii, just put in whatever fraction of a kilometer in the ‘distance’ parameter that you are interested in.&lt;/p&gt;
+&lt;p&gt;Now what I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the &lt;strong&gt;group_by()&lt;/strong&gt; function from dplyr as suggested &lt;a href=&#34;http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As R does not have a built in function for mode, we build one. Code for this available &lt;a href=&#34;https://www.tutorialspoint.com/r/r_mean_median_mode.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get the mode
+getmode &amp;lt;- function(v) {
+   uniqv &amp;lt;- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+# Tell R your topic categories are a number so it can deal with them
+pairsdf$V1&amp;lt;- as.numeric(pairsdf$V1)
+
+# Now calculate things about the topics per sign
+topicmode &amp;lt;- pairsdf%&amp;gt;%
+group_by(SIGN_ID)%&amp;gt;% 
+summarise(Mode = getmode(V1))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns &amp;lt;- inner_join(ll, topicmode, by = &amp;quot;SIGN_ID&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Maps! Maps! Maps!</title>
@@ -40,239 +130,6 @@ ggmap(map)&lt;/code&gt;&lt;/pre&gt;
   fill = &amp;quot;Value (Dollars)&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-14-maps_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;In essence, think of the ggmap as a base which you can build on. As long as you have coordinates, you are able to plot things on top of a ggmap, even &lt;a href=&#34;https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/&#34;&gt;series of data&lt;/a&gt;!&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Adventures in Text Mining</title>
-      <link>/portfolio/2017-03-15-text-mining/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
-      
-      <guid>/portfolio/2017-03-15-text-mining/</guid>
-      <description>&lt;p&gt;There are many wonderful tutorials on how to &lt;a href=&#34;https://blogs.sap.com/2014/03/16/setting-up-twitter-api-to-work-with-r/&#34;&gt;work with Twitter REST APIs&lt;/a&gt; (even a video walk-through &lt;a href=&#34;https://www.youtube.com/watch?v=lT4Kosc_ers&#34;&gt;here&lt;/a&gt;) so I won’t describe that process. Instead, I will show some examples of using the &lt;a href=&#34;https://cran.r-project.org/web/packages/twitteR/twitteR.pdf&#34;&gt;twitteR&lt;/a&gt; and related packages to look at geotagged posts occurring within a specific neighborhood (i.e. how to use the &lt;strong&gt;searchTwitter()&lt;/strong&gt; function in twitteR to search by &lt;em&gt;location&lt;/em&gt;, not specific search term). I will also be using methods described in Julia Silge and David Robinson’s &lt;a href=&#34;http://tidytextmining.com/&#34;&gt;new book&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;twitteR&amp;quot;,&amp;quot;RCurl&amp;quot;,&amp;quot;RJSONIO&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
-          &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
-          &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;)
-lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# key = &amp;quot;YOUR KEY HERE&amp;quot;
-# secret = &amp;quot;YOUR SECRET HERE&amp;quot;
-
-# tok = &amp;quot;YOUR TOK HERE&amp;quot;
-# tok_sec = &amp;quot;YOUR TOK_SEC HERE&amp;quot;
-
-twitter_oauth &amp;lt;- setup_twitter_oauth(key, secret, tok, tok_sec)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;I’m interested in the Mission District neighborhood in San Francisco, California. I obtain a set of coordinates using Google maps and plug that into the ‘geocode’ parameter and then set a radius of 1 kilometer. I know from experience that I only get around 1,000 - 2,000 posts per time I do this, so I set the number of tweets (n) I would like to get from Twitter at ‘7,000’. If you are looking at a more ‘active’ area, or a larger area (more about this later) you can always adjust this number. The API will give you a combination of the most &lt;a href=&#34;https://dev.twitter.com/rest/public/search&#34;&gt;“recent or popular” tweets&lt;/a&gt; that usually extend back about 5 days or so. If you are looking at a smaller area, this means to get any kind of decent tweet corpus you’ll have to spent some time collecting data week after week. Also if you want to look at a larger area than a 3-4 kilometer radius, a lot of times you’ll get a bunch of spam-like posts that don’t have latitude and longitude coordinates associated with them. A work around I thought of (for another project looking at posts in an entire city) is to figure out a series of spots to collect tweets (trying to avoid overlap as much as possible) and stiching those data frames all together and getting rid of any duplicate posts you picked up if your radii overlapped.&lt;/p&gt;
-&lt;p&gt;Luckily for the Mission District, however, we are interested in a smaller area and don’t have to worry about multiple sampling points and rbind’ing data frames together, and just run the searchTwitter function once:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geo &amp;lt;- searchTwitter(&amp;#39;&amp;#39;,n=7000, geocode=&amp;#39;37.76,-122.42,1km&amp;#39;,
-                     retryOnRateLimit=1)&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;processing-the-data&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Processing the data&lt;/h4&gt;
-&lt;p&gt;Now you have a list of tweets. Lists are very difficult to deal with in R, so you convert this into a data frame:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geoDF&amp;lt;-twListToDF(geo)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Chances are there will be emojis in your Twitter data. You can ‘transform’ these emojis into prose using this code as well as a &lt;a href=&#34;https://github.com/lyons7/emojidictionary&#34;&gt;CSV file&lt;/a&gt; I’ve put together of what all of the emojis look like in R. (The idea for this comes from &lt;a href=&#34;http://opiateforthemass.es/articles/emoticons-in-R/&#34;&gt;Jessica Peterka-Bonetta’s work&lt;/a&gt; – she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.&lt;/p&gt;
-&lt;p&gt;Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;emoticons &amp;lt;- read.csv(&amp;quot;Decoded Emojis Col Sep.csv&amp;quot;, header = T)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;To transform the emojis, you first need to transform the tweet data into ASCII:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geoDF$text &amp;lt;- iconv(geoDF$text, from = &amp;quot;latin1&amp;quot;, to = &amp;quot;ascii&amp;quot;, 
-                    sub = &amp;quot;byte&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the &lt;a href=&#34;http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace&#34;&gt;DataCombine package&lt;/a&gt;. What this does is identifies emojis in the tweets and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- FindReplace(data = geoDF, Var = &amp;quot;text&amp;quot;, 
-                            replaceData = emoticons,
-                       from = &amp;quot;R_Encoding&amp;quot;, to = &amp;quot;Name&amp;quot;, 
-                       exact = FALSE)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now might be a good time to save this file, perhaps in CSV format with the date of when the data was collected:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# write.csv(data,file=paste(&amp;quot;ALL&amp;quot;,Sys.Date(),&amp;quot;.csv&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;visualizing-the-data&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Visualizing the data&lt;/h4&gt;
-&lt;p&gt;Now let’s play around with visualizing the data. I want to superimpose different aspects of the tweets I collected on a map. First I have to get a map, which I do using the &lt;a href=&#34;https://cran.r-project.org/web/packages/ggmap/ggmap.pdf&#34;&gt;ggmap package&lt;/a&gt; which interacts with Google Map’s API. When you use this package, be sure to cite it, as it requests you to when you first load the package into your library. (Well, really you should cite every R package you use, right?)&lt;/p&gt;
-&lt;p&gt;I request a map of the Mission District, and then check to make sure the map is what I want (in terms of zoom, area covered, etc.)&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;map &amp;lt;- get_map(location = &amp;#39;Capp St. and 20th, San Francisco,
-               California&amp;#39;, zoom = 15)
-# To check out the map
-ggmap(map)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt; Looks good to me! Now let’s start to visualize our Twitter data. We can start by seeing where our posts are on a map.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Tell R what we want to map
-# Need to specify that lat/lon should be treated like numbers
-data$longitude&amp;lt;-as.numeric(data$longitude)
-data$latitude&amp;lt;-as.numeric(data$latitude)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;For now I just want to look at latitude and longitude, but it is possible to map other aspects as well - it just depends on what you’d like to look at.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Mission_tweets &amp;lt;- ggmap(map) + geom_point(aes(x=longitude, y=latitude), 
-                               data=data, alpha=0.5)
-
-Mission_tweets&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;We can also look at WHEN the posts were generated. We can make a graph of post frequency over time.Graphs constructed with help from &lt;a href=&#34;http://www.cyclismo.org/tutorial/R/time.html&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;https://gist.github.com/stephenturner/3132596&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://stackoverflow.com/questions/27626915/r-graph-frequency-of-observations-over-time-with-small-value-range&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://michaelbommarito.com/2011/03/12/a-quick-look-at-march11-saudi-tweets/&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://stackoverflow.com/questions/31796744/plot-count-frequency-of-tweets-for-word-by-month&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;https://stat.ethz.ch/R-manual/R-devel/library/base/html/as.POSIXlt.html&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://sape.inf.usi.ch/quick-reference/ggplot2/geom&#34;&gt;here&lt;/a&gt; and &lt;a href=&#34;http://stackoverflow.com/questions/3541713/how-to-plot-two-histograms-together-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Create a data frame with number of tweets per time
-d &amp;lt;- as.data.frame(table(data$created))
-d &amp;lt;- d[order(d$Freq, decreasing=T), ]
-names(d) &amp;lt;- c(&amp;quot;created&amp;quot;,&amp;quot;freq&amp;quot;)
-# Combine this with existing data frame
-newdata1 &amp;lt;- merge(data,d,by=&amp;quot;created&amp;quot;)
-# Tell R that &amp;#39;created&amp;#39; is not an integer or factor but a time.
-data$created &amp;lt;- as.POSIXct(data$created)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now plot number of tweets over period of time across 20 minute intervals:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;minutes &amp;lt;- 60
-Freq&amp;lt;-data$freq
-plot1&amp;lt;-ggplot(data, aes(created)) + geom_freqpoly(binwidth=60*minutes)
-plot1&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt; This might be more informative if you want to look at specific time periods. We can look at the frequency of posts over the course of a specific day if we want.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data2 &amp;lt;- data[data$created &amp;lt;= &amp;quot;2017-03-11 00:31:00&amp;quot;, ]
-minutes &amp;lt;- 60
-Freq&amp;lt;-data2$freq
-plot2&amp;lt;-ggplot(data2, aes(created)) + geom_freqpoly(binwidth=60*minutes)
-plot2&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Let’s look at other ways to visualize Twitter data. I will be using a larger corpus of posts I’ve been building up for about a year (as mentioned above, I only get about 1,000 posts per searchTwitter per week so it took some time to get a good corpus going).&lt;/p&gt;
-&lt;p&gt;Some more processessing needs to be completed before looking at things like most frequent terms or what kind of sentiments seem to be expressed in our corpus. All of the following steps to ‘clean’ the data of URLs, odd characters and ‘stop words’ (a.k.a. words like ‘the’ or ‘and’ that aren’t very informative re. what the post is actually discussing) are taken from &lt;a href=&#34;http://tidytextmining.com/sentiment.html#the-sentiments-dataset&#34;&gt;Silge and Robinson&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets=read.csv(&amp;quot;Col_Sep_INSTACORPUS.csv&amp;quot;, header=T)
-# Get rid of stuff particular to the data (here encodings of links
-# and such)
-# Most of these are characters I don&amp;#39;t have encodings for (other scripts, etc.)
-tweets$text = gsub(&amp;quot;Just posted a photo&amp;quot;,&amp;quot;&amp;quot;, tweets$text)
-tweets$text = gsub( &amp;quot;&amp;lt;.*?&amp;gt;&amp;quot;, &amp;quot;&amp;quot;, tweets$text)
-
-# Get rid of super frequent spam-y posters
-tweets &amp;lt;- tweets[! tweets$screenName %in% c(&amp;quot;4AMSOUNDS&amp;quot;,
-      &amp;quot;BruciusTattoo&amp;quot;,&amp;quot;LionsHeartSF&amp;quot;,&amp;quot;hermesalchemist&amp;quot;,&amp;quot;Mrsourmash&amp;quot;),]
-
-# Now for Silge and Robinson&amp;#39;s code. What this is doing is getting rid of 
-# URLs, re-tweets (RT) and ampersands. This also gets rid of stop words 
-# without having to get rid of hashtags and @ signs by using 
-# str_detect and filter! 
-reg &amp;lt;- &amp;quot;([^A-Za-z_\\d#@&amp;#39;]|&amp;#39;(?![A-Za-z_\\d#@]))&amp;quot;
-tidy_tweets &amp;lt;- tweets %&amp;gt;% 
-  filter(!str_detect(text, &amp;quot;^RT&amp;quot;)) %&amp;gt;%
-  mutate(text = str_replace_all(text, &amp;quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;amp;|&amp;amp;lt;|&amp;amp;gt;|RT|https&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
-  unnest_tokens(word, text, token = &amp;quot;regex&amp;quot;, pattern = reg) %&amp;gt;%
-  filter(!word %in% stop_words$word,
-         str_detect(word, &amp;quot;[a-z]&amp;quot;))
-
-# Get rid of stop words by doing an &amp;#39;anti-join&amp;#39; (amazing run-down of what 
-# all the joins do is available here:
-# http://stat545.com/bit001_dplyr-cheatsheet.html#anti_joinsuperheroes-publishers)
-data(stop_words)
-
-tidy_tweets &amp;lt;- tidy_tweets %&amp;gt;%
-  anti_join(stop_words)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now we can look at things like most frequent words and sentiments expressed in our corpus.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Find most common words in corpus
-tidy_tweets %&amp;gt;%
-  count(word, sort = TRUE) &lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 27,441 × 2
-##             word     n
-##            &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
-## 1        mission  3327
-## 2            san  2751
-## 3      francisco  2447
-## 4       district  1871
-## 5  #sanfrancisco  1175
-## 6           park  1060
-## 7        dolores  1045
-## 8             sf  1031
-## 9            #sf   696
-## 10           day   597
-## # ... with 27,431 more rows&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Plot most common words:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tidy_tweets %&amp;gt;%
-  count(word, sort = TRUE) %&amp;gt;%
-  filter(n &amp;gt; 150) %&amp;gt;%
-  mutate(word = reorder(word, n)) %&amp;gt;%
-  ggplot(aes(word, n)) +
-  geom_bar(stat = &amp;quot;identity&amp;quot;) +
-  xlab(NULL) +
-  coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;What about different sentiments?&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# What are the most common &amp;#39;joy&amp;#39; words?
-nrcjoy &amp;lt;- sentiments %&amp;gt;% 
-  filter(lexicon == &amp;quot;nrc&amp;quot;) %&amp;gt;%
-  filter(sentiment == &amp;quot;joy&amp;quot;)
-
-tidy_tweets %&amp;gt;%
-  semi_join(nrcjoy) %&amp;gt;%
-  count(word, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 355 × 2
-##         word     n
-##        &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
-## 1       love   466
-## 2      happy   402
-## 3        art   266
-## 4   birthday   205
-## 5   favorite   194
-## 6  beautiful   179
-## 7        fun   173
-## 8       food   139
-## 9      music   126
-## 10 chocolate   105
-## # ... with 345 more rows&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# What are the most common &amp;#39;disgust&amp;#39; words?
-nrcdisgust &amp;lt;- sentiments %&amp;gt;% 
-  filter(lexicon == &amp;quot;nrc&amp;quot;) %&amp;gt;%
-  filter(sentiment == &amp;quot;disgust&amp;quot;)
-
-tidy_tweets %&amp;gt;%
-  semi_join(nrcdisgust) %&amp;gt;%
-  count(word, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 217 × 2
-##       word     n
-##      &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
-## 1  finally   100
-## 2  feeling    55
-## 3     gray    50
-## 4     tree    50
-## 5  hanging    44
-## 6      bad    43
-## 7      boy    40
-## 8     shit    36
-## 9    lemon    29
-## 10   treat    28
-## # ... with 207 more rows&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We can also look at counts of negative and positive words
-bingsenti &amp;lt;- sentiments %&amp;gt;%
-  filter(lexicon ==&amp;quot;bing&amp;quot;)
-
-bing_word_counts &amp;lt;- tidy_tweets %&amp;gt;%
-  inner_join(bingsenti) %&amp;gt;%
-  count(word, sentiment, sort = TRUE) %&amp;gt;%
-  ungroup()
-
-# And graph them!
-bing_word_counts %&amp;gt;%
-  filter(n &amp;gt; 25) %&amp;gt;%
-  mutate(n = ifelse(sentiment == &amp;quot;negative&amp;quot;, -n, n)) %&amp;gt;%
-  mutate(word = reorder(word, n)) %&amp;gt;%
-  ggplot(aes(word, n, fill = sentiment)) +
-  geom_bar(alpha = 0.8, stat = &amp;quot;identity&amp;quot;) +
-  labs(y = &amp;quot;Contribution to sentiment&amp;quot;,
-       x = NULL) +
-  coord_flip()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-19-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;We can also make pretty word clouds! Code for this taken from &lt;a href=&#34;https://rstudio-pubs-static.s3.amazonaws.com/132792_864e3813b0ec47cb95c7e1e2e2ad83e7.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# First have to make a document term matrix, which involves a few steps
-tidy_tweets %&amp;gt;%
-  count(document, word, sort=TRUE)
-
-tweet_words &amp;lt;- tidy_tweets %&amp;gt;%  
-  count(document, word) %&amp;gt;%
-  ungroup()
-
-total_words &amp;lt;- tweet_words %&amp;gt;% 
-  group_by(document) %&amp;gt;% 
-  summarize(total = sum(n))
-
-post_words &amp;lt;- left_join(tweet_words, total_words)
-
-dtm &amp;lt;- post_words %&amp;gt;% 
-  cast_dtm(document, word, n)
-
-# Need freq count for word cloud to work
-freq = data.frame(sort(colSums(as.matrix(dtm)), decreasing=TRUE))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;wordcloud(rownames(freq), freq[,1], max.words=70, 
-          colors=brewer.pal(1, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-21-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;If you are interested in delving even deeper, you can try techniques like topic modeling, a process I describe and demonstrate &lt;a href=&#34;https://lyons7.github.io/portfolio/2017-03-09-fun-w-tidy-text/&#34;&gt;here&lt;/a&gt;!&lt;/p&gt;
-&lt;/div&gt;
 </description>
     </item>
     
@@ -548,59 +405,281 @@ lda_top_terms2 %&amp;gt;%
     </item>
     
     <item>
-      <title>Collating Spatial Data </title>
-      <link>/portfolio/2017-03-14-collate/</link>
+      <title>Building A Website</title>
+      <link>/portfolio/2017-03-12-build-website/</link>
       <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
       
-      <guid>/portfolio/2017-03-14-collate/</guid>
+      <guid>/portfolio/2017-03-12-build-website/</guid>
       <description>&lt;!-- BLOGDOWN-HEAD --&gt;
 &lt;!-- /BLOGDOWN-HEAD --&gt;
 
 &lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
 &lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
-&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The Problem&lt;/h2&gt;
-&lt;p&gt;I have one data set of around 1,000 observations of public signs with latitude and longitude coordinates and another data set of around 15,000 tweets that have gone through topic modeling and have topics assigned to them. What I would like to do is link up tweets that have happened close by to the signs I’ve recorded and see the most common topic that is present ‘around’ that sign. This has two issues: 1) the coordinates of public signs and tweets are &lt;em&gt;not&lt;/em&gt; going to be the exact same and 2) there are way more tweets than public signs in the area I’m looking at, so I can’t just merge these two together. I have to figure out a way to look at all the tweets that have occurred near a sign and &lt;em&gt;then&lt;/em&gt; find the topic that has most frequently occured in those tweets associated with that location.&lt;/p&gt;
+&lt;p&gt;This website was constructed using GitHub, the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown package&lt;/a&gt; for R and Hugo. I got started with &lt;a href=&#34;https://proquestionasker.github.io/blog/Making_Site/&#34;&gt;Amber Thomas’s amazing tutorial&lt;/a&gt; and got some further help from &lt;a href=&#34;http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/&#34;&gt;Robert Myles McDonnell&lt;/a&gt; and more help from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;here&lt;/a&gt;. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.&lt;/p&gt;
+&lt;div id=&#34;kates-approach&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Kate’s Approach&lt;/h4&gt;
+&lt;p&gt;Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.&lt;/p&gt;
+&lt;p&gt;First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.&lt;/p&gt;
+&lt;p&gt;Go back to your computer. (I’m working with a Mac).&lt;/p&gt;
+&lt;p&gt;Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, &lt;strong&gt;serve_site()&lt;/strong&gt; and &lt;strong&gt;STOP&lt;/strong&gt; R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I &lt;strong&gt;serve_site()&lt;/strong&gt; or &lt;strong&gt;new_site()&lt;/strong&gt; in R Studio the “&amp;gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.&lt;/p&gt;
+&lt;p&gt;Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;this link&lt;/a&gt; mentioned above and did the following in terminal:&lt;/p&gt;
+&lt;p&gt;Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am &lt;em&gt;pretty&lt;/em&gt; sure that is what this command does)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rm -r public/&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And NOW you are going to link up to your online GitHub.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git init
+
+$ git remote add origin git@github.com:USERNAME/HUGO.git
+
+$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(I get asked for a password here I set up for my .ssh/id_rsa here)&lt;/p&gt;
+&lt;p&gt;Then:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;#39;initial commit&amp;#39;
+
+$ git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Get asked again for password)&lt;/p&gt;
+&lt;p&gt;Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I &lt;strong&gt;serve_site()&lt;/strong&gt; in R, &lt;strong&gt;STOP&lt;/strong&gt; it again and return to terminal. I then followed the commands listed on Robert’s tutorial.&lt;/p&gt;
+&lt;p&gt;Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git add -A
+
+$ git commit -m &amp;#39;lovely new site&amp;#39;
+
+$ git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Again I get asked for my password)&lt;/p&gt;
+&lt;p&gt;Then go to your username.github.io site. It &lt;em&gt;should&lt;/em&gt; be there! Now when you make changes it’s the same process: do your thing in R studio, &lt;strong&gt;serve_site()&lt;/strong&gt; and then &lt;strong&gt;STOP&lt;/strong&gt; and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;the-solution&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The Solution&lt;/h2&gt;
-&lt;p&gt;Luckily, there is a way to do this with packages like &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin&lt;/a&gt; and &lt;a href=&#34;https://cran.r-project.org/web/packages/dplyr/dplyr.pdf&#34;&gt;dplyr&lt;/a&gt;!&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
+</description>
+    </item>
+    
+    <item>
+      <title>Adventures in Text Mining</title>
+      <link>/portfolio/2017-03-15-text-mining/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-03-15-text-mining/</guid>
+      <description>&lt;p&gt;There are many wonderful tutorials on how to &lt;a href=&#34;https://blogs.sap.com/2014/03/16/setting-up-twitter-api-to-work-with-r/&#34;&gt;work with Twitter REST APIs&lt;/a&gt; (even a video walk-through &lt;a href=&#34;https://www.youtube.com/watch?v=lT4Kosc_ers&#34;&gt;here&lt;/a&gt;) so I won’t describe that process. Instead, I will show some examples of using the &lt;a href=&#34;https://cran.r-project.org/web/packages/twitteR/twitteR.pdf&#34;&gt;twitteR&lt;/a&gt; and related packages to look at geotagged posts occurring within a specific neighborhood (i.e. how to use the &lt;strong&gt;searchTwitter()&lt;/strong&gt; function in twitteR to search by &lt;em&gt;location&lt;/em&gt;, not specific search term). I will also be using methods described in Julia Silge and David Robinson’s &lt;a href=&#34;http://tidytextmining.com/&#34;&gt;new book&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;twitteR&amp;quot;,&amp;quot;RCurl&amp;quot;,&amp;quot;RJSONIO&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,
           &amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,
           &amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;xlsx&amp;quot;)
 lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# key = &amp;quot;YOUR KEY HERE&amp;quot;
+# secret = &amp;quot;YOUR SECRET HERE&amp;quot;
+
+# tok = &amp;quot;YOUR TOK HERE&amp;quot;
+# tok_sec = &amp;quot;YOUR TOK_SEC HERE&amp;quot;
+
+twitter_oauth &amp;lt;- setup_twitter_oauth(key, secret, tok, tok_sec)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I’m interested in the Mission District neighborhood in San Francisco, California. I obtain a set of coordinates using Google maps and plug that into the ‘geocode’ parameter and then set a radius of 1 kilometer. I know from experience that I only get around 1,000 - 2,000 posts per time I do this, so I set the number of tweets (n) I would like to get from Twitter at ‘7,000’. If you are looking at a more ‘active’ area, or a larger area (more about this later) you can always adjust this number. The API will give you a combination of the most &lt;a href=&#34;https://dev.twitter.com/rest/public/search&#34;&gt;“recent or popular” tweets&lt;/a&gt; that usually extend back about 5 days or so. If you are looking at a smaller area, this means to get any kind of decent tweet corpus you’ll have to spent some time collecting data week after week. Also if you want to look at a larger area than a 3-4 kilometer radius, a lot of times you’ll get a bunch of spam-like posts that don’t have latitude and longitude coordinates associated with them. A work around I thought of (for another project looking at posts in an entire city) is to figure out a series of spots to collect tweets (trying to avoid overlap as much as possible) and stiching those data frames all together and getting rid of any duplicate posts you picked up if your radii overlapped.&lt;/p&gt;
+&lt;p&gt;Luckily for the Mission District, however, we are interested in a smaller area and don’t have to worry about multiple sampling points and rbind’ing data frames together, and just run the searchTwitter function once:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geo &amp;lt;- searchTwitter(&amp;#39;&amp;#39;,n=7000, geocode=&amp;#39;37.76,-122.42,1km&amp;#39;,
+                     retryOnRateLimit=1)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;processing-the-data&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Processing the data&lt;/h4&gt;
+&lt;p&gt;Now you have a list of tweets. Lists are very difficult to deal with in R, so you convert this into a data frame:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geoDF&amp;lt;-twListToDF(geo)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Chances are there will be emojis in your Twitter data. You can ‘transform’ these emojis into prose using this code as well as a &lt;a href=&#34;https://github.com/lyons7/emojidictionary&#34;&gt;CSV file&lt;/a&gt; I’ve put together of what all of the emojis look like in R. (The idea for this comes from &lt;a href=&#34;http://opiateforthemass.es/articles/emoticons-in-R/&#34;&gt;Jessica Peterka-Bonetta’s work&lt;/a&gt; – she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.&lt;/p&gt;
+&lt;p&gt;Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;emoticons &amp;lt;- read.csv(&amp;quot;Decoded Emojis Col Sep.csv&amp;quot;, header = T)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To transform the emojis, you first need to transform the tweet data into ASCII:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geoDF$text &amp;lt;- iconv(geoDF$text, from = &amp;quot;latin1&amp;quot;, to = &amp;quot;ascii&amp;quot;, 
+                    sub = &amp;quot;byte&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the &lt;a href=&#34;http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace&#34;&gt;DataCombine package&lt;/a&gt;. What this does is identifies emojis in the tweets and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- FindReplace(data = geoDF, Var = &amp;quot;text&amp;quot;, 
+                            replaceData = emoticons,
+                       from = &amp;quot;R_Encoding&amp;quot;, to = &amp;quot;Name&amp;quot;, 
+                       exact = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now might be a good time to save this file, perhaps in CSV format with the date of when the data was collected:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# write.csv(data,file=paste(&amp;quot;ALL&amp;quot;,Sys.Date(),&amp;quot;.csv&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;matching-tweets-with-physical-sign-data&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Matching tweets with physical sign data&lt;/h2&gt;
-&lt;p&gt;What we are trying to do is to match up locations recorded in the physical realm with the digital. Because we do not have &lt;em&gt;exact&lt;/em&gt; matches, we will use the awesome &lt;a href=&#34;https://cran.r-project.org/web/packages/fuzzyjoin/fuzzyjoin.pdf&#34;&gt;fuzzyjoin package&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(fuzzyjoin)
-library(dplyr)
-pairsdf &amp;lt;- ll %&amp;gt;%
-  geo_inner_join(tweets, unit=&amp;#39;km&amp;#39;,distance_col=&amp;quot;distance&amp;quot;) %&amp;gt;%
-  filter(distance &amp;lt;= 0.018288)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Joining by: c(&amp;quot;latitude&amp;quot;, &amp;quot;longitude&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# I have to use filter here because &amp;#39;max_distance&amp;#39; is not geared to be less than 1 km or 1 mi
-# If you are a weirdo like me looking at things much smaller than a mile or kilometer, you have
-# to filter afterwards...&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Voila! I have a data frame with a row of each time a post has occurred in a 60 foot vicinity of an LL object. This might be a little big, but this ensures we get more tweets associated with signs. If you’d like to look at smaller radii, just put in whatever fraction of a kilometer in the ‘distance’ parameter that you are interested in.&lt;/p&gt;
-&lt;p&gt;Now what I would like to do is figure out the most common topic that is associated with a particular sign. We’ll use the idea of ‘mode’ here with our topics and the &lt;strong&gt;group_by()&lt;/strong&gt; function from dplyr as suggested &lt;a href=&#34;http://stackoverflow.com/questions/25198442/how-to-calculate-mean-median-per-group-in-a-dataframe-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;As R does not have a built in function for mode, we build one. Code for this available &lt;a href=&#34;https://www.tutorialspoint.com/r/r_mean_median_mode.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To get the mode
-getmode &amp;lt;- function(v) {
-   uniqv &amp;lt;- unique(v)
-   uniqv[which.max(tabulate(match(v, uniqv)))]
-}
+&lt;div id=&#34;visualizing-the-data&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Visualizing the data&lt;/h4&gt;
+&lt;p&gt;Now let’s play around with visualizing the data. I want to superimpose different aspects of the tweets I collected on a map. First I have to get a map, which I do using the &lt;a href=&#34;https://cran.r-project.org/web/packages/ggmap/ggmap.pdf&#34;&gt;ggmap package&lt;/a&gt; which interacts with Google Map’s API. When you use this package, be sure to cite it, as it requests you to when you first load the package into your library. (Well, really you should cite every R package you use, right?)&lt;/p&gt;
+&lt;p&gt;I request a map of the Mission District, and then check to make sure the map is what I want (in terms of zoom, area covered, etc.)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;map &amp;lt;- get_map(location = &amp;#39;Capp St. and 20th, San Francisco,
+               California&amp;#39;, zoom = 15)
+# To check out the map
+ggmap(map)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt; Looks good to me! Now let’s start to visualize our Twitter data. We can start by seeing where our posts are on a map.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Tell R what we want to map
+# Need to specify that lat/lon should be treated like numbers
+data$longitude&amp;lt;-as.numeric(data$longitude)
+data$latitude&amp;lt;-as.numeric(data$latitude)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For now I just want to look at latitude and longitude, but it is possible to map other aspects as well - it just depends on what you’d like to look at.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Mission_tweets &amp;lt;- ggmap(map) + geom_point(aes(x=longitude, y=latitude), 
+                               data=data, alpha=0.5)
 
-# Tell R your topic categories are a number so it can deal with them
-pairsdf$V1&amp;lt;- as.numeric(pairsdf$V1)
+Mission_tweets&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We can also look at WHEN the posts were generated. We can make a graph of post frequency over time.Graphs constructed with help from &lt;a href=&#34;http://www.cyclismo.org/tutorial/R/time.html&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;https://gist.github.com/stephenturner/3132596&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://stackoverflow.com/questions/27626915/r-graph-frequency-of-observations-over-time-with-small-value-range&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://michaelbommarito.com/2011/03/12/a-quick-look-at-march11-saudi-tweets/&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://stackoverflow.com/questions/31796744/plot-count-frequency-of-tweets-for-word-by-month&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;https://stat.ethz.ch/R-manual/R-devel/library/base/html/as.POSIXlt.html&#34;&gt;here&lt;/a&gt;, &lt;a href=&#34;http://sape.inf.usi.ch/quick-reference/ggplot2/geom&#34;&gt;here&lt;/a&gt; and &lt;a href=&#34;http://stackoverflow.com/questions/3541713/how-to-plot-two-histograms-together-in-r&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Create a data frame with number of tweets per time
+d &amp;lt;- as.data.frame(table(data$created))
+d &amp;lt;- d[order(d$Freq, decreasing=T), ]
+names(d) &amp;lt;- c(&amp;quot;created&amp;quot;,&amp;quot;freq&amp;quot;)
+# Combine this with existing data frame
+newdata1 &amp;lt;- merge(data,d,by=&amp;quot;created&amp;quot;)
+# Tell R that &amp;#39;created&amp;#39; is not an integer or factor but a time.
+data$created &amp;lt;- as.POSIXct(data$created)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now plot number of tweets over period of time across 20 minute intervals:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;minutes &amp;lt;- 60
+Freq&amp;lt;-data$freq
+plot1&amp;lt;-ggplot(data, aes(created)) + geom_freqpoly(binwidth=60*minutes)
+plot1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt; This might be more informative if you want to look at specific time periods. We can look at the frequency of posts over the course of a specific day if we want.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data2 &amp;lt;- data[data$created &amp;lt;= &amp;quot;2017-03-11 00:31:00&amp;quot;, ]
+minutes &amp;lt;- 60
+Freq&amp;lt;-data2$freq
+plot2&amp;lt;-ggplot(data2, aes(created)) + geom_freqpoly(binwidth=60*minutes)
+plot2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Let’s look at other ways to visualize Twitter data. I will be using a larger corpus of posts I’ve been building up for about a year (as mentioned above, I only get about 1,000 posts per searchTwitter per week so it took some time to get a good corpus going).&lt;/p&gt;
+&lt;p&gt;Some more processessing needs to be completed before looking at things like most frequent terms or what kind of sentiments seem to be expressed in our corpus. All of the following steps to ‘clean’ the data of URLs, odd characters and ‘stop words’ (a.k.a. words like ‘the’ or ‘and’ that aren’t very informative re. what the post is actually discussing) are taken from &lt;a href=&#34;http://tidytextmining.com/sentiment.html#the-sentiments-dataset&#34;&gt;Silge and Robinson&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tweets=read.csv(&amp;quot;Col_Sep_INSTACORPUS.csv&amp;quot;, header=T)
+# Get rid of stuff particular to the data (here encodings of links
+# and such)
+# Most of these are characters I don&amp;#39;t have encodings for (other scripts, etc.)
+tweets$text = gsub(&amp;quot;Just posted a photo&amp;quot;,&amp;quot;&amp;quot;, tweets$text)
+tweets$text = gsub( &amp;quot;&amp;lt;.*?&amp;gt;&amp;quot;, &amp;quot;&amp;quot;, tweets$text)
 
-# Now calculate things about the topics per sign
-topicmode &amp;lt;- pairsdf%&amp;gt;%
-group_by(SIGN_ID)%&amp;gt;% 
-summarise(Mode = getmode(V1))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let’s now combine this with our other data, but just include those instances that have a topic assigned (not all signs got a corresponding tweet)&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;topicsigns &amp;lt;- inner_join(ll, topicmode, by = &amp;quot;SIGN_ID&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There you have it! You now have a data frame which includes a record of public signs that have tweets that have occurred in their vicinity and the most common topic associated with those tweets.&lt;/p&gt;
+# Get rid of super frequent spam-y posters
+tweets &amp;lt;- tweets[! tweets$screenName %in% c(&amp;quot;4AMSOUNDS&amp;quot;,
+      &amp;quot;BruciusTattoo&amp;quot;,&amp;quot;LionsHeartSF&amp;quot;,&amp;quot;hermesalchemist&amp;quot;,&amp;quot;Mrsourmash&amp;quot;),]
+
+# Now for Silge and Robinson&amp;#39;s code. What this is doing is getting rid of 
+# URLs, re-tweets (RT) and ampersands. This also gets rid of stop words 
+# without having to get rid of hashtags and @ signs by using 
+# str_detect and filter! 
+reg &amp;lt;- &amp;quot;([^A-Za-z_\\d#@&amp;#39;]|&amp;#39;(?![A-Za-z_\\d#@]))&amp;quot;
+tidy_tweets &amp;lt;- tweets %&amp;gt;% 
+  filter(!str_detect(text, &amp;quot;^RT&amp;quot;)) %&amp;gt;%
+  mutate(text = str_replace_all(text, &amp;quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;amp;|&amp;amp;lt;|&amp;amp;gt;|RT|https&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
+  unnest_tokens(word, text, token = &amp;quot;regex&amp;quot;, pattern = reg) %&amp;gt;%
+  filter(!word %in% stop_words$word,
+         str_detect(word, &amp;quot;[a-z]&amp;quot;))
+
+# Get rid of stop words by doing an &amp;#39;anti-join&amp;#39; (amazing run-down of what 
+# all the joins do is available here:
+# http://stat545.com/bit001_dplyr-cheatsheet.html#anti_joinsuperheroes-publishers)
+data(stop_words)
+
+tidy_tweets &amp;lt;- tidy_tweets %&amp;gt;%
+  anti_join(stop_words)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we can look at things like most frequent words and sentiments expressed in our corpus.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Find most common words in corpus
+tidy_tweets %&amp;gt;%
+  count(word, sort = TRUE) &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 27,441 × 2
+##             word     n
+##            &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1        mission  3327
+## 2            san  2751
+## 3      francisco  2447
+## 4       district  1871
+## 5  #sanfrancisco  1175
+## 6           park  1060
+## 7        dolores  1045
+## 8             sf  1031
+## 9            #sf   696
+## 10           day   597
+## # ... with 27,431 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Plot most common words:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tidy_tweets %&amp;gt;%
+  count(word, sort = TRUE) %&amp;gt;%
+  filter(n &amp;gt; 150) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n)) +
+  geom_bar(stat = &amp;quot;identity&amp;quot;) +
+  xlab(NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What about different sentiments?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# What are the most common &amp;#39;joy&amp;#39; words?
+nrcjoy &amp;lt;- sentiments %&amp;gt;% 
+  filter(lexicon == &amp;quot;nrc&amp;quot;) %&amp;gt;%
+  filter(sentiment == &amp;quot;joy&amp;quot;)
+
+tidy_tweets %&amp;gt;%
+  semi_join(nrcjoy) %&amp;gt;%
+  count(word, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 355 × 2
+##         word     n
+##        &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1       love   466
+## 2      happy   402
+## 3        art   266
+## 4   birthday   205
+## 5   favorite   194
+## 6  beautiful   179
+## 7        fun   173
+## 8       food   139
+## 9      music   126
+## 10 chocolate   105
+## # ... with 345 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# What are the most common &amp;#39;disgust&amp;#39; words?
+nrcdisgust &amp;lt;- sentiments %&amp;gt;% 
+  filter(lexicon == &amp;quot;nrc&amp;quot;) %&amp;gt;%
+  filter(sentiment == &amp;quot;disgust&amp;quot;)
+
+tidy_tweets %&amp;gt;%
+  semi_join(nrcdisgust) %&amp;gt;%
+  count(word, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 217 × 2
+##       word     n
+##      &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1  finally   100
+## 2  feeling    55
+## 3     gray    50
+## 4     tree    50
+## 5  hanging    44
+## 6      bad    43
+## 7      boy    40
+## 8     shit    36
+## 9    lemon    29
+## 10   treat    28
+## # ... with 207 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We can also look at counts of negative and positive words
+bingsenti &amp;lt;- sentiments %&amp;gt;%
+  filter(lexicon ==&amp;quot;bing&amp;quot;)
+
+bing_word_counts &amp;lt;- tidy_tweets %&amp;gt;%
+  inner_join(bingsenti) %&amp;gt;%
+  count(word, sentiment, sort = TRUE) %&amp;gt;%
+  ungroup()
+
+# And graph them!
+bing_word_counts %&amp;gt;%
+  filter(n &amp;gt; 25) %&amp;gt;%
+  mutate(n = ifelse(sentiment == &amp;quot;negative&amp;quot;, -n, n)) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = &amp;quot;identity&amp;quot;) +
+  labs(y = &amp;quot;Contribution to sentiment&amp;quot;,
+       x = NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-19-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We can also make pretty word clouds! Code for this taken from &lt;a href=&#34;https://rstudio-pubs-static.s3.amazonaws.com/132792_864e3813b0ec47cb95c7e1e2e2ad83e7.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# First have to make a document term matrix, which involves a few steps
+tidy_tweets %&amp;gt;%
+  count(document, word, sort=TRUE)
+
+tweet_words &amp;lt;- tidy_tweets %&amp;gt;%  
+  count(document, word) %&amp;gt;%
+  ungroup()
+
+total_words &amp;lt;- tweet_words %&amp;gt;% 
+  group_by(document) %&amp;gt;% 
+  summarize(total = sum(n))
+
+post_words &amp;lt;- left_join(tweet_words, total_words)
+
+dtm &amp;lt;- post_words %&amp;gt;% 
+  cast_dtm(document, word, n)
+
+# Need freq count for word cloud to work
+freq = data.frame(sort(colSums(as.matrix(dtm)), decreasing=TRUE))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;wordcloud(rownames(freq), freq[,1], max.words=70, 
+          colors=brewer.pal(1, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-15-text-mining_files/figure-html/unnamed-chunk-21-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;If you are interested in delving even deeper, you can try techniques like topic modeling, a process I describe and demonstrate &lt;a href=&#34;https://lyons7.github.io/portfolio/2017-03-09-fun-w-tidy-text/&#34;&gt;here&lt;/a&gt;!&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -791,53 +870,6 @@ mapPointssavourface &amp;lt;- ggmap(map) + geom_emoji(aes(x=savourfood$longitude
 
 mapPointssavourface&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/portfolio/2017-03-10-emoji-maps_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Building A Website</title>
-      <link>/portfolio/2017-03-12-build-website/</link>
-      <pubDate>Sun, 12 Mar 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/portfolio/2017-03-12-build-website/</guid>
-      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
-&lt;!-- /BLOGDOWN-HEAD --&gt;
-
-&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
-&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
-&lt;p&gt;This website was constructed using GitHub, the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34;&gt;blogdown package&lt;/a&gt; for R and Hugo. I got started with &lt;a href=&#34;https://proquestionasker.github.io/blog/Making_Site/&#34;&gt;Amber Thomas’s amazing tutorial&lt;/a&gt; and got some further help from &lt;a href=&#34;http://robertmyles.github.io/2017/02/01/how-to-make-a-github-pages-blog-with-rstudio-and-hugo/&#34;&gt;Robert Myles McDonnell&lt;/a&gt; and more help from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;here&lt;/a&gt;. If you are interested in building a site with this configuration, I would start either with Amber’s or Robert’s tutorials as they are very detailed and will give an understanding of how this whole thing works. If, however, the steps detailed in either of these things don’t work for you, try out the process that eventually worked for me.&lt;/p&gt;
-&lt;div id=&#34;kates-approach&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Kate’s Approach&lt;/h4&gt;
-&lt;p&gt;Let’s start from the very beginning. I was running into a lot of issues (see comments on Robert’s blog and on Amber’s tutorial) but this specific series of steps managed to work for me.&lt;/p&gt;
-&lt;p&gt;First, start fresh. Create a USERNAME repo and a special HUGO repo on the ONLINE GitHub.&lt;/p&gt;
-&lt;p&gt;Go back to your computer. (I’m working with a Mac).&lt;/p&gt;
-&lt;p&gt;Create a new project (I think you can probably do this within a folder, but I went the project route) in R studio. Create a new directory in your own computer and name it whatever you want. Then in R use blogdown to create a site and if you want install a theme etc. Then, &lt;strong&gt;serve_site()&lt;/strong&gt; and &lt;strong&gt;STOP&lt;/strong&gt; R with the little red stop sign located in the upper right corner of the Console window. (I have to do this anyway because whenever I &lt;strong&gt;serve_site()&lt;/strong&gt; or &lt;strong&gt;new_site()&lt;/strong&gt; in R Studio the “&amp;gt;” doesn’t show up in my console afterwards). Update: I just figured out that this is because the site is being continuously “constructed” once you serve it – i.e. you can make some changes and it’ll automatically update in your little Viewer window. Probably doesn’t matter too much, but I’d just stop it just in case.&lt;/p&gt;
-&lt;p&gt;Now, in that directory you created with the project will be ALL the website files. Don’t move anything around. I then followed the steps from &lt;a href=&#34;http://whipperstacker.com/2015/11/27/deploying-a-stand-alone-hugo-site-to-github-pages-mapped-to-a-custom-domain/&#34;&gt;this link&lt;/a&gt; mentioned above and did the following in terminal:&lt;/p&gt;
-&lt;p&gt;Change directories to the directory where the website files are (let’s call this ‘Local Hugo’). Now remove the public folder (I am &lt;em&gt;pretty&lt;/em&gt; sure that is what this command does)&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rm -r public/&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And NOW you are going to link up to your online GitHub.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git init
-
-$ git remote add origin git@github.com:USERNAME/HUGO.git
-
-$ git submodule add git@github.com:USERNAME/USERNAME.github.io.git public
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(I get asked for a password here I set up for my .ssh/id_rsa here)&lt;/p&gt;
-&lt;p&gt;Then:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;#39;initial commit&amp;#39;
-
-$ git push origin master&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(Get asked again for password)&lt;/p&gt;
-&lt;p&gt;Now I go back to R studio where my project is up and running. I did the customary new_post(‘Hello world’) post to test things out and then made some changes to the config file (put my name etc). Then I &lt;strong&gt;serve_site()&lt;/strong&gt; in R, &lt;strong&gt;STOP&lt;/strong&gt; it again and return to terminal. I then followed the commands listed on Robert’s tutorial.&lt;/p&gt;
-&lt;p&gt;Change directories in terminal to your computer Local Hugo folder and then change directories again so you are in the ‘public’ folder in that directory. Then:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ git add -A
-
-$ git commit -m &amp;#39;lovely new site&amp;#39;
-
-$ git push origin master&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;(Again I get asked for my password)&lt;/p&gt;
-&lt;p&gt;Then go to your username.github.io site. It &lt;em&gt;should&lt;/em&gt; be there! Now when you make changes it’s the same process: do your thing in R studio, &lt;strong&gt;serve_site()&lt;/strong&gt; and then &lt;strong&gt;STOP&lt;/strong&gt; and then go to terminal and run the same commands (navigate to “public” local Hugo folder, add -A, commit with a message and then push).&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

@@ -1,0 +1,54 @@
+---
+title: "Emoji Dictionary"
+author: "Kate Lyons"
+date: '2017-03-12T21:13:14-05:00'
+draft: no
+image: "img/portfolio/emojidic.jpg"
+showonlyimage: no
+description: Want to incorporate emojis in your text analyses? Check out my dictionary!
+weight: 4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+packs = c("devtools","DataCombine","ggmap","stringr","wordcloud","plyr",
+          "tidytext","dplyr","tidyr","emo")
+lapply(packs, library, character.only=T)
+```
+
+If you are working with social media data, it is very likely you'll run into emojis. Because of their encoding, however, they can be tricky to deal with. Fortunately, [Jessica Peterka-Bonetta's work](http://opiateforthemass.es/articles/emoticons-in-R/) introduced the idea of an emoji dictionary which has the prose name of an emoji matched up to its R encoding and unicode codepoint. This list, however, does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis. Good news though -- I made [my own](https://github.com/lyons7/emojidictionary) emoji dictionary that has all 2,204 of them! I also have included the number of each emoji as listed in the [Unicode Emoji List](http://unicode.org/emoji/charts/emoji-list.html) v. 5.0. 
+
+**If you use this emoji dictionary for your own research, please make sure to acknowledge both myself and Jessica.**
+
+This dictionary is available as a CSV file on my [github page](https://github.com/lyons7/emojidictionary). The prose emoji name in the CSV file conveniently has spaces on each side of the emoji name (e.g. " FACEWITHTEARSOFJOY ") so if emojis are right next to other words they won't be smushed together. Emoji names themselves have no spaces if the name of the emoji is longer than one word. I did this to make text analyses such as sentiment analysis and topic modeling possible without endangering the integrity of the emoji classification. (As we don't want stop words that are part of emoji names to be deleted!)
+
+Here is how to use this dictionary for emoji identification in R. There are a few formatting steps and a tricky find-and-replace producedure that requires another R package, but once you have the dictionary loaded and the text in the right format you will be ready to go!
+
+## Processing the data
+Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.
+```{r, echo=TRUE}
+tweets=read.csv("Col_Sep_INSTACORPUS.csv", header=T)
+emoticons <- read.csv("Decoded Emojis Col Sep.csv", header = T)
+```
+To transform the emojis, you first need to transform your tweet data into ASCII:
+
+```{r, echo=TRUE}
+tweets$text <- iconv(tweets$text, from = "latin1", to = "ascii", 
+                    sub = "byte")
+```
+
+## Processing the data
+To 'count' the emojis you do a find and replace using the CSV file of 'Decoded Emojis' as a reference. Here I am using the [DataCombine package](http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace). What this does is identifies emojis in posts and then replaces them with a prose version. I used whatever description pops up when hovering one's cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post. You can also cross-check the name listed on the dictionary and the number of the emoji entry in the [Unicode Emoji List](http://unicode.org/emoji/charts/full-emoji-list.html#1f918). 
+
+```{r, echo=TRUE}
+library(DataCombine)
+tweets <- FindReplace(data = tweets, Var = "text", 
+                      replaceData = emoticons,
+                      from = "R_Encoding", to = "Name", 
+                      exact = FALSE)
+```
+
+You now have a data frame with emojis in prose form. You can do fun things like [make maps with emojis](https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/) (if you have geotag information) or note which are the most frequent emojis and [plot them](https://github.com/dill/emoGG) -- there are possibilities galore! Have fun `r emo::ji("smile")`

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Emoji Dictionary</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/owl.carousel.css">
+<link rel="stylesheet" href="/css/owl.theme.css">
+
+
+  <link href="/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="/">Kate Lyons</a></h1>
+    
+      <p class="sidebar-p">Graduate student in Linguistics at UIUC</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/about/">About</a></li>
+      
+        <li><a href="/contact/">Get in touch</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  
+  
+  <a href="https://twitter.com/katester117" data-animate-hover="pulse" class="external twitter">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  <a href="mailto:kalyons3@illinois.edu" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  
+  <a href="http://stackoverflow.com/users/7451811/kate" data-animate-hover="pulse">
+    <i class="fa fa-stack-overflow"></i>
+  </a>
+  
+  
+  <a href="https://github.com/lyons7" data-animate-hover="pulse">
+    <i class="fa fa-github"></i>
+  </a>
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Kate Lyons
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="/">Kate Lyons</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Emoji Dictionary</h1>
+         <p>If you are working with social media data, it is very likely you’ll run into emojis. Because of their encoding, however, they can be tricky to deal with. Fortunately, <a href="http://opiateforthemass.es/articles/emoticons-in-R/">Jessica Peterka-Bonetta’s work</a> introduced the idea of an emoji dictionary which has the prose name of an emoji matched up to its R encoding and unicode codepoint. This list, however, does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis. Good news though – I made <a href="https://github.com/lyons7/emojidictionary">my own</a> emoji dictionary that has all 2,204 of them! I also have included the number of each emoji as listed in the <a href="http://unicode.org/emoji/charts/emoji-list.html">Unicode Emoji List</a> v. 5.0.</p>
+<p><strong>If you use this emoji dictionary for your own research, please make sure to acknowledge both myself and Jessica.</strong></p>
+<p>This dictionary is available as a CSV file on my <a href="https://github.com/lyons7/emojidictionary">github page</a>. The prose emoji name in the CSV file conveniently has spaces on each side of the emoji name (e.g. &quot; FACEWITHTEARSOFJOY “) so if emojis are right next to other words they won’t be smushed together. Emoji names themselves have no spaces if the name of the emoji is longer than one word. I did this to make text analyses such as sentiment analysis and topic modeling possible without endangering the integrity of the emoji classification. (As we don’t want stop words that are part of emoji names to be deleted!)</p>
+<p>Here is how to use this dictionary for emoji identification in R. There are a few formatting steps and a tricky find-and-replace producedure that requires another R package, but once you have the dictionary loaded and the text in the right format you will be ready to go!</p>
+<div id="processing-the-data" class="section level2">
+<h2>Processing the data</h2>
+<p>Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.</p>
+<pre class="r"><code>tweets=read.csv(&quot;Col_Sep_INSTACORPUS.csv&quot;, header=T)
+emoticons &lt;- read.csv(&quot;Decoded Emojis Col Sep.csv&quot;, header = T)</code></pre>
+<p>To transform the emojis, you first need to transform your tweet data into ASCII:</p>
+<pre class="r"><code>tweets$text &lt;- iconv(tweets$text, from = &quot;latin1&quot;, to = &quot;ascii&quot;, 
+                    sub = &quot;byte&quot;)</code></pre>
+</div>
+<div id="processing-the-data-1" class="section level2">
+<h2>Processing the data</h2>
+<p>To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the <a href="http://www.inside-r.org/packages/cran/DataCombine/docs/FindReplace">DataCombine package</a>. What this does is identifies emojis in posts and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post. You can also cross-check the name listed on the dictionary and the number of the emoji entry in the <a href="http://unicode.org/emoji/charts/full-emoji-list.html#1f918">Unicode Emoji List</a>.</p>
+<pre class="r"><code>library(DataCombine)
+tweets &lt;- FindReplace(data = tweets, Var = &quot;text&quot;, 
+                      replaceData = emoticons,
+                      from = &quot;R_Encoding&quot;, to = &quot;Name&quot;, 
+                      exact = FALSE)</code></pre>
+<p>You now have a data frame with emojis in prose form. You can do fun things like <a href="https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/">make maps with emojis</a> (if you have geotag information) or note which are the most frequent emojis and <a href="https://github.com/dill/emoGG">plot them</a> – there are possibilities galore! Have fun 😄</p>
+</div>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.cookie.js"> </script>
+<script src="/js/ekko-lightbox.js"></script>
+<script src="/js/jquery.scrollTo.min.js"></script>
+<script src="/js/masonry.pkgd.min.js"></script>
+<script src="/js/imagesloaded.pkgd.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/front.js"></script>
+
+</body>
+</html>
