@@ -4121,6 +4121,1059 @@ mapPoints5&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
+      <title>Intro to Text Mining</title>
+      <link>/portfolio/2017-10-19-intro-to-text-mining/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-10-19-intro-to-text-mining/</guid>
+      <description>&lt;p&gt;There are many examples of doing analyses of texts in English, but not as many in other languages. To address this somewhat I’ll be looking at librettos of operas on stage at the Metropolitan Opera this season (2017-2018) as these have a lot of variation linguistically and also offer some unique and interesting processing challenges.&lt;/p&gt;
+&lt;p&gt;Let’s start with Mozart’s &lt;a href=&#34;http://opera.stanford.edu/iu/libretti/cosi.htm&#34;&gt;‘Cosi Fan Tutte’&lt;/a&gt; (libretto by Da Ponte).&lt;/p&gt;
+&lt;p&gt;To prepare this data, I copy-pasted it from the above site into Word and then saved it as a ‘.txt’ file. &lt;em&gt;IMPORTANT&lt;/em&gt;: Because there are ‘special characters’ due to it’s being in Italian, I made sure to save it in UTF-8 encoding so those would be maintained in R. As a best practice, I’d recommend you save most text files you’ll be importing into R in this manner.&lt;/p&gt;
+&lt;p&gt;You can access the Cosi Fan Tutte data &lt;a href=&#34;https://www.dropbox.com/sh/27turt2c7lxusb9/AACMuoGGLWa7H2tvpcX2XD2ra?dl=0&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Make sure you have all the right packages
+packs = c(&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;, &amp;quot;tm&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,&amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;, &amp;quot;readr&amp;quot;)
+# If you need to re-install (which you might have to if you got a new R Studio version) here is a shortcut:
+# lapply(packs, install.packages, character.only=T)
+lapply(packs, library, character.only=T)
+# Set your directory
+# setwd(&amp;quot;/Users/katelyons/Documents/Workshop&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# library(devtools)
+# This might be a nice way to work with data like this (or transcript data) but due to issues with rJava I&amp;#39;m not going to explore it now. If rJava works for you, this might be a package to check out!
+# install_github(&amp;quot;qdap&amp;quot;, &amp;quot;trinker&amp;quot;, depend)
+# library(qdap)
+# library(trinker)
+
+# Each scene is saved as a separate text file so I have to load in each one and then combine them in R. We will use the readr package to read in each file
+library(readr)
+# Depending on where your file is you might need to include the entire path
+# a1s1 &amp;lt;- readLines(&amp;quot;cosi/a1s1.txt&amp;quot;)
+a1s1 &amp;lt;- readLines(&amp;quot;cosi/a1s1.txt&amp;quot;)
+a1s2 &amp;lt;- readLines(&amp;quot;cosi/a1s2.txt&amp;quot;)
+a1s2 &amp;lt;- readLines(&amp;quot;cosi/a1s2.txt&amp;quot;)
+a1s3 &amp;lt;- readLines(&amp;quot;cosi/a1s3.txt&amp;quot;)
+a1s4 &amp;lt;- readLines(&amp;quot;cosi/a1s4.txt&amp;quot;)
+a1s5 &amp;lt;- readLines(&amp;quot;cosi/a1s5.txt&amp;quot;)
+a1s6 &amp;lt;- readLines(&amp;quot;cosi/a1s6.txt&amp;quot;)
+a1s7 &amp;lt;- readLines(&amp;quot;cosi/a1s7.txt&amp;quot;)
+a1s8 &amp;lt;- readLines(&amp;quot;cosi/a1s8.txt&amp;quot;)
+a1s9 &amp;lt;- readLines(&amp;quot;cosi/a1s9.txt&amp;quot;)
+a1s10 &amp;lt;- readLines(&amp;quot;cosi/a1s10.txt&amp;quot;)
+a1s11 &amp;lt;- readLines(&amp;quot;cosi/a1s11.txt&amp;quot;)
+a1s12 &amp;lt;- readLines(&amp;quot;cosi/a1s12.txt&amp;quot;)
+a1s13 &amp;lt;- readLines(&amp;quot;cosi/a1s13.txt&amp;quot;)
+a1s14 &amp;lt;- readLines(&amp;quot;cosi/a1s14.txt&amp;quot;)
+a1s15 &amp;lt;- readLines(&amp;quot;cosi/a1s15.txt&amp;quot;)
+a1s16 &amp;lt;- readLines(&amp;quot;cosi/a1s16.txt&amp;quot;)
+a2s1 &amp;lt;- readLines(&amp;quot;cosi/a2s1.txt&amp;quot;)
+a2s2 &amp;lt;- readLines(&amp;quot;cosi/a2s2.txt&amp;quot;)
+a2s3 &amp;lt;- readLines(&amp;quot;cosi/a2s3.txt&amp;quot;)
+a2s4 &amp;lt;- readLines(&amp;quot;cosi/a2s4.txt&amp;quot;)
+a2s5 &amp;lt;- readLines(&amp;quot;cosi/a2s5.txt&amp;quot;)
+a2s6 &amp;lt;- readLines(&amp;quot;cosi/a2s6.txt&amp;quot;)
+a2s7 &amp;lt;- readLines(&amp;quot;cosi/a2s7.txt&amp;quot;)
+a2s8 &amp;lt;- readLines(&amp;quot;cosi/a2s8.txt&amp;quot;)
+a2s9 &amp;lt;- readLines(&amp;quot;cosi/a2s9.txt&amp;quot;)
+a2s10 &amp;lt;- readLines(&amp;quot;cosi/a2s10.txt&amp;quot;)
+a2s11 &amp;lt;- readLines(&amp;quot;cosi/a2s11.txt&amp;quot;)
+a2s12 &amp;lt;- readLines(&amp;quot;cosi/a2s12.txt&amp;quot;)
+a2s13 &amp;lt;- readLines(&amp;quot;cosi/a2s13.txt&amp;quot;)
+a2s14 &amp;lt;- readLines(&amp;quot;cosi/a2s14.txt&amp;quot;)
+a2s15 &amp;lt;- readLines(&amp;quot;cosi/a2s15.txt&amp;quot;)
+a2s16 &amp;lt;- readLines(&amp;quot;cosi/a2s16.txt&amp;quot;)
+a2s17 &amp;lt;- readLines(&amp;quot;cosi/a2s17.txt&amp;quot;)
+a2s18 &amp;lt;- readLines(&amp;quot;cosi/a2s18.txt&amp;quot;)
+
+# It&amp;#39;s a long opera!
+# Turn them all into  data frames so it&amp;#39;s easier to work with
+a1s1 &amp;lt;- data_frame(text = a1s1)
+a1s2 &amp;lt;- data_frame(text = a1s2)
+a1s3 &amp;lt;- data_frame(text = a1s3)
+a1s4 &amp;lt;- data_frame(text = a1s4)
+a1s5 &amp;lt;- data_frame(text = a1s5)
+a1s6 &amp;lt;- data_frame(text = a1s6)
+a1s7 &amp;lt;- data_frame(text = a1s7)
+a1s8 &amp;lt;- data_frame(text = a1s8)
+a1s9 &amp;lt;- data_frame(text = a1s9)
+a1s10 &amp;lt;- data_frame(text = a1s10)
+a1s11 &amp;lt;- data_frame(text = a1s11)
+a1s12 &amp;lt;- data_frame(text = a1s12)
+a1s13 &amp;lt;- data_frame(text = a1s13)
+a1s14 &amp;lt;- data_frame(text = a1s14)
+a1s15 &amp;lt;- data_frame(text = a1s15)
+a1s16 &amp;lt;- data_frame(text = a1s16)
+a2s1 &amp;lt;- data_frame(text = a2s1)
+a2s2 &amp;lt;- data_frame(text = a2s2)
+a2s3 &amp;lt;- data_frame(text = a2s3)
+a2s4 &amp;lt;- data_frame(text = a2s4)
+a2s5 &amp;lt;- data_frame(text = a2s5)
+a2s6 &amp;lt;- data_frame(text = a2s6)
+a2s7 &amp;lt;- data_frame(text = a2s7)
+a2s8 &amp;lt;- data_frame(text = a2s8)
+a2s9 &amp;lt;- data_frame(text = a2s9)
+a2s10 &amp;lt;- data_frame(text = a2s10)
+a2s11 &amp;lt;- data_frame(text = a2s11)
+a2s12 &amp;lt;- data_frame(text = a2s12)
+a2s13 &amp;lt;- data_frame(text = a2s13)
+a2s14 &amp;lt;- data_frame(text = a2s14)
+a2s15 &amp;lt;- data_frame(text = a2s15)
+a2s16 &amp;lt;- data_frame(text = a2s16)
+a2s17 &amp;lt;- data_frame(text = a2s17)
+a2s18 &amp;lt;- data_frame(text = a2s18)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Take a second to look at your data. If you see ‘weird’ or ‘strange’ characters that don’t look like Italian characters, you should go back and re-load things and specify the encoding like so:&lt;/p&gt;
+&lt;p&gt;I haven’t run into this issue on Mac, but I’ve seen some instances in Windows in which the UTF-8 encoding saved in these text files doesn’t survive once loaded into R.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# a1s1 &amp;lt;- readLines(&amp;quot;cosi/a1s1.txt&amp;quot;, encoding = &amp;quot;UTF-8&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we want to combine these all together into a larger data frame.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Combine these data frames (help from https://www.r-bloggers.com/concatenating-a-list-of-data-frames/)
+
+cosiDF &amp;lt;- rbind.fill(a1s1, a1s2, a1s3, a1s4, a1s5, a1s6, a1s7, a1s8, a1s9, a1s10, a1s11, a1s12, a1s13, a1s14, a1s15, a1s16, a2s1, a2s2, a2s3, a2s4, a2s5, a2s6, a2s7, a2s8, a2s9, a2s10, a2s11, a2s12, a2s13, a2s14, a2s15, a2s16, a2s17, a2s18)
+
+# Now let&amp;#39;s clean the content of the data!
+
+# Let&amp;#39;s get rid of stage directions (help from https://stackoverflow.com/questions/13529360/replace-text-within-parenthesis-in-r)
+
+# This says &amp;#39;substitute anything inbetween parentheses and the parentheses themselves with nothing&amp;#39;
+cosiDF$text &amp;lt;- gsub( &amp;quot; *\\(.*?\\) *&amp;quot;, &amp;quot;&amp;quot;, cosiDF$text)
+
+# Let&amp;#39;s get rid of descriptions of pieces in the opera 
+# Same pattern as above -- &amp;#39;replace this string with nothing&amp;#39;
+cosiDF$text &amp;lt;- gsub(&amp;quot;Recitativo&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+cosiDF$text &amp;lt;- gsub(&amp;quot;No.&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+cosiDF$text &amp;lt;- gsub(&amp;quot;Aria&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+cosiDF$text &amp;lt;- gsub(&amp;quot;Duetto&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+cosiDF$text &amp;lt;- gsub(&amp;quot;Terzetto&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+cosiDF$text &amp;lt;- gsub(&amp;quot;Quartetto&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+cosiDF$text &amp;lt;- gsub(&amp;quot;Quintetto&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+cosiDF$text &amp;lt;- gsub(&amp;quot;Sestetto&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+
+# Also get rid of numbers (help from here: http://www.endmemo.com/program/R/gsub.php)
+cosiDF$text &amp;lt;- gsub(&amp;quot;\\d+&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+# Get rid of &amp;quot;d&amp;#39;&amp;quot; a shortening of &amp;quot;di&amp;quot; (easier to do it this way than as a stop word)
+cosiDF$text &amp;lt;- gsub(&amp;quot;d&amp;#39;&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+# Get rid of &amp;quot;un&amp;#39;&amp;quot;, a shortening of &amp;quot;uno/a&amp;quot; in front of words that start with a vowel
+cosiDF$text &amp;lt;- gsub(&amp;quot;un&amp;#39;&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+cosiDF$text &amp;lt;- gsub(&amp;quot;d&amp;#39;un&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+# Get rid of &amp;quot;dell&amp;#39;&amp;quot;, a shortening of &amp;quot;dello/a/gli/i&amp;quot;
+cosiDF$text &amp;lt;- gsub(&amp;quot;dell&amp;#39;&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)
+# Get rid of &amp;quot;l&amp;#39;&amp;quot; a shortening of &amp;quot;la&amp;quot; or &amp;quot;il&amp;quot; in front of words that start with a vowel
+cosiDF$text &amp;lt;- gsub(&amp;quot;l&amp;#39;&amp;quot;,&amp;quot;&amp;quot;, cosiDF$text)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have a specific issue related to the format of our data. The data is formatted like a script, with the speaker name at the top and content underneath. This isn’t how R thinks though – it it’s in the same column, R things it’s all the same factor. This will be an issue for us, especially if we want to look at things like how a character’s speech changes over time. To change this one column into two columns, one column with the character name and the other with the line of the character, takes MANY steps! I got help from &lt;a href=&#34;https://stackoverflow.com/questions/16596515/aggregating-by-unique-identifier-and-concatenating-related-values-into-a-string&#34;&gt;here&lt;/a&gt; and &lt;a href=&#34;https://stackoverflow.com/questions/29376178/count-changes-to-contents-of-a-character-vector&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# First label whether a row is a line or character name
+
+# Create a data frame with the character names that exist in the text
+characters = c(&amp;quot;FERRANDO&amp;quot;, &amp;quot;DORABELLA&amp;quot;, &amp;quot;FIORDILIGI&amp;quot;, &amp;quot;GUILELMO&amp;quot;, &amp;quot;DON ALFONSO&amp;quot;, &amp;quot;DESPINA&amp;quot;, &amp;quot;SOLDATI&amp;quot;,  &amp;quot;CORO&amp;quot;, &amp;quot;CORO DI SERVI E SUONATORI&amp;quot;) 
+chardf &amp;lt;- data.frame(characters)
+
+# Now use regular expression to identify when the row is a character name (TRUE) or not (FALSE)
+# FALSE then means that we are looking at a line row
+chargrepl &amp;lt;- grepl(paste(chardf$characters, collapse = &amp;quot;|&amp;quot;), cosiDF$text)
+# This says go through each row and if something in that row is the same as something in our characters data frame (the &amp;quot;|&amp;quot; is working as an &amp;#39;or&amp;#39;, telling R that it could be Dorabella or Fiordiligi or Don Alfonso, etc.) then put &amp;#39;TRUE&amp;#39;
+
+# The output is a list so we have to turn it into a data frame to merge it back with our data
+chargreplDF &amp;lt;-as.data.frame(chargrepl)
+
+# To merge something, you have to have a common key. Create an id row for each data frame you want to combine and that will be your key! 
+cosiDF$id &amp;lt;- 1:nrow(cosiDF)
+chargreplDF$id &amp;lt;- 1:nrow(chargreplDF)
+
+# Now merge!
+text_df &amp;lt;- merge(cosiDF,chargreplDF,by=&amp;quot;id&amp;quot;)
+
+# Now things get complicated. We are going to &amp;#39;group&amp;#39; things according to names. We have name rows represented by &amp;#39;TRUE&amp;#39; and lines represented by &amp;#39;FALSE&amp;#39;. So we can create a group by telling R to make a new id row that starts anew each time it sees &amp;#39;TRUE&amp;#39;.
+
+# Make groups of lines associated with names (help from here https://stackoverflow.com/questions/29376178/count-changes-to-contents-of-a-character-vector)
+test_df &amp;lt;- text_df %&amp;gt;% mutate( 
+   try_1 = cumsum(ifelse(chargrepl == TRUE, 1, 0)) 
+   )
+
+# Now we want to copy our text column so we can eventually have two columns in which one has all of the lines and the other has the characters speaking those lines
+# Create a duplicate column of the text
+test_df$text2 &amp;lt;- test_df$text
+
+# Let&amp;#39;s get rid of superfluous info for our character column (so, in this case, lines)
+# Get rid of lines in one column
+test_df$text &amp;lt;- ifelse(test_df$chargrepl == TRUE, test_df$text, &amp;quot;&amp;quot;)
+# This command says look through the text column and if the corresponding chargrepl column (our logical vector) is TRUE leave it alone but if it is else (&amp;#39;ifelse&amp;#39;) replace with &amp;quot;&amp;quot; (nothing).  
+
+# Do the same for the other text column, but opposite
+test_df$text2 &amp;lt;- ifelse(test_df$chargrepl == FALSE, test_df$text2, &amp;quot;&amp;quot;)
+
+# Now let&amp;#39;s aggregate things
+result &amp;lt;- aggregate(text ~ try_1, data = test_df, paste, collapse = &amp;quot;&amp;quot;)
+result2 &amp;lt;- aggregate(text2 ~ try_1, data = test_df, paste, collapse = &amp;quot;&amp;quot;)
+# These commands are creating two data frames. The first one is just character names, the second is the lines associated with those characters. The collapse is also helping us out in that it&amp;#39;s putting each series of phrases in one cell. That&amp;#39;s because we are collapsing by the group id we created a few steps back (&amp;#39;try_1&amp;#39;). 
+
+# Now we merge these data frames together by their shared column of group id
+new_data &amp;lt;- merge(result, result2, by=&amp;quot;try_1&amp;quot;)
+
+# Let&amp;#39;s get rid of that id!
+new_data &amp;lt;- new_data[,c(&amp;quot;text&amp;quot;,&amp;quot;text2&amp;quot;)]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Transform this into something we can work with -- tidy text! Tidy text is a format of one row per term -- makes things easier in processing, visualizing things
+tribble &amp;lt;- new_data %&amp;gt;%
+  unnest_tokens(word, text2)
+
+# You can see what tidy text looks like:
+# View(tribble)
+
+# Note how each line is still there (see character names), but each word is a new row&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s get rid of words that aren’t that informative to a larger scale exploratory analysis (stop words). We are going to use the “stopwords(‘italian’)”&amp;quot; command from the tm package to access their list of Italian stop words, but because we are dealing with a libretto, there are some ‘non-standard’ uses of words which we have to add to this list. I’ve also found another source with more Italian stop words so I’ve added this too (available &lt;a href=&#34;https://github.com/AndreaCirilloAC/TweetIT/blob/master/lexicon/IT/stopwords.csv&#34;&gt;here&lt;/a&gt;; I’ve transformed this into txt form which you can access &lt;a href=&#34;https://www.dropbox.com/s/pwkozjyjl94yb7w/extraitstopwords.txt?dl=0&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# You might need to modify this to make sure the path is correct
+extrastopwords &amp;lt;- readLines(&amp;quot;extraitstopwords.txt&amp;quot;)
+
+# Put these all together
+mystopwords &amp;lt;- c(stopwords(&amp;#39;italian&amp;#39;), extrastopwords, &amp;quot;de&amp;quot;, &amp;quot;no&amp;quot;, &amp;quot;son&amp;quot;, &amp;quot;far&amp;quot;, &amp;quot;fa&amp;quot;, &amp;quot;fe&amp;quot;, &amp;quot;fo&amp;quot;, &amp;quot;or&amp;quot;, &amp;quot;vo&amp;quot;, &amp;quot;po&amp;quot;, &amp;quot;partono&amp;quot;, &amp;quot;quel&amp;quot;, &amp;quot;ah&amp;quot;, &amp;quot;oh&amp;quot;, &amp;quot;me&amp;quot;, &amp;quot;cosa&amp;quot;, &amp;quot;c&amp;#39;è&amp;quot;, &amp;quot;ch&amp;#39;io&amp;quot;, &amp;quot;ei&amp;quot;, &amp;quot;te&amp;quot;, &amp;quot;qua&amp;quot;, &amp;quot;là&amp;quot;, &amp;quot;può&amp;quot;, &amp;quot;ognuno&amp;quot;, &amp;quot;sè&amp;quot;, &amp;quot;mai&amp;quot;, &amp;quot;don&amp;quot;, &amp;quot;lor&amp;quot;, &amp;quot;già&amp;quot;, &amp;quot;fate&amp;quot;, &amp;quot;sì&amp;quot;, &amp;quot;ogni&amp;quot;, &amp;quot;poi&amp;quot;, &amp;quot;han&amp;quot;, &amp;quot;so&amp;quot;, &amp;quot;sa&amp;quot;, &amp;quot;cose&amp;quot;, &amp;quot;dunque&amp;quot;, &amp;quot;ancora&amp;quot;, &amp;quot;cos&amp;#39;è&amp;quot;, &amp;quot;ella&amp;quot;, &amp;quot;tal&amp;quot;, &amp;quot;anzi&amp;quot;, &amp;quot;eh&amp;quot;, &amp;quot;fan&amp;quot;, &amp;quot;esser&amp;quot;, &amp;quot;essi&amp;quot;, &amp;quot;nè&amp;quot;, &amp;quot;siam&amp;quot;, &amp;quot;alfin&amp;quot;, &amp;quot;dì&amp;quot;, &amp;quot;fra&amp;quot;, &amp;quot;lì&amp;quot;, &amp;quot;v&amp;#39;è&amp;quot;, &amp;quot;d&amp;#39;un&amp;quot;, &amp;quot;ve&amp;quot;, &amp;quot;ce&amp;quot;, &amp;quot;ch&amp;#39;è&amp;quot;, &amp;quot;ch&amp;#39;ei&amp;quot;, &amp;quot;ciò&amp;quot;, &amp;quot;qui&amp;quot;, &amp;quot;qual&amp;quot;, &amp;quot;perchè&amp;quot;, &amp;quot;così&amp;quot;, &amp;quot;dentro&amp;quot;, &amp;quot;par&amp;quot;, &amp;quot;pur&amp;quot;, &amp;quot;dir&amp;quot;, &amp;quot;dee&amp;quot;, &amp;quot;va&amp;quot;, &amp;quot;ch’io&amp;quot;, &amp;quot;c’è&amp;quot;, &amp;quot;ecc&amp;quot;, &amp;quot;don&amp;quot;, &amp;quot;donna&amp;quot;, &amp;quot;ecc&amp;quot;, &amp;quot;d&amp;quot;, &amp;quot;ta&amp;quot;, &amp;quot;via&amp;quot;, &amp;quot;orsù&amp;quot;, &amp;quot;qualche&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;These are mostly shortenings – “no” for “non”; “son” for “sono”; “or” for “ora”; “quel” for “quello/a/i/e”, “c’è” for “ci è” (‘there is’); “ch’io” for “che io”; “po” for “po’” (‘a little’) etc. We also have “partono” which is a common stage direction (‘they leave’) and “ognuno da sè” (‘each to themselves’); “ah” and “oh” as exclaimations of surprise / dismay; “me” as a form of the indirect object “mi”; “cosa” being used kind of as ‘what’ (“cosa” means ‘thing’ in modern Italian, but here we see it being used more in terms of “what’s happening?”, “what’s this I feel?” etc. – not very informative of the opera as a whole, except maybe perhaps that people are confused or surprised a good deal). &lt;em&gt;Depending on your document you will most likely be adding stop words of your own.&lt;/em&gt; This also tends to be a cyclical process, in which you realize common ‘meaningless’ words (in terms of analyzing the text for broader themes, etc.) and go back and add them to your list.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# this is a character class so we have to turn it into a data frame to work with the anti_join function
+itstopwords &amp;lt;- data_frame(text=mystopwords)
+
+# For anti_join to work you&amp;#39;ll want to have the columns named the same so it&amp;#39;ll have directions of what to put together
+# When you use tidytext&amp;#39;s English stop words (introduced by the data(stop_words) function) the words are automatically under a &amp;#39;word&amp;#39; column heading
+names(itstopwords)[names(itstopwords)==&amp;quot;text&amp;quot;] &amp;lt;- &amp;quot;word&amp;quot;
+
+# anti_join is a really useful function from the dplyr package. It basically says &amp;#39;in comparing two data frames; produce a new data frame that is one of our data frames with stuff that is present in the other data frame removed&amp;#39;. This is how we are getting &amp;#39;rid&amp;#39; of the stop words, and why tidy text is helpful here. Because each individual term is in a row, we can use things like anti_join (instead of a complicated regular expression) to eliminate stop words we&amp;#39;ve put in another data frame. 
+tribble2 &amp;lt;- tribble %&amp;gt;%
+  anti_join(itstopwords)
+
+# Now with our new data frame with stop words removed, let&amp;#39;s look at the most frequent terms
+cosifreq &amp;lt;- tribble2 %&amp;gt;%
+  count(word, sort = TRUE) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If this command doesn’t work, it might be because R doesn’t know which package to draw the ‘count’ function from – the one we want is from dplyr, not plyr. So we can tell R specifically which package we want to use.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# cosifreq &amp;lt;- tribble2 %&amp;gt;%
+#   dplyr::count(word, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have a count of words, ordered from most frequent to least frequent. You can look at this list or perform other visualizations such as bigrams. Code from &lt;a href=&#34;http://tidytextmining.com/ngrams.html#tokenizing-by-n-gram&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cosi_bigrams &amp;lt;- new_data %&amp;gt;%
+  unnest_tokens(bigram, text2, token = &amp;quot;ngrams&amp;quot;, n = 2)
+# To see these do the following command:
+# cosi_bigrams
+
+# To see them ranked from most common to least common:
+# cosi_bigrams %&amp;gt;%
+#   count(bigram, sort = TRUE)
+
+# As Silge and Robinson point out (and as you might have noticed) we have to get rid of the stop words again.
+bigrams_separated &amp;lt;- cosi_bigrams %&amp;gt;%
+  separate(bigram, c(&amp;quot;word1&amp;quot;, &amp;quot;word2&amp;quot;), sep = &amp;quot; &amp;quot;)
+
+bigrams_filtered &amp;lt;- bigrams_separated %&amp;gt;%
+  filter(!word1 %in% itstopwords$word) %&amp;gt;%
+  filter(!word2 %in% itstopwords$word)
+
+# new bigram counts:
+bigram_counts &amp;lt;- bigrams_filtered %&amp;gt;% 
+  count(word1, word2, sort = TRUE)
+
+bigram_counts&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,687 x 3
+##     word1    word2     n
+##     &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+##  1  bella     vita     5
+##  2   vita  militar     5
+##  3   caro     bene     4
+##  4  mille    volte     4
+##  5 cangia     loco     3
+##  6  cento zecchini     3
+##  7  doman     poco     3
+##  8   loco     oggi     3
+##  9   oggi    molto     3
+## 10   poco      ora     3
+## # ... with 1,677 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Interestingly for an opera (which might suggest certain phrases being repeated multiple times) we have few bigrams. We see some repeats for the chorus “Bella Vita Militar”, for example.&lt;/p&gt;
+&lt;p&gt;What about trigrams?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;new_data %&amp;gt;%
+  unnest_tokens(trigram, text2, token = &amp;quot;ngrams&amp;quot;, n = 3) %&amp;gt;%
+  separate(trigram, c(&amp;quot;word1&amp;quot;, &amp;quot;word2&amp;quot;, &amp;quot;word3&amp;quot;), sep = &amp;quot; &amp;quot;) %&amp;gt;%
+  filter(!word1 %in% itstopwords$word,
+         !word2 %in% itstopwords$word,
+         !word3 %in% itstopwords$word) %&amp;gt;%
+  count(word1, word2, word3, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 747 x 4
+##      word1   word2    word3     n
+##      &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+##  1   bella    vita  militar     5
+##  2  cangia    loco     oggi     3
+##  3   doman    poco      ora     3
+##  4    loco    oggi    molto     3
+##  5  abbiam  giusta  ragione     2
+##  6 alanima    vaga      sol     2
+##  7   bombe   forza accresce     2
+##  8    caro padrone   pagate     2
+##  9   molto   doman     poco     2
+## 10    oggi   molto    doman     2
+## # ... with 737 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This helps sort out some of the overlap of the bigrams – we see “bella vita militar” not counted as two separate bigrams, for example.&lt;/p&gt;
+&lt;p&gt;We can also look at bigrams of specific words. What if we want to compare how the two sisters tend to be talked about?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bigrams_filtered %&amp;gt;%
+  filter(word1 == &amp;quot;dorabella&amp;quot;) %&amp;gt;%
+  count(word2, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 8 x 2
+##         word2     n
+##         &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1      capace     1
+## 2   conducono     1
+## 3     infedel     1
+## 4     prender     1
+## 5 scioccherie     1
+## 6       senza     1
+## 7     signora     1
+## 8      stessa     1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bigrams_filtered %&amp;gt;%
+  filter(word1 == &amp;quot;fiordiligi&amp;quot;) %&amp;gt;%
+  count(word2, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 2
+##          word2     n
+##          &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1       ditemi     1
+## 2 scempiaggini     1
+## 3     tradirmi     1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There are lots of other things we can do with bigrams, but let’s move on to other representations of the text. Let’s try a word cloud.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;wordcloud(cosifreq$word,cosifreq$n, min.freq=5, 
+          colors=brewer.pal(1, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Unsurprisingly the main characters’ names are very common, but we also have “pieta” (pity); “amici” (friends); “amor” (love); “stelle” (stars). How do these compare to another Mozart and Da Ponte collaboration, Don Giovanni?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Load in all of the different scenes
+# If you are having encoding issues try the encoding argument
+# dona1s1 &amp;lt;- readLines(&amp;quot;giovanni/a1s1.txt&amp;quot;, encoding = &amp;quot;UTF-8&amp;quot;)
+dona1s1 &amp;lt;- readLines(&amp;quot;giovanni/a1s1.txt&amp;quot;)
+dona1s2 &amp;lt;- readLines(&amp;quot;giovanni/a1s2.txt&amp;quot;)
+dona1s2 &amp;lt;- readLines(&amp;quot;giovanni/a1s2.txt&amp;quot;)
+dona1s3 &amp;lt;- readLines(&amp;quot;giovanni/a1s3.txt&amp;quot;)
+dona1s4 &amp;lt;- readLines(&amp;quot;giovanni/a1s4.txt&amp;quot;)
+dona1s5 &amp;lt;- readLines(&amp;quot;giovanni/a1s5.txt&amp;quot;)
+dona1s6 &amp;lt;- readLines(&amp;quot;giovanni/a1s6.txt&amp;quot;)
+dona1s7 &amp;lt;- readLines(&amp;quot;giovanni/a1s7.txt&amp;quot;)
+dona1s8 &amp;lt;- readLines(&amp;quot;giovanni/a1s8.txt&amp;quot;)
+dona1s9 &amp;lt;- readLines(&amp;quot;giovanni/a1s9.txt&amp;quot;)
+dona1s10 &amp;lt;- readLines(&amp;quot;giovanni/a1s10.txt&amp;quot;)
+dona1s11 &amp;lt;- readLines(&amp;quot;giovanni/a1s11.txt&amp;quot;)
+dona1s12 &amp;lt;- readLines(&amp;quot;giovanni/a1s12.txt&amp;quot;)
+dona1s13 &amp;lt;- readLines(&amp;quot;giovanni/a1s13.txt&amp;quot;)
+dona1s14 &amp;lt;- readLines(&amp;quot;giovanni/a1s14.txt&amp;quot;)
+dona1s15 &amp;lt;- readLines(&amp;quot;giovanni/a1s15.txt&amp;quot;)
+dona1s16 &amp;lt;- readLines(&amp;quot;giovanni/a1s16.txt&amp;quot;)
+dona1s17 &amp;lt;- readLines(&amp;quot;giovanni/a1s17.txt&amp;quot;)
+dona1s18 &amp;lt;- readLines(&amp;quot;giovanni/a1s18.txt&amp;quot;)
+dona1s19 &amp;lt;- readLines(&amp;quot;giovanni/a1s19.txt&amp;quot;)
+dona1s20 &amp;lt;- readLines(&amp;quot;giovanni/a1s20.txt&amp;quot;)
+dona2s1 &amp;lt;- readLines(&amp;quot;giovanni/a2s1.txt&amp;quot;)
+dona2s2 &amp;lt;- readLines(&amp;quot;giovanni/a2s2.txt&amp;quot;)
+dona2s3 &amp;lt;- readLines(&amp;quot;giovanni/a2s3.txt&amp;quot;)
+dona2s4 &amp;lt;- readLines(&amp;quot;giovanni/a2s4.txt&amp;quot;)
+dona2s5 &amp;lt;- readLines(&amp;quot;giovanni/a2s5.txt&amp;quot;)
+dona2s6 &amp;lt;- readLines(&amp;quot;giovanni/a2s6.txt&amp;quot;)
+dona2s7 &amp;lt;- readLines(&amp;quot;giovanni/a2s7.txt&amp;quot;)
+dona2s8 &amp;lt;- readLines(&amp;quot;giovanni/a2s8.txt&amp;quot;)
+dona2s9 &amp;lt;- readLines(&amp;quot;giovanni/a2s9.txt&amp;quot;)
+dona2s10 &amp;lt;- readLines(&amp;quot;giovanni/a2s10.txt&amp;quot;)
+dona2s11 &amp;lt;- readLines(&amp;quot;giovanni/a2s11.txt&amp;quot;)
+dona2s12 &amp;lt;- readLines(&amp;quot;giovanni/a2s12.txt&amp;quot;)
+dona2s13 &amp;lt;- readLines(&amp;quot;giovanni/a2s13.txt&amp;quot;)
+dona2s14 &amp;lt;- readLines(&amp;quot;giovanni/a2s14.txt&amp;quot;)
+dona2s15 &amp;lt;- readLines(&amp;quot;giovanni/a2s15.txt&amp;quot;)
+dona2s16 &amp;lt;- readLines(&amp;quot;giovanni/a2s16.txt&amp;quot;)
+
+
+# Turn them all into  data frames so it&amp;#39;s easier to work with
+dona1s1 &amp;lt;- data_frame(text = dona1s1)
+dona1s2 &amp;lt;- data_frame(text = dona1s2)
+dona1s3 &amp;lt;- data_frame(text = dona1s3)
+dona1s4 &amp;lt;- data_frame(text = dona1s4)
+dona1s5 &amp;lt;- data_frame(text = dona1s5)
+dona1s6 &amp;lt;- data_frame(text = dona1s6)
+dona1s7 &amp;lt;- data_frame(text = dona1s7)
+dona1s8 &amp;lt;- data_frame(text = dona1s8)
+dona1s9 &amp;lt;- data_frame(text = dona1s9)
+dona1s10 &amp;lt;- data_frame(text = dona1s10)
+dona1s11 &amp;lt;- data_frame(text = dona1s11)
+dona1s12 &amp;lt;- data_frame(text = dona1s12)
+dona1s13 &amp;lt;- data_frame(text = dona1s13)
+dona1s14 &amp;lt;- data_frame(text = dona1s14)
+dona1s15 &amp;lt;- data_frame(text = dona1s15)
+dona1s16 &amp;lt;- data_frame(text = dona1s16)
+dona1s17 &amp;lt;- data_frame(text = dona1s17)
+dona1s18 &amp;lt;- data_frame(text = dona1s18)
+dona1s19 &amp;lt;- data_frame(text = dona1s19)
+dona1s20 &amp;lt;- data_frame(text = dona1s20)
+dona2s1 &amp;lt;- data_frame(text = dona2s1)
+dona2s2 &amp;lt;- data_frame(text = dona2s2)
+dona2s3 &amp;lt;- data_frame(text = dona2s3)
+dona2s4 &amp;lt;- data_frame(text = dona2s4)
+dona2s5 &amp;lt;- data_frame(text = dona2s5)
+dona2s6 &amp;lt;- data_frame(text = dona2s6)
+dona2s7 &amp;lt;- data_frame(text = dona2s7)
+dona2s8 &amp;lt;- data_frame(text = dona2s8)
+dona2s9 &amp;lt;- data_frame(text = dona2s9)
+dona2s10 &amp;lt;- data_frame(text = dona2s10)
+dona2s11 &amp;lt;- data_frame(text = dona2s11)
+dona2s12 &amp;lt;- data_frame(text = dona2s12)
+dona2s13 &amp;lt;- data_frame(text = dona2s13)
+dona2s14 &amp;lt;- data_frame(text = dona2s14)
+dona2s15 &amp;lt;- data_frame(text = dona2s15)
+dona2s16 &amp;lt;- data_frame(text = dona2s16)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Combine these data frames (help from https://www.r-bloggers.com/concatenating-a-list-of-data-frames/)
+
+giovanniDF &amp;lt;- rbind.fill(dona1s1, dona1s2, dona1s3, dona1s4, dona1s5, dona1s6, dona1s7, dona1s8, dona1s9, dona1s10, dona1s11, dona1s12, dona1s13, dona1s14, dona1s15, dona1s16, dona2s1, dona2s2, dona2s3, dona2s4, dona2s5, dona2s6, dona2s7, dona2s8, dona2s9, dona2s10, dona2s11, dona2s12, dona2s13, dona2s14, dona2s15, dona2s16)
+
+# NOTE TO SELF TRY DOING THESE BEFORE EVERYTHING ELSE
+giovanniDF$text &amp;lt;- gsub(&amp;quot;NO.&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;RECITATIVO&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;ACCOMPAGNATO&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;ARIA&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;DUETTO&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;TERZETTO&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;QUARTETTO&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;QUINTETTO&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;SESTETTO&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+
+# Let&amp;#39;s get rid of stage directions (help from https://stackoverflow.com/questions/13529360/replace-text-within-parenthesis-in-r)
+giovanniDF$text &amp;lt;- gsub( &amp;quot; *\\(.*?\\) *&amp;quot;, &amp;quot;&amp;quot;, giovanniDF$text)
+
+# Also get rid of numbers (help from here: http://www.endmemo.com/program/R/gsub.php)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;\\d+&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+# Get rid of &amp;quot;d&amp;#39;&amp;quot; a shortening of &amp;quot;di&amp;quot; (easier to do it this way than as a stop word)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;d&amp;#39;&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+# Get rid of &amp;quot;dell&amp;#39;&amp;quot;, a shortening of &amp;quot;dello/a/gli/i&amp;quot;
+giovanniDF$text &amp;lt;- gsub(&amp;quot;dell&amp;#39;&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+# Get rid of &amp;quot;l&amp;#39;&amp;quot; a shortening of &amp;quot;la&amp;quot; or &amp;quot;il&amp;quot; in front of words that start with a vowel
+giovanniDF$text &amp;lt;- gsub(&amp;quot;l&amp;#39;&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+
+# There are some issues with this libretto, I have to make sure it can pick up the names as separate things
+giovanniDF$text &amp;lt;- gsub(&amp;quot;DONNA&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+giovanniDF$text &amp;lt;- gsub(&amp;quot;DON&amp;quot;,&amp;quot;&amp;quot;, giovanniDF$text)
+
+# Let&amp;#39;s transform this into transcript form
+# First label whether a row is a line or character name
+
+# Create a data frame with the character names that exist in the text
+doncharacters = c(&amp;quot;GIOVANNI&amp;quot;, &amp;quot;ANNA&amp;quot;, &amp;quot;LEPORELLO&amp;quot;, &amp;quot;COMMENDATORE&amp;quot;, &amp;quot;OTTAVIO&amp;quot;, &amp;quot;ELVIRA&amp;quot;, &amp;quot;ZERLINA&amp;quot;,  &amp;quot;MASETTO&amp;quot;, &amp;quot;COMMENDATORE&amp;quot;, &amp;quot;CONTADINE&amp;quot;, &amp;quot;CONTADINI&amp;quot;, &amp;quot;CORO&amp;quot;) 
+donchardf &amp;lt;- data.frame(doncharacters)
+
+# Now use regular expression to identify when the row is a character name (TRUE) or not (FALSE)
+# FALSE then means that we are looking at a line row
+donchargrepl &amp;lt;- grepl(paste(donchardf$doncharacters, collapse = &amp;quot;|&amp;quot;), giovanniDF$text)
+# This says go through each row and if something in that row is the same as something in our characters data frame (the &amp;quot;|&amp;quot; is working as an &amp;#39;or&amp;#39;, telling R that it could be Dorabella or Fiordiligi or Don Alfonso, etc.) then put &amp;#39;TRUE&amp;#39;
+
+# The output is a list so we have to turn it into a data frame to merge it back with our data
+donchargreplDF &amp;lt;-as.data.frame(donchargrepl)
+
+# To merge something, you have to have a common key. Create an id row for each data frame you want to combine and that will be your key! 
+giovanniDF$id &amp;lt;- 1:nrow(giovanniDF)
+donchargreplDF$id &amp;lt;- 1:nrow(donchargreplDF)
+
+# Now merge!
+dontext_df &amp;lt;- merge(giovanniDF,donchargreplDF,by=&amp;quot;id&amp;quot;)
+
+# Now things get complicated. We are going to &amp;#39;group&amp;#39; things according to names. We have name rows represented by &amp;#39;TRUE&amp;#39; and lines represented by &amp;#39;FALSE&amp;#39;. So we can create a group by telling R to make a new id row that starts anew each time it sees &amp;#39;TRUE&amp;#39;.
+
+# Make groups of lines associated with names (help from here https://stackoverflow.com/questions/29376178/count-changes-to-contents-of-a-character-vector)
+dontest_df &amp;lt;- dontext_df %&amp;gt;% mutate( 
+   try_1 = cumsum(ifelse(donchargrepl == TRUE, 1, 0)) 
+   )
+
+# Now we want to copy our text column so we can eventually have two columns in which one has all of the lines and the other has the characters speaking those lines
+# Create a duplicate column of the text
+dontest_df$text2 &amp;lt;- dontest_df$text
+
+# Let&amp;#39;s get rid of superfluous info for our character column (so, in this case, lines)
+# Get rid of lines in one column
+dontest_df$text &amp;lt;- ifelse(dontest_df$donchargrepl == TRUE, dontest_df$text, &amp;quot;&amp;quot;)
+# This command says look through the text column and if the corresponding chargrepl column (our logical vector) is TRUE leave it alone but if it is else (&amp;#39;ifelse&amp;#39;) replace with &amp;quot;&amp;quot; (nothing).  
+
+# Do the same for the other text column, but opposite
+dontest_df$text2 &amp;lt;- ifelse(dontest_df$donchargrepl == FALSE, dontest_df$text2, &amp;quot;&amp;quot;)
+
+# Now let&amp;#39;s aggregate things
+donresult &amp;lt;- aggregate(text ~ try_1, data = dontest_df, paste, collapse = &amp;quot;&amp;quot;)
+donresult2 &amp;lt;- aggregate(text2 ~ try_1, data = dontest_df, paste, collapse = &amp;quot;&amp;quot;)
+# These commands are creating two data frames. The first one is just character names, the second is the lines associated with those characters. The collapse is also helping us out in that it&amp;#39;s putting each series of phrases in one cell. That&amp;#39;s because we are collapsing by the group id we created a few steps back (&amp;#39;try_1&amp;#39;). 
+
+# Now we merge these data frames together by their shared column of group id
+new_giovanni &amp;lt;- merge(donresult, donresult2, by=&amp;quot;try_1&amp;quot;)
+
+# Let&amp;#39;s get rid of that id!
+new_giovanni &amp;lt;- new_giovanni[,c(&amp;quot;text&amp;quot;,&amp;quot;text2&amp;quot;)]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Transform this into something we can work with: tidy text!
+tidy_giovanni &amp;lt;- new_giovanni %&amp;gt;%
+  unnest_tokens(word, text2)
+
+# Get rid of stop words
+
+giovannitribble &amp;lt;- tidy_giovanni %&amp;gt;%
+  anti_join(itstopwords)
+
+giovannifreq &amp;lt;- giovannitribble %&amp;gt;%
+  count(word, sort = TRUE) &lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;wordcloud(giovannifreq$word,giovannifreq$n, min.freq=5, 
+          colors=brewer.pal(1, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-17-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We do see some differences even here – Cosi has mention of friends, heart, love, etc. while Giovanni has some more negative words like “barbaro”. Both clearly are tied to the individual plots of the operas (you can tell which word cloud belongs where!)&lt;/p&gt;
+&lt;p&gt;To round it out let’s do the last famous Da Ponte - Mozart colab, Le Nozze Di Figaro. This one is all in one document, so it’ll require less work to load it in.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;figaro &amp;lt;- readLines(&amp;quot;figaro/figaro.txt&amp;quot;)
+
+figaroDF &amp;lt;- data_frame(text = figaro)
+
+# Let&amp;#39;s get rid of stage directions (help from https://stackoverflow.com/questions/13529360/replace-text-within-parenthesis-in-r)
+figaroDF$text &amp;lt;- gsub( &amp;quot; *\\(.*?\\) *&amp;quot;, &amp;quot;&amp;quot;, figaroDF$text)
+
+# Get rid of everything between &amp;#39;&amp;lt; &amp;gt;&amp;#39; -- this is how arias and recits have been marked in this libretto
+figaroDF$text &amp;lt;- gsub(&amp;quot;&amp;lt;[^&amp;gt;]+&amp;gt;&amp;quot;, &amp;quot;&amp;quot;, figaroDF$text)
+
+# There are also some instances in which quotations are used, let&amp;#39;s get rid of those too
+figaroDF$text &amp;lt;- gsub( &amp;#39;&amp;quot;&amp;#39;, &amp;#39;&amp;#39;, figaroDF$text)
+# Note we chanage &amp;quot; to &amp;#39; in the gsub function to not confuse R -- if we had &amp;quot;&amp;quot;&amp;quot; R wouldn&amp;#39;t know what to do with that because it would read it as one quotation ending and another incomplete one.
+
+# Also get rid of numbers (help from here: http://www.endmemo.com/program/R/gsub.php)
+figaroDF$text &amp;lt;- gsub(&amp;quot;\\d+&amp;quot;,&amp;quot;&amp;quot;, figaroDF$text)
+# Get rid of &amp;quot;d&amp;#39;&amp;quot; a shortening of &amp;quot;di&amp;quot; (easier to do it this way than as a stop word)
+figaroDF$text &amp;lt;- gsub(&amp;quot;d&amp;#39;&amp;quot;,&amp;quot;&amp;quot;, figaroDF$text)
+# Get rid of &amp;quot;dell&amp;#39;&amp;quot;, a shortening of &amp;quot;dello/a/gli/i&amp;quot;
+figaroDF$text &amp;lt;- gsub(&amp;quot;dell&amp;#39;&amp;quot;,&amp;quot;&amp;quot;, figaroDF$text)
+# You have to do this before l&amp;#39; because R would get rid of the &amp;quot;l&amp;#39;&amp;quot; of &amp;quot;dell&amp;#39;&amp;quot;, leaving you with &amp;quot;del&amp;quot; smooshed onto the next word, which is not what you want!
+# Get rid of &amp;quot;l&amp;#39;&amp;quot; a shortening of &amp;quot;la&amp;quot; or &amp;quot;il&amp;quot; in front of words that start with a vowel
+figaroDF$text &amp;lt;- gsub(&amp;quot;l&amp;#39;&amp;quot;,&amp;quot;&amp;quot;, figaroDF$text)
+
+# There are some issues with this libretto, I have to make sure it can pick up the names as separate things
+# figaroDF$text &amp;lt;- gsub(&amp;quot;DONNA&amp;quot;,&amp;quot;&amp;quot;, figaroDF$text)
+# figaroDF$text &amp;lt;- gsub(&amp;quot;DON&amp;quot;,&amp;quot;&amp;quot;, figaroDF$text)
+
+# Let&amp;#39;s transform this into transcript form
+# First label whether a row is a line or character name
+
+# Create a data frame with the character names that exist in the text
+figcharacters = c(&amp;quot;IL CONTE&amp;quot;, &amp;quot;LA CONTESSA&amp;quot;, &amp;quot;SUSANNA&amp;quot;, &amp;quot;FIGARO&amp;quot;, &amp;quot;CHERUBINO&amp;quot;, &amp;quot;MARCELLINA&amp;quot;, &amp;quot;BARTOLO&amp;quot;,  &amp;quot;BASILIO&amp;quot;, &amp;quot;DON CURZIO&amp;quot;, &amp;quot;BARBARINA&amp;quot;, &amp;quot;ANTONIO&amp;quot;, &amp;quot;DUE DONNE&amp;quot;, &amp;quot;TUTTI&amp;quot;, &amp;quot;CORO&amp;quot;, &amp;quot;CONTADINELLE&amp;quot;) 
+figchardf &amp;lt;- data.frame(figcharacters)
+
+# Now use regular expression to identify when the row is a character name (TRUE) or not (FALSE)
+# FALSE then means that we are looking at a line row
+figchargrepl &amp;lt;- grepl(paste(figchardf$figcharacters, collapse = &amp;quot;|&amp;quot;), figaroDF$text)
+# This says go through each row and if something in that row is the same as something in our characters data frame (the &amp;quot;|&amp;quot; is working as an &amp;#39;or&amp;#39;, telling R that it could be Dorabella or Fiordiligi or Don Alfonso, etc.) then put &amp;#39;TRUE&amp;#39;
+
+# The output is a list so we have to turn it into a data frame to merge it back with our data
+figchargreplDF &amp;lt;-as.data.frame(figchargrepl)
+
+# To merge something, you have to have a common key. Create an id row for each data frame you want to combine and that will be your key! 
+figaroDF$id &amp;lt;- 1:nrow(figaroDF)
+figchargreplDF$id &amp;lt;- 1:nrow(figchargreplDF)
+
+# Now merge!
+figtext_df &amp;lt;- merge(figaroDF,figchargreplDF,by=&amp;quot;id&amp;quot;)
+
+# Now things get complicated. We are going to &amp;#39;group&amp;#39; things according to names. We have name rows represented by &amp;#39;TRUE&amp;#39; and lines represented by &amp;#39;FALSE&amp;#39;. So we can create a group by telling R to make a new id row that starts anew each time it sees &amp;#39;TRUE&amp;#39;.
+
+# Make groups of lines associated with names (help from here https://stackoverflow.com/questions/29376178/count-changes-to-contents-of-a-character-vector)
+figtest_df &amp;lt;- figtext_df %&amp;gt;% mutate( 
+   try_1 = cumsum(ifelse(figchargrepl == TRUE, 1, 0)) 
+   )
+
+# Now we want to copy our text column so we can eventually have two columns in which one has all of the lines and the other has the characters speaking those lines
+# Create a duplicate column of the text
+figtest_df$text2 &amp;lt;- figtest_df$text
+
+# Let&amp;#39;s get rid of superfluous info for our character column (so, in this case, lines)
+# Get rid of lines in one column
+figtest_df$text &amp;lt;- ifelse(figtest_df$figchargrepl == TRUE, figtest_df$text, &amp;quot;&amp;quot;)
+# This command says look through the text column and if the corresponding chargrepl column (our logical vector) is TRUE leave it alone but if it is else (&amp;#39;ifelse&amp;#39;) replace with &amp;quot;&amp;quot; (nothing).  
+
+# Do the same for the other text column, but opposite
+figtest_df$text2 &amp;lt;- ifelse(figtest_df$figchargrepl == FALSE, figtest_df$text2, &amp;quot;&amp;quot;)
+
+# Now let&amp;#39;s aggregate things
+figresult &amp;lt;- aggregate(text ~ try_1, data = figtest_df, paste, collapse = &amp;quot;&amp;quot;)
+figresult2 &amp;lt;- aggregate(text2 ~ try_1, data = figtest_df, paste, collapse = &amp;quot;&amp;quot;)
+# These commands are creating two data frames. The first one is just character names, the second is the lines associated with those characters. The collapse is also helping us out in that it&amp;#39;s putting each series of phrases in one cell. That&amp;#39;s because we are collapsing by the group id we created a few steps back (&amp;#39;try_1&amp;#39;). 
+
+# Now we merge these data frames together by their shared column of group id
+new_figaro &amp;lt;- merge(figresult, figresult2, by=&amp;quot;try_1&amp;quot;)
+
+# Let&amp;#39;s get rid of that id!
+new_figaro &amp;lt;- new_figaro[,c(&amp;quot;text&amp;quot;,&amp;quot;text2&amp;quot;)]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Transform this into something we can work with: tidy text!
+tidy_figaro &amp;lt;- new_figaro %&amp;gt;%
+  unnest_tokens(word, text2)
+
+figtribble &amp;lt;- tidy_figaro %&amp;gt;%
+  anti_join(itstopwords)
+
+figfreq &amp;lt;- figtribble %&amp;gt;%
+  count(word, sort = TRUE) &lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;wordcloud(figfreq$word,figfreq$n, min.freq=7, 
+          colors=brewer.pal(1, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-20-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Let’s look at some bigrams / trigrams&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fig_bigrams &amp;lt;- new_figaro %&amp;gt;%
+  unnest_tokens(bigram, text2, token = &amp;quot;ngrams&amp;quot;, n = 2)
+
+figbigrams_separated &amp;lt;- fig_bigrams %&amp;gt;%
+  separate(bigram, c(&amp;quot;word1&amp;quot;, &amp;quot;word2&amp;quot;), sep = &amp;quot; &amp;quot;)
+
+figbigrams_filtered &amp;lt;- figbigrams_separated %&amp;gt;%
+  filter(!word1 %in% itstopwords$word) %&amp;gt;%
+  filter(!word2 %in% itstopwords$word)
+
+# new bigram counts:
+figbigram_counts &amp;lt;- figbigrams_filtered %&amp;gt;% 
+  count(word1, word2, sort = TRUE)
+
+figbigram_counts&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,763 x 3
+##      word1    word2     n
+##      &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+##  1  signor    conte     6
+##  2   conte  susanna     5
+##  3   conte      olà     4
+##  4  saggio   signor     4
+##  5 ballare   signor     3
+##  6   conte    ebben     3
+##  7     olà silenzio     3
+##  8    pace     pace     3
+##  9   parlo     amor     3
+## 10 perdono  perdono     3
+## # ... with 1,753 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Interestingly for an opera (which might suggest certain phrases being repeated multiple times) we have few bigrams. We see some repeats for the chorus “Bella Vita Militar”, for example.&lt;/p&gt;
+&lt;p&gt;What about trigrams?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;new_figaro %&amp;gt;%
+  unnest_tokens(trigram, text2, token = &amp;quot;ngrams&amp;quot;, n = 3) %&amp;gt;%
+  separate(trigram, c(&amp;quot;word1&amp;quot;, &amp;quot;word2&amp;quot;, &amp;quot;word3&amp;quot;), sep = &amp;quot; &amp;quot;) %&amp;gt;%
+  filter(!word1 %in% itstopwords$word,
+         !word2 %in% itstopwords$word,
+         !word3 %in% itstopwords$word) %&amp;gt;%
+  count(word1, word2, word3, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 708 x 4
+##       word1    word2    word3     n
+##       &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+##  1  ballare   signor  contino     3
+##  2    conte      olà silenzio     3
+##  3     vuol  ballare   signor     3
+##  4   amanti costanti  seguaci     2
+##  5     amor    donne   vedete     2
+##  6      bel    fiore     almo     2
+##  7      bel guadagno    colla     2
+##  8    conte    gente    gente     2
+##  9 costanti  seguaci     onor     2
+## 10    donne   vedete     s&amp;#39;io     2
+## # ... with 698 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Again, trigrams aren’t THAT helpful when looking at things like an opera, because part of the structure of opera (at least at this time) was to have a specific structure to arias, in which certain phrases would be repeated. This might be more insightful if you want to look at bigrams in a varied, larger data set, like a bunch of tweets or maybe a corpus of newspaper data. Or we could combine all of our operas and look at bigrams to see if there are any instances of two words happening together. First though, let’s compare at how ‘love’ is discussed in each of these operas.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;figbigrams_filtered %&amp;gt;%
+  filter(word1 == &amp;quot;amore&amp;quot;) %&amp;gt;%
+  count(word2, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 2
+##     word2     n
+##     &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1 ch&amp;#39;oggi     1
+## 2 l&amp;#39;abito     1
+## 3   unita     1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Sometimes this is shortened
+
+figbigrams_filtered %&amp;gt;%
+  filter(word1 == &amp;quot;amor&amp;quot;) %&amp;gt;%
+  count(word2, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 4 x 2
+##       word2     n
+##       &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1     donne     2
+## 2      pace     1
+## 3  sognando     1
+## 4 vegliando     1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Sometimes &amp;#39;amore&amp;#39; is the second word, not the first (flexible word order here)
+
+figbigrams_filtered %&amp;gt;%
+  filter(word2 == &amp;quot;amore&amp;quot;) %&amp;gt;%
+  count(word1, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 2
+##      word1     n
+##      &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1 cherubin     1
+## 2      man     1
+## 3  mentono     1
+## 4      ove     1
+## 5   sforza     1
+## 6   spagna     1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;figbigrams_filtered %&amp;gt;%
+  filter(word2 == &amp;quot;amor&amp;quot;) %&amp;gt;%
+  count(word1, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 10 x 2
+##        word1     n
+##        &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+##  1     parlo     3
+##  2  adoncino     1
+##  3    antico     1
+##  4    felice     1
+##  5 intendete     1
+##  6      nomi     1
+##  7   piaceri     1
+##  8     porgi     1
+##  9      solo     1
+## 10    tenero     1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;See how it takes a few tries to get something that makes more sense with the data? In this instance, we see that looking at where the shortened ‘amor’ pops up as the second word gives us a little more information about how love is discussed in Le Nozze di Figaro.&lt;/p&gt;
+&lt;p&gt;Let’s look at Don Giovanni now…&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;don_bigrams &amp;lt;- new_giovanni %&amp;gt;%
+  unnest_tokens(bigram, text2, token = &amp;quot;ngrams&amp;quot;, n = 2)
+
+donbigrams_separated &amp;lt;- don_bigrams %&amp;gt;%
+  separate(bigram, c(&amp;quot;word1&amp;quot;, &amp;quot;word2&amp;quot;), sep = &amp;quot; &amp;quot;)
+
+donbigrams_filtered &amp;lt;- donbigrams_separated %&amp;gt;%
+  filter(!word1 %in% itstopwords$word) %&amp;gt;%
+  filter(!word2 %in% itstopwords$word)
+
+# Let&amp;#39;s check out &amp;#39;love&amp;#39;!
+
+# donbigrams_filtered %&amp;gt;%
+#   filter(word1 == &amp;quot;amore&amp;quot;) %&amp;gt;%
+#   count(word2, sort = TRUE)
+# No instances for this one
+
+# Sometimes this is shortened
+
+donbigrams_filtered %&amp;gt;%
+  filter(word1 == &amp;quot;amor&amp;quot;) %&amp;gt;%
+  count(word2, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 2
+##       word2     n
+##       &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1 consiglio     1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Sometimes &amp;#39;amore&amp;#39; is the second word, not the first (flexible word order here)
+
+donbigrams_filtered %&amp;gt;%
+  filter(word2 == &amp;quot;amore&amp;quot;) %&amp;gt;%
+  count(word1, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 2 x 2
+##     word1     n
+##     &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1 fingere     1
+## 2   parla     1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;donbigrams_filtered %&amp;gt;%
+  filter(word2 == &amp;quot;amor&amp;quot;) %&amp;gt;%
+  count(word1, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 4 x 2
+##       word1     n
+##       &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1      fido     2
+## 2 innocente     1
+## 3     sorte     1
+## 4    tenero     1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Again we see the last one is more effective in picking up examples. Already we can see a shift in tone from Figaro to Giovanni – “fingere” for example means to pretend or fake.&lt;/p&gt;
+&lt;p&gt;How about Cosi?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bigrams_filtered %&amp;gt;%
+  filter(word1 == &amp;quot;amore&amp;quot;) %&amp;gt;%
+  count(word2, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 2
+##      word2     n
+##      &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1    altri     1
+## 2   d&amp;#39;esca     1
+## 3       en     1
+## 4   esempi     1
+## 5 singolar     1
+## 6 terminar     1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Sometimes this is shortened
+
+bigrams_filtered %&amp;gt;%
+  filter(word1 == &amp;quot;amor&amp;quot;) %&amp;gt;%
+  count(word2, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 7 x 2
+##           word2     n
+##           &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1        andate     1
+## 2 contentissimi     1
+## 3          lega     1
+## 4     secondate     1
+## 5        simile     1
+## 6      virtuoso     1
+## 7         vista     1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Sometimes &amp;#39;amore&amp;#39; is the second word, not the first (flexible word order here)
+
+bigrams_filtered %&amp;gt;%
+  filter(word2 == &amp;quot;amore&amp;quot;) %&amp;gt;%
+  count(word1, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 7 x 2
+##      word1     n
+##      &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1  balsamo     1
+## 2 cangiano     1
+## 3    desio     1
+## 4   giusto     1
+## 5  intatto     1
+## 6    speme     1
+## 7  trattar     1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bigrams_filtered %&amp;gt;%
+  filter(word2 == &amp;quot;amor&amp;quot;) %&amp;gt;%
+  count(word1, sort = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 11 x 2
+##        word1     n
+##        &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+##  1   alfonso     1
+##  2  antidoto     1
+##  3       dio     1
+##  4    madame     1
+##  5    mangia     1
+##  6 pennacchi     1
+##  7     senza     1
+##  8      sola     1
+##  9    tenero     1
+## 10   vezzosi     1
+## 11      voci     1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s combine all of these data frames together to look at everything at once. Let’s build a mini Mozart opera corpus.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Let&amp;#39;s first add columns so we know which line belongs to which opera
+# Let&amp;#39;s also add an &amp;#39;id&amp;#39; -- this will be helpful later when we want to look at sentiment changes over time 
+new_data$opera &amp;lt;- &amp;quot;COSI&amp;quot; 
+new_data$id &amp;lt;- 1:nrow(new_data)
+new_giovanni$opera&amp;lt;-&amp;quot;GIOVANNI&amp;quot;
+new_giovanni$id &amp;lt;- 1:nrow(new_giovanni)
+new_figaro$opera&amp;lt;-&amp;quot;FIGARO&amp;quot;
+new_figaro$id &amp;lt;- 1:nrow(new_figaro)
+
+mozart &amp;lt;- rbind.fill(new_data, new_giovanni, new_figaro)
+
+#Let&amp;#39;s play around with this and look at a word cloud representation
+tidy_mozart &amp;lt;- mozart %&amp;gt;%
+  unnest_tokens(word, text2)
+
+moztribble &amp;lt;- tidy_mozart %&amp;gt;%
+  anti_join(itstopwords)
+
+mozartfreq &amp;lt;- moztribble %&amp;gt;%
+  count(word, sort = TRUE) 
+
+# Because we have more words, let&amp;#39;s up the minimum frequency to 10
+wordcloud(mozartfreq$word,mozartfreq$n, min.freq=10, 
+          colors=brewer.pal(1, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-26-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We don’t have the best sentiment dictionary for Italian (especially this kind of Italian, which is 200+ years old!) nor do we have a ‘built in’ sentiment dictionary from a package. If we were working with English, we could use the tidytext package to download the Bing sentiment corpus and use that, etc. But we will have to make our own! I’ll be using the sentiment dictionary Andrea Cirillo put together to look at Italian tweets, available &lt;a href=&#34;https://github.com/AndreaCirilloAC/TweetIT/tree/master/lexicon/IT&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# First let&amp;#39;s load in some text files, which are just the words Andrea has collected that I copy-pasted into a word doc and &amp;#39;saved as&amp;#39; a txt file.
+pos &amp;lt;- readLines(&amp;quot;itpositivewords.txt&amp;quot;)
+neg &amp;lt;- readLines(&amp;quot;itnegativewords.txt&amp;quot;)
+
+# Turn these into data frames
+posDF &amp;lt;- data_frame(text = pos)
+negDF &amp;lt;- data_frame(text = neg)
+
+# Create a new column for each with a marker of what kind of sentiment we are dealing with
+posDF$sentiment &amp;lt;- &amp;quot;positive&amp;quot;
+negDF$sentiment &amp;lt;- &amp;quot;negative&amp;quot;
+
+# Combine these into a data frame
+sentiment &amp;lt;- rbind.fill(posDF, negDF)
+
+# We have lots of empty cells, get rid of those
+# Mark empty cells as NA
+sentiment$text[sentiment$text==&amp;quot;&amp;quot;] &amp;lt;- NA
+
+# Get rid of NA rows (help from here: https://stackoverflow.com/questions/12763890/exclude-blank-and-na-in-r)
+sentimentDF &amp;lt;- na.omit(sentiment)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now that we have our own new sentiment dictionary, let’s evaluate the sentiment of our operas! Code adapted from &lt;a href=&#34;http://tidytextmining.com/sentiment.html&#34;&gt;Silge and Robinson&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We have to change the name again
+names(sentimentDF)[names(sentimentDF)==&amp;quot;text&amp;quot;] &amp;lt;- &amp;quot;word&amp;quot;
+
+## Sentiment analysis
+senti_word_counts &amp;lt;- tidy_mozart %&amp;gt;%
+  inner_join(sentimentDF) %&amp;gt;%
+  count(word, sentiment, sort = TRUE) %&amp;gt;%
+  ungroup()
+
+# senti_word_counts
+
+# The first time I ran this, I didn&amp;#39;t get too many matches. Then I went back to the text file, added some words to both postive and negative text files and now we have a semblance of a result. Hopefully you&amp;#39;ll have more luck with your more contemporary texts!
+
+# Now we can graph these
+senti_word_counts %&amp;gt;%
+  filter(n &amp;gt; 15) %&amp;gt;%
+  mutate(n = ifelse(sentiment == &amp;quot;negative&amp;quot;, -n, n)) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = &amp;quot;identity&amp;quot;) +
+  labs(y = &amp;quot;Contribution to sentiment&amp;quot;,
+       x = NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-28-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;You will most likely have to fiddle with this a bit, depending on your data and ESPECIALLY if you’ve ‘made’ your own sentiment dictionary. For example, the first time I ran this, it was counting ‘caro’ as both positive and negative. This is because ‘caro’ means ‘dear’ – which in operas is usually used as a term of endearment, whereas in modern Italian it means expensive! So I had to go back to the negative sentiment list and delete it.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Let&amp;#39;s see how each opera compares
+# Cosi
+cosisenti_word_counts &amp;lt;- tribble %&amp;gt;%
+  inner_join(sentimentDF) %&amp;gt;%
+  count(word, sentiment, sort = TRUE) %&amp;gt;%
+  ungroup()
+
+cosisenti_word_counts %&amp;gt;%
+  filter(n &amp;gt; 5) %&amp;gt;%
+  mutate(n = ifelse(sentiment == &amp;quot;negative&amp;quot;, -n, n)) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = &amp;quot;identity&amp;quot;) +
+  labs(y = &amp;quot;Contribution to sentiment&amp;quot;,
+       x = NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-29-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Giovanni
+donsenti_word_counts &amp;lt;- tidy_giovanni %&amp;gt;%
+  inner_join(sentimentDF) %&amp;gt;%
+  count(word, sentiment, sort = TRUE) %&amp;gt;%
+  ungroup()
+
+donsenti_word_counts %&amp;gt;%
+  filter(n &amp;gt; 5) %&amp;gt;%
+  mutate(n = ifelse(sentiment == &amp;quot;negative&amp;quot;, -n, n)) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = &amp;quot;identity&amp;quot;) +
+  labs(y = &amp;quot;Contribution to sentiment&amp;quot;,
+       x = NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-29-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Figaro
+figsenti_word_counts &amp;lt;- tidy_figaro %&amp;gt;%
+  inner_join(sentimentDF) %&amp;gt;%
+  count(word, sentiment, sort = TRUE) %&amp;gt;%
+  ungroup()
+
+figsenti_word_counts %&amp;gt;%
+  filter(n &amp;gt; 5) %&amp;gt;%
+  mutate(n = ifelse(sentiment == &amp;quot;negative&amp;quot;, -n, n)) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = &amp;quot;identity&amp;quot;) +
+  labs(y = &amp;quot;Contribution to sentiment&amp;quot;,
+       x = NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-29-3.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;As we might guess, the opera seria (‘serious’ or melodramatic opera) Don Giovanni seems to be skewed on the negative side, however the two opera buffas (comedic operas) do not follow this pattern. Cosi Fan Tutte has a lot of negative sentiment, more than positive sentiment especially compared to Le Nozze di Figaro. This makes sense when we consider the plots (a lot of the opera is made up of pining; confusion and farewells) but it’s kind of interesting to see it scaled back a bit especially when we think about the tone of an opera overall and how words fit into that.&lt;/p&gt;
+&lt;p&gt;Something really cool to do would be to take advantage of opera as music drama by noting which key each of these words are being sung in (i.e. whether or not we are working in a major or minor key) to add an extra layer to our analysis, but that is a little too much work for the time being! This would be especially cool to try with Wagner, but I digress.&lt;/p&gt;
+&lt;p&gt;Let’s look at how sentiment has changed over the course of each opera! (Again, adapted from &lt;a href=&#34;http://tidytextmining.com/sentiment.html&#34;&gt;Silge and Robinson&lt;/a&gt;)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mozartsenti &amp;lt;- moztribble %&amp;gt;%
+  inner_join(sentimentDF) %&amp;gt;%
+  count(opera, index = id %/% 1, sentiment) %&amp;gt;%
+  spread(sentiment, n, fill = 0) %&amp;gt;%
+  mutate(sentiment = positive - negative)
+
+# Graph
+ggplot(mozartsenti, aes(index, sentiment, fill = opera)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~opera, ncol = 2, scales = &amp;quot;free_x&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-30-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# That previous example was looking at line by line, but we can group these together a little more to see larger trends (you can modify this depending on your data)
+mozartsenti &amp;lt;- moztribble %&amp;gt;%
+  inner_join(sentimentDF) %&amp;gt;%
+  count(opera, index = id %/% 10, sentiment) %&amp;gt;%
+  spread(sentiment, n, fill = 0) %&amp;gt;%
+  mutate(sentiment = positive - negative)
+
+# Graph
+ggplot(mozartsenti, aes(index, sentiment, fill = opera)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~opera, ncol = 2, scales = &amp;quot;free_x&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-30-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Let’s check out some more things. The following examples and code comes from &lt;a href=&#34;http://tidytextmining.com/tfidf.html&#34;&gt;Silge and Robinson’s Text Mining with R book&lt;/a&gt; which I have adapted for our data set that we’ve been working with.&lt;/p&gt;
+&lt;p&gt;Julia Silge’s &lt;a href=&#34;https://juliasilge.com/blog/life-changing-magic/&#34;&gt;blog&lt;/a&gt; also has a lot of cool examples of how to play around with these tools and how to get different visualizations.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Use representation of text that has stop words removed
+mozart_words &amp;lt;- moztribble %&amp;gt;%
+  count(opera, word, sort = TRUE) %&amp;gt;%
+  ungroup()
+
+total_words &amp;lt;- mozart_words %&amp;gt;% 
+  group_by(opera) %&amp;gt;% 
+  summarize(total = sum(n))
+
+mozart_words &amp;lt;- left_join(mozart_words, total_words)
+
+mozart_words&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6,441 x 4
+##     opera     word     n total
+##     &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; &amp;lt;int&amp;gt;
+##  1 FIGARO    conte   233  4838
+##  2 FIGARO contessa   134  4838
+##  3 FIGARO  susanna    49  4838
+##  4 FIGARO   signor    46  4838
+##  5   COSI      cor    29  4200
+##  6   COSI      due    27  4200
+##  7 FIGARO   madama    25  4838
+##  8 FIGARO   figaro    24  4838
+##  9   COSI   amanti    22  4200
+## 10   COSI    bella    21  4200
+## # ... with 6,431 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As Silge and Robinson explain (adapted to fit our example), now we have “one row in this mozart_words data frame for each word-opera combination; n is the number of times that word is used in that opera and total is the total words in that opera. The usual suspects are here with the highest n, “the”, “and”, “to”, and so forth (‘il’, ‘la’, ‘che’, etc.) … let’s look at the distribution of n/total for each opera, the number of times a word appears in an opera divided by the total number of terms (words) in that opera. This is exactly what term frequency is.”&lt;/p&gt;
+&lt;p&gt;Term frequency is an important concept in text mining. Let’s see some examples and explore what this term means and why it is useful.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(mozart_words, aes(n/total, fill = opera)) +
+  geom_histogram(show.legend = FALSE) +
+  xlim(NA, 0.0009) +
+  facet_wrap(~opera, ncol = 2, scales = &amp;quot;free_y&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-32-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What this is trying to show is that “there are many words that occur rarely and fewer words that occur frequently”, a tenant of Zipf’s Law. Zipf’s Law is probably something you’ve heard of if you have taken corpus linguistics – it means “the frequency that a word appears is inversely proportionally to its rank”. We can see this with our own data (all code take from Silge and Robinson):&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;freq_by_rank &amp;lt;- mozart_words %&amp;gt;% 
+  group_by(opera) %&amp;gt;% 
+  mutate(rank = row_number(), 
+         `term frequency` = n/total)
+
+# Better to plot to see relationship
+freq_by_rank %&amp;gt;% 
+  ggplot(aes(rank, `term frequency`, color = opera)) + 
+  geom_line(size = 1.2, alpha = 0.8) + 
+  scale_x_log10() +
+  scale_y_log10()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-33-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Kind of cool right? Anyway, the main idea that is useful for us out of this is thinking about the term-frequency / inverse document frequency representation of our data. As Silge and Robinson explain, “the idea of tf-idf is to find the important words for the content of each document by decreasing the weight for commonly used words and increasing the weight for words that are not used very much in a collection or corpus of documents” – basically, that if a word like ‘amor’ is really common across all of our librettos, it’s not really informative as to the unique character of each opera. If we are using text mining and analysis as a way to evaluate trends in our data, the tf-idf is really useful. It’s a way of seeing what are unique features in groupings of data. For example, if you have a collection of interviews on the same topic, what are some different features that come up for each person / interview session? If you are looking at a corpus of tweets collected by hashtag and have grouped them by time frame (let’s say grouped in terms of weeks) what are some unique terms for each time period? etc. etc.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Let&amp;#39;s get this td-idf started
+mozart_words2 &amp;lt;- mozart_words %&amp;gt;%
+  bind_tf_idf(word, opera, n)
+mozart_words2&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6,441 x 7
+##     opera     word     n total          tf       idf      tf_idf
+##     &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; &amp;lt;int&amp;gt;       &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;
+##  1 FIGARO    conte   233  4838 0.048160397 1.0986123 0.052909604
+##  2 FIGARO contessa   134  4838 0.027697396 1.0986123 0.030428699
+##  3 FIGARO  susanna    49  4838 0.010128152 1.0986123 0.011126912
+##  4 FIGARO   signor    46  4838 0.009508061 0.0000000 0.000000000
+##  5   COSI      cor    29  4200 0.006904762 0.0000000 0.000000000
+##  6   COSI      due    27  4200 0.006428571 0.0000000 0.000000000
+##  7 FIGARO   madama    25  4838 0.005167425 0.0000000 0.000000000
+##  8 FIGARO   figaro    24  4838 0.004960728 1.0986123 0.005449916
+##  9   COSI   amanti    22  4200 0.005238095 0.4054651 0.002123865
+## 10   COSI    bella    21  4200 0.005000000 0.0000000 0.000000000
+## # ... with 6,431 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Look at high tf idf (i.e. terms that are most particular to certain operas)
+mozart_words2 %&amp;gt;%
+  select(-total) %&amp;gt;%
+  arrange(desc(tf_idf))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6,441 x 6
+##       opera      word     n          tf      idf      tf_idf
+##       &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;       &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;
+##  1   FIGARO     conte   233 0.048160397 1.098612 0.052909604
+##  2   FIGARO  contessa   134 0.027697396 1.098612 0.030428699
+##  3   FIGARO   susanna    49 0.010128152 1.098612 0.011126912
+##  4 GIOVANNI   masetto    21 0.006485485 1.098612 0.007125033
+##  5 GIOVANNI leporello    19 0.005867820 1.098612 0.006446459
+##  6   FIGARO    figaro    24 0.004960728 1.098612 0.005449916
+##  7     COSI   despina    19 0.004523810 1.098612 0.004969913
+##  8     COSI  guilelmo    15 0.003571429 1.098612 0.003923615
+##  9   FIGARO    paggio    16 0.003307152 1.098612 0.003633278
+## 10     COSI   alfonso    13 0.003095238 1.098612 0.003400467
+## # ... with 6,431 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plot it 
+plot_mozart &amp;lt;- mozart_words2 %&amp;gt;%
+  arrange(desc(tf_idf)) %&amp;gt;%
+  mutate(word = factor(word, levels = rev(unique(word))))
+
+plot_mozart %&amp;gt;% 
+  top_n(20) %&amp;gt;%
+  ggplot(aes(word, tf_idf, fill = opera)) +
+  geom_col() +
+  labs(x = NULL, y = &amp;quot;tf-idf&amp;quot;) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-34-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We see that character names are the most common, which makes sense! This is also similar to &lt;a href=&#34;http://tidytextmining.com/tfidf.html&#34;&gt;the results that Silge and Robinson find&lt;/a&gt; in their analysis of Jane Austen’s novels.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Plot these individually
+plot_mozart %&amp;gt;% 
+  group_by(opera) %&amp;gt;% 
+  top_n(15) %&amp;gt;% 
+  ungroup %&amp;gt;%
+  ggplot(aes(word, tf_idf, fill = opera)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = &amp;quot;tf-idf&amp;quot;) +
+  facet_wrap(~opera, ncol = 2, scales = &amp;quot;free&amp;quot;) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-10-19-intro-to-text-mining_files/figure-html/unnamed-chunk-35-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Hello world</title>
       <link>/post/2017-03-08-hello-world/</link>
       <pubDate>Wed, 08 Mar 2017 00:00:00 +0000</pubDate>
@@ -4194,24 +5247,6 @@ mapPoints5&lt;/code&gt;&lt;/pre&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>/about/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
-      
-      <guid>/about/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;/portfolio/kate2.jpg&#34; alt=&#34;Hi there!&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I am a Ph.D. candidate in Linguistics at the University of Illinois at Urbana-Champaign. My research interests include the semiotics of social media and study of Linguistic Landscapes.&lt;/p&gt;
-
-&lt;p&gt;I am currently working on two main projects: (1) an investigation of the Linguistic Landscapes of gentrified areas in the Mission District, San Francisco; Pilsen, Chicago and South Delhi, India and (2) research on the semiotics processes of Internet memes and the social organization of social media platforms. I combine qualitative and quantitative methods and engage in cross-disciplinary approaches drawing chiefly from sociolinguistics, corpus linguistics and computational linguistics.&lt;/p&gt;
-
-&lt;p&gt;You can download my CV &lt;a href=&#34;https://www.dropbox.com/s/ol4cyhwsddagr6u/Kate%20Lyons%20CV.pdf?dl=0&#34;&gt;&lt;strong&gt;here&lt;/strong&gt;&lt;/a&gt;, view conference presentations &lt;a href=&#34;https://illinois.academia.edu/KateLyons&#34;&gt;&lt;strong&gt;here&lt;/strong&gt;&lt;/a&gt;, and working papers &lt;a href=&#34;https://osf.io/ct849/&#34;&gt;&lt;strong&gt;here&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;My dissertation explores the semiotic landscape of the Mission District in San Francisco. I use interviews, a catalog of the Mission&amp;rsquo;s Linguistic Landscape and mined geo-tagged social media data to present observations on (1) the social effects of gentrification on linguistic vitality and (2) the meta-semiotic processes by which gentrification as a concept and the Mission as a place are constructed.&lt;/p&gt;
 </description>
     </item>
     
