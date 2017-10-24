@@ -5174,6 +5174,82 @@ plot_mozart %&amp;gt;%
     </item>
     
     <item>
+      <title>Intro to Social Media Mining</title>
+      <link>/portfolio/2017-10-23-Intro-to-Social-Media-Mining/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-10-23-Intro-to-Social-Media-Mining/</guid>
+      <description>&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packs = c(&amp;quot;twitteR&amp;quot;,&amp;quot;RCurl&amp;quot;,&amp;quot;RJSONIO&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,&amp;quot;topicmodels&amp;quot;,&amp;quot;slam&amp;quot;,&amp;quot;Rmpfr&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;stringr&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,&amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;, &amp;quot;readr&amp;quot;)
+# lapply(packs, install.packages, character.only=T)
+lapply(packs, library, character.only=T)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;getting-data-from-twitter&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Getting data from Twitter&lt;/h2&gt;
+&lt;p&gt;After you have set up your developer account on Twitter, copy paste the key, secret, tok (token) and tok secret (token secret). Take care to keep these private – you don’t want someone else using these credentials to collect data (they could abuse the limit of tweets you are allowed to get and lock you out of accessing the API for a while, etc.)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# key = &amp;quot;YOUR KEY HERE&amp;quot;
+# secret = &amp;quot;YOUR SECRET HERE&amp;quot;
+
+# tok = &amp;quot;YOUR TOK HERE&amp;quot;
+# tok_sec = &amp;quot;YOUR TOK_SEC HERE&amp;quot;
+
+twitter_oauth &amp;lt;- setup_twitter_oauth(key, secret, tok, tok_sec)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now you have set up your ‘handshake’ with the API and are ready to collect data. I’ll go over two examples, one searching by coordinate (with no specific search term) and the other searching by a specific hashtag.&lt;/p&gt;
+&lt;p&gt;I’m interested in the Mission District neighborhood in San Francisco, California. I obtain a set of coordinates using Google maps and plug that into the ‘geocode’ parameter and then set a radius of 1 kilometer. I know from experience that I only get around 1,000 - 2,000 posts per time I do this, so I set the number of tweets (n) I would like to get from Twitter at ‘7,000’. If you are looking at a more ‘active’ area, or a larger area (more about this later) you can always adjust this number. The API will give you a combination of the most “recent or popular”&amp;quot; tweets that usually extend back about 5 days or so. If you are looking at a smaller area, this means to get any kind of decent tweet corpus you’ll have to spent some time collecting data week after week. Also if you want to look at a larger area than a 3-4 kilometer radius, a lot of times you’ll get a bunch of spam-like posts that don’t have latitude and longitude coordinates associated with them. A work around I thought of (for another project looking at posts in an entire city) is to figure out a series of spots to collect tweets (trying to avoid overlap as much as possible) and stiching those data frames all together and getting rid of any duplicate posts you picked up if your radii overlapped.&lt;/p&gt;
+&lt;p&gt;Luckily for the Mission District, however, we are interested in a smaller area and don’t have to worry about multiple sampling points and rbind’ing data frames together, and just run the searchTwitter function once:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geo &amp;lt;- searchTwitter(&amp;#39;&amp;#39;,n=7000, geocode=&amp;#39;37.76,-122.42,1km&amp;#39;,
+                     retryOnRateLimit=1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now you have a list of tweets. Lists are very difficult to deal with in R, so you convert this into a data frame:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geoDF&amp;lt;-twListToDF(geo)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Chances are there will be emojis in your Twitter data. You can ‘transform’ these emojis into prose using this code as well as a &lt;a href=&#34;https://github.com/lyons7/emojidictionary&#34;&gt;CSV file&lt;/a&gt; I’ve put together of what all of the emojis look like in R. (The idea for this comes from &lt;a href=&#34;http://opiateforthemass.es/articles/emoticons-in-R/&#34;&gt;Jessica Peterka-Bonetta’s work&lt;/a&gt; – she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.&lt;/p&gt;
+&lt;p&gt;Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# library(readr)
+# Solution for weird encoding issue on Windows
+emojis &amp;lt;- read_csv(&amp;quot;Emoji Dictionary 2.1.csv&amp;quot;, col_names=TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To transform the emojis, you first need to transform the tweet data into ASCII:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geoDF$text &amp;lt;- iconv(geoDF$text, from = &amp;quot;latin1&amp;quot;, to = &amp;quot;ascii&amp;quot;, sub = &amp;quot;byte&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the DataCombine package. What this does is identifies emojis in the tweets and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geodata &amp;lt;- FindReplace(data = geoDF, Var = &amp;quot;text&amp;quot;, 
+                            replaceData = emojis,
+                       from = &amp;quot;R_Encoding&amp;quot;, to = &amp;quot;Name&amp;quot;, 
+                       exact = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now might be a good time to save this file, perhaps in CSV format with the date of when the data was collected:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# write.csv(geodata,file=paste(&amp;quot;ALL&amp;quot;,Sys.Date(),&amp;quot;.csv&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s try searching by hashtag. I’ll search by the tag ‘#GamesForAnimals’. Note I’ve changed the limit to 1,000 because I probably will get more results. I’ve also gotten rid of the geocode parameter.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tag &amp;lt;- searchTwitter(&amp;#39;#GamesForAnimals&amp;#39;,n=1000,retryOnRateLimit=1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now do all of the steps above: convert to data frame, then identify emojis.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tagDF&amp;lt;-twListToDF(tag)
+
+tagDF$text &amp;lt;- iconv(tagDF$text, from = &amp;quot;latin1&amp;quot;, to = &amp;quot;ascii&amp;quot;, sub = &amp;quot;byte&amp;quot;)
+
+tagdata &amp;lt;- FindReplace(data = tagDF, Var = &amp;quot;text&amp;quot;, 
+                            replaceData = emojis,
+                       from = &amp;quot;R_Encoding&amp;quot;, to = &amp;quot;Name&amp;quot;, 
+                       exact = FALSE)
+# Check it out
+# View(tagdata)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;getting-data-from-youtube&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Getting data from Youtube&lt;/h2&gt;
+&lt;p&gt;Let’s look at some Youtube comments. To do this, you need to set up some things on Google in order to access their API. The &lt;a href=&#34;https://github.com/soodoku/tuber&#34;&gt;package documentation&lt;/a&gt; for the package we will use to get Youtube data has information on how to do this.&lt;/p&gt;
+&lt;p&gt;Had some issues with authorization, got help from &lt;a href=&#34;https://stackoverflow.com/questions/42818602/unable-to-connect-r-with-youtube-api/42934996#42934996&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# To install the tuber package use the following command
+# First you have to install devtools (if you haven&amp;#39;t already)
+# install.packages(&amp;quot;devtools&amp;quot;)
+# devtools::install_github(&amp;quot;soodoku/tuber&amp;quot;, build_vignettes = TRUE)
+library(tuber)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Input your information from your account you set up 
+# yt_oauth(&amp;quot;app_id&amp;quot;, &amp;quot;app_password&amp;quot;, token=&amp;quot;&amp;quot;)
+
+# Let&amp;#39;s get comments from a Youtube video of a weird guy talking about raven ownership
+res2 &amp;lt;- get_comment_threads(c(video_id=&amp;quot;izpdLM4VOfY&amp;quot;), max_results = 300)
+
+# Let&amp;#39;s save those as a CSV
+# write.csv(res2,file=paste(&amp;quot;WeirdRavenDudeComments2&amp;quot;,Sys.Date(),&amp;quot;.csv&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It works! You can try this with any video – just copy paste the number that comes after the ‘v=’ in the video address. For example, a video with the web link ‘&lt;a href=&#34;https://www.youtube.com/watch?v=AUM99UXMbow&#34; class=&#34;uri&#34;&gt;https://www.youtube.com/watch?v=AUM99UXMbow&lt;/a&gt;’ has the video id ‘AUM99UXMbow’.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Hello world</title>
       <link>/post/2017-03-08-hello-world/</link>
       <pubDate>Wed, 08 Mar 2017 00:00:00 +0000</pubDate>
@@ -5220,33 +5296,6 @@ plot_mozart %&amp;gt;%
       
       <guid>/contact/</guid>
       <description>&lt;p&gt;Most of the things I&amp;rsquo;ve detailed here would not be possible without the patience, help and advice of others. If you are having trouble with something or would like to know more about how some of these things work or where to learn more about how some of these things work, please let me know!&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>About me</title>
-      <link>/about/</link>
-      <pubDate>Sat, 05 Nov 2016 21:05:33 +0530</pubDate>
-      
-      <guid>/about/</guid>
-      <description>
-
-&lt;p&gt;An sincerity so extremity he additions. Her yet &lt;strong&gt;there truth merit&lt;/strong&gt;. Mrs all projecting favourable now unpleasing. Son law garden chatty temper. Oh children provided to mr elegance marriage strongly. Off can admiration prosperous now devonshire diminution law.&lt;/p&gt;
-
-&lt;p&gt;Received overcame oh sensible so at an. Formed do change merely to county it. &lt;strong&gt;Am separate contempt&lt;/strong&gt; domestic to to oh. On relation my so addition branched. Put hearing cottage she norland letters equally prepare too. Replied exposed savings he no viewing as up. Soon body add him hill. No father living really people estate if. Mistake do produce beloved demesne if am pursuit.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/about.jpg&#34; alt=&#34;This is me&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&amp;rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.&lt;/p&gt;
-
-&lt;h4 id=&#34;education&#34;&gt;Education&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
-&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then&lt;/p&gt;
 </description>
     </item>
     

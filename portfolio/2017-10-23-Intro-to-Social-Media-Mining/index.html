@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Intro to Social Media Mining</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/owl.carousel.css">
+<link rel="stylesheet" href="/css/owl.theme.css">
+
+
+  <link href="/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="/">Kate Lyons</a></h1>
+    
+      <p class="sidebar-p">Graduate student in Linguistics at UIUC</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/about/">About</a></li>
+      
+        <li><a href="/contact/">Get in touch</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  
+  
+  <a href="https://twitter.com/katester117" data-animate-hover="pulse" class="external twitter">
+    <i class="fa fa-twitter"></i>
+  </a>
+  
+  
+  
+  <a href="mailto:kalyons3@illinois.edu" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  
+  <a href="http://stackoverflow.com/users/7451811/kate" data-animate-hover="pulse">
+    <i class="fa fa-stack-overflow"></i>
+  </a>
+  
+  
+  <a href="https://github.com/lyons7" data-animate-hover="pulse">
+    <i class="fa fa-github"></i>
+  </a>
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Kate Lyons
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="/">Kate Lyons</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Intro to Social Media Mining</h1>
+         <pre class="r"><code>packs = c(&quot;twitteR&quot;,&quot;RCurl&quot;,&quot;RJSONIO&quot;,&quot;stringr&quot;,&quot;ggplot2&quot;,&quot;devtools&quot;,&quot;DataCombine&quot;,&quot;ggmap&quot;,&quot;topicmodels&quot;,&quot;slam&quot;,&quot;Rmpfr&quot;,&quot;tm&quot;,&quot;stringr&quot;,&quot;wordcloud&quot;,&quot;plyr&quot;,&quot;tidytext&quot;,&quot;dplyr&quot;,&quot;tidyr&quot;, &quot;readr&quot;)
+# lapply(packs, install.packages, character.only=T)
+lapply(packs, library, character.only=T)</code></pre>
+<div id="getting-data-from-twitter" class="section level2">
+<h2>Getting data from Twitter</h2>
+<p>After you have set up your developer account on Twitter, copy paste the key, secret, tok (token) and tok secret (token secret). Take care to keep these private – you don’t want someone else using these credentials to collect data (they could abuse the limit of tweets you are allowed to get and lock you out of accessing the API for a while, etc.)</p>
+<pre class="r"><code># key = &quot;YOUR KEY HERE&quot;
+# secret = &quot;YOUR SECRET HERE&quot;
+
+# tok = &quot;YOUR TOK HERE&quot;
+# tok_sec = &quot;YOUR TOK_SEC HERE&quot;
+
+twitter_oauth &lt;- setup_twitter_oauth(key, secret, tok, tok_sec)</code></pre>
+<p>Now you have set up your ‘handshake’ with the API and are ready to collect data. I’ll go over two examples, one searching by coordinate (with no specific search term) and the other searching by a specific hashtag.</p>
+<p>I’m interested in the Mission District neighborhood in San Francisco, California. I obtain a set of coordinates using Google maps and plug that into the ‘geocode’ parameter and then set a radius of 1 kilometer. I know from experience that I only get around 1,000 - 2,000 posts per time I do this, so I set the number of tweets (n) I would like to get from Twitter at ‘7,000’. If you are looking at a more ‘active’ area, or a larger area (more about this later) you can always adjust this number. The API will give you a combination of the most “recent or popular”&quot; tweets that usually extend back about 5 days or so. If you are looking at a smaller area, this means to get any kind of decent tweet corpus you’ll have to spent some time collecting data week after week. Also if you want to look at a larger area than a 3-4 kilometer radius, a lot of times you’ll get a bunch of spam-like posts that don’t have latitude and longitude coordinates associated with them. A work around I thought of (for another project looking at posts in an entire city) is to figure out a series of spots to collect tweets (trying to avoid overlap as much as possible) and stiching those data frames all together and getting rid of any duplicate posts you picked up if your radii overlapped.</p>
+<p>Luckily for the Mission District, however, we are interested in a smaller area and don’t have to worry about multiple sampling points and rbind’ing data frames together, and just run the searchTwitter function once:</p>
+<pre class="r"><code>geo &lt;- searchTwitter(&#39;&#39;,n=7000, geocode=&#39;37.76,-122.42,1km&#39;,
+                     retryOnRateLimit=1)</code></pre>
+<p>Now you have a list of tweets. Lists are very difficult to deal with in R, so you convert this into a data frame:</p>
+<pre class="r"><code>geoDF&lt;-twListToDF(geo)</code></pre>
+<p>Chances are there will be emojis in your Twitter data. You can ‘transform’ these emojis into prose using this code as well as a <a href="https://github.com/lyons7/emojidictionary">CSV file</a> I’ve put together of what all of the emojis look like in R. (The idea for this comes from <a href="http://opiateforthemass.es/articles/emoticons-in-R/">Jessica Peterka-Bonetta’s work</a> – she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.</p>
+<p>Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.</p>
+<pre class="r"><code># library(readr)
+# Solution for weird encoding issue on Windows
+emojis &lt;- read_csv(&quot;Emoji Dictionary 2.1.csv&quot;, col_names=TRUE)</code></pre>
+<p>To transform the emojis, you first need to transform the tweet data into ASCII:</p>
+<pre class="r"><code>geoDF$text &lt;- iconv(geoDF$text, from = &quot;latin1&quot;, to = &quot;ascii&quot;, sub = &quot;byte&quot;)</code></pre>
+<p>To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the DataCombine package. What this does is identifies emojis in the tweets and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.</p>
+<pre class="r"><code>geodata &lt;- FindReplace(data = geoDF, Var = &quot;text&quot;, 
+                            replaceData = emojis,
+                       from = &quot;R_Encoding&quot;, to = &quot;Name&quot;, 
+                       exact = FALSE)</code></pre>
+<p>Now might be a good time to save this file, perhaps in CSV format with the date of when the data was collected:</p>
+<pre class="r"><code># write.csv(geodata,file=paste(&quot;ALL&quot;,Sys.Date(),&quot;.csv&quot;))</code></pre>
+<p>Let’s try searching by hashtag. I’ll search by the tag ‘#GamesForAnimals’. Note I’ve changed the limit to 1,000 because I probably will get more results. I’ve also gotten rid of the geocode parameter.</p>
+<pre class="r"><code>tag &lt;- searchTwitter(&#39;#GamesForAnimals&#39;,n=1000,retryOnRateLimit=1)</code></pre>
+<p>Now do all of the steps above: convert to data frame, then identify emojis.</p>
+<pre class="r"><code>tagDF&lt;-twListToDF(tag)
+
+tagDF$text &lt;- iconv(tagDF$text, from = &quot;latin1&quot;, to = &quot;ascii&quot;, sub = &quot;byte&quot;)
+
+tagdata &lt;- FindReplace(data = tagDF, Var = &quot;text&quot;, 
+                            replaceData = emojis,
+                       from = &quot;R_Encoding&quot;, to = &quot;Name&quot;, 
+                       exact = FALSE)
+# Check it out
+# View(tagdata)</code></pre>
+</div>
+<div id="getting-data-from-youtube" class="section level2">
+<h2>Getting data from Youtube</h2>
+<p>Let’s look at some Youtube comments. To do this, you need to set up some things on Google in order to access their API. The <a href="https://github.com/soodoku/tuber">package documentation</a> for the package we will use to get Youtube data has information on how to do this.</p>
+<p>Had some issues with authorization, got help from <a href="https://stackoverflow.com/questions/42818602/unable-to-connect-r-with-youtube-api/42934996#42934996">here</a>.</p>
+<pre class="r"><code># To install the tuber package use the following command
+# First you have to install devtools (if you haven&#39;t already)
+# install.packages(&quot;devtools&quot;)
+# devtools::install_github(&quot;soodoku/tuber&quot;, build_vignettes = TRUE)
+library(tuber)</code></pre>
+<pre class="r"><code># Input your information from your account you set up 
+# yt_oauth(&quot;app_id&quot;, &quot;app_password&quot;, token=&quot;&quot;)
+
+# Let&#39;s get comments from a Youtube video of a weird guy talking about raven ownership
+res2 &lt;- get_comment_threads(c(video_id=&quot;izpdLM4VOfY&quot;), max_results = 300)
+
+# Let&#39;s save those as a CSV
+# write.csv(res2,file=paste(&quot;WeirdRavenDudeComments2&quot;,Sys.Date(),&quot;.csv&quot;))</code></pre>
+<p>It works! You can try this with any video – just copy paste the number that comes after the ‘v=’ in the video address. For example, a video with the web link ‘<a href="https://www.youtube.com/watch?v=AUM99UXMbow" class="uri">https://www.youtube.com/watch?v=AUM99UXMbow</a>’ has the video id ‘AUM99UXMbow’.</p>
+</div>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.cookie.js"> </script>
+<script src="/js/ekko-lightbox.js"></script>
+<script src="/js/jquery.scrollTo.min.js"></script>
+<script src="/js/masonry.pkgd.min.js"></script>
+<script src="/js/imagesloaded.pkgd.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/front.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+---
+date: 2015-07-23T21:13:14-05:00
+draft: false
+title: "Intro to Social Media Mining"
+description: "How to set up an API connection and how to get, clean and organize social media data"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Set up packages, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+packs = c("twitteR","RCurl","RJSONIO","stringr","ggplot2","devtools","DataCombine","ggmap","topicmodels","slam","Rmpfr","tm","stringr","wordcloud","plyr","tidytext","dplyr","tidyr", "readr")
+# lapply(packs, install.packages, character.only=T)
+lapply(packs, library, character.only=T)
+```
+
+## Getting data from Twitter
+
+After you have set up your developer account on Twitter, copy paste the key, secret, tok (token) and tok secret (token secret). Take care to keep these private -- you don't want someone else using these credentials to collect data (they could abuse the limit of tweets you are allowed to get and lock you out of accessing the API for a while, etc.) 
+
+```{r, echo=FALSE, results='hide', message=FALSE}
+key = "SBHjF9qefRrX2UBmZiC0plufa"
+secret = "MBhs5X4FXkmpeeSWg37hLLbLRYR0UcxcU7u34U8z1hUgR7kMxS"
+
+tok = "420794535-8JhPvbbAsCdZNceRx4X9OdFUTafOcqFKXQgMDELy"
+tok_sec = "iNdMpmPb3CqBqztzuouujGJizziFoONgebA5Aq374ugwW"
+```
+
+```{r Set up Twitter, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# key = "YOUR KEY HERE"
+# secret = "YOUR SECRET HERE"
+
+# tok = "YOUR TOK HERE"
+# tok_sec = "YOUR TOK_SEC HERE"
+
+twitter_oauth <- setup_twitter_oauth(key, secret, tok, tok_sec)
+```
+
+Now you have set up your 'handshake' with the API and are ready to collect data. I'll go over two examples, one searching by coordinate (with no specific search term) and the other searching by a specific hashtag.
+
+I'm interested in the Mission District neighborhood in San Francisco, California. I obtain a set of coordinates using Google maps and plug that into the 'geocode' parameter and then set a radius of 1 kilometer. I know from experience that I only get around 1,000 - 2,000 posts per time I do this, so I set the number of tweets (n) I would like to get from Twitter at '7,000'. If you are looking at a more 'active' area, or a larger area (more about this later) you can always adjust this number. The API will give you a combination of the most "recent or popular"" tweets that usually extend back about 5 days or so. If you are looking at a smaller area, this means to get any kind of decent tweet corpus you’ll have to spent some time collecting data week after week. Also if you want to look at a larger area than a 3-4 kilometer radius, a lot of times you'll get a bunch of spam-like posts that don't have latitude and longitude coordinates associated with them. A work around I thought of (for another project looking at posts in an entire city) is to figure out a series of spots to collect tweets (trying to avoid overlap as much as possible) and stiching those data frames all together and getting rid of any duplicate posts you picked up if your radii overlapped.
+
+Luckily for the Mission District, however, we are interested in a smaller area and don't have to worry about multiple sampling points and rbind'ing data frames together, and just run the searchTwitter function once:
+
+```{r Collect Twitter data, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+geo <- searchTwitter('',n=7000, geocode='37.76,-122.42,1km',
+                     retryOnRateLimit=1)
+```
+
+Now you have a list of tweets. Lists are very difficult to deal with in R, so you convert this into a data frame:
+
+```{r Transform & clean Twitter data 1, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+geoDF<-twListToDF(geo)
+```
+
+Chances are there will be emojis in your Twitter data. You can 'transform' these emojis into prose using this code as well as a [CSV file](https://github.com/lyons7/emojidictionary) I’ve put together of what all of the emojis look like in R. (The idea for this comes from [Jessica Peterka-Bonetta's work](http://opiateforthemass.es/articles/emoticons-in-R/) – she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.
+
+Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.
+
+```{r Transform & clean Twitter data 2, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# library(readr)
+# Solution for weird encoding issue on Windows
+emojis <- read_csv("Emoji Dictionary 2.1.csv", col_names=TRUE)
+```
+
+To transform the emojis, you first need to transform the tweet data into ASCII:
+
+```{r Transform & clean Twitter data 3, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+geoDF$text <- iconv(geoDF$text, from = "latin1", to = "ascii", sub = "byte")
+```
+
+To 'count' the emojis you do a find and replace using the CSV file of 'Decoded Emojis' as a reference. Here I am using the DataCombine package. What this does is identifies emojis in the tweets and then replaces them with a prose version. I used whatever description pops up when hovering one's cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.
+
+```{r Transform & clean Twitter data 4, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+geodata <- FindReplace(data = geoDF, Var = "text", 
+                            replaceData = emojis,
+                       from = "R_Encoding", to = "Name", 
+                       exact = FALSE)
+```
+
+Now might be a good time to save this file, perhaps in CSV format with the date of when the data was collected:
+
+```{r Transform & clean Twitter data 5, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# write.csv(geodata,file=paste("ALL",Sys.Date(),".csv"))
+```
+
+Let's try searching by hashtag. I'll search by the tag '#GamesForAnimals'. Note I've changed the limit to 1,000 because I probably will get more results. I've also gotten rid of the geocode parameter. 
+
+```{r Search by tag, echo=TRUE, results= 'hide', message=FALSE, warning=FALSE, error=FALSE}
+tag <- searchTwitter('#GamesForAnimals',n=1000,retryOnRateLimit=1)
+```
+
+Now do all of the steps above: convert to data frame, then identify emojis.
+
+```{r Tag example, echo=TRUE, results= 'hide', message=FALSE, warning=FALSE, error=FALSE}
+tagDF<-twListToDF(tag)
+
+tagDF$text <- iconv(tagDF$text, from = "latin1", to = "ascii", sub = "byte")
+
+tagdata <- FindReplace(data = tagDF, Var = "text", 
+                            replaceData = emojis,
+                       from = "R_Encoding", to = "Name", 
+                       exact = FALSE)
+# Check it out
+# View(tagdata)
+```
+
+
+## Getting data from Youtube
+
+Let's look at some Youtube comments. To do this, you need to set up some things on Google in order to access their API. The [package documentation](https://github.com/soodoku/tuber) for the package we will use to get Youtube data has information on how to do this.
+
+Had some issues with authorization, got help from [here](https://stackoverflow.com/questions/42818602/unable-to-connect-r-with-youtube-api/42934996#42934996).
+
+```{r Set up YouTube 1, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# To install the tuber package use the following command
+# First you have to install devtools (if you haven't already)
+# install.packages("devtools")
+# devtools::install_github("soodoku/tuber", build_vignettes = TRUE)
+library(tuber)
+```
+
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# yt_oauth("app_id", "app_password")
+yt_oauth("389417729099-ps9gvfjg0p43j0roloqrpkhbvpu4kb4n.apps.googleusercontent.com","9UMvY0_zEDzSXrWlVrAT52Tm", token='')
+```
+
+```{r Set up YouTube 2, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# Input your information from your account you set up 
+# yt_oauth("app_id", "app_password", token="")
+
+# Let's get comments from a Youtube video of a weird guy talking about raven ownership
+res2 <- get_comment_threads(c(video_id="izpdLM4VOfY"), max_results = 300)
+
+# Let's save those as a CSV
+# write.csv(res2,file=paste("WeirdRavenDudeComments2",Sys.Date(),".csv"))
+```
+
+It works! You can try this with any video -- just copy paste the number that comes after the 'v=' in the video address. For example, a video with the web link 'https://www.youtube.com/watch?v=AUM99UXMbow' has the video id 'AUM99UXMbow'.
