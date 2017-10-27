@@ -5202,8 +5202,11 @@ twitter_oauth &amp;lt;- setup_twitter_oauth(key, secret, tok, tok_sec)&lt;/code&
 &lt;p&gt;Chances are there will be emojis in your Twitter data. You can ‘transform’ these emojis into prose using this code as well as a &lt;a href=&#34;https://github.com/lyons7/emojidictionary&#34;&gt;CSV file&lt;/a&gt; I’ve put together of what all of the emojis look like in R. (The idea for this comes from &lt;a href=&#34;http://opiateforthemass.es/articles/emoticons-in-R/&#34;&gt;Jessica Peterka-Bonetta’s work&lt;/a&gt; – she has a list of emojis as well, but it does not include the newest batch of emojis, Unicode Version 9.0, nor the different skin color options for human-based emojis). If you use this emoji list for your own research, please make sure to acknowledge both myself and Jessica.&lt;/p&gt;
 &lt;p&gt;Load in the CSV file. You want to make sure it is located in the correct working directory so R can find it when you tell it to read it in.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# library(readr)
-# Solution for weird encoding issue on Windows
-emojis &amp;lt;- read_csv(&amp;quot;Emoji Dictionary 2.1.csv&amp;quot;, col_names=TRUE)&lt;/code&gt;&lt;/pre&gt;
+# Solution for weird encoding issue on Windows. The &amp;quot;trim_ws&amp;quot; argument is really important because it ensures the spaces are kept in 
+between emojis so you can count each one individually.
+
+emojis &amp;lt;- read_csv(&amp;quot;Emoji Dictionary 2.1.csv&amp;quot;, col_names=TRUE, 
+                    trim_ws=FALSE)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;To transform the emojis, you first need to transform the tweet data into ASCII:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;geoDF$text &amp;lt;- iconv(geoDF$text, from = &amp;quot;latin1&amp;quot;, to = &amp;quot;ascii&amp;quot;, sub = &amp;quot;byte&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;To ‘count’ the emojis you do a find and replace using the CSV file of ‘Decoded Emojis’ as a reference. Here I am using the DataCombine package. What this does is identifies emojis in the tweets and then replaces them with a prose version. I used whatever description pops up when hovering one’s cursor over an emoji on an Apple emoji keyboard. If not completely the same as other platforms, it provides enough information to find the emoji in question if you are not sure which one was used in the post.&lt;/p&gt;
