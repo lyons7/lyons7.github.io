@@ -1,0 +1,580 @@
+---
+date: 2017-11-05T21:13:14-05:00
+draft: false
+image: "img/portfolio/wickermap.jpeg"
+title: "Intro to Analyzing Social Media Data"
+description: "Examples with Twitter and YouTube data"
+weight: 13
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Today we are going to talk about applying text mining techniques to social media data. You can download this data yourself (if you have everything set up with the Twitter and YouTube APIs) or you can access the data we'll be discussing here in R data format. 
+
+```{r Setup 0, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+library(emo)
+packs = c("twitteR", "stringr","ggplot2","devtools","DataCombine","ggmap","tm","wordcloud","plyr","tuber","tidytext","dplyr","tidyr","readr","ggrepel","emoGG","lubridate","corpus", "purrr", "broom")
+lapply(packs, library, character.only=T)
+```
+
+```{r Setup, echo=TRUE, message=FALSE, warning=FALSE}
+# packs = c("twitteR", "stringr","ggplot2","devtools","DataCombine","ggmap","tm","wordcloud","plyr","tuber","tidytext","dplyr","tidyr","readr","ggrepel","emoGG","lubridate","corpus", "purrr", "broom")
+# lapply(packs, library, character.only=T)
+
+# You might have to install some of these -- check the 'Packages' tab in R Studio to see which ones you already have. For 'emoGG' you need to download it directly from github, using the following:
+# devtools::install_github("dill/emoGG")
+
+# Make sure to set the right working directory
+# setwd("/Users/katelyons/Documents/Workshop")
+```
+
+## Twitter + Geographic Analyses
+
+First we will look at some Twitter data of the Wicker Park neighborhood in Chicago, IL. 
+
+```{r Get Twitter Data 1, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, results='hide'}
+key = "SBHjF9qefRrX2UBmZiC0plufa"
+secret = "MBhs5X4FXkmpeeSWg37hLLbLRYR0UcxcU7u34U8z1hUgR7kMxS"
+
+tok = "420794535-8JhPvbbAsCdZNceRx4X9OdFUTafOcqFKXQgMDELy"
+tok_sec = "iNdMpmPb3CqBqztzuouujGJizziFoONgebA5Aq374ugwW"
+```
+
+```{r Get Twitter Data, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# key = "YOUR KEY HERE"
+# secret = "YOUR SECRET HERE"
+
+# tok = "YOUR TOK HERE"
+# tok_sec = "YOUR TOK_SEC HERE"
+
+# twitter_oauth <- setup_twitter_oauth(key, secret, tok, tok_sec)
+```
+
+If you don't have the Twitter API set up, you can access the data in R data format [here](https://www.dropbox.com/s/nzh8d6fdwcdra9d/sampledata.Rda?dl=0). If you get the data this way, start from the 'twListToDF' step.
+
+Now you have set up your 'handshake' with the API and are ready to collect data. We will search by coordinate for all tweets that have occurred within a 1 kilometer radius of a central point in the Wicker Park neighborhood in Chicago, IL.
+
+```{r Get Twitter Data 2, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# geo <- searchTwitter('',n=7000,geocode='41.908602,-87.677417,1km',retryOnRateLimit=1)
+# Save tweet data (if you want)
+# save(geo,file=paste("sampletweetdata.Rda"))
+
+# If you need to load that data (make sure you are in the right directory)
+load('sampletweetdata.Rda')
+
+# Convert to data frame
+ geoDF<-twListToDF(geo)
+```
+
+Now we have a data frame. We will now identify emojis, select just those tweets that come from Instagram and clean this data (get rid of links, special characters, etc.) so we can do text analyses. You can access the emoji dictionary [here](https://www.dropbox.com/s/orpj7lmh5ueapo1/Emoji%20Dictionary%202.1.csv?dl=0). The code for cleaning the tweets comes from [Silge and Robinson's book](http://tidytextmining.com/twitter.html) -- this is special and awesome code to do this because it keeps hashtags and @ mentions. Other methods of cleaning text will count '#' and '@' as special characters and will get rid of them. 
+
+```{r Clean Twitter Data, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# Convert the encoding so you can identify emojis
+geoDF$text <- iconv(geoDF$text, from = "latin1", to = "ascii", sub = "byte")
+
+# Load in emoji dictionary. The 'trim_ws' argument is super important -- you need those spaces so the emojis aren't all squished together!
+# emojis <- read_csv("Emoji Dictionary 2.1.csv", col_names=TRUE, trim_ws=FALSE)
+# If you don't get weird encoding issue just use read.csv
+emojis <- read.csv("Emoji Dictionary 2.1.csv", header=T)
+
+
+# Go through and identify emojis
+geodata <- FindReplace(data = geoDF, Var = "text", 
+                            replaceData = emojis,
+                       from = "R_Encoding", to = "Name", 
+                       exact = FALSE)
+
+# Just keep those tweets that come from Instagram
+wicker <- geodata[geodata$statusSource == 
+        "<a href=\"http://instagram.com\" rel=\"nofollow\">Instagram</a>", ]
+
+# Get rid of stuff particular to the data (here encodings of links and such)
+# Most of these are characters I don't have encodings for (other scripts, etc.)
+wicker$text = gsub("Just posted a photo","", wicker$text)
+wicker$text = gsub( "<.*?>", "", wicker$text)
+
+# Now time to clean your posts. First let's make our own list of stop words again, adding additional stop words to the tidy text stop word list from the tm package stop word list.
+# This makes a larger list of stop words combining those from the tm package and tidy text -- even though the tm package stop word list is pretty small anyway, just doing this just in case
+data(stop_words)
+mystopwords <- c(stopwords('english'),stop_words$word)
+
+# Now for Silge and Robinson's code. What this is doing is getting rid of 
+# URLs, re-tweets (RT) and ampersands. This also gets rid of stop words 
+# without having to get rid of hashtags and @ signs by using 
+# str_detect and filter! 
+reg <- "([^A-Za-z_\\d#@']|'(?![A-Za-z_\\d#@]))"
+tidy_wicker <- wicker %>% 
+  filter(!str_detect(text, "^RT")) %>%
+  mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https", "")) %>%
+  unnest_tokens(word, text, token = "regex", pattern = reg) %>%
+  filter(!word %in% mystopwords,
+         str_detect(word, "[a-z]"))
+```
+
+Now we have cleaned posts in tidy format. Let's adapt some of [Silge and Robinson's code](http://tidytextmining.com/twitter.html) to look at frequent terms and then map concentrations of frequent terms. Note how I've grouped these by latitude and longitude. This will help us later on when we want to group them by coordinate. 
+
+```{r Tweet Frequency Analysis, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+freq <- tidy_wicker %>% 
+  group_by(latitude,longitude) %>% 
+  count(word, sort = TRUE) %>% 
+  left_join(tidy_wicker %>% 
+              group_by(latitude,longitude) %>% 
+              summarise(total = n())) %>%
+  mutate(freq = n/total)
+
+# Look at most frequent terms
+freq
+```
+
+The n here is the total number of times this term has shown up, and the total is how many terms there are present in a particular coordinate. 
+
+Cool! Now we have a representation of terms, their frequency and their position. Now I might want to plot this somehow... one way would be to try to plot the most frequent terms (n > 3)
+(Some help on how to do this was taken from [here](http://blog.revolutionanalytics.com/2016/01/avoid-overlapping-labels-in-ggplot2-charts.html) and [here](http://stackoverflow.com/questions/14288001/geom-text-not-working-when-ggmap-and-geom-point-used)). Depending on the size of your data set, the base line for 'most frequent' is subject to change -- because my data set is relatively small, I'm just going to say words that appear more than three times.
+
+```{r Map Tweet Frequency, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+freq2 <- subset(freq, n > 3) 
+
+# Let's get a map!
+# This will take a couple tries to make sure you have a nice map for your data
+map <- get_map(location = 'Damen and North, Chicago, Illinois', zoom = 14)
+
+freq2$longitude<-as.numeric(freq2$longitude)
+freq2$latitude<-as.numeric(freq2$latitude)
+lon <- freq2$longitude
+lat <- freq2$latitude
+
+mapPoints <- ggmap(map) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freq2, aes(x = lon, y = lat, label = word),size = 3) 
+
+mapPoints
+```
+
+Now we have a representation of coordinates in which frequent terms are being used. A lot of these are associated with restaurants or bars (see discussion of Piece pizzeria, Emporium Arcade Bar). We can also go back and investigate certain groupings of terms -- for example, the '#inktober' concentration is from an artist who posts a picture of their art everyday. To check things like the concentration of 'face with tears of joy', we can go back to our original 'wicker' data frame and search for the coordinate that is in our freq2 data frame to find the links to the orginal Instagram posts or just search that coordinate on Google maps. For the coordinate where we find lots of 'face with tears of joy' emojis, we can see from Google maps that there is a comedy club, 'The Comedy Clubhouse' at that location -- guess it's a good comedy club!
+
+How about sentiment analysis? What are the most common positive and negative words? This time we'll just use the sentiment dictionary available in the tidytext package from the BING sentiment corpus. 
+
+```{r Tweet Sentiments, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# We can also look at counts of negative and positive words
+bingsenti <- sentiments %>%
+  filter(lexicon =="bing")
+
+bing_word_counts <- tidy_wicker %>%
+  inner_join(bingsenti) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  ungroup()
+
+# bing_word_counts
+
+# Now we can graph these
+# Change 'filter' parameter depending on the size of your data set
+bing_word_counts %>%
+  filter(n > 2) %>%
+  mutate(n = ifelse(sentiment == "negative", -n, n)) %>%
+  mutate(word = reorder(word, n)) %>%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = "identity") +
+  labs(y = "Contribution to sentiment",
+       x = NULL) +
+  coord_flip()
+```
+
+Unsurprisingly, our Instagram posts are mostly positive, with negative sentiments related to cold (Chicago!) or swear words or difficulty. We see how sentiment analysis is not always infallible, as 'fall' is counted as negative when really people are talking about the season and see to be happy about it. 
+
+How about a word cloud?
+
+```{r Tweet Word Clouds, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+wordcloud(freq$word,freq$n, min.freq=3, 
+          colors=brewer.pal(1, "Dark2"))
+```
+
+It's interesting people talk about Logan Square a lot, but Logan Square is another neighborhood! This could be people talking about Logan Sqaure but tagging a coordinate in Wicker Park or maybe our radius was a little too big and got some Logan Square tweets (it's pretty close). And yes, the 'aubergine' is the eggplant emoji. And yes, the posts are not about the vegetable. 
+
+What if we want to map emojis? We can do this, but it involves a lot of steps and a new package, the ['emoGG' package](https://github.com/dill/emoGG). 
+
+```{r Identify Emoji Posts 1, echo=TRUE, message=FALSE, warning=FALSE, error=FALSE}
+# First make a logical vector telling us what posts have emojis and which ones don't
+emogrepl <- grepl(paste(emojis$Name, collapse = "|"), wicker$text)
+# Turn this into a data frame so we can merge it with our post data frame
+emogreplDF<-as.data.frame(emogrepl)
+# Create an id row to merge
+wicker$id <- 1:nrow(wicker)
+# Do the same for the logical data frame
+emogreplDF$id <- 1:nrow(emogreplDF)
+# Merge them together
+wicker <- merge(wicker,emogreplDF,by="id")
+# Just keep posts that have emojis in them
+emosub <- wicker[wicker$emogrepl == "TRUE", ]
+
+# Great! Now turn these into tidy format
+tidy_emos <- emosub %>% 
+  mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https", "")) %>%
+  unnest_tokens(word, text, token = "regex", pattern = reg) %>%
+  filter(!word %in% mystopwords,
+         str_detect(word, "[a-z]"))
+
+# Have to do this so they will recognize each other to map frequency
+emojis$Name <- as.character(emojis$Name)
+test <- emojis %>%
+  unnest_tokens(word, Name)
+
+# Now just keep emojis, get rid of surrounding text 
+emogrepl2 <- grepl(paste(test$word, collapse = "|"), tidy_emos$word)
+emogreplDF2<-as.data.frame(emogrepl2)
+tidy_emos$id <- 1:nrow(tidy_emos)
+emogreplDF2$id <- 1:nrow(emogreplDF2)
+checkit <- merge(tidy_emos,emogreplDF2,by="id")
+emoonly <- checkit[checkit$emogrepl2 == "TRUE", ]
+
+freqe <- emoonly %>% 
+  group_by(latitude,longitude) %>% 
+  count(word, sort = TRUE) %>% 
+  left_join(emoonly %>% 
+              group_by(latitude,longitude) %>% 
+              summarise(total = n())) %>%
+  mutate(freq = n/total)
+
+print(head(freqe))
+
+# Now we have our most common emojis. Note skin color is separate -- you can go into the CSV file to change this if you want but I have them separate so each emoji isn't counted as a separate thing.
+
+# Map it
+freqe2 <- subset(freqe, n > 2) 
+
+freqe2$longitude<-as.numeric(freqe2$longitude)
+freqe2$latitude<-as.numeric(freqe2$latitude)
+
+mapPoints2 <- ggmap(map) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freqe2, aes(x = longitude, y = latitude, label = word),size = 3) 
+
+mapPoints2
+```
+
+This is more impressive with a larger data set, but you can see the kinds of things you can look at with these tools. Let's look at another visualization technique, actually graphing with emojis. Once again, this takes a few steps to set up.
+
+Let's do `r emo::ji("face_with_tears_of_joy")` `r emo::ji("double_exclamation_mark")` `r emo::ji("aubergine")` `r emo::ji("fire")` `r emo::ji("eyes")` and `r emo::ji("crystal_ball")`.
+
+```{r, echo=FALSE}
+# To look up R markdown emojis / view a list 
+# devtools::install_github(c('jeroenooms/jsonlite', 'rstudio/shiny', 'ramnathv/htmlwidgets', 'timelyportfolio/listviewer'))
+# library(listviewer)
+# jsonedit( keywords )
+```
+
+```{r Identify Emoji Posts, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# We will use emoGG to find the right code for each one. You can cross-check this with the unicode codepoint listed in your emoji dictionary (usualy they are the same, with all letters in lowercase).
+# How to search:
+# Identifier for each one for mapping
+# 'face with tears of joy' 1f602
+# 'double exclamation mark' 203c
+# 'aubergine' 1f346
+# 'fire' 1f525
+# 'eyes' 1f440
+# 'crystal ball' 1f52e
+
+
+tearsofjoygrep <- grepl(paste(" FACEWITHTEARSOFJOY  "), emosub$text)
+tearsofjoyDF<-as.data.frame(tearsofjoygrep)
+emosub$ID7 <- 1:nrow(emosub)
+tearsofjoyDF$ID7 <- 1:nrow(tearsofjoyDF)
+emosub <- merge(emosub,tearsofjoyDF,by="ID7")
+tearsofjoy <- emosub[emosub$tearsofjoygrep == "TRUE", ]
+
+doubleexgrep <- grepl(paste(" DOUBLEEXCLAMATIONMARK  "), emosub$text)
+doubleexDF<-as.data.frame(doubleexgrep)
+doubleexDF$ID7 <- 1:nrow(doubleexDF)
+emosub <- merge(emosub,doubleexDF,by="ID7")
+doubleex <- emosub[emosub$doubleexgrep == "TRUE", ]
+
+egggrep <- grepl(paste(" AUBERGINE  "), emosub$text)
+eggDF <-as.data.frame(egggrep)
+eggDF$ID7 <- 1:nrow(eggDF)
+emosub <- merge(emosub,eggDF,by="ID7")
+aubergine <- emosub[emosub$egggrep == "TRUE", ]
+
+firegrep <- grepl(paste(" FIRE  "), emosub$text)
+fireDF<-as.data.frame(firegrep)
+fireDF$ID7 <- 1:nrow(fireDF)
+emosub <- merge(emosub,fireDF,by="ID7")
+fire <- emosub[emosub$firegrep == "TRUE", ]
+
+eyesgrep <- grepl(paste(" EYES "), emosub$text)
+eyesDF<-as.data.frame(eyesgrep)
+eyesDF$ID7 <- 1:nrow(eyesDF)
+emosub <- merge(emosub,eyesDF,by="ID7")
+eyes <- emosub[emosub$eyesgrep == "TRUE", ]
+
+cbgrep <- grepl(paste(" CRYSTALBALL "), emosub$text)
+cbDF<-as.data.frame(cbgrep)
+cbDF$ID7 <- 1:nrow(cbDF)
+emosub <- merge(emosub,cbDF,by="ID7")
+cb <- emosub[emosub$cbgrep == "TRUE", ]
+
+
+# Map this
+# Some stuff we have to do first
+tearsofjoy$latitude <- as.numeric(tearsofjoy$latitude)
+tearsofjoy$longitude <- as.numeric(tearsofjoy$longitude)
+doubleex$latitude <- as.numeric(doubleex$latitude)
+doubleex$longitude <- as.numeric(doubleex$longitude)
+aubergine$latitude <- as.numeric(aubergine$latitude)
+aubergine$longitude <- as.numeric(aubergine$longitude)
+fire$latitude <- as.numeric(fire$latitude)
+fire$longitude <- as.numeric(fire$longitude)
+eyes$latitude <- as.numeric(eyes$latitude)
+eyes$longitude <- as.numeric(eyes$longitude)
+cb$latitude <- as.numeric(cb$latitude)
+cb$longitude <- as.numeric(cb$longitude)
+
+# Get a new map that is zoomed in a bit more
+map2 <- get_map(location = 'Damen and North, Chicago, Illinois', zoom = 15)
+
+
+emomap <- ggmap(map2) + geom_emoji(aes(x = longitude, y = latitude), 
+                                     data=tearsofjoy, emoji="1f602") +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=doubleex, emoji="203c") +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=aubergine, emoji="1f346") +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=fire, emoji="1f525") +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=eyes, emoji="1f440") +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=cb, emoji="1f52e")
+
+emomap
+```
+
+Again, this is more impressive when you have more data. You can see some examples of this [here](https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/).
+
+## YouTube + Diachronic Sentiment Analysis 
+
+Onwards to YouTube data! We'll be doing some similar analyses, like sentiment analysis, but instead of looking at things in terms of coordinates, we'll look at things in terms of time. I wanted to choose something that had a lot of comments, so let's look at the comments from the ill-advised (and ill-fated) 'Emoji Movie' trailer. This also has a lot of varying sentiment (one of the comments is "The movie is a such disgrace to the animation film industry."`r emo::ji("joy_cat")``r emo::ji("joy_cat")``r emo::ji("joy_cat")`).
+
+If you don't have the YouTube API set up, you can access the data [here](https://www.dropbox.com/s/3zwmn7vsvo9ihpv/sampletubedata.Rda?dl=0).
+
+```{r Set Up Youtube, echo=FALSE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+yt_oauth("389417729099-ps9gvfjg0p43j0roloqrpkhbvpu4kb4n.apps.googleusercontent.com","9UMvY0_zEDzSXrWlVrAT52Tm", token='')
+```
+```{r Get YouTube Comments, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# Connect to YouTube API
+# Leave token blank
+# yt_oauth("app_id", "app_password", token='')
+
+emojimovie <- get_comment_threads(c(video_id="o_nfdzMhmrA"), max_results = 101)
+
+# Save data (if you want)
+# save(emojimovie,file=paste("sampletubedata.Rda"))
+
+# If you need to load that data (make sure you are in the right directory)
+# load('sampletubedata.Rda')
+```
+
+Now we have some (~10,300) comments to play with. Due to the subject matter, emojis are likely to be frequent in our data set, so let's follow the same procedure as with our tweets to identify those emojis and label them.
+
+```{r Emojis in YouTube Comments, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# Convert the encoding so you can identify emojis
+# First you have to convert the textOriginal vector into a character so R can go through and identify emojis
+emojimovie$text <- as.character(emojimovie$textOriginal)
+emojimovie$text <- iconv(emojimovie$text, from = "UTF-8", to = "ascii", sub = "byte")
+# Because YouTube encoding is weird
+emojimovie$text = gsub("<f0><9f><98>","<ed><a0><bd><ed><b8>", emojimovie$text)
+emojimovie$text = gsub("<f0><9f><8d>","<ed><a0><bc><ed><bd>", emojimovie$text)
+emojimovie$text = gsub("<f0><9f><92>","<ed><a0><bd><ed><b2>", emojimovie$text)
+
+# Go through and identify emojis
+emoemo <- FindReplace(data = emojimovie, Var = "text", 
+                            replaceData = emojis,
+                       from = "R_Encoding", to = "Name", 
+                       exact = FALSE)
+# This might take some time, we have a big data set. 
+
+
+# # Trying to find a more efficient way
+# # STILL WORKING ON THIS
+# # Another technique to try to fix encoding issue
+# # Can it be translated to valid UTF-8 strings?
+# # utf8_valid(emojimovie$text)
+# # Yes it can...
+# # First fix your dictionary to have new YouTube column
+# emojis$YouTube <- tolower(emojis$Codepoint)
+# emojis$YouTube <- gsub("u\\+","U000", emojis$YouTube)
+# 
+# emojimovie$test <- as.character(emojimovie$textOriginal)
+# emojimovie$text2 <- utf8_encode(emojimovie$test, display = FALSE)
+# # try <- gsub("\U0001f602", "lolface", emojimovie$text2)
+# # try[14]
+# 
+# emojis$Name <- as.factor(emojis$Name)
+# emojis$YouTube <- as.factor(emojis$YouTube)
+# # Why isn't this working then?
+# emoemo <- FindReplace(data = emojimovie, Var = "text2",
+#                             replaceData = emojis,
+#                        from = "YouTube", to = "Name",
+#                        exact = FALSE)
+```
+
+Now let's clean our data using the same code as we used for our tweets (in case there are any hashtags or @ mentions).
+
+```{r Clean YouTube Comments, echo=TRUE, message=FALSE, warning=FALSE, error=FALSE}
+emoemo$text = gsub( "<.*?>", "", emoemo$text)
+
+reg <- "([^A-Za-z_\\d#@']|'(?![A-Za-z_\\d#@]))"
+tidy_tube <- emoemo %>% 
+  filter(!str_detect(text, "^RT")) %>%
+  mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https", "")) %>%
+  unnest_tokens(word, text, token = "regex", pattern = reg) %>%
+  filter(!word %in% mystopwords,
+         str_detect(word, "[a-z]"))
+
+freqtube <- tidy_tube %>% 
+  group_by(publishedAt) %>% 
+  count(word, sort = TRUE) %>% 
+  left_join(tidy_tube %>% 
+              group_by(publishedAt) %>% 
+              summarise(total = n())) %>%
+  mutate(freq = n/total)
+
+# Look at most frequent terms
+print(head(freqtube))
+```
+
+```{r YouTube Sentiment, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+bing_word_countstube <- tidy_tube %>%
+  inner_join(bingsenti) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  ungroup()
+
+# bing_word_counts
+
+# Now we can graph these
+# Change 'filter' parameter depending on the size of your data set
+bing_word_countstube %>%
+  filter(n > 20) %>%
+  mutate(n = ifelse(sentiment == "negative", -n, n)) %>%
+  mutate(word = reorder(word, n)) %>%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = "identity") +
+  labs(y = "Contribution to sentiment",
+       x = NULL) +
+  coord_flip()
+```
+
+Perhaps unsurprisingly, it seems most of our comments are negative. We can see here some of the biggest contributors to negative sentiment, terms like 'disgrace' or 'hate', 'cheap' or 'cringe'. 
+
+Let's look at things over time. Code from [Silge and Robinson](http://tidytextmining.com/twitter.html). This example is looking at the words that have changed the most over time in terms of frequency. 
+
+```{r YouTube Comments Over Time, echo=TRUE, results='hide', message=FALSE, warning=FALSE, error=FALSE}
+# Need to change some formatting
+tidy_tube$created <- as.character(tidy_tube$publishedAt)
+tidy_tube$created <- as.POSIXct(tidy_tube$created)
+
+words_by_time <- tidy_tube %>%
+  filter(!str_detect(word, "^@")) %>%
+  mutate(time_floor = floor_date(created, unit = "1 day")) %>%
+  count(time_floor, word) %>%
+  ungroup() %>%
+  group_by(time_floor) %>%
+  mutate(time_total = sum(n)) %>%
+  group_by(word) %>%
+  mutate(word_total = sum(n)) %>%
+  ungroup() %>%
+  rename(count = n) %>%
+  filter(word_total > 30)
+
+# words_by_time
+
+nested_data <- words_by_time %>%
+  nest(-word) 
+
+nested_data
+
+
+nested_models <- nested_data %>%
+  mutate(models = map(data, ~ glm(cbind(count, time_total) ~ time_floor, ., 
+                                  family = "binomial")))
+
+nested_models
+
+
+slopes <- nested_models %>%
+  unnest(map(models, tidy)) %>%
+  filter(term == "time_floor") %>%
+  mutate(adjusted.p.value = p.adjust(p.value))
+
+top_slopes <- slopes %>% 
+  filter(adjusted.p.value < 0.1)
+
+top_slopes
+
+# Graph
+words_by_time %>%
+  inner_join(top_slopes, by = c("word")) %>%
+  ggplot(aes(time_floor, count/time_total, color = word)) +
+  geom_line(size = 1.3) +
+  labs(x = NULL, y = "Word frequency")
+
+# Graph a subset of just slopes of emojis
+# First make a logical vector telling us what posts have emojis and which ones don't
+# test <- emojis %>%
+#  unnest_tokens(word, Name)
+tidy_grep <- grepl(paste(test$word, collapse = "|"), top_slopes$word)
+
+# Turn this into a data frame so we can merge it with our post data frame
+tidy_grepDF<-as.data.frame(tidy_grep)
+# Create an id row to merge
+top_slopes$id <- 1:nrow(top_slopes)
+# Do the same for the logical data frame
+tidy_grepDF$id <- 1:nrow(tidy_grepDF)
+# Merge them together
+sub_slopes <- merge(tidy_grepDF,top_slopes,by="id")
+# Just keep posts that have emojis in them
+sub_slopes <- sub_slopes[sub_slopes$tidy_grep == "TRUE", ]
+
+words_by_time %>%
+  inner_join(sub_slopes, by = c("word")) %>%
+  ggplot(aes(time_floor, count/time_total, color = word)) +
+  geom_line(size = 1.3) +
+  labs(x = NULL, y = "Word frequency")
+```
+
+What are the most common emojis in comments about the emoji movie?
+
+```{r YouTube Emoji Comments, echo=TRUE, message=FALSE, warning=FALSE, error=FALSE}
+# First make a logical vector telling us what posts have emojis and which ones don't
+tube_emogrepl <- grepl(paste(emojis$Name, collapse = "|"), emoemo$text)
+# Turn this into a data frame so we can merge it with our post data frame
+tube_emogreplDF<-as.data.frame(tube_emogrepl)
+# Create an id row to merge
+emoemo$id <- 1:nrow(emoemo)
+# Do the same for the logical data frame
+tube_emogreplDF$id <- 1:nrow(tube_emogreplDF)
+# Merge them together
+emoemo <- merge(emoemo,tube_emogreplDF,by="id")
+# Just keep posts that have emojis in them
+tube_emosub <- emoemo[emoemo$tube_emogrepl == "TRUE", ]
+
+# Great! Now turn these into tidy format
+tidy_tube_emos <- tube_emosub %>% 
+  mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https", "")) %>%
+  unnest_tokens(word, text, token = "regex", pattern = reg) %>%
+  filter(!word %in% mystopwords,
+         str_detect(word, "[a-z]"))
+
+# Now just keep emojis, get rid of surrounding text 
+tube_emogrepl2 <- grepl(paste(test$word, collapse = "|"), tidy_tube_emos$word)
+tube_emogrepl2DF<-as.data.frame(tube_emogrepl2)
+tidy_tube_emos$id <- 1:nrow(tidy_tube_emos)
+tube_emogrepl2DF$id <- 1:nrow(tube_emogrepl2DF)
+checkit2 <- merge(tidy_tube_emos,tube_emogrepl2DF,by="id")
+emoonly2 <- checkit2[checkit2$tube_emogrepl2 == "TRUE", ]
+
+freqe2 <- emoonly2 %>% 
+   count(word, sort = TRUE)
+
+print(head(freqe2))
+```
+
+So, our most frequent emojis in the comments of the Emoji Movie trailer are `r emo::ji("face_with_tears_of_joy")`, `r emo::ji("pile_of_poo")`, `r emo::ji("smiling_face_with_smiling_eyes")`, `r emo::ji("grinning_face")`, `r emo::ji("smiling_face_with_heart_eyes")` and `r emo::ji("aubergine")`. Read into that what you will! `r emo::ji("face_with_tears_of_joy")`

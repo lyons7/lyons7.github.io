@@ -5252,5 +5252,521 @@ res2 &amp;lt;- get_comment_threads(c(video_id=&amp;quot;izpdLM4VOfY&amp;quot;), 
 </description>
     </item>
     
+    <item>
+      <title>Intro to Analyzing Social Media Data</title>
+      <link>/portfolio/2017-11-05-analyzing-social-media-data/</link>
+      <pubDate>Sun, 05 Nov 2017 21:13:14 -0500</pubDate>
+      
+      <guid>/portfolio/2017-11-05-analyzing-social-media-data/</guid>
+      <description>&lt;p&gt;Today we are going to talk about applying text mining techniques to social media data. You can download this data yourself (if you have everything set up with the Twitter and YouTube APIs) or you can access the data we’ll be discussing here in R data format.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# packs = c(&amp;quot;twitteR&amp;quot;, &amp;quot;stringr&amp;quot;,&amp;quot;ggplot2&amp;quot;,&amp;quot;devtools&amp;quot;,&amp;quot;DataCombine&amp;quot;,&amp;quot;ggmap&amp;quot;,&amp;quot;tm&amp;quot;,&amp;quot;wordcloud&amp;quot;,&amp;quot;plyr&amp;quot;,&amp;quot;tuber&amp;quot;,&amp;quot;tidytext&amp;quot;,&amp;quot;dplyr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;readr&amp;quot;,&amp;quot;ggrepel&amp;quot;,&amp;quot;emoGG&amp;quot;,&amp;quot;lubridate&amp;quot;,&amp;quot;corpus&amp;quot;, &amp;quot;purrr&amp;quot;, &amp;quot;broom&amp;quot;)
+# lapply(packs, library, character.only=T)
+
+# You might have to install some of these -- check the &amp;#39;Packages&amp;#39; tab in R Studio to see which ones you already have. For &amp;#39;emoGG&amp;#39; you need to download it directly from github, using the following:
+# devtools::install_github(&amp;quot;dill/emoGG&amp;quot;)
+
+# Make sure to set the right working directory
+# setwd(&amp;quot;/Users/katelyons/Documents/Workshop&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;twitter-geographic-analyses&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Twitter + Geographic Analyses&lt;/h2&gt;
+&lt;p&gt;First we will look at some Twitter data of the Wicker Park neighborhood in Chicago, IL.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# key = &amp;quot;YOUR KEY HERE&amp;quot;
+# secret = &amp;quot;YOUR SECRET HERE&amp;quot;
+
+# tok = &amp;quot;YOUR TOK HERE&amp;quot;
+# tok_sec = &amp;quot;YOUR TOK_SEC HERE&amp;quot;
+
+# twitter_oauth &amp;lt;- setup_twitter_oauth(key, secret, tok, tok_sec)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you don’t have the Twitter API set up, you can access the data in R data format &lt;a href=&#34;https://www.dropbox.com/s/nzh8d6fdwcdra9d/sampledata.Rda?dl=0&#34;&gt;here&lt;/a&gt;. If you get the data this way, start from the ‘twListToDF’ step.&lt;/p&gt;
+&lt;p&gt;Now you have set up your ‘handshake’ with the API and are ready to collect data. We will search by coordinate for all tweets that have occurred within a 1 kilometer radius of a central point in the Wicker Park neighborhood in Chicago, IL.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# geo &amp;lt;- searchTwitter(&amp;#39;&amp;#39;,n=7000,geocode=&amp;#39;41.908602,-87.677417,1km&amp;#39;,retryOnRateLimit=1)
+# Save tweet data (if you want)
+# save(geo,file=paste(&amp;quot;sampletweetdata.Rda&amp;quot;))
+
+# If you need to load that data (make sure you are in the right directory)
+load(&amp;#39;sampletweetdata.Rda&amp;#39;)
+
+# Convert to data frame
+ geoDF&amp;lt;-twListToDF(geo)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have a data frame. We will now identify emojis, select just those tweets that come from Instagram and clean this data (get rid of links, special characters, etc.) so we can do text analyses. You can access the emoji dictionary &lt;a href=&#34;https://www.dropbox.com/s/orpj7lmh5ueapo1/Emoji%20Dictionary%202.1.csv?dl=0&#34;&gt;here&lt;/a&gt;. The code for cleaning the tweets comes from &lt;a href=&#34;http://tidytextmining.com/twitter.html&#34;&gt;Silge and Robinson’s book&lt;/a&gt; – this is special and awesome code to do this because it keeps hashtags and @ mentions. Other methods of cleaning text will count ‘#’ and ‘@’ as special characters and will get rid of them.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Convert the encoding so you can identify emojis
+geoDF$text &amp;lt;- iconv(geoDF$text, from = &amp;quot;latin1&amp;quot;, to = &amp;quot;ascii&amp;quot;, sub = &amp;quot;byte&amp;quot;)
+
+# Load in emoji dictionary. The &amp;#39;trim_ws&amp;#39; argument is super important -- you need those spaces so the emojis aren&amp;#39;t all squished together!
+# emojis &amp;lt;- read_csv(&amp;quot;Emoji Dictionary 2.1.csv&amp;quot;, col_names=TRUE, trim_ws=FALSE)
+# If you don&amp;#39;t get weird encoding issue just use read.csv
+emojis &amp;lt;- read.csv(&amp;quot;Emoji Dictionary 2.1.csv&amp;quot;, header=T)
+
+
+# Go through and identify emojis
+geodata &amp;lt;- FindReplace(data = geoDF, Var = &amp;quot;text&amp;quot;, 
+                            replaceData = emojis,
+                       from = &amp;quot;R_Encoding&amp;quot;, to = &amp;quot;Name&amp;quot;, 
+                       exact = FALSE)
+
+# Just keep those tweets that come from Instagram
+wicker &amp;lt;- geodata[geodata$statusSource == 
+        &amp;quot;&amp;lt;a href=\&amp;quot;http://instagram.com\&amp;quot; rel=\&amp;quot;nofollow\&amp;quot;&amp;gt;Instagram&amp;lt;/a&amp;gt;&amp;quot;, ]
+
+# Get rid of stuff particular to the data (here encodings of links and such)
+# Most of these are characters I don&amp;#39;t have encodings for (other scripts, etc.)
+wicker$text = gsub(&amp;quot;Just posted a photo&amp;quot;,&amp;quot;&amp;quot;, wicker$text)
+wicker$text = gsub( &amp;quot;&amp;lt;.*?&amp;gt;&amp;quot;, &amp;quot;&amp;quot;, wicker$text)
+
+# Now time to clean your posts. First let&amp;#39;s make our own list of stop words again, adding additional stop words to the tidy text stop word list from the tm package stop word list.
+# This makes a larger list of stop words combining those from the tm package and tidy text -- even though the tm package stop word list is pretty small anyway, just doing this just in case
+data(stop_words)
+mystopwords &amp;lt;- c(stopwords(&amp;#39;english&amp;#39;),stop_words$word)
+
+# Now for Silge and Robinson&amp;#39;s code. What this is doing is getting rid of 
+# URLs, re-tweets (RT) and ampersands. This also gets rid of stop words 
+# without having to get rid of hashtags and @ signs by using 
+# str_detect and filter! 
+reg &amp;lt;- &amp;quot;([^A-Za-z_\\d#@&amp;#39;]|&amp;#39;(?![A-Za-z_\\d#@]))&amp;quot;
+tidy_wicker &amp;lt;- wicker %&amp;gt;% 
+  filter(!str_detect(text, &amp;quot;^RT&amp;quot;)) %&amp;gt;%
+  mutate(text = str_replace_all(text, &amp;quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;amp;|&amp;amp;lt;|&amp;amp;gt;|RT|https&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
+  unnest_tokens(word, text, token = &amp;quot;regex&amp;quot;, pattern = reg) %&amp;gt;%
+  filter(!word %in% mystopwords,
+         str_detect(word, &amp;quot;[a-z]&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have cleaned posts in tidy format. Let’s adapt some of &lt;a href=&#34;http://tidytextmining.com/twitter.html&#34;&gt;Silge and Robinson’s code&lt;/a&gt; to look at frequent terms and then map concentrations of frequent terms. Note how I’ve grouped these by latitude and longitude. This will help us later on when we want to group them by coordinate.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;freq &amp;lt;- tidy_wicker %&amp;gt;% 
+  group_by(latitude,longitude) %&amp;gt;% 
+  count(word, sort = TRUE) %&amp;gt;% 
+  left_join(tidy_wicker %&amp;gt;% 
+              group_by(latitude,longitude) %&amp;gt;% 
+              summarise(total = n())) %&amp;gt;%
+  mutate(freq = n/total)
+
+# Look at most frequent terms
+freq&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The n here is the total number of times this term has shown up, and the total is how many terms there are present in a particular coordinate.&lt;/p&gt;
+&lt;p&gt;Cool! Now we have a representation of terms, their frequency and their position. Now I might want to plot this somehow… one way would be to try to plot the most frequent terms (n &amp;gt; 3) (Some help on how to do this was taken from &lt;a href=&#34;http://blog.revolutionanalytics.com/2016/01/avoid-overlapping-labels-in-ggplot2-charts.html&#34;&gt;here&lt;/a&gt; and &lt;a href=&#34;http://stackoverflow.com/questions/14288001/geom-text-not-working-when-ggmap-and-geom-point-used&#34;&gt;here&lt;/a&gt;). Depending on the size of your data set, the base line for ‘most frequent’ is subject to change – because my data set is relatively small, I’m just going to say words that appear more than three times.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;freq2 &amp;lt;- subset(freq, n &amp;gt; 3) 
+
+# Let&amp;#39;s get a map!
+# This will take a couple tries to make sure you have a nice map for your data
+map &amp;lt;- get_map(location = &amp;#39;Damen and North, Chicago, Illinois&amp;#39;, zoom = 14)
+
+freq2$longitude&amp;lt;-as.numeric(freq2$longitude)
+freq2$latitude&amp;lt;-as.numeric(freq2$latitude)
+lon &amp;lt;- freq2$longitude
+lat &amp;lt;- freq2$latitude
+
+mapPoints &amp;lt;- ggmap(map) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freq2, aes(x = lon, y = lat, label = word),size = 3) 
+
+mapPoints&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-11-05-analyzing-social-media-data_files/figure-html/Map%20Tweet%20Frequency-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now we have a representation of coordinates in which frequent terms are being used. A lot of these are associated with restaurants or bars (see discussion of Piece pizzeria, Emporium Arcade Bar). We can also go back and investigate certain groupings of terms – for example, the ‘#inktober’ concentration is from an artist who posts a picture of their art everyday. To check things like the concentration of ‘face with tears of joy’, we can go back to our original ‘wicker’ data frame and search for the coordinate that is in our freq2 data frame to find the links to the orginal Instagram posts or just search that coordinate on Google maps. For the coordinate where we find lots of ‘face with tears of joy’ emojis, we can see from Google maps that there is a comedy club, ‘The Comedy Clubhouse’ at that location – guess it’s a good comedy club!&lt;/p&gt;
+&lt;p&gt;How about sentiment analysis? What are the most common positive and negative words? This time we’ll just use the sentiment dictionary available in the tidytext package from the BING sentiment corpus.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We can also look at counts of negative and positive words
+bingsenti &amp;lt;- sentiments %&amp;gt;%
+  filter(lexicon ==&amp;quot;bing&amp;quot;)
+
+bing_word_counts &amp;lt;- tidy_wicker %&amp;gt;%
+  inner_join(bingsenti) %&amp;gt;%
+  count(word, sentiment, sort = TRUE) %&amp;gt;%
+  ungroup()
+
+# bing_word_counts
+
+# Now we can graph these
+# Change &amp;#39;filter&amp;#39; parameter depending on the size of your data set
+bing_word_counts %&amp;gt;%
+  filter(n &amp;gt; 2) %&amp;gt;%
+  mutate(n = ifelse(sentiment == &amp;quot;negative&amp;quot;, -n, n)) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = &amp;quot;identity&amp;quot;) +
+  labs(y = &amp;quot;Contribution to sentiment&amp;quot;,
+       x = NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-11-05-analyzing-social-media-data_files/figure-html/Tweet%20Sentiments-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Unsurprisingly, our Instagram posts are mostly positive, with negative sentiments related to cold (Chicago!) or swear words or difficulty. We see how sentiment analysis is not always infallible, as ‘fall’ is counted as negative when really people are talking about the season and see to be happy about it.&lt;/p&gt;
+&lt;p&gt;How about a word cloud?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;wordcloud(freq$word,freq$n, min.freq=3, 
+          colors=brewer.pal(1, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-11-05-analyzing-social-media-data_files/figure-html/Tweet%20Word%20Clouds-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;It’s interesting people talk about Logan Square a lot, but Logan Square is another neighborhood! This could be people talking about Logan Sqaure but tagging a coordinate in Wicker Park or maybe our radius was a little too big and got some Logan Square tweets (it’s pretty close). And yes, the ‘aubergine’ is the eggplant emoji. And yes, the posts are not about the vegetable.&lt;/p&gt;
+&lt;p&gt;What if we want to map emojis? We can do this, but it involves a lot of steps and a new package, the &lt;a href=&#34;https://github.com/dill/emoGG&#34;&gt;‘emoGG’ package&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# First make a logical vector telling us what posts have emojis and which ones don&amp;#39;t
+emogrepl &amp;lt;- grepl(paste(emojis$Name, collapse = &amp;quot;|&amp;quot;), wicker$text)
+# Turn this into a data frame so we can merge it with our post data frame
+emogreplDF&amp;lt;-as.data.frame(emogrepl)
+# Create an id row to merge
+wicker$id &amp;lt;- 1:nrow(wicker)
+# Do the same for the logical data frame
+emogreplDF$id &amp;lt;- 1:nrow(emogreplDF)
+# Merge them together
+wicker &amp;lt;- merge(wicker,emogreplDF,by=&amp;quot;id&amp;quot;)
+# Just keep posts that have emojis in them
+emosub &amp;lt;- wicker[wicker$emogrepl == &amp;quot;TRUE&amp;quot;, ]
+
+# Great! Now turn these into tidy format
+tidy_emos &amp;lt;- emosub %&amp;gt;% 
+  mutate(text = str_replace_all(text, &amp;quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;amp;|&amp;amp;lt;|&amp;amp;gt;|RT|https&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
+  unnest_tokens(word, text, token = &amp;quot;regex&amp;quot;, pattern = reg) %&amp;gt;%
+  filter(!word %in% mystopwords,
+         str_detect(word, &amp;quot;[a-z]&amp;quot;))
+
+# Have to do this so they will recognize each other to map frequency
+emojis$Name &amp;lt;- as.character(emojis$Name)
+test &amp;lt;- emojis %&amp;gt;%
+  unnest_tokens(word, Name)
+
+# Now just keep emojis, get rid of surrounding text 
+emogrepl2 &amp;lt;- grepl(paste(test$word, collapse = &amp;quot;|&amp;quot;), tidy_emos$word)
+emogreplDF2&amp;lt;-as.data.frame(emogrepl2)
+tidy_emos$id &amp;lt;- 1:nrow(tidy_emos)
+emogreplDF2$id &amp;lt;- 1:nrow(emogreplDF2)
+checkit &amp;lt;- merge(tidy_emos,emogreplDF2,by=&amp;quot;id&amp;quot;)
+emoonly &amp;lt;- checkit[checkit$emogrepl2 == &amp;quot;TRUE&amp;quot;, ]
+
+freqe &amp;lt;- emoonly %&amp;gt;% 
+  group_by(latitude,longitude) %&amp;gt;% 
+  count(word, sort = TRUE) %&amp;gt;% 
+  left_join(emoonly %&amp;gt;% 
+              group_by(latitude,longitude) %&amp;gt;% 
+              summarise(total = n())) %&amp;gt;%
+  mutate(freq = n/total)
+
+print(head(freqe))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 6
+## # Groups:   latitude, longitude [5]
+##   latitude longitude                  word     n total      freq
+##      &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;                 &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; &amp;lt;int&amp;gt;     &amp;lt;dbl&amp;gt;
+## 1 41.90879 -87.66792    facewithtearsofjoy    12    15 0.8000000
+## 2 41.90571 -87.67057 doubleexclamationmark     4     9 0.4444444
+## 3 41.90645 -87.67182             aubergine     4     4 1.0000000
+## 4  41.9103 -87.67798                  fire     4    14 0.2857143
+## 5 41.90879 -87.66792                  eyes     3    15 0.2000000
+## 6 41.90974   -87.677             bicyclist     3     7 0.4285714&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Now we have our most common emojis. Note skin color is separate -- you can go into the CSV file to change this if you want but I have them separate so each emoji isn&amp;#39;t counted as a separate thing.
+
+# Map it
+freqe2 &amp;lt;- subset(freqe, n &amp;gt; 2) 
+
+freqe2$longitude&amp;lt;-as.numeric(freqe2$longitude)
+freqe2$latitude&amp;lt;-as.numeric(freqe2$latitude)
+
+mapPoints2 &amp;lt;- ggmap(map) + geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
+  geom_label_repel(data = freqe2, aes(x = longitude, y = latitude, label = word),size = 3) 
+
+mapPoints2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-11-05-analyzing-social-media-data_files/figure-html/Identify%20Emoji%20Posts%201-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This is more impressive with a larger data set, but you can see the kinds of things you can look at with these tools. Let’s look at another visualization technique, actually graphing with emojis. Once again, this takes a few steps to set up.&lt;/p&gt;
+&lt;p&gt;Let’s do 😂 ‼ 🍆 🔥 👀 and 🔮.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We will use emoGG to find the right code for each one. You can cross-check this with the unicode codepoint listed in your emoji dictionary (usualy they are the same, with all letters in lowercase).
+# How to search:
+# Identifier for each one for mapping
+# &amp;#39;face with tears of joy&amp;#39; 1f602
+# &amp;#39;double exclamation mark&amp;#39; 203c
+# &amp;#39;aubergine&amp;#39; 1f346
+# &amp;#39;fire&amp;#39; 1f525
+# &amp;#39;eyes&amp;#39; 1f440
+# &amp;#39;crystal ball&amp;#39; 1f52e
+
+
+tearsofjoygrep &amp;lt;- grepl(paste(&amp;quot; FACEWITHTEARSOFJOY  &amp;quot;), emosub$text)
+tearsofjoyDF&amp;lt;-as.data.frame(tearsofjoygrep)
+emosub$ID7 &amp;lt;- 1:nrow(emosub)
+tearsofjoyDF$ID7 &amp;lt;- 1:nrow(tearsofjoyDF)
+emosub &amp;lt;- merge(emosub,tearsofjoyDF,by=&amp;quot;ID7&amp;quot;)
+tearsofjoy &amp;lt;- emosub[emosub$tearsofjoygrep == &amp;quot;TRUE&amp;quot;, ]
+
+doubleexgrep &amp;lt;- grepl(paste(&amp;quot; DOUBLEEXCLAMATIONMARK  &amp;quot;), emosub$text)
+doubleexDF&amp;lt;-as.data.frame(doubleexgrep)
+doubleexDF$ID7 &amp;lt;- 1:nrow(doubleexDF)
+emosub &amp;lt;- merge(emosub,doubleexDF,by=&amp;quot;ID7&amp;quot;)
+doubleex &amp;lt;- emosub[emosub$doubleexgrep == &amp;quot;TRUE&amp;quot;, ]
+
+egggrep &amp;lt;- grepl(paste(&amp;quot; AUBERGINE  &amp;quot;), emosub$text)
+eggDF &amp;lt;-as.data.frame(egggrep)
+eggDF$ID7 &amp;lt;- 1:nrow(eggDF)
+emosub &amp;lt;- merge(emosub,eggDF,by=&amp;quot;ID7&amp;quot;)
+aubergine &amp;lt;- emosub[emosub$egggrep == &amp;quot;TRUE&amp;quot;, ]
+
+firegrep &amp;lt;- grepl(paste(&amp;quot; FIRE  &amp;quot;), emosub$text)
+fireDF&amp;lt;-as.data.frame(firegrep)
+fireDF$ID7 &amp;lt;- 1:nrow(fireDF)
+emosub &amp;lt;- merge(emosub,fireDF,by=&amp;quot;ID7&amp;quot;)
+fire &amp;lt;- emosub[emosub$firegrep == &amp;quot;TRUE&amp;quot;, ]
+
+eyesgrep &amp;lt;- grepl(paste(&amp;quot; EYES &amp;quot;), emosub$text)
+eyesDF&amp;lt;-as.data.frame(eyesgrep)
+eyesDF$ID7 &amp;lt;- 1:nrow(eyesDF)
+emosub &amp;lt;- merge(emosub,eyesDF,by=&amp;quot;ID7&amp;quot;)
+eyes &amp;lt;- emosub[emosub$eyesgrep == &amp;quot;TRUE&amp;quot;, ]
+
+cbgrep &amp;lt;- grepl(paste(&amp;quot; CRYSTALBALL &amp;quot;), emosub$text)
+cbDF&amp;lt;-as.data.frame(cbgrep)
+cbDF$ID7 &amp;lt;- 1:nrow(cbDF)
+emosub &amp;lt;- merge(emosub,cbDF,by=&amp;quot;ID7&amp;quot;)
+cb &amp;lt;- emosub[emosub$cbgrep == &amp;quot;TRUE&amp;quot;, ]
+
+
+# Map this
+# Some stuff we have to do first
+tearsofjoy$latitude &amp;lt;- as.numeric(tearsofjoy$latitude)
+tearsofjoy$longitude &amp;lt;- as.numeric(tearsofjoy$longitude)
+doubleex$latitude &amp;lt;- as.numeric(doubleex$latitude)
+doubleex$longitude &amp;lt;- as.numeric(doubleex$longitude)
+aubergine$latitude &amp;lt;- as.numeric(aubergine$latitude)
+aubergine$longitude &amp;lt;- as.numeric(aubergine$longitude)
+fire$latitude &amp;lt;- as.numeric(fire$latitude)
+fire$longitude &amp;lt;- as.numeric(fire$longitude)
+eyes$latitude &amp;lt;- as.numeric(eyes$latitude)
+eyes$longitude &amp;lt;- as.numeric(eyes$longitude)
+cb$latitude &amp;lt;- as.numeric(cb$latitude)
+cb$longitude &amp;lt;- as.numeric(cb$longitude)
+
+# Get a new map that is zoomed in a bit more
+map2 &amp;lt;- get_map(location = &amp;#39;Damen and North, Chicago, Illinois&amp;#39;, zoom = 15)
+
+
+emomap &amp;lt;- ggmap(map2) + geom_emoji(aes(x = longitude, y = latitude), 
+                                     data=tearsofjoy, emoji=&amp;quot;1f602&amp;quot;) +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=doubleex, emoji=&amp;quot;203c&amp;quot;) +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=aubergine, emoji=&amp;quot;1f346&amp;quot;) +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=fire, emoji=&amp;quot;1f525&amp;quot;) +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=eyes, emoji=&amp;quot;1f440&amp;quot;) +
+                              geom_emoji(aes(x=longitude, y=latitude),
+                                     data=cb, emoji=&amp;quot;1f52e&amp;quot;)
+
+emomap&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-11-05-analyzing-social-media-data_files/figure-html/Identify%20Emoji%20Posts-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Again, this is more impressive when you have more data. You can see some examples of this &lt;a href=&#34;https://lyons7.github.io/portfolio/2017-03-10-emoji-maps/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;youtube-diachronic-sentiment-analysis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;YouTube + Diachronic Sentiment Analysis&lt;/h2&gt;
+&lt;p&gt;Onwards to YouTube data! We’ll be doing some similar analyses, like sentiment analysis, but instead of looking at things in terms of coordinates, we’ll look at things in terms of time. I wanted to choose something that had a lot of comments, so let’s look at the comments from the ill-advised (and ill-fated) ‘Emoji Movie’ trailer. This also has a lot of varying sentiment (one of the comments is “The movie is a such disgrace to the animation film industry.”😹😹😹).&lt;/p&gt;
+&lt;p&gt;If you don’t have the YouTube API set up, you can access the data &lt;a href=&#34;https://www.dropbox.com/s/3zwmn7vsvo9ihpv/sampletubedata.Rda?dl=0&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Connect to YouTube API
+# Leave token blank
+# yt_oauth(&amp;quot;app_id&amp;quot;, &amp;quot;app_password&amp;quot;, token=&amp;#39;&amp;#39;)
+
+emojimovie &amp;lt;- get_comment_threads(c(video_id=&amp;quot;o_nfdzMhmrA&amp;quot;), max_results = 101)
+
+# Save data (if you want)
+# save(emojimovie,file=paste(&amp;quot;sampletubedata.Rda&amp;quot;))
+
+# If you need to load that data (make sure you are in the right directory)
+# load(&amp;#39;sampletubedata.Rda&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have some (~10,300) comments to play with. Due to the subject matter, emojis are likely to be frequent in our data set, so let’s follow the same procedure as with our tweets to identify those emojis and label them.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Convert the encoding so you can identify emojis
+# First you have to convert the textOriginal vector into a character so R can go through and identify emojis
+emojimovie$text &amp;lt;- as.character(emojimovie$textOriginal)
+emojimovie$text &amp;lt;- iconv(emojimovie$text, from = &amp;quot;UTF-8&amp;quot;, to = &amp;quot;ascii&amp;quot;, sub = &amp;quot;byte&amp;quot;)
+# Because YouTube encoding is weird
+emojimovie$text = gsub(&amp;quot;&amp;lt;f0&amp;gt;&amp;lt;9f&amp;gt;&amp;lt;98&amp;gt;&amp;quot;,&amp;quot;&amp;lt;ed&amp;gt;&amp;lt;a0&amp;gt;&amp;lt;bd&amp;gt;&amp;lt;ed&amp;gt;&amp;lt;b8&amp;gt;&amp;quot;, emojimovie$text)
+emojimovie$text = gsub(&amp;quot;&amp;lt;f0&amp;gt;&amp;lt;9f&amp;gt;&amp;lt;8d&amp;gt;&amp;quot;,&amp;quot;&amp;lt;ed&amp;gt;&amp;lt;a0&amp;gt;&amp;lt;bc&amp;gt;&amp;lt;ed&amp;gt;&amp;lt;bd&amp;gt;&amp;quot;, emojimovie$text)
+emojimovie$text = gsub(&amp;quot;&amp;lt;f0&amp;gt;&amp;lt;9f&amp;gt;&amp;lt;92&amp;gt;&amp;quot;,&amp;quot;&amp;lt;ed&amp;gt;&amp;lt;a0&amp;gt;&amp;lt;bd&amp;gt;&amp;lt;ed&amp;gt;&amp;lt;b2&amp;gt;&amp;quot;, emojimovie$text)
+
+# Go through and identify emojis
+emoemo &amp;lt;- FindReplace(data = emojimovie, Var = &amp;quot;text&amp;quot;, 
+                            replaceData = emojis,
+                       from = &amp;quot;R_Encoding&amp;quot;, to = &amp;quot;Name&amp;quot;, 
+                       exact = FALSE)
+# This might take some time, we have a big data set. 
+
+
+# # Trying to find a more efficient way
+# # STILL WORKING ON THIS
+# # Another technique to try to fix encoding issue
+# # Can it be translated to valid UTF-8 strings?
+# # utf8_valid(emojimovie$text)
+# # Yes it can...
+# # First fix your dictionary to have new YouTube column
+# emojis$YouTube &amp;lt;- tolower(emojis$Codepoint)
+# emojis$YouTube &amp;lt;- gsub(&amp;quot;u\\+&amp;quot;,&amp;quot;U000&amp;quot;, emojis$YouTube)
+# 
+# emojimovie$test &amp;lt;- as.character(emojimovie$textOriginal)
+# emojimovie$text2 &amp;lt;- utf8_encode(emojimovie$test, display = FALSE)
+# # try &amp;lt;- gsub(&amp;quot;\U0001f602&amp;quot;, &amp;quot;lolface&amp;quot;, emojimovie$text2)
+# # try[14]
+# 
+# emojis$Name &amp;lt;- as.factor(emojis$Name)
+# emojis$YouTube &amp;lt;- as.factor(emojis$YouTube)
+# # Why isn&amp;#39;t this working then?
+# emoemo &amp;lt;- FindReplace(data = emojimovie, Var = &amp;quot;text2&amp;quot;,
+#                             replaceData = emojis,
+#                        from = &amp;quot;YouTube&amp;quot;, to = &amp;quot;Name&amp;quot;,
+#                        exact = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now let’s clean our data using the same code as we used for our tweets (in case there are any hashtags or @ mentions).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;emoemo$text = gsub( &amp;quot;&amp;lt;.*?&amp;gt;&amp;quot;, &amp;quot;&amp;quot;, emoemo$text)
+
+reg &amp;lt;- &amp;quot;([^A-Za-z_\\d#@&amp;#39;]|&amp;#39;(?![A-Za-z_\\d#@]))&amp;quot;
+tidy_tube &amp;lt;- emoemo %&amp;gt;% 
+  filter(!str_detect(text, &amp;quot;^RT&amp;quot;)) %&amp;gt;%
+  mutate(text = str_replace_all(text, &amp;quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;amp;|&amp;amp;lt;|&amp;amp;gt;|RT|https&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
+  unnest_tokens(word, text, token = &amp;quot;regex&amp;quot;, pattern = reg) %&amp;gt;%
+  filter(!word %in% mystopwords,
+         str_detect(word, &amp;quot;[a-z]&amp;quot;))
+
+freqtube &amp;lt;- tidy_tube %&amp;gt;% 
+  group_by(publishedAt) %&amp;gt;% 
+  count(word, sort = TRUE) %&amp;gt;% 
+  left_join(tidy_tube %&amp;gt;% 
+              group_by(publishedAt) %&amp;gt;% 
+              summarise(total = n())) %&amp;gt;%
+  mutate(freq = n/total)
+
+# Look at most frequent terms
+print(head(freqtube))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 5
+## # Groups:   publishedAt [6]
+##                publishedAt               word     n total       freq
+##                     &amp;lt;fctr&amp;gt;              &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; &amp;lt;int&amp;gt;      &amp;lt;dbl&amp;gt;
+## 1 2017-10-23T13:00:06.000Z facewithtearsofjoy  2163  2163 1.00000000
+## 2 2017-11-05T19:44:54.000Z facewithtearsofjoy  1030  1339 0.76923077
+## 3 2017-10-15T17:04:54.000Z                 im   515  2060 0.25000000
+## 4 2017-11-05T14:39:16.000Z              movie   515  3193 0.16129032
+## 5 2017-10-31T01:15:33.000Z              movie   412  1030 0.40000000
+## 6 2017-10-15T21:17:26.000Z               film   309  3708 0.08333333&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bing_word_countstube &amp;lt;- tidy_tube %&amp;gt;%
+  inner_join(bingsenti) %&amp;gt;%
+  count(word, sentiment, sort = TRUE) %&amp;gt;%
+  ungroup()
+
+# bing_word_counts
+
+# Now we can graph these
+# Change &amp;#39;filter&amp;#39; parameter depending on the size of your data set
+bing_word_countstube %&amp;gt;%
+  filter(n &amp;gt; 20) %&amp;gt;%
+  mutate(n = ifelse(sentiment == &amp;quot;negative&amp;quot;, -n, n)) %&amp;gt;%
+  mutate(word = reorder(word, n)) %&amp;gt;%
+  ggplot(aes(word, n, fill = sentiment)) +
+  geom_bar(alpha = 0.8, stat = &amp;quot;identity&amp;quot;) +
+  labs(y = &amp;quot;Contribution to sentiment&amp;quot;,
+       x = NULL) +
+  coord_flip()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-11-05-analyzing-social-media-data_files/figure-html/YouTube%20Sentiment-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Perhaps unsurprisingly, it seems most of our comments are negative. We can see here some of the biggest contributors to negative sentiment, terms like ‘disgrace’ or ‘hate’, ‘cheap’ or ‘cringe’.&lt;/p&gt;
+&lt;p&gt;Let’s look at things over time. Code from &lt;a href=&#34;http://tidytextmining.com/twitter.html&#34;&gt;Silge and Robinson&lt;/a&gt;. This example is looking at the words that have changed the most over time in terms of frequency.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Need to change some formatting
+tidy_tube$created &amp;lt;- as.character(tidy_tube$publishedAt)
+tidy_tube$created &amp;lt;- as.POSIXct(tidy_tube$created)
+
+words_by_time &amp;lt;- tidy_tube %&amp;gt;%
+  filter(!str_detect(word, &amp;quot;^@&amp;quot;)) %&amp;gt;%
+  mutate(time_floor = floor_date(created, unit = &amp;quot;1 day&amp;quot;)) %&amp;gt;%
+  count(time_floor, word) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  group_by(time_floor) %&amp;gt;%
+  mutate(time_total = sum(n)) %&amp;gt;%
+  group_by(word) %&amp;gt;%
+  mutate(word_total = sum(n)) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  rename(count = n) %&amp;gt;%
+  filter(word_total &amp;gt; 30)
+
+# words_by_time
+
+nested_data &amp;lt;- words_by_time %&amp;gt;%
+  nest(-word) 
+
+nested_data
+
+
+nested_models &amp;lt;- nested_data %&amp;gt;%
+  mutate(models = map(data, ~ glm(cbind(count, time_total) ~ time_floor, ., 
+                                  family = &amp;quot;binomial&amp;quot;)))
+
+nested_models
+
+
+slopes &amp;lt;- nested_models %&amp;gt;%
+  unnest(map(models, tidy)) %&amp;gt;%
+  filter(term == &amp;quot;time_floor&amp;quot;) %&amp;gt;%
+  mutate(adjusted.p.value = p.adjust(p.value))
+
+top_slopes &amp;lt;- slopes %&amp;gt;% 
+  filter(adjusted.p.value &amp;lt; 0.1)
+
+top_slopes
+
+# Graph
+words_by_time %&amp;gt;%
+  inner_join(top_slopes, by = c(&amp;quot;word&amp;quot;)) %&amp;gt;%
+  ggplot(aes(time_floor, count/time_total, color = word)) +
+  geom_line(size = 1.3) +
+  labs(x = NULL, y = &amp;quot;Word frequency&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-11-05-analyzing-social-media-data_files/figure-html/YouTube%20Comments%20Over%20Time-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Graph a subset of just slopes of emojis
+# First make a logical vector telling us what posts have emojis and which ones don&amp;#39;t
+# test &amp;lt;- emojis %&amp;gt;%
+#  unnest_tokens(word, Name)
+tidy_grep &amp;lt;- grepl(paste(test$word, collapse = &amp;quot;|&amp;quot;), top_slopes$word)
+
+# Turn this into a data frame so we can merge it with our post data frame
+tidy_grepDF&amp;lt;-as.data.frame(tidy_grep)
+# Create an id row to merge
+top_slopes$id &amp;lt;- 1:nrow(top_slopes)
+# Do the same for the logical data frame
+tidy_grepDF$id &amp;lt;- 1:nrow(tidy_grepDF)
+# Merge them together
+sub_slopes &amp;lt;- merge(tidy_grepDF,top_slopes,by=&amp;quot;id&amp;quot;)
+# Just keep posts that have emojis in them
+sub_slopes &amp;lt;- sub_slopes[sub_slopes$tidy_grep == &amp;quot;TRUE&amp;quot;, ]
+
+words_by_time %&amp;gt;%
+  inner_join(sub_slopes, by = c(&amp;quot;word&amp;quot;)) %&amp;gt;%
+  ggplot(aes(time_floor, count/time_total, color = word)) +
+  geom_line(size = 1.3) +
+  labs(x = NULL, y = &amp;quot;Word frequency&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/portfolio/2017-11-05-analyzing-social-media-data_files/figure-html/YouTube%20Comments%20Over%20Time-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What are the most common emojis in comments about the emoji movie?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# First make a logical vector telling us what posts have emojis and which ones don&amp;#39;t
+tube_emogrepl &amp;lt;- grepl(paste(emojis$Name, collapse = &amp;quot;|&amp;quot;), emoemo$text)
+# Turn this into a data frame so we can merge it with our post data frame
+tube_emogreplDF&amp;lt;-as.data.frame(tube_emogrepl)
+# Create an id row to merge
+emoemo$id &amp;lt;- 1:nrow(emoemo)
+# Do the same for the logical data frame
+tube_emogreplDF$id &amp;lt;- 1:nrow(tube_emogreplDF)
+# Merge them together
+emoemo &amp;lt;- merge(emoemo,tube_emogreplDF,by=&amp;quot;id&amp;quot;)
+# Just keep posts that have emojis in them
+tube_emosub &amp;lt;- emoemo[emoemo$tube_emogrepl == &amp;quot;TRUE&amp;quot;, ]
+
+# Great! Now turn these into tidy format
+tidy_tube_emos &amp;lt;- tube_emosub %&amp;gt;% 
+  mutate(text = str_replace_all(text, &amp;quot;https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;amp;amp;|&amp;amp;lt;|&amp;amp;gt;|RT|https&amp;quot;, &amp;quot;&amp;quot;)) %&amp;gt;%
+  unnest_tokens(word, text, token = &amp;quot;regex&amp;quot;, pattern = reg) %&amp;gt;%
+  filter(!word %in% mystopwords,
+         str_detect(word, &amp;quot;[a-z]&amp;quot;))
+
+# Now just keep emojis, get rid of surrounding text 
+tube_emogrepl2 &amp;lt;- grepl(paste(test$word, collapse = &amp;quot;|&amp;quot;), tidy_tube_emos$word)
+tube_emogrepl2DF&amp;lt;-as.data.frame(tube_emogrepl2)
+tidy_tube_emos$id &amp;lt;- 1:nrow(tidy_tube_emos)
+tube_emogrepl2DF$id &amp;lt;- 1:nrow(tube_emogrepl2DF)
+checkit2 &amp;lt;- merge(tidy_tube_emos,tube_emogrepl2DF,by=&amp;quot;id&amp;quot;)
+emoonly2 &amp;lt;- checkit2[checkit2$tube_emogrepl2 == &amp;quot;TRUE&amp;quot;, ]
+
+freqe2 &amp;lt;- emoonly2 %&amp;gt;% 
+   count(word, sort = TRUE)
+
+print(head(freqe2))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 2
+##                          word     n
+##                         &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt;
+## 1          facewithtearsofjoy  3502
+## 2                   aubergine   309
+## 3                grinningface   309
+## 4                      cringe   206
+## 5 grinningfacewithsmilingeyes   206
+## 6            loudlycryingface   206&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So, our most frequent emojis in the comments of the Emoji Movie trailer are 😂, 💩, 😊, 😀, 😍 and 🍆. Read into that what you will! 😂&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>
