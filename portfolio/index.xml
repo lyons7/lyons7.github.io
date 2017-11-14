@@ -5397,6 +5397,7 @@ emotidy_wicker &amp;lt;- wicker %&amp;gt;%
 # Let&amp;#39;s also tidy our emoji dataframe so we can use it to filter out non-emojis in our data
 
 emojis$Name &amp;lt;- as.character(emojis$Name)
+
 tidy_emojis &amp;lt;- emojis %&amp;gt;%
   unnest_tokens(word, Name, to_lower = FALSE)
 
@@ -5449,7 +5450,6 @@ mapPoints2&lt;/code&gt;&lt;/pre&gt;
 # &amp;#39;aubergine&amp;#39; 1f346
 # &amp;#39;sparkles&amp;#39; 2728
 # &amp;#39;eyes&amp;#39; 1f440
-
 
 tearsofjoygrep &amp;lt;- grepl(paste(&amp;quot;FACEWITHTEARSOFJOY&amp;quot;), freqe2$word)
 tearsofjoyDF&amp;lt;-as.data.frame(tearsofjoygrep)
@@ -5539,7 +5539,7 @@ emomap&lt;/code&gt;&lt;/pre&gt;
 # save(emojimovie,file=paste(&amp;quot;sampletubedata.Rda&amp;quot;))
 
 # If you need to load that data (make sure you are in the right directory)
- load(&amp;#39;sampletubedata.Rda&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+load(&amp;#39;sampletubedata.Rda&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now we have some (~10,300) comments to play with. Due to the subject matter, emojis are likely to be frequent in our data set, so let’s follow the same procedure as with our tweets to identify those emojis and label them.&lt;/p&gt;
 &lt;p&gt;Help figuring out the emoji encoding issue from &lt;a href=&#34;https://stackoverflow.com/questions/47243155/get-r-to-keep-utf-8-codepoint-representation/47243425#47243425&#34;&gt;Patrick Perry&lt;/a&gt; – thanks Patrick! 😊&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;emojis &amp;lt;- read.csv(&amp;#39;Emoji Dictionary 5.0.csv&amp;#39;, stringsAsFactors = FALSE)
@@ -5599,7 +5599,7 @@ head(freqtube)&lt;/code&gt;&lt;/pre&gt;
 # Now we can graph these
 # Change &amp;#39;filter&amp;#39; parameter depending on the size of your data set
 bing_word_countstube %&amp;gt;%
-  filter(n &amp;gt; 20) %&amp;gt;%
+  filter(n &amp;gt; 100) %&amp;gt;%
   mutate(n = ifelse(sentiment == &amp;quot;negative&amp;quot;, -n, n)) %&amp;gt;%
   mutate(word = reorder(word, n)) %&amp;gt;%
   ggplot(aes(word, n, fill = sentiment)) +

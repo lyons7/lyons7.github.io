@@ -201,6 +201,7 @@ emotidy_wicker <- wicker %>%
 # Let's also tidy our emoji dataframe so we can use it to filter out non-emojis in our data
 
 emojis$Name <- as.character(emojis$Name)
+
 tidy_emojis <- emojis %>%
   unnest_tokens(word, Name, to_lower = FALSE)
 
@@ -256,7 +257,6 @@ Let's do the top six: `r emo::ji("face_with_tears_of_joy")` `r emo::ji("heart_ey
 # 'aubergine' 1f346
 # 'sparkles' 2728
 # 'eyes' 1f440
-
 
 tearsofjoygrep <- grepl(paste("FACEWITHTEARSOFJOY"), freqe2$word)
 tearsofjoyDF<-as.data.frame(tearsofjoygrep)
@@ -353,7 +353,7 @@ If you don't have the YouTube API set up, you can access the data [here](https:/
 # save(emojimovie,file=paste("sampletubedata.Rda"))
 
 # If you need to load that data (make sure you are in the right directory)
- load('sampletubedata.Rda')
+load('sampletubedata.Rda')
 ```
 
 Now we have some (~10,300) comments to play with. Due to the subject matter, emojis are likely to be frequent in our data set, so let's follow the same procedure as with our tweets to identify those emojis and label them.
@@ -415,7 +415,7 @@ bing_word_countstube <- tidy_tube %>%
 # Now we can graph these
 # Change 'filter' parameter depending on the size of your data set
 bing_word_countstube %>%
-  filter(n > 20) %>%
+  filter(n > 100) %>%
   mutate(n = ifelse(sentiment == "negative", -n, n)) %>%
   mutate(word = reorder(word, n)) %>%
   ggplot(aes(word, n, fill = sentiment)) +
